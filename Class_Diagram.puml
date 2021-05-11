@@ -1,0 +1,45 @@
+@startuml
+
+class Vector<T> {
+    +Vector(T x, T y)
+    +~Vector() = default;
+    +const Vector(const Vector &copy);
+    +bool operator==();
+    +bool operator!=();
+    +Vector &operator+();
+    +Vector &operator-();
+
+    -T _x;
+    -T _y;
+}
+
+namespace gameEngine {
+
+
+
+interface IWindowManager
+{
+    +void createWindow(Vector<int> size, const std::string &title);
+    +void openWindow();
+    +void closeWindow();
+    +void clearWindow();
+    +void updateWindow();
+    +void toggleFullscreen();
+
+    -Vector &getScreenSize();
+    -Vector &getWindowPos();
+}
+
+interface IDrawManager
+{
+    +void drawCircle(const float radius, );
+    +void drawRect(const Vector &size, );
+    +void drawLine();
+    +void draw();
+    +void drawGrid();
+}
+
+
+}
+
+@enduml
