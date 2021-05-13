@@ -1,0 +1,8 @@
+@startuml Bomberman_execution
+
+
+(*) --> "main"
+"main" -> "launch main menu Scene"
+-> "wait For button click"
+
+@enduml

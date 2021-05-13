@@ -1,45 +1,237 @@
-@startuml
+@startuml Indie_Studio
 
-class Vector<T> {
-    +Vector(T x, T y)
-    +~Vector() = default;
-    +const Vector(const Vector &copy);
-    +bool operator==();
-    +bool operator!=();
-    +Vector &operator+();
-    +Vector &operator-();
+'Gestion de souris, manettes, clavier, fps, fichier (sauvegarde), parsing JSON, textures
+'texte, drawShapes, models(2d, 3D), audio
 
-    -T _x;
-    -T _y;
+namespace global {
+    class Vector<T> {
+        +Vector(T x, T y)
+        +~Vector() = default;
+        +const Vector(const Vector &copy);
+        +bool operator==();
+        +bool operator!=();
+        +Vector &operator+();
+        +Vector &operator-();
+
+        -T _x;
+        -T _y;
+    }
 }
 
-namespace gameEngine {
+namespace game.Scenes {
+    Mainmenu --> gameEngine.Interfaces.IScene
 
+    class MainMenu {
 
-
-interface IWindowManager
-{
-    +void createWindow(Vector<int> size, const std::string &title);
-    +void openWindow();
-    +void closeWindow();
-    +void clearWindow();
-    +void updateWindow();
-    +void toggleFullscreen();
-
-    -Vector &getScreenSize();
-    -Vector &getWindowPos();
+    }
 }
 
-interface IDrawManager
-{
-    +void drawCircle(const float radius, );
-    +void drawRect(const Vector &size, );
-    +void drawLine();
-    +void draw();
-    +void drawGrid();
+namespace game.Managers {
+    TextureManager --> gameEngine.Interfaces.ITextureManager #line.dashed
+    TextManager --> gameEngine.Interfaces.ITextManager #line.dashed
+    WindowManager --> gameEngine.Interfaces.IWindowManager #line.dashed
+    ObjFileManager --> gameEngine.Interfaces.IFileManager #line.dashed
+
+    class TextureManager {
+
+    }
+
+    class TextManager {
+
+    }
+
+    class WindowManager {
+
+    }
+
+    class ObjFileManager {
+
+    }
+
+    class SceneManager {
+
+    }
+
+    class GameManager {
+
+    }
+}
+
+namespace game.Objects {
+
+    class GameObject {
+        int getId();
+        int id
+    }
+
+    class Bomb extends GameObject {
+
+    }
+
+    class Wall extends GameObject {
+        Wall(bool isDestructable)
+
+        bool _isDestructable;
+    }
+
+    class PowerUp extends GameObject {
+
+    }
+}
+
+namespace gameEngine.Encapsulation #fc7c60  {
+    class Image {
+
+    }
+
+    class Camera {
+
+    }
+
+    class Model {
+
+    }
+
+    class Button {
+
+    }
+
+    class Camera2d {
+
+    }
+
+    class Shader {
+
+    }
+
+    class Mesh {
+
+    }
+
+    class Music {
+
+    }
+
+    class Sound {
+
+    }
+
+    class Color {
+
+    }
+
+
+    class Font {
+        +Font(const std::string &path);
+        +~Font();
+        -std::string _path;
+    }
+
+    class Rectangle {
+
+    }
+
+    class Socket {
+
+    }
+}
+
+namespace gameEngine.Interfaces #DDDDDD {
+
+    interface IScene
+    {
+        +void loadScene();
+        +void destroyScene();
+    }
+
+    interface IWindowManager
+    {
+        +void createWindow(Vector<int> size, const std::string &title);
+        +void openWindow();
+        +void closeWindow();
+        +void clearWindow();
+        +void updateWindow();
+        +void toggleFullscreen();
+
+        -Vector &getScreenSize();
+        -Vector &getWindowPos();
+    }
+
+    interface IDrawManager
+    {
+        +void drawCircle(const float radius, );
+        +void drawRect(const Vector &size, size_t radius);
+        +void drawLine(const Vector &size);
+        +void drawGrid(const Vector &size, int nbCols, int nbRows);
+    }
+
+    interface ITextureManager
+    {
+        +void setTexture();
+        +void loadTexture();
+        +void uploadTexture();
+        +void drawTextureRect();
+        'Potentiellement ajouter + de drawTexture
+        +void destroyTexture();
+    }
+
+    interface ITextManager
+    {
+        +void drawText(const Font &f);
+        +void drawTextInRect(const Font &f, const std::string &text, const Vector<float> &offset, Rectangle rect);
+    }
+
+    interface IAudioManager
+    {
+        'Classe audio avec playlist
+        +void PlaySound(const Sound &);
+        +void PlayMusic(const Music &);
+        +Sound LoadSound(const std::string &);
+        +Music LoadMusic(const std::string &);
+        +bool isMusicPlaying(const Music &);
+        +void PauseMusic(const Music &);
+        +void setMusicVolume(const Music &, float);
+        +void DestroySound(Sound &);
+        +void DestroyMusic(Sound &);
+    }
+
+    'Definir un port
+    'A completer, poser des questions sur les attentes et ce qu'on
+    'Voir rush2 SantaServer de Polo
+    interface INetworkManager
+    {
+        +void connect(const Socket &);
+        +void createSocket(int);
+        +void disconnect(const Socker &);
+        +void sendInfo(const std::string &, const Socket &In, const Socker &Out);
+
+    }
+
+    'Classe qui pourrait herite de IFileManager -> JsonManager, XMLManager, OBJFileManager, ConfigManager, SaveManager
+    interface IFileManager
+    {
+        +bool checkFileExist(const std::string &);
+        +bool checkFilePermissions(const std::string &);
+        +File loadFile(const std::string &);
+        +void CloseFile(File &);
+        +std::string readFile(const File &);
+        +std::vector<std::string> readFile(const File &);
+        +std::string getFileName(const File &);
+        +std::string getFilePath(const File &);
+        +std::vector<std::string> getDirectoryFiles(const File &);
+    }
+
+    'Mapper std::map<Key, int Code> pareil pour manette
+    'Classe qui pourrait herite: Keyboard, Gamepad, Mouse
+    interface IInputManager
+    {
+        +bool isKeyPressed(int);
+        +bool isKeyReleased(int);
+        +int getKeyPressed();
+    }
+    'Voir pour les collisions si interface necessaires
 }
 
 
-}
 
 @enduml
