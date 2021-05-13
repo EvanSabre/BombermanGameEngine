@@ -37,7 +37,9 @@ namespace game {
 }
 
 namespace game.Scenes {
-    Mainmenu --> gameEngine.Interfaces.IScene
+    class MainMenu implements gameEngine.Interfaces.IScene {
+        -game.Managers.ButtonManager _buttonManager;
+    }
 }
 
 namespace game.Systems {
@@ -78,25 +80,23 @@ namespace game.Systems {
 }
 
 namespace game.Managers {
-    TextureManager --> gameEngine.Interfaces.ITextureManager #line.dashed
-    TextManager --> gameEngine.Interfaces.ITextManager #line.dashed
-    WindowManager --> gameEngine.Interfaces.IWindowManager #line.dashed
-    ObjFileManager --> gameEngine.Interfaces.IFileManager #line.dashed
 
-    class SaveManager {}
+    class SaveManager implements gameEngine.Interfaces.IFileManager{}
+    class MeshManager{}
+    class TextureManager implements gameEngine.Interfaces.ITextureManager {}
+    class TextManager implements gameEngine.Interfaces.ITextManager {}
+    class WindowManager implements gameEngine.Interfaces.IWindowManager {}
+    class ObjFileManager implements gameEngine.Interfaces.IFileManager {}
+    class SceneManager{}
+    class GameManager{}
 
-    class MeshManager {}
-    class TextureManager {}
-
-    class TextManager {}
-
-    class WindowManager {}
-
-    class ObjFileManager {}
-
-    class SceneManager {}
-
-    class GameManager {}
+    'Button args are taken from botttom to top
+    class ButtonManager {
+        +bool isButtonClicked(Vector pos);
+        +Button createButton(std::tuple<Vector, Vector, std::string, Font, Color, Color, Color, Rectangle> buttonInfo);
+        +bool isButtonClicked(std::string button_content);
+        -std::vector<Button> _currentButtons;
+    }
 }
 
 namespace game.Objects {
@@ -105,7 +105,6 @@ namespace game.Objects {
         int getId();
         int id
     }
-
     class Droppable extends GameObject {}
     class Collectable extends GameObject {}
     class Bomb extends Droppable {}
@@ -136,7 +135,20 @@ namespace game.Objects {
 
 }
 
-namespace gameEngine.Encapsulation #fc7c60  {
+namespace gameEngine {
+    class Button {
+        -Rectangle _border;
+        -Color _borderColor;
+        -Color _fontColor;
+        -Color _backgroundColor;
+        -Front _font;
+        -std::string _content;
+        -Vector _size;
+        -Vector _pos;
+    }
+
+
+namespace Encapsulation #fc7c60  {
     class Image {}
     class Camera {}
 
@@ -178,7 +190,7 @@ namespace gameEngine.Encapsulation #fc7c60  {
     }
 }
 
-namespace gameEngine.Interfaces #DDDDDD {
+namespace Interfaces #DDDDDD {
 
     interface IScene
     {
@@ -273,7 +285,5 @@ namespace gameEngine.Interfaces #DDDDDD {
     }
     'Voir pour les collisions si interface necessaires
 }
-
-
-
+}
 @enduml
