@@ -18,10 +18,61 @@ namespace global {
     }
 }
 
+namespace game {
+    class Character extends game.Systems.Moveable, game.Systems.Animable {
+        -std::string _name;
+    }
+
+    class AI {
+    }
+
+    class Player extends game.Character {
+        -std::string _id;
+        -size_t _score;
+    }
+
+    class Bot extends game.Character, game.AI {
+
+    }
+}
+
 namespace game.Scenes {
     Mainmenu --> gameEngine.Interfaces.IScene
+}
 
-    class MainMenu {
+namespace game.Systems {
+    class Moveable {
+        +Move(Vector &pos, Vector speed = {1,1});
+        +~Move();
+        +void moveUp();
+        +void moveDown();
+        +void moveLeft();
+        +void moveRight();
+        +Vector getSpeed();
+        +void setSpeed(Vector &);
+
+        -Vector _pos;
+        -Vector _speed;
+    }
+
+    class Animable {
+        +Animable();
+        +~Animable();
+
+        +void loadAnim();
+        +ModelAnimation *loadModelAnimation();
+        +void updateModelAnimation();
+        +void unloadModelAnimation();
+        +bool isModelAnimationValid();
+
+        -ModelAnimation *_animation;
+    }
+
+    class Collision {
+
+    }
+
+    class Explosion {
 
     }
 }
@@ -32,29 +83,20 @@ namespace game.Managers {
     WindowManager --> gameEngine.Interfaces.IWindowManager #line.dashed
     ObjFileManager --> gameEngine.Interfaces.IFileManager #line.dashed
 
-    class TextureManager {
+    class SaveManager {}
 
-    }
+    class MeshManager {}
+    class TextureManager {}
 
-    class TextManager {
+    class TextManager {}
 
-    }
+    class WindowManager {}
 
-    class WindowManager {
+    class ObjFileManager {}
 
-    }
+    class SceneManager {}
 
-    class ObjFileManager {
-
-    }
-
-    class SceneManager {
-
-    }
-
-    class GameManager {
-
-    }
+    class GameManager {}
 }
 
 namespace game.Objects {
@@ -64,62 +106,55 @@ namespace game.Objects {
         int id
     }
 
-    class Bomb extends GameObject {
+    class Droppable extends GameObject {}
+    class Collectable extends GameObject {}
+    class Bomb extends Droppable {}
 
+    enum TileType {
+        WALL,
+        PATH
+    }
+
+    class Tile extends GameObject {
+        -Texture _texture;
+        -Vector _pos;
+        -TileType _type;
+    }
+
+    class Map {
+        -std::vector<std::vector<Tile>> _tiles;
     }
 
     class Wall extends GameObject {
-        Wall(bool isDestructable)
+        +Wall(bool isDestructable)
 
-        bool _isDestructable;
+        -bool _isDestructable;
     }
 
-    class PowerUp extends GameObject {
+    class Mine extends game.Objects.Droppable {}
+    class HealthPack extends game.Objects.Collectable {}
 
-    }
 }
 
 namespace gameEngine.Encapsulation #fc7c60  {
-    class Image {
+    class Image {}
+    class Camera {}
 
-    }
-
-    class Camera {
-
-    }
-
+    'Demander une precision a Julien, et remplir les class par rapport a la raylib
     class Model {
+        +Model(const std::string &);
+        +~Model();
+        +Model loadModel(const std::string &);
 
+        -std::string _path;
     }
-
-    class Button {
-
-    }
-
-    class Camera2d {
-
-    }
-
-    class Shader {
-
-    }
-
-    class Mesh {
-
-    }
-
-    class Music {
-
-    }
-
-    class Sound {
-
-    }
-
-    class Color {
-
-    }
-
+    class Button {}
+    class Camera2d {}
+    class Shader {}
+    class Mesh {}
+    class Music {}
+    class Sound {}
+    class Color {}
 
     class Font {
         +Font(const std::string &path);
@@ -127,12 +162,19 @@ namespace gameEngine.Encapsulation #fc7c60  {
         -std::string _path;
     }
 
-    class Rectangle {
+    class Rectangle {}
+    class Socket {}
 
-    }
-
-    class Socket {
-
+    class Animation {
+        +Animation(Model, ModelAnimation, size_t = 0);
+        +~Animation();
+        +ModelAnimation *loadModelAnimation(const std::string &, int *animCount);
+        +void updateModelAnimation(Model, ModelAnimation, int);
+        +void unloadModelAnimation(ModelAnimation *, unsigned int);
+        +bool isModelAnimationValid(Model, ModelAnimation);
+        -Model _model;
+        -size_t _frameCounter;
+        -ModelAnimation *_animation;
     }
 }
 
