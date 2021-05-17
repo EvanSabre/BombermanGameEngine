@@ -19,6 +19,15 @@ namespace global {
 }
 
 namespace game {
+        enum EntityType {
+        COLLECTABLE,
+        DROPPABLE,
+        BOMB,
+        POWERUP,
+        PLAYER,
+        AI
+    }
+
     class Character extends game.Systems.Moveable, game.Systems.Animable {
         -std::string _name;
     }
@@ -34,6 +43,7 @@ namespace game {
     class Bot extends game.Character, game.AI {
 
     }
+
 }
 
 namespace game.Scenes {
@@ -106,14 +116,13 @@ namespace game.Objects {
         int id
     }
     class Droppable extends GameObject {}
-    class Collectable extends GameObject {}
+    class Collectible extends GameObject {}
     class Bomb extends Droppable {}
 
     enum TileType {
         WALL,
-        PATH
+        PATH,
     }
-
     class Tile extends GameObject {
         -Texture _texture;
         -Vector _pos;
@@ -125,13 +134,13 @@ namespace game.Objects {
     }
 
     class Wall extends GameObject {
-        +Wall(bool isDestructable)
+        +Wall(bool isDestructible)
 
-        -bool _isDestructable;
+        -bool _isDestructible;
     }
 
     class Mine extends game.Objects.Droppable {}
-    class HealthPack extends game.Objects.Collectable {}
+    class HealthPack extends game.Objects.Collectible {}
 
 }
 
