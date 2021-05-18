@@ -99,7 +99,7 @@ namespace game.Managers {
     class ObjFileManager implements gameEngine.Interfaces.AFileManager {}
     class SceneManager{}
     class GameManager{}
-
+    class ModelManager {}
     'Button args are taken from botttom to top
     class ButtonManager {
         +bool isButtonClicked(Vector pos);
