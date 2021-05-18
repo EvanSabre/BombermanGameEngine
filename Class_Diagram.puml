@@ -91,12 +91,12 @@ namespace game.Systems {
 
 namespace game.Managers {
 
-    class SaveManager implements gameEngine.Interfaces.IFileManager{}
+    class SaveManager implements gameEngine.Interfaces.AFileManager{}
     class MeshManager{}
     class TextureManager implements gameEngine.Interfaces.ITextureManager {}
     class TextManager implements gameEngine.Interfaces.ITextManager {}
     class WindowManager implements gameEngine.Interfaces.IWindowManager {}
-    class ObjFileManager implements gameEngine.Interfaces.IFileManager {}
+    class ObjFileManager implements gameEngine.Interfaces.AFileManager {}
     class SceneManager{}
     class GameManager{}
 
@@ -270,6 +270,8 @@ namespace Interfaces #DDDDDD {
 
     }
 
+    abstract class AFileManager implements IFileManager {}
+    
     'Classe qui pourrait herite de IFileManager -> JsonManager, XMLManager, OBJFileManager, ConfigManager, SaveManager
     interface IFileManager
     {
