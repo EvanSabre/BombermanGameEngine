@@ -9,18 +9,20 @@
 #define COLOR_HPP_
 
 #include <iostream>
+#include "raylib.h"
 
 namespace gameEngine
 {
     namespace encapsulation
     {
-        class Color
+        class Colour
         {
         public:
-            Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
-            Color(const Color &ref);
-            Color &operator=(const Color &ref);
-            ~Color();
+            Colour(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+            Colour(const Color &ref);
+            Colour(const Colour &ref);
+            Colour &operator=(const Colour &ref);
+            ~Colour();
 
             //getter
                 [[nodiscard]] unsigned char getRed() const noexcept;
