@@ -15,15 +15,15 @@ namespace gameEngine
 {
     namespace encapsulation
     {
-        class Colour
+        class BColor
         {
         public:
-            Colour(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
-            Colour(const Color &ref);
-            Colour(const Colour &ref);
-            Colour &operator=(const Colour &ref);
-            Colour &operator=(const Color &ref);
-            ~Colour();
+            BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+            BColor(const Color &ref);
+            BColor(const BColor &ref);
+            BColor &operator=(const BColor &ref);
+            BColor &operator=(const Color &ref);
+            ~BColor();
 
             //getter
                 [[nodiscard]] unsigned char getRed() const noexcept;
@@ -38,7 +38,7 @@ namespace gameEngine
                 void setBlue(unsigned char value) noexcept;
                 void setAlpha(unsigned char value) noexcept;
 
-                void copy(const Colour &ref) noexcept;
+                void copy(const BColor &ref) noexcept;
 
         protected:
         private:
@@ -51,6 +51,6 @@ namespace gameEngine
 
 } // namespace gameEngine
 
-std::ostream& operator<<(std::ostream& out, const gameEngine::encapsulation::Colour &color);
+std::ostream& operator<<(std::ostream& out, const gameEngine::encapsulation::BColor &color);
 
 #endif /* !COLOR_HPP_ */

@@ -5,11 +5,11 @@
 ** Collor
 */
 
-#include "include/gameEngine/encapsulation/Colour.hpp"
+#include "include/gameEngine/encapsulation/BColor.hpp"
 
 using namespace gameEngine;
 
-std::ostream& operator<<(std::ostream& out, const encapsulation::Colour &color)
+std::ostream& operator<<(std::ostream& out, const encapsulation::BColor &color)
 {
     out << "Color : (" << (int)color.getRed() << ", " << (int)color.getGreen() << ", ";
     out << (int)color.getBlue() << ", " << (int)color.getAlpha() << ")";
@@ -17,7 +17,7 @@ std::ostream& operator<<(std::ostream& out, const encapsulation::Colour &color)
 }
 
 
-encapsulation::Colour::Colour(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+encapsulation::BColor::BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 {
     this->_r = r;
     this->_g = g;
@@ -25,7 +25,7 @@ encapsulation::Colour::Colour(unsigned char r, unsigned char g, unsigned char b,
     this->_a = a;
 }
 
-encapsulation::Colour::Colour(const Colour &ref)
+encapsulation::BColor::BColor(const BColor &ref)
 {
     this->_r = ref._r;
     this->_g = ref._g;
@@ -33,7 +33,7 @@ encapsulation::Colour::Colour(const Colour &ref)
     this->_a = ref._a;
 }
 
-encapsulation::Colour::Colour(const Color &ref)
+encapsulation::BColor::BColor(const Color &ref)
 {
     this->_r = ref.r;
     this->_g = ref.g;
@@ -41,7 +41,7 @@ encapsulation::Colour::Colour(const Color &ref)
     this->_a = ref.a;
 }
 
-encapsulation::Colour &encapsulation::Colour::operator=(const Colour &ref)
+encapsulation::BColor &encapsulation::BColor::operator=(const BColor &ref)
 {
     if (this == &ref)
         return *this;
@@ -52,7 +52,7 @@ encapsulation::Colour &encapsulation::Colour::operator=(const Colour &ref)
     return (*this);
 }
 
-encapsulation::Colour &encapsulation::Colour::operator=(const Color &ref)
+encapsulation::BColor &encapsulation::BColor::operator=(const Color &ref)
 {
     this->_r = ref.r;
     this->_g = ref.g;
@@ -61,32 +61,32 @@ encapsulation::Colour &encapsulation::Colour::operator=(const Color &ref)
     return (*this);
 }
 
-encapsulation::Colour::~Colour()
+encapsulation::BColor::~BColor()
 {
 }
 
 //getter
-unsigned char encapsulation::Colour::getRed() const noexcept
+unsigned char encapsulation::BColor::getRed() const noexcept
 {
     return this->_r;
 }
 
-unsigned char encapsulation::Colour::getGreen() const noexcept
+unsigned char encapsulation::BColor::getGreen() const noexcept
 {
     return this->_g;
 }
 
-unsigned char encapsulation::Colour::getBlue() const noexcept
+unsigned char encapsulation::BColor::getBlue() const noexcept
 {
     return this->_b;
 }
 
-unsigned char encapsulation::Colour::getAlpha() const noexcept
+unsigned char encapsulation::BColor::getAlpha() const noexcept
 {
     return this->_a;
 }
 
-Color encapsulation::Colour::getObj() const noexcept
+Color encapsulation::BColor::getObj() const noexcept
 {
     Color obj;
 
@@ -99,27 +99,27 @@ Color encapsulation::Colour::getObj() const noexcept
 
 
 //setter
-void encapsulation::Colour::setRed(unsigned char value) noexcept
+void encapsulation::BColor::setRed(unsigned char value) noexcept
 {
     this->_r = value;
 }
 
-void encapsulation::Colour::setGreen(unsigned char value) noexcept
+void encapsulation::BColor::setGreen(unsigned char value) noexcept
 {
     this->_g = value;
 }
 
-void encapsulation::Colour::setBlue(unsigned char value) noexcept
+void encapsulation::BColor::setBlue(unsigned char value) noexcept
 {
     this->_b = value;
 }
 
-void encapsulation::Colour::setAlpha(unsigned char value) noexcept
+void encapsulation::BColor::setAlpha(unsigned char value) noexcept
 {
     this->_a = value;
 }
 
-void encapsulation::Colour::copy(const Colour &ref) noexcept
+void encapsulation::BColor::copy(const BColor &ref) noexcept
 {
     this->_r = ref._r;
     this->_g = ref._g;
