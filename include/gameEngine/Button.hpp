@@ -8,14 +8,23 @@
 #ifndef BUTTON_HPP_
 #define BUTTON_HPP_
 
+#include "Vector.hpp"
+#include <string>
+
+
 namespace gameEngine {
     class Button {
         public:
             Button();
             ~Button();
 
-        protected:
+            Vector<double> getPos() const;
+            Vector<double> getSize() const;
+            std::string getContent() const;
         private:
+            Vector<double> _pos;
+            Vector<double> _size;
+            std::string _content;
     };
 }
 
