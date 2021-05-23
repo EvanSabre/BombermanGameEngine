@@ -41,7 +41,7 @@ encapsulation::Colour::Colour(const Color &ref)
     this->_a = ref.a;
 }
 
-encapsulation::Colour &encapsulation::Colour::operator=(const Color &ref)
+encapsulation::Colour &encapsulation::Colour::operator=(const Colour &ref)
 {
     if (this == &ref)
         return *this;
@@ -52,7 +52,16 @@ encapsulation::Colour &encapsulation::Colour::operator=(const Color &ref)
     return (*this);
 }
 
-encapsulation::Colour::~Color()
+encapsulation::Colour &encapsulation::Colour::operator=(const Color &ref)
+{
+    this->_r = ref.r;
+    this->_g = ref.g;
+    this->_b = ref.b;
+    this->_a = ref.a;
+    return (*this);
+}
+
+encapsulation::Colour::~Colour()
 {
 }
 
@@ -77,6 +86,18 @@ unsigned char encapsulation::Colour::getAlpha() const noexcept
     return this->_a;
 }
 
+Color encapsulation::Colour::getObj() const noexcept
+{
+    Color obj;
+
+    obj.r = this->_r;
+    obj.g = this->_g;
+    obj.b = this->_b;
+    obj.a = this->_a;
+    return obj;
+}
+
+
 //setter
 void encapsulation::Colour::setRed(unsigned char value) noexcept
 {
@@ -98,7 +119,7 @@ void encapsulation::Colour::setAlpha(unsigned char value) noexcept
     this->_a = value;
 }
 
-void encapsulation::Colour::copy(const Color &ref) noexcept
+void encapsulation::Colour::copy(const Colour &ref) noexcept
 {
     this->_r = ref._r;
     this->_g = ref._g;

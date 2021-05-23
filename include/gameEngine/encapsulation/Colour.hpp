@@ -22,6 +22,7 @@ namespace gameEngine
             Colour(const Color &ref);
             Colour(const Colour &ref);
             Colour &operator=(const Colour &ref);
+            Colour &operator=(const Color &ref);
             ~Colour();
 
             //getter
@@ -29,6 +30,7 @@ namespace gameEngine
                 [[nodiscard]] unsigned char getGreen() const noexcept;
                 [[nodiscard]] unsigned char getBlue() const noexcept;
                 [[nodiscard]] unsigned char getAlpha() const noexcept;
+                [[nodiscard]] Color getObj() const noexcept;
 
             //setter
                 void setRed(unsigned char value) noexcept;
@@ -36,7 +38,7 @@ namespace gameEngine
                 void setBlue(unsigned char value) noexcept;
                 void setAlpha(unsigned char value) noexcept;
 
-                void copy(const Color &ref) noexcept;
+                void copy(const Colour &ref) noexcept;
 
         protected:
         private:
@@ -49,6 +51,6 @@ namespace gameEngine
 
 } // namespace gameEngine
 
-std::ostream& operator<<(std::ostream& out, const gameEngine::encapsulation::Color &color);
+std::ostream& operator<<(std::ostream& out, const gameEngine::encapsulation::Colour &color);
 
 #endif /* !COLOR_HPP_ */
