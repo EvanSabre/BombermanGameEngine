@@ -13,8 +13,6 @@
 #include <stdexcept>
 #include "raylib.h"
 
-// Image LoadImage(const char *fileName);                                                             // Load image from file into CPU memory (RAM)
-
 namespace gameEngine
 {
     namespace encapsulation
