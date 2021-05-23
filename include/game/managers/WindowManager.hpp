@@ -19,18 +19,17 @@ namespace game {
                 WindowManager();
                 ~WindowManager();
 
-                void createWindow(std::string name, int height, int width) final;
-                void deleteWindow(void *window) final;
+                bool createWindow(std::string name, int height, int width) final;
+                void deleteWindow(void) final;
                 void *getWindow(void) const;
-                void resizeWindow(void *window, int height, int width);
+                void resizeWindow(int height, int width);
 
-                void setFullScreen(void *window);
+                void setFullScreen(void);
                 void setBackgroundColor(Color color);
                 void set3DMode(camera camera);
                 void set2DMode(camera camera);
 
             private:
-                void *_window;
                 std::string _windowName;
                 int _height;
                 int _width;
