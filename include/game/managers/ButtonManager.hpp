@@ -11,6 +11,7 @@
 #include "Button.hpp"
 #include <string>
 #include <vector>
+#include <raylib.h>
 
 namespace game {
     namespace Managers {

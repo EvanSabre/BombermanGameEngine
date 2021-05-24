@@ -35,7 +35,9 @@ bool ButtonManager::isButtonClicked(const std::string &buttonContent, Vector<dou
 }
 
 gameEngine::Button createButton(Vector<double> pos, Vector<double> size)
-{}
+{
+    
+}
 
 std::vector<gameEngine::Button> ButtonManager::getCurrentButtons() const
 {
