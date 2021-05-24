@@ -9,6 +9,7 @@
 #define WINDOWMANAGER_HPP_
 
 #include "gameEngine/interfaces/IWindowManager.hpp"
+#include "Vector.hpp"
 #include <string>
 #include <vector>
 
@@ -19,20 +20,23 @@ namespace game {
                 WindowManager();
                 ~WindowManager();
 
-                bool createWindow(std::string name, int height, int width) final;
+                bool createWindow(std::string name, Vector<int> size) final;
                 void deleteWindow(void) final;
-                void *getWindow(void) const;
-                void resizeWindow(int height, int width);
+                void resizeWindow(int height, int width) final;
 
-                void setFullScreen(void);
-                void setBackgroundColor(Color color);
-                void set3DMode(camera camera);
-                void set2DMode(camera camera);
+                void setFullScreen(void) final;
+                void setBackgroundColor(Color color) final;
+                void set3DMode(camera camera) final;
+                void set2DMode(camera camera) final;
+
+                Vector<int> getWindowSize() const final;
+
+                // set icon image ??
+                // get Monitor size for windows max width/height ?
 
             private:
                 std::string _windowName;
-                int _height;
-                int _width;
+                Vector<int> _size;
                 bool is3D;
                 bool is2D;
         };

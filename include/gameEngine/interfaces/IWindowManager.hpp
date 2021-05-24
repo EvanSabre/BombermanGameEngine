@@ -16,18 +16,18 @@ namespace gameEngine {
     namespace Interfaces {
         class IWindowManager {
             public:
-                IWindowManager();
-                ~IWindowManager();
+                virtual ~IWindowManager() = default;
 
-                virtual bool createWindow(std::string name, int height, int width);
-                virtual void deleteWindow(void);
-                virtual void *getWindow(void) const;
-                virtual void resizeWindow(int height, int width);
+                virtual bool createWindow(std::string name, Vector<int> size) = 0;
+                virtual void deleteWindow(void) = 0;
+                virtual void resizeWindow(int height, int width) = 0;
 
-                virtual void setFullScreen(void);
-                virtual void setBackgroundColor(Color color);
-                virtual void set3DMode(camera camera);
-                virtual void set2DMode(camera camera);
+                virtual void setFullScreen(void) = 0;
+                virtual void setBackgroundColor(Color color) = 0;
+                virtual void set3DMode(camera camera) = 0;
+                virtual void set2DMode(camera camera) = 0;
+
+                virtual Vector<int> getWindowSize() const = 0;
         };
     }
 }

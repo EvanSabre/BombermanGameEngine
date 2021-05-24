@@ -76,3 +76,8 @@ void game::Managers::WindowManager::set2DMode(camera camera)
         EndMode3D();
     BeginMode2D(camera);
 }
+
+Vector<int> game::Managers::WindowManager::getWindowSize() const
+{
+    return _size;
+}
