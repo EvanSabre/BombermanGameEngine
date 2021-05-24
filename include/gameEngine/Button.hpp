@@ -22,20 +22,18 @@ namespace gameEngine {
         };
 
         public:
-            Button(Vector<double> pos, Vector<double> size, const std::string &content);
+            Button(const std::string &content);
             ~Button();
 
             Vector<double> getPos() const;
             Vector<double> getSize() const;
             std::string getContent() const;
         private:
-            Vector<double> _pos;
-            Vector<double> _size;
+            State _state;
             std::string _content;
             bool _buttonPressed;
             //gameEngine::Texture _texture;
-            //gameEngine::Rectangle _rectangle
-            
+            //gameEngine::BRectangle _rectangle
     };
 }
 

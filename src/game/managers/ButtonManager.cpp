@@ -25,18 +25,18 @@ bool ButtonManager::isButtonClicked(Vector<double> pos)
     return false;
 }
 
-bool ButtonManager::isButtonClicked(const std::string &buttonContent, Vector<double> pos)
+bool ButtonManager::isButtonClicked(const std::string &buttonContent, Vector<double> mousePos)
 {
     for (auto it : _currentButtons) {
-        if (it.getContent() == buttonContent && it.getPos() == pos)
+        if (it.getContent() == buttonContent && it.getPos() == mousePos)
             return true;
     }
     return false;
 }
 
-gameEngine::Button createButton(Vector<double> pos, Vector<double> size)
+gameEngine::Button createButton(BTexture texture, BRectangle rect)
 {
-    
+
 }
 
 std::vector<gameEngine::Button> ButtonManager::getCurrentButtons() const

@@ -11,6 +11,7 @@
 template<typename T>
 class Vector {
     public:
+        Vector() : _x(0), _y(0) {};
         Vector(T x, T y);
         ~Vector() = default;
         template<typename T> Vector(const Vector<T> &copy);

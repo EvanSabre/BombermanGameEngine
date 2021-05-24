@@ -30,3 +30,4 @@ namespace game {
     }
 }
 #endif /* !BUTTONMANAGER_HPP_ */
+

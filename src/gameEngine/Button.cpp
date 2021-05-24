@@ -8,9 +8,10 @@
 #include "Button.hpp"
 using namespace gameEngine;
 
-Button::Button(Vector<double> pos, Vector<double> size, const std::string &content)
+Button::Button(const std::string &content)
 {
     _buttonPressed = false;
+    _content = content;
 }
 
 Button::~Button()
