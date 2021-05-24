@@ -4,7 +4,6 @@
 CMakeCache.txt
 CPack*
 CMakeFiles/
-cmake/
 _deps
 cmake_install.cmake
 Makefile
