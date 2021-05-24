@@ -18,6 +18,8 @@ namespace gameEngine
         class BColor
         {
         public:
+            //By default : Black
+            BColor();
             BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
             BColor(const Color &ref);
             BColor(const BColor &ref);

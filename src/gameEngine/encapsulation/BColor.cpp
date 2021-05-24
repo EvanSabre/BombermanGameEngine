@@ -16,6 +16,13 @@ std::ostream& operator<<(std::ostream& out, const encapsulation::BColor &color)
     return out;
 }
 
+encapsulation::BColor::BColor()
+{
+    this->_r = 0;
+    this->_g = 0;
+    this->_b = 0;
+    this->_a = 0;
+}
 
 encapsulation::BColor::BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 {
