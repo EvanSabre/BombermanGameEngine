@@ -5,7 +5,7 @@
 ** Collor
 */
 
-#include "include/gameEngine/encapsulation/BColor.hpp"
+#include "BColor.hpp"
 
 using namespace gameEngine;
 
@@ -21,7 +21,7 @@ encapsulation::BColor::BColor()
     this->_r = 0;
     this->_g = 0;
     this->_b = 0;
-    this->_a = 0;
+    this->_a = 255;
 }
 
 encapsulation::BColor::BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)

@@ -9,12 +9,16 @@ project(project_bomberman
         )
 
 set(MY_SRC
-        #${PROJECT_SOURCE_DIR}/src/
+       # ${PROJECT_SOURCE_DIR}/src/Vector.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp
         )
 
 set(MY_INCLUDE
         ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
         )
+
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)
 find_package(raylib REQUIRED)
 
