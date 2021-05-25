@@ -12,6 +12,7 @@
 #include <string>
 #include <stdexcept>
 #include "raylib.h"
+#include "Vector.hpp"
 #include "BColor.hpp"
 
 namespace gameEngine
@@ -21,9 +22,8 @@ namespace gameEngine
         class BRectangle
         {
         public:
-            BRectangle(float width, float height,
-                        float x = 0,
-                        float y = 0,
+            BRectangle(const Vector<float> &size,
+                        const Vector<float> &pos = {0, 0},
                         const BColor &color = BLACK,
                         float rotation = 0
                         );
@@ -37,6 +37,8 @@ namespace gameEngine
                 [[nodiscard]] float getHeight() const noexcept;
                 [[nodiscard]] float getX() const noexcept;
                 [[nodiscard]] float getY() const noexcept;
+                [[nodiscard]] Vector<float> getSize() const noexcept;
+                [[nodiscard]] Vector<float> getPos() const noexcept;
                 [[nodiscard]] float getRotation() const noexcept;
                 [[nodiscard]] BColor getColor() const noexcept;
 
@@ -45,8 +47,13 @@ namespace gameEngine
                 void setY(const float &y) noexcept;
                 void setWidth(const float &width) noexcept;
                 void setHeight(const float &height) noexcept;
+                void setSize(const Vector<float> &size) noexcept;
+                void setPos(const Vector<float> &pos) noexcept;
                 void setRotation(const float &rotation) noexcept;
                 void setColor(const BColor &color) noexcept;
+
+            //transform
+                void scale(const float &scale) noexcept;
 
             //draw
                 void draw() const noexcept;
@@ -56,10 +63,8 @@ namespace gameEngine
 
         protected:
         private:
-            float _x;
-            float _y;
-            float _width;
-            float _height;
+            Vector<float> _pos{0, 0};
+            Vector<float> _size{0, 0};
             float _rotation;
             BColor _color;
         };

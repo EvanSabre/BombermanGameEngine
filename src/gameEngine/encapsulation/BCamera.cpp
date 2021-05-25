@@ -73,3 +73,17 @@ void encapsulation::BCamera::setProjection(CameraProjection projection) noexcept
 {
     this->_camera.projection = projection;
 }
+
+//----------------------------
+
+//DRAW
+
+void encapsulation::BCamera::beginMode()
+{
+    BeginMode3D(this->_camera);
+}
+
+void encapsulation::BCamera::endMode()
+{
+    EndMode3D();
+}

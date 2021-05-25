@@ -5,20 +5,21 @@
 ** BImage
 */
 
-#include "include/gameEngine/encapsulation/BImage.hpp"
+#include "BImage.hpp"
 
 using namespace gameEngine;
 
-encapsulation::BImage::BImage(const std::string &filepaht)
+encapsulation::BImage::BImage(const std::string &filepaht, const Vector<int> &pos)
 {
     this->_img = LoadImage(filepaht.c_str());
     if (!this->_img.data)
         throw std::runtime_error("Image: Loading failed");
+    this->_pos = pos;
 }
 
 encapsulation::BImage::BImage(const BImage &ref)
 {
-    Image img_buf = {0};
+    Image img_buf;
 
     if (ref.isLoad()) {
         this->_img = ImageCopy(ref.getObj());
@@ -26,6 +27,7 @@ encapsulation::BImage::BImage(const BImage &ref)
             throw std::runtime_error("Image : Copy failed");
     } else
         this->_img = img_buf;
+    this->_pos = ref._pos;
 }
 
 encapsulation::BImage &encapsulation::BImage::operator=(const BImage &ref)
@@ -69,6 +71,17 @@ int encapsulation::BImage::getHeight() const noexcept
     return this->_img.height;
 }
 
+Vector<int> encapsulation::BImage::getSize() const noexcept
+{
+    Vector<int> vec{this->_img.width, this->_img.height};
+    return vec;
+}
+
+Vector<int> encapsulation::BImage::getPosition() const noexcept
+{
+    return this->_pos;
+}
+
 //setter
 //Load image from file into CPU memory (RAM)
 void encapsulation::BImage::load(const std::string &filepath)
@@ -78,13 +91,6 @@ void encapsulation::BImage::load(const std::string &filepath)
     this->_img = LoadImage(filepath.c_str());
     if (!this->_img.data)
         throw std::runtime_error("Image : Loading failed");
-}
-
-void encapsulation::BImage::setImage(const Image &img) noexcept
-{
-    if (this->isLoad())
-        this->unload();
-    this->_img = img;
 }
 
 void encapsulation::BImage::unload() noexcept
@@ -97,3 +103,61 @@ void encapsulation::BImage::unload() noexcept
     this->_img.data = nullptr;
 }
 
+void encapsulation::BImage::setImage(const Image &img) noexcept
+{
+    if (this->isLoad())
+        this->unload();
+    this->_img = img;
+}
+
+void encapsulation::BImage::setImage(const Image &img, const Vector<int> &pos) noexcept
+{
+    this->setImage(img);
+    this->setPosition(pos);
+}
+
+void encapsulation::BImage::setPosition(const Vector<int> &pos) noexcept
+{
+    this->_pos = pos;
+}
+
+void encapsulation::BImage::resize(const Vector<int> &newSize) noexcept
+{
+    if (this->isLoad())
+        ImageResize(&this->_img, newSize._x, newSize._y);
+}
+
+//------------------------------------
+
+//TRANSFORM
+
+void encapsulation::BImage::scale(const float &scale) noexcept
+{
+    if (!this->isLoad())
+        return;
+    Vector<int> new_size = {this->_img.width, this->_img.height};
+    new_size._x *= scale;
+    new_size._y *= scale;
+    this->resize(new_size);
+}
+
+
+void encapsulation::BImage::rotateRight() noexcept
+{
+    ImageRotateCW(&this->_img);
+}
+
+void encapsulation::BImage::rotateLeft() noexcept
+{
+    ImageRotateCCW(&this->_img);
+}
+
+void encapsulation::BImage::flipV() noexcept
+{
+    ImageFlipVertical(&this->_img);
+}
+
+void encapsulation::BImage::flipH() noexcept
+{
+    ImageFlipHorizontal(&this->_img);
+}

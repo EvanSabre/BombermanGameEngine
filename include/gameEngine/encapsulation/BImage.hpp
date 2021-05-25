@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include "Vector.hpp"
 #include "raylib.h"
 
 namespace gameEngine
@@ -20,7 +21,7 @@ namespace gameEngine
         class BImage
         {
         public:
-            BImage(const std::string &filepath);
+            BImage(const std::string &filepath, const Vector<int> &pos = {0, 0});
             BImage(const BImage &ref);
             BImage &operator=(const BImage &ref);
             ~BImage();
@@ -30,17 +31,33 @@ namespace gameEngine
                 [[nodiscard]] bool isLoad() const noexcept;
                 [[nodiscard]] int getWidth() const noexcept;
                 [[nodiscard]] int getHeight() const noexcept;
+                [[nodiscard]] Vector<int> getSize() const noexcept;
+                [[nodiscard]] Vector<int> getPosition() const noexcept;
 
             //setter
             // Load image from file into CPU memory (RAM)
                 void load(const std::string &filpath);
-                void setImage(const Image &img) noexcept;
-
                 void unload() noexcept;
+
+                void setImage(const Image &img) noexcept;
+                void setImage(const Image &img, const Vector<int> &pos) noexcept;
+                void setPosition(const Vector<int> &pos) noexcept;
+
+            //transform
+                void resize(const Vector<int> &newSize) noexcept;
+                void scale(const float &scale) noexcept;
+                void rotateRight() noexcept;
+                void rotateLeft() noexcept;
+
+                //flip vertically
+                void flipV() noexcept;
+                //flip horizontaly
+                void flipH() noexcept;
 
         protected:
         private:
             Image _img;
+            Vector<int> _pos{0, 0};
         };
     } // namespace encapsulation
 

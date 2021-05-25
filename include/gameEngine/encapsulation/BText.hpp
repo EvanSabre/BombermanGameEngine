@@ -49,7 +49,7 @@ namespace gameEngine
             std::string _str{};
             BColor _color;
             int _size;
-            Vector<int> _pos = {0, 0};
+            Vector<int> _pos{0, 0};
         };
     }
 }

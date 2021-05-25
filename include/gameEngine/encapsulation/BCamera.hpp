@@ -37,11 +37,12 @@ namespace gameEngine
                 void setProjection(CameraProjection projection) noexcept;
 
             //draw
-                // void beginMode();
-                // void endMode(),
+                void beginMode();
+                void endMode();
+
         protected:
         private:
-            Camera _camera = {0};
+            Camera _camera;
         };
     } // namespace encapsulation
 

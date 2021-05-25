@@ -12,6 +12,9 @@ set(MY_SRC
        # ${PROJECT_SOURCE_DIR}/src/Vector.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BRectangle.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BImage.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BCamera.cpp
         )
 
 set(MY_INCLUDE
