@@ -11,15 +11,44 @@
 template <class T>
 class Vector {
     public:
-        Vector(T x, T y);
+        Vector(T x, T y) {
+            _x = x;
+            _y = y;
+        }
         ~Vector() = default;
         Vector(const Vector<T> &copy);
 
-        bool operator==(Vector<T> const &) const;
-        bool operator!=(Vector<T> const &) const;
-        Vector<T> operator+(Vector<T> const &);
-        Vector<T> operator-(Vector<T> const &);
-        Vector<T> &operator=(Vector<T> const &);
+        bool operator==(Vector<T> const &other) const {
+            if (_x == other._x && _y == other._y)
+                return true;
+            return false;
+        }
+        bool operator!=(Vector<T> const &other) const {
+            if (_x != other._x && _y != other._y)
+                return true;
+            return false;
+        }
+        Vector operator+(Vector<T> const &other) {
+            Vector<T> newVec(_x, _y);
+
+            newVec._x += other._x;
+            newVec._y += other._y;
+            return newVec;
+        }
+        Vector operator-(Vector<T> const &other) {
+            Vector<T> newVec(_x, _y);
+
+            newVec._x -= other._x;
+            newVec._y -= other._y;
+            return newVec;
+        }
+        Vector &operator=(Vector<T> const &other) {
+            if (this == &other)
+                return *this;
+            _x = other._x;
+            _y = other._y;
+            return *this;
+        }
         T _x;
         T _y;
 };
@@ -29,63 +58,10 @@ class Vector {
 //CODE
 
 template <class T>
-Vector<T>::Vector(T x, T y)
-{
-    _x = x;
-    _y = y;
-}
-
-template <class T>
 Vector<T>::Vector(const Vector<T> &other)
 {
     _x = other._x;
     _y = other._y;
-}
-
-template <class T>
-bool Vector<T>::operator==(Vector<T> const &other) const
-{
-    if (_x == other._x && _y == other._y)
-        return true;
-    return false;
-}
-
-template<class T>
-bool Vector<T>::operator!=(Vector<T> const &other) const
-{
-    if (_x != other._x && _y != other._y)
-        return true;
-    return false;
-}
-
-template<class T>
-Vector<T> Vector<T>::operator+(Vector<T> const &other)
-{
-    Vector<T> newVec(_x, _y);
-
-    newVec._x += other._x;
-    newVec._y += other._y;
-    return newVec;
-}
-
-template<class T>
-Vector<T> Vector<T>::operator-(Vector<T> const &other)
-{
-    Vector<T> newVec(_x, _y);
-
-    newVec._x -= other._x;
-    newVec._y -= other._y;
-    return newVec;
-}
-
-template<class T>
-Vector<T> &Vector<T>::operator=(Vector<T> const &other)
-{
-    if (this == &other)
-        return *this;
-    _x = other._x;
-    _y = other._y;
-    return *this;
 }
 
 #endif /* !VECTOR_HPP_ */
