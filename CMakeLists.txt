@@ -23,6 +23,7 @@ set(MY_SRC
 set(MY_INCLUDE
         ${PROJECT_SOURCE_DIR}/include
         ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
+        ${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)

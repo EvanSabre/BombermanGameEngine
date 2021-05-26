@@ -10,12 +10,13 @@
 
 #include "Vector.hpp"
 #include "raylib.h"
+#include "ICamera.hpp"
 
 namespace gameEngine
 {
     namespace encapsulation
     {
-        class BCamera2D
+        class BCamera2D : public gameEngine::interfaces::ICamera
         {
         public:
             BCamera2D();
@@ -42,8 +43,8 @@ namespace gameEngine
 
             void resetObj() noexcept;
         //Draw
-            void beginMode() const noexcept;
-            void endMode() const noexcept;
+            void beginMode() const noexcept final;
+            void endMode() const noexcept final;
 
         private:
             Camera2D _camera;

@@ -13,12 +13,13 @@
 #include <stdexcept>
 #include "raylib.h"
 #include "Vector3T.hpp"
+#include "ICamera.hpp"
 
 namespace gameEngine
 {
     namespace encapsulation
     {
-        class BCamera
+        class BCamera : public gameEngine::interfaces::ICamera
         {
         public:
             BCamera();
@@ -39,9 +40,10 @@ namespace gameEngine
 
                 void update() noexcept;
                 void setMode(CameraMode mode) noexcept;
+
             //draw
-                void beginMode() const noexcept;
-                void endMode() const noexcept;
+                void beginMode() const noexcept final;
+                void endMode() const noexcept final;
 
         protected:
         private:
