@@ -12,6 +12,7 @@
 #include <string>
 #include <stdexcept>
 #include "raylib.h"
+#include "Vector3T.hpp"
 
 namespace gameEngine
 {
@@ -30,9 +31,9 @@ namespace gameEngine
 
             //setter
             // Load Camera from file into CPU memory (RAM)
-                void setPosition(float x, float y, float z) noexcept;
-                void setTarget(float x, float y, float z) noexcept;
-                void setUp(float x, float y, float z) noexcept;
+                void setPosition(const Vector3T<float> &pos) noexcept;
+                void setTarget(const Vector3T<float> &target) noexcept;
+                void setUp(const Vector3T<float> &up) noexcept;
                 void setFovy(float fov) noexcept;
                 void setProjection(CameraProjection projection) noexcept;
 

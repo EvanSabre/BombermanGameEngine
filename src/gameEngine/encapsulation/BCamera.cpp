@@ -43,23 +43,23 @@ Camera encapsulation::BCamera::getObj() const noexcept
 
 //SETTER
 
-void encapsulation::BCamera::setPosition(float x, float y, float z) noexcept
+void encapsulation::BCamera::setPosition(const Vector3T<float> &pos) noexcept
 {
-   Vector3 vec = {x, y, z};
+   Vector3 vec = {pos._x, pos._y, pos._z};
 
    this->_camera.position = vec;
 }
 
-void encapsulation::BCamera::setTarget(float x, float y, float z) noexcept
+void encapsulation::BCamera::setTarget(const Vector3T<float> &target) noexcept
 {
-   Vector3 vec = {x, y, z};
+   Vector3 vec = {target._x, target._y, target._z};
 
    this->_camera.target = vec;
 }
 
-void encapsulation::BCamera::setUp(float x, float y, float z) noexcept
+void encapsulation::BCamera::setUp(const Vector3T<float> &up) noexcept
 {
-    Vector3 vec = {x, y, z};
+    Vector3 vec = {up._x, up._y, up._z};
 
     this->_camera.up = vec;
 }
