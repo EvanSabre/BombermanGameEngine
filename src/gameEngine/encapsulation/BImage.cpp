@@ -161,3 +161,49 @@ void encapsulation::BImage::flipH() noexcept
 {
     ImageFlipHorizontal(&this->_img);
 }
+
+void encapsulation::BImage::clearBackground(const BColor &color) noexcept
+{
+    if (!isLoad())
+        return;
+    ImageClearBackground(&this->_img, color.getObj());
+}
+
+void encapsulation::BImage::drawPixel(const Vector<int> &pos, const BColor &color) noexcept
+{
+    if (!isLoad())
+        return;
+    ImageDrawPixel(&this->_img, pos._x, pos._y, color.getObj());
+}
+
+void encapsulation::BImage::drawLine(const Vector<float> &start, const Vector<float> &end, const BColor &color) noexcept
+{
+    if (!isLoad())
+        return;
+    Vector2 from = {start._x, start._y};
+    Vector2 to = {end._x, end._y};
+    ImageDrawLineV(&this->_img, from, to, color.getObj());
+}
+
+void encapsulation::BImage::drawCircle(const Vector<float> &center, int radius, const BColor &color) noexcept
+{
+    if (!isLoad())
+        return;
+    Vector2 middle = {center._x, center._y};
+    ImageDrawCircleV(&this->_img, middle, radius, color.getObj());
+}
+
+void encapsulation::BImage::drawRectangle(const BRectangle &rec) noexcept
+{
+    if (!isLoad())
+
+    ImageDrawRectangleRec(&this->_img, rec.getObj(), rec.getColor().getObj());
+}
+
+void encapsulation::BImage::drawText(const BText &text, const Vector<int> &pos) noexcept
+{
+    if (!isLoad())
+        return;
+    ImageDrawText(&this->_img, text.getStr().c_str(), pos._x, pos._y,
+                text.getSize(), text.getColor().getObj());
+}
