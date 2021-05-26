@@ -15,6 +15,7 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BRectangle.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BImage.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BCamera.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp
         )
 
 set(MY_INCLUDE
