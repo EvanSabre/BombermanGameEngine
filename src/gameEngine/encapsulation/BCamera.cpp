@@ -88,12 +88,12 @@ void encapsulation::BCamera::setMode(CameraMode mode) noexcept
 
 //DRAW
 
-void encapsulation::BCamera::beginMode()
+void encapsulation::BCamera::beginMode() const noexcept
 {
     BeginMode3D(this->_camera);
 }
 
-void encapsulation::BCamera::endMode()
+void encapsulation::BCamera::endMode() const noexcept
 {
     EndMode3D();
 }

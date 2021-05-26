@@ -40,8 +40,8 @@ namespace gameEngine
                 void update() noexcept;
                 void setMode(CameraMode mode) noexcept;
             //draw
-                void beginMode();
-                void endMode();
+                void beginMode() const noexcept;
+                void endMode() const noexcept;
 
         protected:
         private:
