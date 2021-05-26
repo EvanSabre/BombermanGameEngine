@@ -74,6 +74,16 @@ void encapsulation::BCamera::setProjection(CameraProjection projection) noexcept
     this->_camera.projection = projection;
 }
 
+void encapsulation::BCamera::update() noexcept
+{
+    UpdateCamera(&this->_camera);
+}
+
+void encapsulation::BCamera::setMode(CameraMode mode) noexcept
+{
+    SetCameraMode(this->_camera, mode);
+}
+
 //----------------------------
 
 //DRAW

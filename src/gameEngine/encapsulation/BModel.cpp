@@ -9,8 +9,10 @@
 
 using namespace gameEngine;
 
-encapsulation::BModel::BModel(const std::string &filepath)
+encapsulation::BModel::BModel(const std::string &filepath, const Vector3T<float> &pos,
+                                const BColor &color, float scale)
 {
+    this->resetObj();
     try
     {
         this->load(filepath);
@@ -19,6 +21,9 @@ encapsulation::BModel::BModel(const std::string &filepath)
     {
         throw e;
     }
+    this->_color = color;
+    this->_pos = pos;
+    this->_scale = scale;
 }
 
 encapsulation::BModel::~BModel()
@@ -38,9 +43,19 @@ Model encapsulation::BModel::getObj() const noexcept
 
 bool encapsulation::BModel::isLoad() const noexcept
 {
-    if (!this->_model.materials)
+    if (this->_model.materials == nullptr)
         return false;
     return true;
+}
+
+encapsulation::BColor encapsulation::BModel::getColor() const noexcept
+{
+    return this->_color;
+}
+
+Vector3T<float> encapsulation::BModel::getPos() const noexcept
+{
+    return this->_pos;
 }
 
 //----------------------------
@@ -60,7 +75,7 @@ void encapsulation::BModel::unload() noexcept
     if (!isLoad())
         return;
     UnloadModel(this->_model);
-    this->_model = {0};
+    this->resetObj();
 }
 
 void encapsulation::BModel::unloadKeepMesh() noexcept
@@ -70,16 +85,39 @@ void encapsulation::BModel::unloadKeepMesh() noexcept
     UnloadModelKeepMeshes(this->_model);
 }
 
+void encapsulation::BModel::setPos(const Vector3T<float> &pos) noexcept
+{
+    this->_pos = pos;
+}
+
+void encapsulation::BModel::setColor(const BColor &color) noexcept
+{
+    this->_color = color;
+}
+
+void encapsulation::BModel::setTexture(int material_idx, int maps_idx,
+                const BTexture2D &texture) noexcept
+{
+    _model.materials[material_idx].maps[maps_idx].texture = texture.getObj();              // Set map diffuse texture
+}
+
 //-------------------------
 
 //DRAW
 
-void encapsulation::BModel::draw(int x, int y, int z, float scale, const BColor &color) const noexcept
+void encapsulation::BModel::draw() const noexcept
 {
-    Vector3 vec = {x, y, z};
+    Vector3 vec = {_pos._x , _pos._y, _pos._z};
 
-    DrawModel(this->_model, vec, scale, color.getObj());
+    DrawModel(this->_model, vec, _scale, _color.getObj());
 }
 
+//---------------------
 
+//PRIVATE FUNCTION
+
+void encapsulation::BModel::resetObj() noexcept
+{
+    this->_model.materials = nullptr;
+}
 

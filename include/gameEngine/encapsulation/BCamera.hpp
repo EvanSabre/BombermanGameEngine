@@ -37,6 +37,8 @@ namespace gameEngine
                 void setFovy(float fov) noexcept;
                 void setProjection(CameraProjection projection) noexcept;
 
+                void update() noexcept;
+                void setMode(CameraMode mode) noexcept;
             //draw
                 void beginMode();
                 void endMode();

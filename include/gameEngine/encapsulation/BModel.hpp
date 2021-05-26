@@ -13,6 +13,8 @@
 #include <stdexcept>
 #include "raylib.h"
 #include "BColor.hpp"
+#include "Vector3T.hpp"
+#include "BTexture2D.hpp"
 
 namespace gameEngine
 {
@@ -21,7 +23,11 @@ namespace gameEngine
         class BModel
         {
         public:
-            BModel(const std::string &filepath);
+            BModel(const std::string &filepath,
+                    const Vector3T<float> &pos = {0, 0, 0},
+                    const BColor &color = BColor{WHITE},
+                    float scale = 1
+            );
             //BModel(const std::string &filepath, const BMesh &mesh);
             BModel(const BModel &ref) = delete;
             BModel &operator=(const BModel &ref) = delete;
@@ -30,6 +36,8 @@ namespace gameEngine
             //getter
                 [[nodiscard]] Model getObj() const noexcept;
                 [[nodiscard]] bool isLoad() const noexcept;
+                [[nodiscard]] BColor getColor() const noexcept;
+                [[nodiscard]] Vector3T<float> getPos() const noexcept;
 
             //setter
             // Load Model from file into CPU memory (RAM)
@@ -39,12 +47,23 @@ namespace gameEngine
                 void unload() noexcept;
                 void unloadKeepMesh() noexcept;
 
-            //draw
-                void draw(int x, int y, int z, float scale, const BColor &color) const noexcept;
+                void setPos(const Vector3T<float> &pos) noexcept;
+                void setColor(const BColor &color) noexcept;
 
-        protected:
+                void setTexture(int material_idx, int maps_idx,
+                                    const BTexture2D &texture) noexcept;
+
+            //draw
+                void draw() const noexcept;
+
         private:
             Model _model;
+            BColor _color{WHITE};
+            float _scale = 0;
+            Vector3T<float> _pos{0, 0, 0};
+
+        private:
+            void resetObj() noexcept;
         };
     } // namespace encapsulation
 
