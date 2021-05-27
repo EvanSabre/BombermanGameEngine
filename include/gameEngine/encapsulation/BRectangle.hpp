@@ -60,6 +60,7 @@ namespace gameEngine
 
             //collision
                 bool checkCollision(const BRectangle &other) const noexcept;
+                bool checkPointInside(const Vector<float> &point) const noexcept;
 
         protected:
         private:
