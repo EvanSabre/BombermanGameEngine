@@ -60,6 +60,7 @@ namespace gameEngine {
                 bool isInsideButton(const Vector<float> &point);
                 bool isButtonPressed(Vector<float> mousePos);
                 bool isButtonReleased();
+                void update();
                 void drawButton();
             private:
                 State _state;

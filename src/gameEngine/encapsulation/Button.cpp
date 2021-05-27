@@ -173,6 +173,14 @@ bool Button::isButtonReleased()
     return false;
 }
 
+void Button::update()
+{
+    Vector2 tmp = GetMousePosition();
+    Vector<float> vec(tmp.x, tmp.y);
+    
+    isButtonPressed(vec);
+    isButtonReleased();
+}
 
 //DRAW
 void Button::drawButton()

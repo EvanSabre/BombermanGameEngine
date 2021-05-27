@@ -10,6 +10,7 @@
 
 #include "Button.hpp"
 #include <vector>
+#include <memory>
 #include <raylib.h>
 
 namespace game {
@@ -19,12 +20,15 @@ namespace game {
                 ButtonManager();
                 ~ButtonManager();
 
-                bool isButtonClicked(Vector<double> pos);
-                bool isButtonClicked(const std::string &buttonContent, Vector<double> pos);
-                gameEngine::Button createButton(Vector<double> pos, Vector<double> size);
-                std::vector<gameEngine::Button> getCurrentButtons() const;
+                bool isButtonClicked(const Vector<float> &pos);
+                bool isButtonClicked(const std::string &buttonContent, const Vector<float> &pos);
+                std::shared_ptr<gameEngine::encapsulation::Button> getClickedButton(const Vector<float> &pos);
+                gameEngine::encapsulation::Button createButton(const BTexture2D &texture, const BRectangle &rect, const BText &content);
+                std::vector<gameEngine::encapsulation::Button> getCurrentButtons() const;
+                void drawButtons();
+                void updateButtons();
             private:
-                std::vector<gameEngine::Button> _currentButtons;
+                std::vector<gameEngine::encapsulation::Button> _currentButtons;
         };
     }
 }
