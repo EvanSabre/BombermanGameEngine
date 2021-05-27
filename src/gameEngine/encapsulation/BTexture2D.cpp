@@ -92,6 +92,13 @@ void encapsulation::BTexture2D::draw() const noexcept
         DrawTexture(this->_texture, _pos._x, _pos._y, _color.getObj());
 }
 
+void encapsulation::BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept
+{
+
+    if (isLoad())
+        DrawTextureRec(this->_texture, rect.getObj(), (Vector2) {pos._x, pos._y}, _color.getObj());
+}
+
 //-----------------
 
 //PRIVATE METHOD

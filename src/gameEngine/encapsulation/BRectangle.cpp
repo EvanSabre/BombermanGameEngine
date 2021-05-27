@@ -179,3 +179,12 @@ bool encapsulation::BRectangle::checkCollision(const BRectangle &other) const no
 {
     return CheckCollisionRecs(this->getObj(), other.getObj());
 }
+
+bool encapsulation::BRectangle::checkPointInside(const Vector<float> &point) const noexcept
+{
+    Vector2 vec;
+
+    vec.x = point._x;
+    vec.y = point._y;
+    return CheckCollisionPointRec(vec, this->getObj());
+}

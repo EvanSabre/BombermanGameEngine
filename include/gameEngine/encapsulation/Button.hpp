@@ -25,26 +25,41 @@ namespace gameEngine {
             };
 
             public:
-                Button(const Vector<float> &size, const Vector<float> &pos, const gameEngine::encapsulation::BColor &color = BLACK,
-                        const std::string &content = "", float rotation = 0, const std::string &textureFile = "");
+                Button(const Vector<float> &size, const Vector<float> &pos, 
+                        const gameEngine::encapsulation::BText &content, const gameEngine::encapsulation::BColor &color = BLACK,
+                        const std::string &textureFile = "",
+                        float rotation = 0, int nbFrames = 1);
                 ~Button();
 
                 //getter
                 Vector<float> getPos() const;
                 Vector<float> getSize() const;
-                std::string getContent() const;
+                gameEngine::encapsulation::BText getContent() const;
                 State getState() const;
                 bool getButtonPressed() const;
 
-                bool isInsideButton(Vector<float> point);
+                //setter
+                void setPos(const Vector<float> &pos);
+                void setRotation(const float &rotation);
+                void setSize(const Vector<float> &size);
+                void setColor(const gameEngine::encapsulation::BColor &color);
+                void setContentStr(const std::string &str);
+                void setNbFrames(const int &nb);
+                void setFrameRect(const gameEngine::encapsulation::BRectangle &rect);
+                void setFrameRectSize(const Vector<float> &size);
+
+                bool isInsideButton(const Vector<float> &point);
                 bool isButtonPressed(Vector<float> mousePos);
                 bool isButtonReleased();
+                void drawButton();
             private:
                 State _state;
-                std::string _content;
+                int _nbFrames;
                 bool _buttonPressed;
                 gameEngine::encapsulation::BTexture2D _texture;
                 gameEngine::encapsulation::BRectangle _rectangle;
+                gameEngine::encapsulation::BRectangle _frameRec;
+                gameEngine::encapsulation::BText _content;
         };
     } //encapsulation
 } //gameEngine

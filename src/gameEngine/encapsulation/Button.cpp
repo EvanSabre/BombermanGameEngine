@@ -10,22 +10,27 @@
 using namespace gameEngine::encapsulation;
 using namespace gameEngine;
 
-Button::Button(const Vector<float> &size, const Vector<float> &pos, const BColor &color,
-                const std::string &content, float rotation, const std::string &textureFile) :
-_rectangle(size, pos, color, rotation)
+Button::Button(const Vector<float> &size, const Vector<float> &pos, 
+                const BText &content, const BColor &color, const std::string &textureFile,
+                float rotation, int nbFrames) :
+_rectangle(size, pos, color, rotation), _frameRec(size, {0, 0}, color, rotation),
+_content(content.getStr(), content.getPosition(), content.getColor(), content.getSize())
 {
-    if (textureFile != "")
+    if (textureFile != "" && content.getStr() != "") {
+            BImage img(textureFile);
+            img.drawText(content, content.getPosition());
+            _texture.loadFromImg(img);
+    } else if (textureFile != "")
         _texture.loadFromFile(textureFile);
     _state = NORMAL;
+    _nbFrames = nbFrames;
     _buttonPressed = false;
-    _content = content;
 }
 
 Button::~Button()
-{
-    _texture.unload();
-}
+{}
 
+//GETTERS
 Vector<float> Button::getPos() const
 {
     return _rectangle.getPos();
@@ -36,7 +41,7 @@ Vector<float> Button::getSize() const
     return _rectangle.getSize();
 }
 
-std::string Button::getContent() const
+BText Button::getContent() const
 {
     return _content;
 }
@@ -51,13 +56,52 @@ bool Button::getButtonPressed() const
     return _buttonPressed;
 }
 
-bool Button::isInsideButton(Vector<float> point)
-{
-    Vector2 vec;
 
-    vec.x = point._x;
-    vec.y = point._y;
-    if (CheckCollisionPointRec(vec, _rectangle.getObj())) {
+//SETTERS
+void Button::setPos(const Vector<float> &pos)
+{
+    _rectangle.setPos(pos);
+}
+
+void Button::setRotation(const float &rotation)
+{
+    _rectangle.setRotation(rotation);
+}
+
+void Button::setSize(const Vector<float> &size)
+{
+    _rectangle.setSize(size);
+}
+
+void Button::setColor(const BColor &color)
+{
+    _rectangle.setColor(color);
+}
+
+void Button::setNbFrames(const int &nb)
+{
+    _nbFrames = nb;
+}
+
+void Button::setContentStr(const std::string &str)
+{
+    _content.setStr(str);
+}
+
+void Button::setFrameRect(const BRectangle &rect)
+{
+    _frameRec = rect;
+}
+
+void Button::setFrameRectSize(const Vector<float> &size)
+{
+    _frameRec.setSize(size);
+}
+
+//CHECKERS
+bool Button::isInsideButton(const Vector<float> &point)
+{
+    if (_rectangle.checkPointInside(point)) {
         _state = MOUSE_HOVER;
         return true;
     }
@@ -81,4 +125,16 @@ bool Button::isButtonReleased()
         return true;
     }
     return false;
+}
+
+
+//DRAW
+void Button::drawButton()
+{
+    if (_texture.isLoad())
+        _texture.drawRect(_frameRec, _rectangle.getPos());
+    else {
+        _rectangle.draw();
+        _content.draw();
+    }
 }
