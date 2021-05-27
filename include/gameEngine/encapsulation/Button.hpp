@@ -17,14 +17,12 @@
 namespace gameEngine {
     namespace encapsulation {
         class Button {
-
-            enum State {
-                NORMAL,
-                MOUSE_HOVER,
-                PRESSED
-            };
-
             public:
+                enum State {
+                    NORMAL,
+                    MOUSE_HOVER,
+                    PRESSED
+                };
                 Button(const Vector<float> &size, const Vector<float> &pos, 
                         const gameEngine::encapsulation::BText &content, const gameEngine::encapsulation::BColor &color = BLACK,
                         const std::string &textureFile = "",
