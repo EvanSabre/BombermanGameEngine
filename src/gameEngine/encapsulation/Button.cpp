@@ -27,8 +27,35 @@ _content(content.getStr(), content.getPosition(), content.getColor(), content.ge
     _buttonPressed = false;
 }
 
+Button::Button(const BTexture2D &text, const BRectangle &rect, const BText &content) :
+    _rectangle(rect), _frameRec(rect.getSize(), {0, 0}, rect.getColor(), rect.getRotation()),
+    _content(content)
+{
+
+    _state = NORMAL;
+    _nbFrames = 1;
+    _buttonPressed = false;
+    _texture = text;
+    _rectangle = rect;
+    _content = content;
+}
+
 Button::~Button()
 {}
+
+Button &Button::operator=(const Button &ref)
+{
+    if (this == &ref)
+        return *this;
+    _content = ref.getContent();
+    _texture = ref.getTexture();
+    _nbFrames = ref.getNbFrames();
+    _state = ref.getState();
+    _buttonPressed = ref.getButtonPressed();
+    _rectangle = ref.getRect();
+    _frameRec = ref.getFrameRect();    
+    return *this;
+}
 
 //GETTERS
 Vector<float> Button::getPos() const
@@ -56,6 +83,25 @@ bool Button::getButtonPressed() const
     return _buttonPressed;
 }
 
+BTexture2D Button::getTexture() const
+{
+    return _texture;
+}
+
+BRectangle Button::getRect() const
+{
+    return _rectangle;
+}
+
+BRectangle Button::getFrameRect() const
+{
+    return _frameRec;
+}
+
+int Button::getNbFrames() const
+{
+    _nbFrames;
+}
 
 //SETTERS
 void Button::setPos(const Vector<float> &pos)

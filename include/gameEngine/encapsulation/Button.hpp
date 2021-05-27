@@ -29,14 +29,22 @@ namespace gameEngine {
                         const gameEngine::encapsulation::BText &content, const gameEngine::encapsulation::BColor &color = BLACK,
                         const std::string &textureFile = "",
                         float rotation = 0, int nbFrames = 1);
+                Button(const BTexture2D &text, const BRectangle &rect, const BText &content);
                 ~Button();
+
+                //operator
+                Button &operator=(const Button &ref);
 
                 //getter
                 Vector<float> getPos() const;
                 Vector<float> getSize() const;
                 gameEngine::encapsulation::BText getContent() const;
+                gameEngine::encapsulation::BTexture2D getTexture() const;
+                gameEngine::encapsulation::BRectangle getRect() const;
+                gameEngine::encapsulation::BRectangle getFrameRect() const;
                 State getState() const;
                 bool getButtonPressed() const;
+                int getNbFrames() const;
 
                 //setter
                 void setPos(const Vector<float> &pos);
@@ -48,6 +56,7 @@ namespace gameEngine {
                 void setFrameRect(const gameEngine::encapsulation::BRectangle &rect);
                 void setFrameRectSize(const Vector<float> &size);
 
+                //Checkers
                 bool isInsideButton(const Vector<float> &point);
                 bool isButtonPressed(Vector<float> mousePos);
                 bool isButtonReleased();
