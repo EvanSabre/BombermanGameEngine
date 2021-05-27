@@ -43,10 +43,11 @@ void run()
         ClearBackground(RAYWHITE);
         but.drawButton();
         Vector<float> mousP(mousePoint.x, mousePoint.y);
-        if (but.isButtonPressed(mousP))
-            but.setContentStr("I have been pressed");
+        but.update();
+        if (but.getState() == gameEngine::encapsulation::Button::State::PRESSED)
+            but.setContentStr("I have been Pressed\n");
         else
-            but.setContentStr("Press me");
+            but.setContentStr("Press me!!!\n");
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
