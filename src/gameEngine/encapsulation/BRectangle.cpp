@@ -11,7 +11,7 @@ using namespace gameEngine;
 
 std::ostream& operator<<(std::ostream& out, const gameEngine::encapsulation::BRectangle &ref)
 {
-    out << "Rectangle : posiotion (" << ref.getX() << ", " << ref.getY() << ") ";
+    out << "Rectangle : position (" << ref.getX() << ", " << ref.getY() << ") ";
     out << "| size : (" << ref.getWidth() << ", " << ref.getHeight() << ") ";
     out << "| " << ref.getColor();
     return out;

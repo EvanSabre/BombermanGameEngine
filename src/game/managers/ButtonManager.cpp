@@ -8,6 +8,7 @@
 #include "ButtonManager.hpp"
 using namespace game;
 using namespace Managers;
+using namespace gameEngine::encapsulation;
 
 ButtonManager::ButtonManager()
 {}
@@ -34,9 +35,8 @@ bool ButtonManager::isButtonClicked(const std::string &buttonContent, Vector<dou
     return false;
 }
 
-gameEngine::Button createButton(BTexture texture, BRectangle rect)
+gameEngine::Button createButton(BTexture2D texture, BRectangle rect)
 {
-
 }
 
 std::vector<gameEngine::Button> ButtonManager::getCurrentButtons() const

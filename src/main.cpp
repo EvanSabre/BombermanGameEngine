@@ -10,7 +10,6 @@
 
 int main(void)
 {
-    ColorToInt
     std::cout << "Hello from bomberman" << std::endl;
     return 0;
 }
