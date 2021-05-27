@@ -18,12 +18,14 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BCamera2D.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModel.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp
+        ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
         )
 
 set(MY_INCLUDE
         ${PROJECT_SOURCE_DIR}/include
         ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
         ${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces
+        ${PROJECT_SOURCE_DIR}/include/game/managers
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)

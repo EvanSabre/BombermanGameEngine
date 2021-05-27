@@ -11,6 +11,9 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "BColor.hpp"
+#include "BCamera.hpp"
+#include "BCamera2D.hpp"
 
 namespace gameEngine {
     namespace Interfaces {
@@ -20,12 +23,12 @@ namespace gameEngine {
 
                 virtual bool createWindow(std::string name, Vector<int> size) = 0;
                 virtual void deleteWindow(void) = 0;
-                virtual void resizeWindow(int height, int width) = 0;
+                virtual void resizeWindow(const Vector<int> &size) = 0;
 
                 virtual void setFullScreen(void) = 0;
-                virtual void setBackgroundColor(Color color) = 0;
-                virtual void set3DMode(camera camera) = 0;
-                virtual void set2DMode(camera camera) = 0;
+                virtual void setBackgroundColor(const encapsulation::BColor &color) = 0;
+                virtual void set3DMode(const encapsulation::BCamera &camera) = 0;
+                virtual void set2DMode(const encapsulation::BCamera2D &camera) = 0;
 
                 virtual Vector<int> getWindowSize() const = 0;
         };
