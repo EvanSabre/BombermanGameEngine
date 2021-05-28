@@ -9,44 +9,34 @@
 #define KEYBOARDMANAGER_HPP_
 
 #include "gameEngine/interfaces/IInputManager.hpp"
+#include "gameEngine/interfaces/IInput.hpp"
 #include <unordered_map>
+#include "raylib.h"
 #include <string>
 
-namespace game {
-
-namespace Managers {
-
-// *sera parent des classes de système d'inputKeyboardMenu, KeyboardGameplay, GamePadMenu ...
-// *EX de mappage de touches dans le jeu bomberman:
-// *  KeyboardGameplay  :    ENTER-->POSER_BOMBE
-// *  KeyboardMenu  :    ENTER-->VALIDATE_CHOICE
-// *  GamepadGameplay  :    XBOX_KEY-->PAUSE
-
-
-//dans la partie Game SuperInputManager class ? pour choisir entre plusieurs systèmes
-// ! chaque Player contient son tableau d'inputManagers et puet switch en fonction de si il est sur le menu ou en jeu
-// * exemple: Player1 --> [GamePadGameplay, GamePadMenu]
-
-template <typename K, typename V>
-class InputManager : public gameEngine::Interfaces::IInputManager
+namespace game
 {
-    public:
-        virtual InputManager(<K>keys, <V>interpret_values, std::string id={0});
-        ~InputManager();
-        bool isKeyPressed(int) final;
-        bool isKeyReleased(int) final;
-        int getKeyPressed() final;
-        bool mapKey(int key, int interpret_value) final;
-        bool mapDefaultKeys(int, int);
-        bool isConnected();
+    namespace Managers
+    {
+        template <typename E>
+        class InputManager : public gameEngine::Interfaces::IInputManager
+        {
+            public:
+                InputManager(gameEngine::interfaces::IInput *input, E interpret_values, std::string id={0}) : input(input) {}
+                ~InputManager();
+                bool isKeyPressed(int) final;
+                bool isKeyReleased(int) final;
+                int getKeyPressed() final;
+                bool mapKey(int key, E interpret_value) final;
+                bool mapDefaultKeys(int, int);
 
-    private:
-        std::unordered_map<K,V> _keymap;
-        std::string _id;
+            private:
+                std::unordered_map<int,E> _Eventsmap;
+                std::string _id;
+                gameEngine::interfaces::IInput *input;
+        };
 
-};
-
-}
+    }
 }
 
 #endif /* !KEYBOARDMANAGER_HPP_ */

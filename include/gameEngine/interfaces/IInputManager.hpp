@@ -8,10 +8,9 @@
 #ifndef INPUTMANAGER_HPP_
 #define INPUTMANAGER_HPP_
 
+
 namespace gameEngine
 {
-
-//TODO: prévoir une map(KEY_RAYLIB, FONCTION_JEU)
 namespace Interfaces
 {
 
@@ -24,6 +23,8 @@ class IInputManager
         virtual int getKeyPressed() = 0;
         virtual bool mapKey(int, int) = 0;
         virtual bool mapDefaultKeys(int, int) = 0;
+        virtual int getGamepadAxisCount(int gamepad) = 0;
+        virtual float getGamepadAxisMovement(int gamepad, int axis) = 0;
 };
 
 }

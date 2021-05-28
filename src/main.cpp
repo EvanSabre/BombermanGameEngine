@@ -5,62 +5,53 @@
 ** main
 */
 
-#include <iostream>
 #include "raylib.h"
-#include "Button.hpp"
-
-#define NUM_FRAMES 1
-
-    // Initialization
-    //--------------------------------------------------------------------------------------
-const int screenWidth = 800;
-const int screenHeight = 450;
-
-void run()
-{
-    Vector2 mousePoint = { 0.0f, 0.0f };
-    Texture2D button = LoadTexture("assets/button_test.png");
-    Vector<float> pos(screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/2.0f);
-
-    float frameHeight = (float)button.height/NUM_FRAMES;
-    Rectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
-
-    // Define button bounds on screen
-    Rectangle btnBounds = { screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/NUM_FRAMES/2.0f, (float)button.width, frameHeight };
-    gameEngine::encapsulation::BText text("Press me", {pos._x, pos._y}, WHITE, 64);
-    gameEngine::encapsulation::Button but({button.width, button.height}, pos, text, BLACK);
-    SetTargetFPS(60);
-    //--------------------------------------------------------------------------------------
-
-    // Main game loop
-     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        mousePoint = GetMousePosition();
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        but.drawButton();
-        Vector<float> mousP(mousePoint.x, mousePoint.y);
-        but.update();
-        if (but.getState() == gameEngine::encapsulation::Button::State::PRESSED)
-            but.setContentStr("I have been Pressed\n");
-        else
-            but.setContentStr("Press me!!!\n");
-        EndDrawing();
-        //----------------------------------------------------------------------------------
-    }
-}
+#include "gameEngine/encapsulation/Keyboard.hpp"
 
 int main(void)
 {
-    InitWindow(screenWidth, screenHeight, "raylib [textures] example - sprite button");
-
-    InitAudioDevice();      // Initialize audio device
-    run();
-    CloseAudioDevice();     // Close audio device
-    CloseWindow();          // Close window and OpenGL context
+    // Initialization
     //--------------------------------------------------------------------------------------
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+    gameEngine::encapsulation::Keyboard keyboard;
+
+    InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
+
+    Vector2 ballPosition = { (float)screenWidth/2, (float)screenHeight/2 };
+
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    //--------------------------------------------------------------------------------------
+
+    // Main game loop
+    while (!WindowShouldClose())    // Detect window close button or ESC key
+    {
+        // Update
+        //----------------------------------------------------------------------------------
+        if (keyboard.isKeyDown(KEY_RIGHT)) ballPosition.x += 2.0f;
+        if (keyboard.isKeyDown(KEY_LEFT)) ballPosition.x -= 2.0f;
+        if (keyboard.isKeyDown(KEY_UP)) ballPosition.y -= 2.0f;
+        if (keyboard.isKeyDown(KEY_DOWN)) ballPosition.y += 2.0f;
+        //----------------------------------------------------------------------------------
+
+        // Draw
+        //----------------------------------------------------------------------------------
+        BeginDrawing();
+
+            ClearBackground(RAYWHITE);
+
+            DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
+
+            DrawCircleV(ballPosition, 50, MAROON);
+
+        EndDrawing();
+        //----------------------------------------------------------------------------------
+    }
+
+    // De-Initialization
+    //--------------------------------------------------------------------------------------
+    CloseWindow();        // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
+
     return 0;
 }
