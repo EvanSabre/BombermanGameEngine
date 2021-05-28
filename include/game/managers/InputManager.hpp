@@ -18,12 +18,10 @@ namespace Managers {
 
 // *sera parent des classes de système d'inputKeyboardMenu, KeyboardGameplay, GamePadMenu ...
 // *EX de mappage de touches dans le jeu bomberman:
-// *  KeyboardGameplay  :    SPACE-->PAUSE
-// *  KeyboardMenu  :    SPACE-->VALIDATE_CHOICE
+// *  KeyboardGameplay  :    ENTER-->POSER_BOMBE
+// *  KeyboardMenu  :    ENTER-->VALIDATE_CHOICE
 // *  GamepadGameplay  :    XBOX_KEY-->PAUSE
 
-// ! chaque scène contiendra un ou plusieurs InputManager
-// * exemple: MainMenu --> [KeyBoardMenu, GamePadMenu]
 
 //dans la partie Game SuperInputManager class ? pour choisir entre plusieurs systèmes
 // ! chaque Player contient son tableau d'inputManagers et puet switch en fonction de si il est sur le menu ou en jeu
@@ -38,7 +36,7 @@ class InputManager : public gameEngine::Interfaces::IInputManager
         bool isKeyPressed(int) final;
         bool isKeyReleased(int) final;
         int getKeyPressed() final;
-        bool mapKey(int, int) final;
+        bool mapKey(int key, int interpret_value) final;
         bool mapDefaultKeys(int, int);
         bool isConnected();
 
