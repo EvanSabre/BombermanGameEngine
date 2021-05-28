@@ -184,7 +184,6 @@ namespace Encapsulation #fc7c60  {
 
         -std::string _path;
     }
-    class Button {}
     class Camera2d {}
     class Shader {}
     class Mesh {}
