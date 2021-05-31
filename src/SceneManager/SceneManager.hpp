@@ -16,8 +16,6 @@
 #include <iostream>
 #include "IScene.hpp"
 
-//faire un enum avec les cmd
-
 namespace Interfaces {
     class SceneManager {
     public:
