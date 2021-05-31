@@ -32,9 +32,30 @@ encapsulation::BModel::~BModel()
         this->unload();
 }
 
+encapsulation::BModel::BModel(const encapsulation::BModel &ref)
+{
+    if (isLoad())
+        this->unload();
+    this->resetObj();
+    try {
+        this->load(ref.getFilePath());
+    } catch (const std::exception &e) {
+        throw e;
+    }
+    this->_color = ref.getColor();
+    this->_pos = ref.getPos();
+    this->_scale = ref.getScale();
+}
+
 //----------------------------
 
 //GETTER
+
+float encapsulation::BModel::getScale() const noexcept
+{
+    return this->_scale;
+}
+
 
 Model encapsulation::BModel::getObj() const noexcept
 {
@@ -56,6 +77,11 @@ encapsulation::BColor encapsulation::BModel::getColor() const noexcept
 Vector3T<float> encapsulation::BModel::getPos() const noexcept
 {
     return this->_pos;
+}
+
+std::string encapsulation::BModel::getFilePath() const noexcept
+{
+    return this->_filePath;
 }
 
 //----------------------------
