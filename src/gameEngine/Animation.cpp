@@ -5,7 +5,7 @@
 ** Animation
 */
 
-#include "Animation.hpp"
+#include "gameEngine/Animation.hpp"
 
 using namespace gameEngine;
 
@@ -14,14 +14,29 @@ _model(model), _anim(anim), _frameCounter(0)
 {
 }
 
+Animation::Animation(const std::string &modelPath, const std::string &animPath, const std::string &texturePath = "") :
+_model(modelPath), _anim(animPath), _texture(texturePath)
+{
+    if (texturePath != "")
+        _model.setTexture(0, MAP_DIFFUSE, _texture);
+}
+
 Animation::~Animation()
 {
 }
 
 void Animation::updateModelAnimation()
 {
-    _frameCounter++;
-    UpdateModelAnimation(_model.getObj(), _anim.getModelAnimation(), _frameCounter);
-    if (_frameCounter >= _anim.getAnimFrameCount())
+    if (_model.isLoad() && _anim.isLoad()) {
+        _frameCounter++;
+        UpdateModelAnimation(_model.getObj(), _anim.getModelAnimation()[0], _frameCounter);
+    }
+    if (_frameCounter >= _anim.getAnimFrameCount()) {
         _frameCounter = 0;
+    }
+}
+
+void Animation::refresh()
+{
+    _model.draw();
 }

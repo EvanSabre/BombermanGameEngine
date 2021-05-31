@@ -21,6 +21,7 @@ namespace gameEngine
         {
         public:
             BTexture2D(const std::string &filePath);
+            BTexture2D();
             ~BTexture2D();
 
         //getter

@@ -26,16 +26,10 @@ void run()
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
 
-    gameEngine::encapsulation::BModel model("resources/guy/guy.iqm");
-    gameEngine::encapsulation::BTexture2D texture("resources/guy/guytex.png");
-    model.setTexture(0, MAP_DIFFUSE, texture);
-
     Vector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
 
     // Load animation data
-    gameEngine::encapsulation::BModelAnimation modelAnim("resources/guy/guyanim.iqm");
-    gameEngine::Animation animation(model, modelAnim);
-    //gameEngine::Animation animation()
+    gameEngine::Animation animation("resources/guy/guy.iqm", "resources/guy/guyanim.iqm", "resources/guy/guytex.png");
     SetCameraMode(camera, CAMERA_FREE); // Set free camera mode
 
     SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
@@ -62,9 +56,7 @@ void run()
             ClearBackground(RAYWHITE);
 
             BeginMode3D(camera);
-
-                model.draw();
-
+                animation.refresh();
                 DrawGrid(10, 1.0f);         // Draw a grid
 
             EndMode3D();

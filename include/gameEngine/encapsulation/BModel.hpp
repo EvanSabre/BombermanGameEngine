@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <cstring>
 #include "raylib.h"
 #include "BColor.hpp"
 #include "Vector3T.hpp"

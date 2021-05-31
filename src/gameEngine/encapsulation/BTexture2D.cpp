@@ -15,6 +15,11 @@ encapsulation::BTexture2D::BTexture2D(const std::string &filePath)
     this->loadFromFile(filePath);
 }
 
+encapsulation::BTexture2D::BTexture2D()
+{
+    this->resetObj();
+}
+
 encapsulation::BTexture2D::~BTexture2D()
 {
     this->unload();

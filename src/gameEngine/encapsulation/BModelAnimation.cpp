@@ -12,7 +12,13 @@ using namespace encapsulation;
 
 BModelAnimation::BModelAnimation(const std::string &filePath)
 {
+    _filePath = filePath;
     _anims = LoadModelAnimations(filePath.c_str(), &_animsCount);   
+}
+
+BModelAnimation::BModelAnimation(const BModelAnimation &ref)
+{
+    _anims = LoadModelAnimations(ref.getFilePath().c_str(), &_animsCount);
 }
 
 BModelAnimation::~BModelAnimation()
@@ -28,18 +34,30 @@ void BModelAnimation::destroyAnim()
     RL_FREE(_anims);
 }
 
-int BModelAnimation::getAnimFrameCount() const noexcept
+std::string BModelAnimation::getFilePath() const noexcept
 {
-    return _animsCount;
+    return _filePath;
 }
 
-ModelAnimation BModelAnimation::getModelAnimation() const noexcept
+int BModelAnimation::getAnimFrameCount() const noexcept
 {
-    return _anims[0];
+    return _anims[0].frameCount;
+}
+
+ModelAnimation *BModelAnimation::getModelAnimation() const noexcept
+{
+    return _anims;
 }
 
 void BModelAnimation::loadNewAnimation(const std::string &filePath)
 {
     destroyAnim();
     _anims = LoadModelAnimations(filePath.c_str(), &_animsCount);
+}
+
+bool BModelAnimation::isLoad()
+{
+    if (_anims == nullptr)
+        return false;
+    return true;
 }

@@ -24,6 +24,7 @@ encapsulation::BModel::BModel(const std::string &filepath, const Vector3T<float>
     this->_color = color;
     this->_pos = pos;
     this->_scale = scale;
+    this->_filePath = filepath;
 }
 
 encapsulation::BModel::~BModel()
@@ -34,8 +35,6 @@ encapsulation::BModel::~BModel()
 
 encapsulation::BModel::BModel(const encapsulation::BModel &ref)
 {
-    if (isLoad())
-        this->unload();
     this->resetObj();
     try {
         this->load(ref.getFilePath());
@@ -126,7 +125,6 @@ void encapsulation::BModel::setTexture(int material_idx, int maps_idx,
 {
     _model.materials[material_idx].maps[maps_idx].texture = texture.getObj();              // Set map diffuse texture
 }
-
 //-------------------------
 
 //DRAW

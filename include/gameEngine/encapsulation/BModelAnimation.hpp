@@ -16,14 +16,18 @@ namespace gameEngine {
         class BModelAnimation {
             public:
                 BModelAnimation(const std::string &filePath);
+                BModelAnimation(const BModelAnimation &ref);
                 ~BModelAnimation();
 
                 int getAnimFrameCount() const noexcept;
-                ModelAnimation getModelAnimation() const noexcept;
+                ModelAnimation *getModelAnimation() const noexcept;
+                std::string getFilePath() const noexcept;
 
+                bool isLoad();
                 void loadNewAnimation(const std::string &filePath);
-            private:
                 void destroyAnim();
+            private:
+                std::string _filePath;
                 ModelAnimation *_anims;
                 int _animsCount;
         };
