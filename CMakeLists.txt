@@ -21,6 +21,7 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp
+        ${PROJECT_SOURCE_DIR}/src/Errors.cpp
         )
 
 set(MY_INCLUDE
