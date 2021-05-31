@@ -8,10 +8,11 @@
 #ifndef WINDOWMANAGER_HPP_
 #define WINDOWMANAGER_HPP_
 
-#include "gameEngine/interfaces/IWindowManager.hpp"
-#include "Vector.hpp"
 #include <string>
 #include <vector>
+#include <iostream>
+#include "Vector.hpp"
+#include "IWindowManager.hpp"
 
 namespace game {
     namespace Managers {
@@ -22,12 +23,12 @@ namespace game {
 
                 bool createWindow(std::string name, Vector<int> size) final;
                 void deleteWindow(void) final;
-                void resizeWindow(int height, int width) final;
+                void resizeWindow(const Vector<int> &size) final;
 
                 void setFullScreen(void) final;
-                void setBackgroundColor(Color color) final;
-                void set3DMode(camera camera) final;
-                void set2DMode(camera camera) final;
+                void setBackgroundColor(const gameEngine::encapsulation::BColor &color) final;
+                void set3DMode(const gameEngine::encapsulation::BCamera &camera) final;
+                void set2DMode(const gameEngine::encapsulation::BCamera2D &camera) final;
 
                 Vector<int> getWindowSize() const final;
 
@@ -36,7 +37,7 @@ namespace game {
 
             private:
                 std::string _windowName;
-                Vector<int> _size;
+                Vector<int> _size{0, 0};
                 bool is3D;
                 bool is2D;
         };

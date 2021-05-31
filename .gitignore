@@ -1,3 +1,10 @@
 .vscode
 *.o
 *~
+CMakeCache.txt
+CPack*
+CMakeFiles/
+_deps
+cmake_install.cmake
+Makefile
+bomberman
