@@ -100,7 +100,7 @@ BRectangle Button::getFrameRect() const
 
 int Button::getNbFrames() const
 {
-    _nbFrames;
+    return _nbFrames;
 }
 
 //SETTERS
