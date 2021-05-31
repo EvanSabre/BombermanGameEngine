@@ -1,6 +1,7 @@
 .vscode
 *.o
 *~
+my_test/
 CMakeCache.txt
 CPack*
 CMakeFiles/
