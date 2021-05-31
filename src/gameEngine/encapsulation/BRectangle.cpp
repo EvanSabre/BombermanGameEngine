@@ -11,7 +11,7 @@ using namespace gameEngine;
 
 std::ostream& operator<<(std::ostream& out, const gameEngine::encapsulation::BRectangle &ref)
 {
-    out << "Rectangle : posiotion (" << ref.getX() << ", " << ref.getY() << ") ";
+    out << "Rectangle : position (" << ref.getX() << ", " << ref.getY() << ") ";
     out << "| size : (" << ref.getWidth() << ", " << ref.getHeight() << ") ";
     out << "| " << ref.getColor();
     return out;
@@ -178,4 +178,13 @@ void encapsulation::BRectangle::draw() const noexcept
 bool encapsulation::BRectangle::checkCollision(const BRectangle &other) const noexcept
 {
     return CheckCollisionRecs(this->getObj(), other.getObj());
+}
+
+bool encapsulation::BRectangle::checkPointInside(const Vector<float> &point) const noexcept
+{
+    Vector2 vec;
+
+    vec.x = point._x;
+    vec.y = point._y;
+    return CheckCollisionPointRec(vec, this->getObj());
 }

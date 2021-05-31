@@ -77,6 +77,18 @@ int encapsulation::BText::getSize() const noexcept
     return this->_size;
 }
 
+encapsulation::BFont encapsulation::BText::getFont() const noexcept
+{
+    return this->_font;
+}
+
+float encapsulation::BText::getSpacing() const noexcept
+{
+    return _spacing;
+}
+
+
+
 //--------------------------
 
 //SETTER
@@ -101,11 +113,34 @@ void encapsulation::BText::setColor(const BColor &color) noexcept
     this->_color = color;
 }
 
+void encapsulation::BText::setFont(const BFont &font) noexcept
+{
+    this->_font = font;
+}
+
+void encapsulation::BText::unloadFont() noexcept
+{
+    this->_font.unload();
+}
+
+void encapsulation::BText::setSpacing(const float &spacing) noexcept
+{
+    _spacing = spacing;
+}
+
+
 //--------------------
 
 //DRAW
 
 void encapsulation::BText::draw() const noexcept
 {
-    DrawText(_str.c_str(), _pos._x, _pos._y, _size, _color.getObj());
+    if (this->_font.isLoad()) {
+        Vector2 pos = {(float)_pos._x, (float)_pos._y};
+
+        DrawTextEx(_font.getObj(), _str.c_str(), pos, _size , _spacing,
+            _color.getObj());
+    } else {
+        DrawText(_str.c_str(), _pos._x, _pos._y, _size, _color.getObj());
+    }
 }

@@ -41,6 +41,7 @@ namespace gameEngine
 
         //draw
             void draw() const noexcept;
+            void drawRect(const BRectangle &rect, Vector<float> pos) const noexcept;
 
         private:
             Texture2D _texture;

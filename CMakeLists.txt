@@ -19,6 +19,8 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModel.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp
         ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp
         )
 
 set(MY_INCLUDE

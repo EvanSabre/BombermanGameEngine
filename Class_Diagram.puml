@@ -16,6 +16,21 @@ namespace global {
         -T _x;
         -T _y;
     }
+
+    class Vector3<T> {
+        +Vector3T(T x, T y, T Z);
+        +~Vector3T() = default;
+        +Vector3T(const Vector3T<T> &copy);
+        +bool operator==(Vector3T<T> const &other) const noexcept;
+        +bool operator!=(Vector3T<T> const &other) const noexcept;
+        +Vector3T<T> operator+(Vector3T<T> const &other) const noexcept;
+        +Vector3T<T> operator-(Vector3T<T> const &other) const noexcept;
+        +Vector3T<T> &operator=(Vector3T<T> const &other) noexcept;
+
+        -T _x;
+        -T _y;
+        -T _z;
+    }
 }
 
 namespace game {
@@ -145,46 +160,224 @@ namespace game.Objects {
 }
 
 namespace gameEngine {
-    class Button {
-        -Rectangle _border;
-        -Color _borderColor;
-        -Color _fontColor;
-        -Color _backgroundColor;
-        -Front _font;
-        -std::string _content;
-        -Vector _size;
-        -Vector _pos;
-    }
+
 
 
 namespace Encapsulation #fc7c60  {
-    class Image {}
-    class Camera {}
-
-    'Demander une precision a Julien, et remplir les class par rapport a la raylib
-    class Model {
-        +Model(const std::string &);
-        +~Model();
-        +Model loadModel(const std::string &);
-
-        -std::string _path;
+    enum ButtonState {
+        NORMAL,
+        HOVER,
+        PRESSED,
     }
-    class Button {}
-    class Camera2d {}
+    class Button {
+        +Button &operator=(const Button &ref);
+
+        +Vector<float> getPos() const;
+        +Vector<float> getSize() const;
+        +gameEngine::encapsulation::BText getContent() const;
+        +gameEngine::encapsulation::BTexture2D getTexture() const;
+        +gameEngine::encapsulation::BRectangle getRect() const;
+        +gameEngine::encapsulation::BRectangle getFrameRect() const;
+        +State getState() const;
+        +bool getButtonPressed() const;
+        +int getNbFrames() const;
+
+        +void setPos(const Vector<float> &pos);
+        +void setRotation(const float &rotation);
+        +void setSize(const Vector<float> &size);
+        +void setColor(const gameEngine::encapsulation::BColor &color);
+        +void setContentStr(const std::string &str);
+        +void setNbFrames(const int &nb);
+        +void setFrameRect(const gameEngine::encapsulation::BRectangle &rect);
+        +void setFrameRectSize(const Vector<float> &size);
+
+        +bool isInsideButton(const Vector<float> &point);
+        +bool isButtonPressed(Vector<float> mousePos);
+        +bool isButtonReleased();
+        +void update();
+        +void drawButton();
+
+        -Rectangle _rect;
+        -State state;
+        -Rectangle _frameRec;
+        -Text _content;
+        -Texture texture;
+        -Vector<float> size;
+        -Vector<float> pos;
+        -Color color;
+        -float rotation;
+    }
+    class Image {
+        +Image getObj() const noexcept;
+        +bool isLoad() const noexcept;
+        +int getWidth() const noexcept;
+        +int getHeight() const noexcept;
+        +Vector<int> getSize() const noexcept;
+        +Vector<int> getPosition() const noexcept;
+        +void load(const std::string &filpath);
+        +void unload() noexcept;
+        +void setImage(const Image &img) noexcept;
+        +void setImage(const Image &img, const Vector<int> &pos) noexcept;
+        +void setPosition(const Vector<int> &pos) noexcept;
+        +void resize(const Vector<int> &newSize) noexcept;
+        +void scale(const float &scale) noexcept;
+        +void rotateRight() noexcept;
+        +void rotateLeft() noexcept;
+        +void clearBackground(const BColor &color) noexcept;
+        +void drawPixel(const Vector<int> &pos, const BColor &color) noexcept;
+        +void drawLine(const Vector<float> &start, const Vector<float> &end, const BColor &color) noexcept;
+        +void drawCircle(const Vector<float> &center, int radius, const BColor &color) noexcept;
+        +void drawRectangle(const BRectangle &rec) noexcept;
+        +void drawText(const BText &text, const Vector<int> &pos) noexcept;
+        +void flipV() noexcept;
+        +void flipH() noexcept;
+
+        -Image _img;
+        -Vector<int> _pos{0, 0};
+    }
+
+    class Model {
+        +Model getObj() const noexcept;
+        +bool isLoad() const noexcept;
+        +BColor getColor() const noexcept;
+        +Vector3T<float> getPos() const noexcept;
+        +void load(const std::string &filepath);
+        +void unload() noexcept;
+        +void unloadKeepMesh() noexcept;
+        +void setPos(const Vector3T<float> &pos) noexcept;
+        +void setColor(const BColor &color) noexcept;
+        +void setMaterialTexture(int material_idx, int maps_idx, const BTexture2D &texture) noexcept;
+        +void draw() const noexcept;
+
+        -void resetObj() noexcept;
+        -Model _model;
+        -BColor _color{WHITE};
+        -float _scale = 0;
+        -Vector3T<float> _pos{0, 0, 0};
+    }
+    class Camera2d {
+        +BCamera2D();
+        +BCamera2D(const BCamera2D &ref);
+        +BCamera2D &operator=(const BCamera2D &ref);
+        +~BCamera2D();
+        +Camera2D getObj() const noexcept;
+        +Vector<float> getOffset() const noexcept;
+        +Vector<float> getTarget() const noexcept;
+        +float getRotation() const noexcept;
+        +float getZoom() const noexcept;
+        +void setOffset(const Vector<float> &offset) noexcept;
+        +void setTarget(const Vector<float> &target) noexcept;
+        +void setRotation(float rotation) noexcept;
+        +void rotateLeft(float value) noexcept;
+        +void rotateRight(float value) noexcept;
+        +void setZoom(float zoom) noexcept;
+        +void unzoom(float value) noexcept;
+        +void zoom(float value) noexcept;
+        +void resetObj() noexcept;
+        +void beginMode() const noexcept final;
+        +void endMode() const noexcept final;
+        
+        -Camera2D _camera;
+    }
+    class Camera {
+        +BCamera(const BCamera &ref);
+        +BCamera &operator=(const BCamera &ref);
+        +~BCamera();
+        +Camera getObj() const noexcept;
+        +void setPosition(const Vector3T<float> &pos) noexcept;
+        +void setTarget(const Vector3T<float> &target) noexcept;
+        +void setUp(const Vector3T<float> &up) noexcept;
+        +void setFovy(float fov) noexcept;
+        +void setProjection(CameraProjection projection) noexcept;
+        +void update() noexcept;
+        +void setMode(CameraMode mode) noexcept;
+        +void beginMode() const noexcept final;
+        +void endMode() const noexcept final;
+        
+        -Camera _camera;
+    }
     class Shader {}
     class Mesh {}
-    class Music {}
-    class Sound {}
-    class Color {}
+    class Music {
+        +BMusic(const std::string &filepath);
+        +BMusic(const BMusic &ref) = delete;
+        +BMusic &operator=(const BMusic &ref) = delete;
+        +~BMusic();
+        +Music getObj() const noexcept;
+        +bool isLoad() const noexcept;
+        +bool isPlaying() const noexcept;
+        +float getTimeLength() const noexcept;
+        +float getTimePlayed() const noexcept;
+        +void load(const std::string &filpath);
+        +void unload() noexcept;
+        +void play();
+        +void updateStream();
+        +void stop();
+        +void pause();
+        +void resumeStream();
+        +void setVolume(float volume);
+        +void setPitch(float pitch);
 
-    class Font {
-        +Font(const std::string &path);
-        +~Font();
-        -std::string _path;
+        -Music _music = {0};
+        -bool _load;
+    }
+    class Sound {}
+    class Color {
+        +BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+        +BColor(const Color &ref);
+        +BColor(const BColor &ref);
+        +BColor &operator=(const BColor &ref);
+        +BColor &operator=(const Color &ref);
+        +~BColor();
+        +unsigned char getRed() const noexcept;
+        +unsigned char getGreen() const noexcept;
+        +unsigned char getBlue() const noexcept;
+        +unsigned char getAlpha() const noexcept;
+        +Color getObj() const noexcept;
+        +void setRed(unsigned char value) noexcept;
+        +void setGreen(unsigned char value) noexcept;
+        +void setBlue(unsigned char value) noexcept;
+        +void setAlpha(unsigned char value) noexcept;
+        +void copy(const BColor &ref) noexcept;
+
+        -unsigned char _r;
+        -unsigned char _g;
+        -unsigned char _b;
+        -unsigned char _a;
     }
 
-    class Rectangle {}
-    class Socket {}
+    class Font {}
+
+    class Rectangle {
+        +BRectangle(const BRectangle &ref);
+        +BRectangle &operator=(const BRectangle &ref);
+        +Rectangle getObj() const noexcept;
+        +float getWidth() const noexcept;
+        +float getHeight() const noexcept;
+        +float getX() const noexcept;
+        +float getY() const noexcept;
+        +Vector<float> getSize() const noexcept;
+        +Vector<float> getPos() const noexcept;
+        +float getRotation() const noexcept;
+        +BColor getColor() const noexcept;
+        +void setX(const float &x) noexcept;
+        +void setY(const float &y) noexcept;
+        +void setWidth(const float &width) noexcept;
+        +void setHeight(const float &height) noexcept;
+        +void setSize(const Vector<float> &size) noexcept;
+        +void setPos(const Vector<float> &pos) noexcept;
+        +void setRotation(const float &rotation) noexcept;
+        +void setColor(const BColor &color) noexcept;
+        +void scale(const float &scale) noexcept;
+        +void draw() const noexcept;
+        +bool checkCollision(const BRectangle &other) const noexcept;
+        +bool checkPointInside(const Vector<float> &point) const noexcept;
+
+        -Vector<float> _pos;
+        -Vector<float> _size;
+        -float _rotation;
+        -BColor _color;
+    }
 
     class Animation {
         +Animation(Model, ModelAnimation, size_t = 0);

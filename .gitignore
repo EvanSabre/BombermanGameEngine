@@ -1,6 +1,11 @@
 .vscode
 *.o
 *~
-build/
-bomberman
 my_test/
+CMakeCache.txt
+CPack*
+CMakeFiles/
+_deps
+cmake_install.cmake
+Makefile
+bomberman
