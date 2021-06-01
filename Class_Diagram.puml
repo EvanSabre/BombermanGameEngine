@@ -137,25 +137,51 @@ namespace game.Objects {
     enum TileType {
         WALL,
         PATH,
+        BRICK,
+        COLLECTIBLE,
     }
+
     class Tile extends GameObject {
         -Texture _texture;
-        -Vector _pos;
+        -Model _model;
+        -std::Vector<std::size_t> _pos;
         -TileType _type;
     }
 
     class Map {
-        -std::vector<std::vector<Tile>> _tiles;
+        +Map(const int &size);
+
+        +void generateMap(const int &seed);
+        +void generateSeed(void);
+
+        -std::vector<std::vector<int>> _bombermap;
+        -std::vector<Tile> _tiles;
+        -std::size_t _size;
+        -std::size_t _seed;
     }
 
-    class Wall extends GameObject {
-        +Wall(bool isDestructible)
+    class ACollectible extends Tile {
+        +void powerUpCallback(Player &p);
 
-        -bool _isDestructible;
+        -Clock _clock;
     }
 
-    class Mine extends game.Objects.Droppable {}
-    class HealthPack extends game.Objects.Collectible {}
+    class Path extends Tile {
+    }
+
+    class Wall extends Tile {
+    }
+
+    class Brick extends Wall {
+        -Collectible _powerup;
+    }
+
+    class HealthUp extends ACollectible {}
+    class SpeedUp extends ACollectible {}
+    class FireUp extends ACollectible {}
+    class BombUp extends ACollectible {}
+    class BombPass extends ACollectible {}
+    class OneUp extends ACollectible {}
 
 }
 
@@ -276,7 +302,7 @@ namespace Encapsulation #fc7c60  {
         +void resetObj() noexcept;
         +void beginMode() const noexcept final;
         +void endMode() const noexcept final;
-        
+
         -Camera2D _camera;
     }
     class Camera {
@@ -293,7 +319,7 @@ namespace Encapsulation #fc7c60  {
         +void setMode(CameraMode mode) noexcept;
         +void beginMode() const noexcept final;
         +void endMode() const noexcept final;
-        
+
         -Camera _camera;
     }
     class Shader {}
@@ -464,7 +490,7 @@ namespace Interfaces #DDDDDD {
     }
 
     abstract class AFileManager implements IFileManager {}
-    
+
     'Classe qui pourrait herite de IFileManager -> JsonManager, XMLManager, OBJFileManager, ConfigManager, SaveManager
     interface IFileManager
     {
