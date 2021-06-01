@@ -276,7 +276,7 @@ namespace Encapsulation #fc7c60  {
         +void resetObj() noexcept;
         +void beginMode() const noexcept final;
         +void endMode() const noexcept final;
-        
+
         -Camera2D _camera;
     }
     class Camera {
@@ -293,7 +293,7 @@ namespace Encapsulation #fc7c60  {
         +void setMode(CameraMode mode) noexcept;
         +void beginMode() const noexcept final;
         +void endMode() const noexcept final;
-        
+
         -Camera _camera;
     }
     class Shader {}
@@ -321,7 +321,22 @@ namespace Encapsulation #fc7c60  {
         -Music _music = {0};
         -bool _load;
     }
-    class Sound {}
+    class Sound {
+        +BSound(const std::string &filepath);
+        +BSound(const BSound &ref) = delete;
+        +BSound &operator=(const BSound &ref) = delete;
+        +[[nodiscard]] Sound getObj() const noexcept;
+        +[[nodiscard]] bool isLoad() const noexcept;
+        +[[nodiscard]] bool isPlaying() const noexcept;
+        +void load(const std::string &filpath);
+        +void unload() noexcept;
+        +void play();
+        +void stop();
+        +void pause();
+        +void resumeStream();
+        +void setVolume(float volume);
+        +void setPitch(float pitch);
+    }
     class Color {
         +BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
         +BColor(const Color &ref);
@@ -464,7 +479,7 @@ namespace Interfaces #DDDDDD {
     }
 
     abstract class AFileManager implements IFileManager {}
-    
+
     'Classe qui pourrait herite de IFileManager -> JsonManager, XMLManager, OBJFileManager, ConfigManager, SaveManager
     interface IFileManager
     {
