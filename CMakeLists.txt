@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.18)
 
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
@@ -20,6 +20,7 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp
         ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/JsonParser.cpp
         )
 
 set(MY_INCLUDE
@@ -28,6 +29,7 @@ set(MY_INCLUDE
         ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
         ${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces
         ${PROJECT_SOURCE_DIR}/include/game/managers
+        ${PROJECT_SOURCE_DIR}/include/gameEngine
         )
 
 
@@ -36,14 +38,14 @@ find_package(raylib REQUIRED)
 set (Boost_NO_SYSTEM_PATHS ON)
 set (Boost_USE_MULTITHREADED ON)
 set (Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.50 REQUIRED COMPONENTS filesystem serialization system REQUIRED)
+find_package(Boost 1.75 REQUIRED COMPONENTS filesystem serialization system REQUIRED)
 message(STATUS "Boost version: ${Boost_VERSION}")
 
 
 set(MY_DEPENDENCIES
         raylib
         ${Boost_LIBRAIRIES}
-        boost_serialization
+        #boost-serialization
         )
 
 add_executable(bomberman
