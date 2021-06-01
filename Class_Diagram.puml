@@ -321,6 +321,12 @@ namespace Encapsulation #fc7c60  {
         -Music _music = {0};
         -bool _load;
     }
+    class Audio {
+        +static void init();
+        +static void close(void) noexcept;
+        +static bool isReady(void) noexcept;
+        +static void setVolume(float volume) noexcept;
+    }
     class Sound {
         +BSound(const std::string &filepath);
         +BSound(const BSound &ref) = delete;
