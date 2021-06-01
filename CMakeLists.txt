@@ -44,9 +44,9 @@ message(STATUS "Boost version: ${Boost_VERSION}")
 
 set(MY_DEPENDENCIES
         raylib
-        boost
+        #boost
         ${Boost_LIBRAIRIES}
-        boost_serialization
+        #boost_serialization
         )
 
 add_executable(bomberman
