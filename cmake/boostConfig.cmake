@@ -8,7 +8,7 @@ if (NOT boost_FOUND)
 
         FetchContent_Declare(
           boost
-          URL https://github.com/boostorg/boost/archive/refs/heads/master.zip
+          URL https://github.com/boostorg/boost/archive/refs/tags/boost-1.76.0.tar.gz
         )
         FetchContent_GetProperties(boost)
 
