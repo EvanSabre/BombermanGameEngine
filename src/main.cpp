@@ -8,7 +8,7 @@
 #include <iostream>
 #include "raylib.h"
 #include "Button.hpp"
-
+#include "gameEngine/Animation.hpp"
 #define NUM_FRAMES 1
 
     // Initialization
@@ -18,36 +18,51 @@ const int screenHeight = 450;
 
 void run()
 {
-    Vector2 mousePoint = { 0.0f, 0.0f };
-    Texture2D button = LoadTexture("assets/button_test.png");
-    Vector<float> pos(screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/2.0f);
+    // Define the camera to look into our 3d world
+    Camera camera = { 0 };
+    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera position
+    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.fovy = 45.0f;                                // Camera field-of-view Y
+    camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
 
-    float frameHeight = (float)button.height/NUM_FRAMES;
-    Rectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
+    Vector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
 
-    // Define button bounds on screen
-    Rectangle btnBounds = { screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/NUM_FRAMES/2.0f, (float)button.width, frameHeight };
-    gameEngine::encapsulation::BText text("Press me", {pos._x, pos._y}, WHITE, 64);
-    gameEngine::encapsulation::Button but({button.width, button.height}, pos, text, BLACK);
-    SetTargetFPS(60);
+    // Load animation data
+    gameEngine::Animation animation("resources/guy/guy.iqm", "resources/guy/guyanim.iqm", "resources/guy/guytex.png");
+    SetCameraMode(camera, CAMERA_FREE); // Set free camera mode
+
+    SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    while (!WindowShouldClose())        // Detect window close button or ESC key
     {
-        mousePoint = GetMousePosition();
+        // Update
+        //----------------------------------------------------------------------------------
+        UpdateCamera(&camera);
+
+        // Play animation when spacebar is held down
+        if (IsKeyDown(KEY_SPACE))
+        {
+            animation.updateModelAnimation();
+        }
+        //----------------------------------------------------------------------------------
+
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
-        ClearBackground(RAYWHITE);
-        but.drawButton();
-        Vector<float> mousP(mousePoint.x, mousePoint.y);
-        but.update();
-        if (but.getState() == gameEngine::encapsulation::Button::State::PRESSED)
-            but.setContentStr("I have been Pressed\n");
-        else
-            but.setContentStr("Press me!!!\n");
+
+            ClearBackground(RAYWHITE);
+
+            BeginMode3D(camera);
+                animation.refresh();
+                DrawGrid(10, 1.0f);         // Draw a grid
+
+            EndMode3D();
+
+            DrawText("PRESS SPACE to PLAY MODEL ANIMATION", 10, 10, 20, MAROON);
+
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
@@ -57,9 +72,7 @@ int main(void)
 {
     InitWindow(screenWidth, screenHeight, "raylib [textures] example - sprite button");
 
-    InitAudioDevice();      // Initialize audio device
     run();
-    CloseAudioDevice();     // Close audio device
     CloseWindow();          // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
     return 0;
