@@ -1,66 +1,116 @@
-/*
-** EPITECH PROJECT, 2021
-** B-YEP-400-REN-4-1-indiestudio-pol.bachelin
-** File description:
-** main
-*/
 
-#include <iostream>
+
+/*******************************************************************************************
+*
+*   raylib [models] example - Load 3d model with animations and play them
+*
+*   This example has been created using raylib 2.5 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Example contributed by Culacant (@culacant) and reviewed by Ramon Santamaria (@raysan5)
+*
+*   Copyright (c) 2019 Culacant (@culacant) and Ramon Santamaria (@raysan5)
+*
+********************************************************************************************
+*
+* To export a model from blender, make sure it is not posed, the vertices need to be in the
+* same position as they would be in edit mode.
+* and that the scale of your models is set to 0. Scaling can be done from the export menu.
+*
+********************************************************************************************/
+
 #include "raylib.h"
-#include "Button.hpp"
 
-#define NUM_FRAMES 1
+#include <stdlib.h>
 
-    // Initialization
-    //--------------------------------------------------------------------------------------
-const int screenWidth = 800;
-const int screenHeight = 450;
-
-void run()
-{
-    Vector2 mousePoint = { 0.0f, 0.0f };
-    Texture2D button = LoadTexture("assets/button_test.png");
-    Vector<float> pos(screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/2.0f);
-
-    float frameHeight = (float)button.height/NUM_FRAMES;
-    Rectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
-
-    // Define button bounds on screen
-    Rectangle btnBounds = { screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/NUM_FRAMES/2.0f, (float)button.width, frameHeight };
-    gameEngine::encapsulation::BText text("Press me", {pos._x, pos._y}, WHITE, 64);
-    gameEngine::encapsulation::Button but({button.width, button.height}, pos, text, BLACK);
-    SetTargetFPS(60);
-    //--------------------------------------------------------------------------------------
-
-    // Main game loop
-     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        mousePoint = GetMousePosition();
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        but.drawButton();
-        Vector<float> mousP(mousePoint.x, mousePoint.y);
-        but.update();
-        if (but.getState() == gameEngine::encapsulation::Button::State::PRESSED)
-            but.setContentStr("I have been Pressed\n");
-        else
-            but.setContentStr("Press me!!!\n");
-        EndDrawing();
-        //----------------------------------------------------------------------------------
-    }
-}
 
 int main(void)
 {
-    InitWindow(screenWidth, screenHeight, "raylib [textures] example - sprite button");
-
-    InitAudioDevice();      // Initialize audio device
-    run();
-    CloseAudioDevice();     // Close audio device
-    CloseWindow();          // Close window and OpenGL context
+    // Initialization
     //--------------------------------------------------------------------------------------
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+
+    InitWindow(screenWidth, screenHeight, "raylib [models] example - model animation");
+
+    // Define the camera to look into our 3d world
+    Camera camera = { 0 };
+    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera position
+    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.fovy = 45.0f;                                // Camera field-of-view Y
+    camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
+
+    Model model = LoadModel("resources/models/kaya/kaya.iqm");               // Load the animated model mesh and basic data
+    Texture2D texture = LoadTexture("resources/models/kaya/kayaTexture.png");    // Load model texture and set material
+    SetMaterialTexture(&model.materials[0], MAP_DIFFUSE, texture);  // Set model material map texture
+
+    Vector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
+
+    // Load animation data
+    int animsCount = 0;
+    ModelAnimation *anims = LoadModelAnimations("resources/models/kaya/walkingKayaAnim.iqm", &animsCount);
+    int animFrameCounter = 0;
+
+    SetCameraMode(camera, CAMERA_FREE); // Set free camera mode
+
+    SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
+    //--------------------------------------------------------------------------------------
+
+    // Main game loop
+    while (!WindowShouldClose())        // Detect window close button or ESC key
+    {
+        // Update
+        //----------------------------------------------------------------------------------
+        UpdateCamera(&camera);
+
+        // Play animation when spacebar is held down
+        if (IsKeyDown(KEY_SPACE))
+        {
+            animFrameCounter++;
+            UpdateModelAnimation(model, anims[0], animFrameCounter);
+            if (animFrameCounter >= anims[0].frameCount) animFrameCounter = 0;
+        }
+        //----------------------------------------------------------------------------------
+
+        // Draw
+        //----------------------------------------------------------------------------------
+        BeginDrawing();
+
+            ClearBackground(RAYWHITE);
+
+            BeginMode3D(camera);
+
+                DrawModelEx(model, position, (Vector3){ 1.0f, 0.0f, 0.0f }, -90.0f, (Vector3){ 1.0f, 1.0f, 1.0f }, WHITE);
+
+                for (int i = 0; i < model.boneCount; i++)
+                {
+                    DrawCube(anims[0].framePoses[animFrameCounter][i].translation, 0.2f, 0.2f, 0.2f, RED);
+                }
+
+                DrawGrid(10, 1.0f);         // Draw a grid
+
+            EndMode3D();
+
+            DrawText("PRESS SPACE to PLAY MODEL ANIMATION", 10, 10, 20, MAROON);
+            DrawText("(c) Guy IQM 3D model by @culacant", screenWidth - 200, screenHeight - 20, 10, GRAY);
+
+        EndDrawing();
+        //----------------------------------------------------------------------------------
+    }
+
+    // De-Initialization
+    //--------------------------------------------------------------------------------------
+    UnloadTexture(texture);     // Unload texture
+
+    // Unload model animations data
+    for (int i = 0; i < animsCount; i++) UnloadModelAnimation(anims[i]);
+    RL_FREE(anims);
+
+    UnloadModel(model);         // Unload model
+
+    CloseWindow();              // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
+
     return 0;
 }
