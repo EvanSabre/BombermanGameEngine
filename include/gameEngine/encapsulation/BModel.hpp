@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <cstring>
 #include "raylib.h"
 #include "BColor.hpp"
 #include "Vector3T.hpp"
@@ -29,7 +30,7 @@ namespace gameEngine
                     float scale = 1
             );
             //BModel(const std::string &filepath, const BMesh &mesh);
-            BModel(const BModel &ref) = delete;
+            BModel(const BModel &ref);
             BModel &operator=(const BModel &ref) = delete;
             ~BModel();
 
@@ -38,6 +39,8 @@ namespace gameEngine
                 [[nodiscard]] bool isLoad() const noexcept;
                 [[nodiscard]] BColor getColor() const noexcept;
                 [[nodiscard]] Vector3T<float> getPos() const noexcept;
+                [[nodiscard]] std::string getFilePath() const noexcept;
+                [[nodiscard]] float getScale() const noexcept;
 
             //setter
             // Load Model from file into CPU memory (RAM)
@@ -57,6 +60,7 @@ namespace gameEngine
                 void draw() const noexcept;
 
         private:
+            std::string _filePath;
             Model _model;
             BColor _color{WHITE};
             float _scale = 0;

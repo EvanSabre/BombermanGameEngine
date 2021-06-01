@@ -1,6 +1,7 @@
 .vscode
 *.o
 *~
+my_test/
 CMakeCache.txt
 CPack*
 CMakeFiles/
@@ -8,3 +9,4 @@ _deps
 cmake_install.cmake
 Makefile
 bomberman
+bareme_indie

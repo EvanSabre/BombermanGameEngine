@@ -10,6 +10,7 @@ project(project_bomberman
 
 set(MY_SRC
        # ${PROJECT_SOURCE_DIR}/src/Vector.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/Animation.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BRectangle.cpp
@@ -18,6 +19,7 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BCamera2D.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModel.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModelAnimation.cpp
         ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/JsonParser.cpp
@@ -26,6 +28,7 @@ set(MY_SRC
 set(MY_INCLUDE
         SYSTEM ${Boost_INCLUDE_DIR}
         ${PROJECT_SOURCE_DIR}/include
+        ${PROEJCT_SOURCE_DIR}/include/gameEngine
         ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
         ${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces
         ${PROJECT_SOURCE_DIR}/include/game/managers
@@ -34,18 +37,17 @@ set(MY_INCLUDE
 
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)
+set(boost_DIR ${PROJECT_SOURCE_DIR}/cmake)
 find_package(raylib REQUIRED)
-set (Boost_NO_SYSTEM_PATHS ON)
-set (Boost_USE_MULTITHREADED ON)
-set (Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.75 REQUIRED COMPONENTS filesystem serialization system REQUIRED)
+find_package(boost REQUIRED COMPONENTS filesystem serialization system REQUIRED)
 message(STATUS "Boost version: ${Boost_VERSION}")
 
 
 set(MY_DEPENDENCIES
         raylib
+        #boost
         ${Boost_LIBRAIRIES}
-        #boost-serialization
+        #boost_serialization
         )
 
 add_executable(bomberman
