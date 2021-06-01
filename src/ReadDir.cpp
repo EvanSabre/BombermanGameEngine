@@ -28,24 +28,44 @@ bool ReadDir::nextEntry()
 
     if (!this->_entry)
         return false;
+
+
+    ReadDir::file_info_t file;
+
     std::string entry_path =
         this->_dirPath + "/" + std::string(this->_entry->d_name);
-    stat(entry_path.c_str(), &this->_entryInfo);
+    file.path = entry_path;
+    stat(entry_path.c_str(), &file.stat);
+    file.name = std::string(this->_entry->d_name);
+    this->_dir_content.push_back(file);
     return true;
 }
 
 // getter
 const std::string ReadDir::getEntryName() const
 {
-    return std::string(this->_entry->d_name);
+    return this->_dir_content.back().name;
 }
 
 const std::string ReadDir::getEntryPath() const
 {
-    std::string path =
-        this->_dirPath + "/" + std::string(this->_entry->d_name);
-    return path;
+    return this->_dir_content.back().path;
 }
+
+const ReadDir::file_info_t ReadDir::getFileInfo() const noexcept
+{
+    return this->_dir_content.back();
+}
+
+std::vector<ReadDir::file_info_t> ReadDir::readAllDir() noexcept
+{
+    while(this->nextEntry());
+    return this->_dir_content;
+}
+
+//---------------------------
+
+//Satic Functions
 
 #include <iostream>
 #include <istream>
