@@ -5,8 +5,8 @@
 ** ReadDir
 */
 
-#ifndef READDIR_HPP_
-#define READDIR_HPP_
+#ifndef DIRECTORY_HPP_
+#define DIRECTORY_HPP_
 
 #include <sys/stat.h>
 #include <string>
@@ -14,7 +14,11 @@
 #include <vector>
 #include <stdexcept>
 
-class ReadDir {
+#include "File.hpp"
+
+
+class Directory
+{
   public:
     typedef struct file_info_t {
         struct stat stat;
@@ -22,10 +26,8 @@ class ReadDir {
         std::string path;
     } file_info_t;
 
-
-
-    explicit ReadDir(const std::string &dirpath);
-    ~ReadDir();
+    Directory(const std::string &dirpath);
+    ~Directory();
 
     // false -> end of reading
     bool nextEntry();
@@ -33,14 +35,10 @@ class ReadDir {
     // getter
     const std::string getEntryName() const;
     const std::string getEntryPath() const;
+    File getEntryAsFile() const noexcept;
     const file_info_t getFileInfo() const noexcept;
 
     std::vector<file_info_t> readAllDir() noexcept;
-
-
-    static bool isSameFile(const std::string &first, const std::string
-                                                         &second);
-
 
   private:
     std::string _dirPath;
