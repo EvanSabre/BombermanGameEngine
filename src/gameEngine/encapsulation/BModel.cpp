@@ -24,6 +24,7 @@ encapsulation::BModel::BModel(const std::string &filepath, const Vector3T<float>
     this->_color = color;
     this->_pos = pos;
     this->_scale = scale;
+    this->_filePath = filepath;
 }
 
 encapsulation::BModel::~BModel()
@@ -32,9 +33,28 @@ encapsulation::BModel::~BModel()
         this->unload();
 }
 
+encapsulation::BModel::BModel(const encapsulation::BModel &ref)
+{
+    this->resetObj();
+    try {
+        this->load(ref.getFilePath());
+    } catch (const std::exception &e) {
+        throw e;
+    }
+    this->_color = ref.getColor();
+    this->_pos = ref.getPos();
+    this->_scale = ref.getScale();
+}
+
 //----------------------------
 
 //GETTER
+
+float encapsulation::BModel::getScale() const noexcept
+{
+    return this->_scale;
+}
+
 
 Model encapsulation::BModel::getObj() const noexcept
 {
@@ -56,6 +76,11 @@ encapsulation::BColor encapsulation::BModel::getColor() const noexcept
 Vector3T<float> encapsulation::BModel::getPos() const noexcept
 {
     return this->_pos;
+}
+
+std::string encapsulation::BModel::getFilePath() const noexcept
+{
+    return this->_filePath;
 }
 
 //----------------------------
@@ -100,7 +125,6 @@ void encapsulation::BModel::setTexture(int material_idx, int maps_idx,
 {
     _model.materials[material_idx].maps[maps_idx].texture = texture.getObj();              // Set map diffuse texture
 }
-
 //-------------------------
 
 //DRAW

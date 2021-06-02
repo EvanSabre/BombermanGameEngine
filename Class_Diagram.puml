@@ -107,7 +107,6 @@ namespace game.Systems {
 namespace game.Managers {
 
     class SaveManager implements gameEngine.Interfaces.AFileManager{}
-    class MeshManager{}
     class TextureManager implements gameEngine.Interfaces.ITextureManager {}
     class TextManager implements gameEngine.Interfaces.ITextManager {}
     class WindowManager implements gameEngine.Interfaces.IWindowManager {}
@@ -186,8 +185,6 @@ namespace game.Objects {
 }
 
 namespace gameEngine {
-
-
 
 namespace Encapsulation #fc7c60  {
     enum ButtonState {
@@ -323,7 +320,6 @@ namespace Encapsulation #fc7c60  {
         -Camera _camera;
     }
     class Shader {}
-    class Mesh {}
     class Music {
         +BMusic(const std::string &filepath);
         +BMusic(const BMusic &ref) = delete;
