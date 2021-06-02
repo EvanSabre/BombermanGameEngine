@@ -33,11 +33,14 @@ class File
         void create();
         bool isAccessible() const noexcept;
 
+        bool compareConent(const File &file) const noexcept;
+
         //throw exception if file is not accessible
             std::string read() const;
             void clear() const;
             void write(const std::string &to_append) const;
             struct stat getStat() const;
+
 
     private:
         std::string _path = "";

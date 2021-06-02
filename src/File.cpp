@@ -114,3 +114,12 @@ std::string File::getNameFromPath(const std::string &path) const noexcept
     std::string name = path.substr(idx_last_slash + 1, path.size());
     return name;
 }
+
+bool File::compareConent(const File &file) const noexcept
+{
+    if (!isAccessible() || !file.isAccessible())
+        return false;
+    std::string content_one = this->read();
+    std::string content_two = file.read();
+    return (content_one == content_two);
+}
