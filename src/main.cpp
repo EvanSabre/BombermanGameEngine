@@ -30,7 +30,7 @@ int main(void)
     cam.setProjection(CAMERA_PERSPECTIVE);
 
     Map map(15);
-    // Tile path("./resources/models/castle.obj", "./resources/models/castle_diffuse.png", {0, 0, 0}, WHITE, 1, Tile::TileType::PATH);
+    map.dump();
 
     cam.setMode(CAMERA_FREE);
 
@@ -46,7 +46,6 @@ int main(void)
             window.set3DMode(cam);
             {
                 map.draw();
-                // path.getModel().draw();
                 DrawGrid(20, 10.0f);         // Draw a grid
             }
             cam.endMode();

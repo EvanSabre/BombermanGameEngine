@@ -19,8 +19,8 @@
 #define EVEN(a) !(a % 2)
 #define ODD(a)  (a % 2)
 #define SPAWN1  ((i == 1 || i == 2 || i == SIZE_X - 2 || i == SIZE_X - 3) && j == 1)
-#define SPAWN2  ((i == 1 || i == SIZE_X - 2)                              && j == 2)
-#define SPAWN3  ((i == 1 || i == SIZE_X - 2)                              && j == SIZE_Y - 3)
+#define SPAWN2  ((i == 1 || i == SIZE_X - 2) && j == 2)
+#define SPAWN3  ((i == 1 || i == SIZE_X - 2) && j == SIZE_Y - 3)
 #define SPAWN4  ((i == 1 || i == 2 || i == SIZE_X - 2 || i == SIZE_X - 3) && j == SIZE_Y - 2)
 
 #include <cstdlib>
@@ -28,9 +28,10 @@
 #include <ctime>
 #include <vector>
 #include <string>
+#include <memory>
 #include "Tile.hpp"
 
-#define BLOCKPATHOBJ (std::string)"./resources/models/mineraft/blocks/MinecraftBlock.obj"
+#define BLOCKPATHOBJ (std::string)"./resources/models/cube.obj"
 #define WALLTILEPNG  (std::string)"./resources/models/minecraft/blocks/CobbleBlock.png"
 #define BRICKTILEPNG (std::string)"./resources/models/minecraft/blocks/WoodenBlock.png"
 #define PATHTILEPNG  (std::string)"./resources/models/minecraft/blocks/GrassBlock.png"
@@ -63,10 +64,13 @@ namespace game::objects {
 
         protected:
         private:
-            std::vector<Tile> _tiles;
+            std::vector<std::unique_ptr<Tile>> _tiles;
             std::vector<std::vector<int>> _map;
             std::size_t _size;
             std::size_t _seed;
+            std::unique_ptr<Tile> _wall;
+            std::unique_ptr<Tile> _path;
+            std::unique_ptr<Tile> _brick;
     };
 }
 

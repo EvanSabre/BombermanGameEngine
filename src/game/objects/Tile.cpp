@@ -39,6 +39,14 @@ game::objects::Tile::~Tile()
 }
 
 // member functions
+game::objects::Tile &game::objects::Tile::operator=(game::objects::Tile &tile)
+{
+    setTexture(tile._texture);
+    setModel(tile._model);
+    setType(tile._type);
+    setPos(tile._pos);
+}
+
 void game::objects::Tile::createTile(const std::string &modelfilepath,
                                      const std::string &texturefilepath,
                                      const Vector3T<float> &pos,
@@ -84,7 +92,7 @@ void game::objects::Tile::setTexture(const BTexture2D &texture)
 
 void game::objects::Tile::setModel(const BModel &model)
 {
-    // _model = model;
+    _model = model;
 }
 
 void game::objects::Tile::setType(const TileType &type)

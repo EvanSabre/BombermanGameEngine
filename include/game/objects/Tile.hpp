@@ -36,6 +36,7 @@ namespace game::objects {
             ~Tile();
 
             // member functions
+            Tile &operator=(Tile &);
             void createTile(const std::string &,
                             const std::string &,
                             const Vector3T<float> &,
