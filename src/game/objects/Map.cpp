@@ -89,20 +89,20 @@ void Map::draw()
             if (_map[i][j] == MAPPATH) {
                 for (auto &it : _tiles)
                     if (it.getType() == Tile::TileType::PATH) {
-                        it.getModel().setPos({i, 0, j});
+                        it.getModel().setPosition({i, 0, j});
                         it.getModel().draw();
                     }
             }
              else if (_map[i][j] == MAPWALL) {
                 for (auto &it : _tiles)
                     if (it.getType() == Tile::TileType::WALL) {
-                        it.getModel().setPos({i, 1, j});
+                        it.getModel().setPosition({i, 1, j});
                         it.getModel().draw();
                     }
             } else if (_map[i][j] == MAPBRICK) {
                 for (auto &it : _tiles)
                     if (it.getType() == Tile::TileType::BRICK) {
-                        it.getModel().setPos({i, 1, j});
+                        it.getModel().setPosition({i, 1, j});
                         it.getModel().draw();
                     }
             }

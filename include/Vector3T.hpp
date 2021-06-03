@@ -8,6 +8,8 @@
 #ifndef VECTOR3T_HPP_
 #define VECTOR3T_HPP_
 
+#include <iostream>
+
 template <class T>
 class Vector3T {
     public:
@@ -20,12 +22,21 @@ class Vector3T {
         Vector3T<T> operator+(Vector3T<T> const &other) const noexcept;
         Vector3T<T> operator-(Vector3T<T> const &other) const noexcept;
         Vector3T<T> &operator=(Vector3T<T> const &other) noexcept;
+        Vector3T<T> operator*(Vector3T<T> const &other) const noexcept;
+        Vector3T<T> operator*(T const &ohter) const noexcept;
 
 
         T _x;
         T _y;
         T _z;
 };
+
+template <typename T>
+std::ostream &operator<<(std::ostream &s, Vector3T<T> vec)
+{
+    s << "{" << vec._x << ", " << vec._y << ", " << vec._z << "}";
+    return s;
+}
 
 //-------------------------
 
@@ -95,5 +106,28 @@ Vector3T<T> Vector3T<T>::operator-(Vector3T<T> const &other) const noexcept
     new_vec._z -= other._z;
     return new_vec;
 }
+
+template <class T>
+Vector3T<T> Vector3T<T>::operator*(Vector3T<T> const &other) const noexcept
+{
+    Vector3T<T> new_vec{_x, _y, _z};
+
+    new_vec._x *= other._x;
+    new_vec._y *= other._y;
+    new_vec._z *= other._z;
+    return new_vec;
+}
+
+template <class T>
+Vector3T<T> Vector3T<T>::operator*(T const &other) const noexcept
+{
+    Vector3T<T> new_vec{_x, _y, _z};
+
+    new_vec._x *= other;
+    new_vec._y *= other;
+    new_vec._z *= other;
+    return new_vec;
+}
+
 
 #endif /* !VECTOR3T_HPP_ */

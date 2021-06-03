@@ -47,6 +47,14 @@ void game::Managers::WindowManager::deleteWindow(void)
         CloseWindow();
 }
 
+bool game::Managers::WindowManager::isRunning() const noexcept
+{
+    if (!WindowShouldClose())
+        return true;
+    return false;
+}
+
+
 // void *game::Managers::WindowManager::getWindow(void) const
 // {
 //     return GetWindowHandle();

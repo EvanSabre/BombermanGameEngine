@@ -23,6 +23,9 @@ set(MY_SRC
        ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp
+       ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BAudio.cpp
+       ${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp
+       ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp
        ${PROJECT_SOURCE_DIR}/src/game/objects/GameObject.cpp
        ${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp
        ${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp
@@ -33,6 +36,7 @@ set(MY_INCLUDE
         ${PROJECT_SOURCE_DIR}/include
         ${PROEJCT_SOURCE_DIR}/include/gameEngine
         ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
+        ${PROJECT_SOURCE_DIR}/include/gameEngine/systems
         ${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces
         ${PROJECT_SOURCE_DIR}/include/game/managers
         ${PROJECT_SOURCE_DIR}/include/game/objects
