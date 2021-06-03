@@ -20,17 +20,18 @@ std::ostream& operator<<(std::ostream& out, const gameEngine::encapsulation::BRe
 
 encapsulation::BRectangle::BRectangle(const Vector<float> &size, const Vector<float> &pos,
                         const BColor &color, float rotation)
+    : ADrawable()
 {
-    this->_pos = pos;
-    this->_size = size;
+    this->setRectPosition(pos);
+    this->setRectSize(size);
     this->_color = color;
     this->_rotation = rotation;
 }
 
 encapsulation::BRectangle::BRectangle(const BRectangle &ref)
 {
-    this->_pos = ref.getPos();
-    this->_size = ref.getSize();
+    this->setRectPosition(ref.getRectPosition());
+    this->setRectSize(ref.getRectSize());
     this->_rotation = ref.getRotation();
     this->_color = ref.getColor();
 }
@@ -39,8 +40,8 @@ encapsulation::BRectangle &encapsulation::BRectangle::operator=(const BRectangle
 {
     if (this ==  &ref)
         return *this;
-    this->_pos = ref.getPos();
-    this->_size = ref.getSize();
+    this->setRectPosition(ref.getRectPosition());
+    this->setRectSize(ref.getRectSize());
     this->_rotation = ref.getRotation();
     this->_color = ref.getColor();
     return *this;
@@ -57,10 +58,10 @@ Rectangle encapsulation::BRectangle::getObj() const noexcept
 {
     Rectangle rec;
 
-    rec.height = this->_size._y;
-    rec.width = this->_size._x;
-    rec.x = this->_pos._x;
-    rec.y = this->_pos._y;
+    rec.height = getHeight();
+    rec.width = getWidth();
+    rec.x = getX();
+    rec.y = getY();
     return rec;
 }
 
@@ -76,12 +77,12 @@ float encapsulation::BRectangle::getHeight() const noexcept
 
 float encapsulation::BRectangle::getX() const noexcept
 {
-    return this->_pos._x;
+    return _position._x;
 }
 
 float encapsulation::BRectangle::getY() const noexcept
 {
-    return this->_pos._y;
+    return _position._y;
 }
 
 float encapsulation::BRectangle::getRotation() const noexcept
@@ -89,21 +90,15 @@ float encapsulation::BRectangle::getRotation() const noexcept
     return this->_rotation;
 }
 
-Vector<float> encapsulation::BRectangle::getSize() const noexcept
+Vector<float> encapsulation::BRectangle::getRectSize() const noexcept
 {
-    return this->_size;
+    return {_size._x, _size._y};
 }
 
-Vector<float> encapsulation::BRectangle::getPos() const noexcept
+Vector<float> encapsulation::BRectangle::getRectPosition() const noexcept
 {
-    return this->_pos;
+    return {_position._x, _position._y};
 }
-
-encapsulation::BColor encapsulation::BRectangle::getColor() const noexcept
-{
-    return this->_color;
-}
-
 
 //-----------------------------------------
 
@@ -111,12 +106,12 @@ encapsulation::BColor encapsulation::BRectangle::getColor() const noexcept
 
 void encapsulation::BRectangle::setX(const float &x) noexcept
 {
-    this->_pos._x = x;
+    this->_position._x = x;
 }
 
 void encapsulation::BRectangle::setY(const float &y) noexcept
 {
-    this->_pos._y = y;
+    this->_position._y = y;
 }
 
 void encapsulation::BRectangle::setWidth(const float &width) noexcept
@@ -124,14 +119,14 @@ void encapsulation::BRectangle::setWidth(const float &width) noexcept
     this->_size._x = width;
 }
 
-void encapsulation::BRectangle::setSize(const Vector<float> &size) noexcept
+void encapsulation::BRectangle::setRectSize(const Vector<float> &size) noexcept
 {
-    this->_size = size;
+    _size = {size._x, size._y, _size._z};
 }
 
-void encapsulation::BRectangle::setPos(const Vector<float> &pos) noexcept
+void encapsulation::BRectangle::setRectPosition(const Vector<float> &pos) noexcept
 {
-    this->_pos = pos;
+    _position = {pos._x, pos._y, _position._z};
 }
 
 void encapsulation::BRectangle::setHeight(const float &height) noexcept
@@ -144,23 +139,6 @@ void encapsulation::BRectangle::setRotation(const float &rotation) noexcept
     this->_rotation = rotation;
 }
 
-void encapsulation::BRectangle::setColor(const BColor &color) noexcept
-{
-    this->_color = color;
-}
-
-//--------------------------
-
-//TRANSFORM
-
-void encapsulation::BRectangle::scale(const float &scale) noexcept
-{
-    Vector<float> new_size = {this->_size._x, this->_size._y};
-
-    new_size._x *= scale;
-    new_size._y *= scale;
-    this->setSize(new_size);
-}
 
 //-------------------------------------
 

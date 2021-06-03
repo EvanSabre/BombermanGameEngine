@@ -28,7 +28,7 @@ _content(content)
 }
 
 Button::Button(const BTexture2D &text, const BRectangle &rect, const BText &content) :
-    _rectangle(rect), _frameRec(rect.getSize(), {0, 0}, rect.getColor(), rect.getRotation()),
+    _rectangle(rect), _frameRec(rect.getRectSize(), {0, 0}, rect.getColor(), rect.getRotation()),
     _content(content)
 {
 
@@ -60,12 +60,12 @@ Button &Button::operator=(const Button &ref)
 //GETTERS
 Vector<float> Button::getPos() const
 {
-    return _rectangle.getPos();
+    return _rectangle.getRectPosition();
 }
 
 Vector<float> Button::getSize() const
 {
-    return _rectangle.getSize();
+    return _rectangle.getRectSize();
 }
 
 BText Button::getContent() const
@@ -106,7 +106,7 @@ int Button::getNbFrames() const
 //SETTERS
 void Button::setPos(const Vector<float> &pos)
 {
-    _rectangle.setPos(pos);
+    _rectangle.setRectPosition(pos);
 }
 
 void Button::setRotation(const float &rotation)
@@ -116,7 +116,7 @@ void Button::setRotation(const float &rotation)
 
 void Button::setSize(const Vector<float> &size)
 {
-    _rectangle.setSize(size);
+    _rectangle.setRectSize(size);
 }
 
 void Button::setColor(const BColor &color)
@@ -141,7 +141,7 @@ void Button::setFrameRect(const BRectangle &rect)
 
 void Button::setFrameRectSize(const Vector<float> &size)
 {
-    _frameRec.setSize(size);
+    _frameRec.setRectSize(size);
 }
 
 //CHECKERS
@@ -186,7 +186,7 @@ void Button::update()
 void Button::drawButton()
 {
     if (_texture.isLoad())
-        _texture.drawRect(_frameRec, _rectangle.getPos());
+        _texture.drawRect(_frameRec, _rectangle.getRectPosition());
     else {
         _rectangle.draw();
         _content.draw();
