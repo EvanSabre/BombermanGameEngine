@@ -8,6 +8,8 @@
 #ifndef VECTOR3T_HPP_
 #define VECTOR3T_HPP_
 
+#include <iostream>
+
 template <class T>
 class Vector3T {
     public:
@@ -28,6 +30,13 @@ class Vector3T {
         T _y;
         T _z;
 };
+
+template <typename T>
+std::ostream &operator<<(std::ostream &s, Vector3T<T> vec)
+{
+    s << "{" << vec._x << ", " << vec._y << ", " << vec._z << "}";
+    return s;
+}
 
 //-------------------------
 
