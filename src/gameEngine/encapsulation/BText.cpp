@@ -66,16 +66,16 @@ std::string encapsulation::BText::getStr() const noexcept
     return this->_str;
 }
 
-Vector<int> encapsulation::BText::getTextPosition() const noexcept
+Vector<float> encapsulation::BText::getTextPosition() const noexcept
 {
-    Vector<int> pos = {_position._x, _position._y};
+    Vector<float> pos = {_position._x, _position._y};
 
     return pos;
 }
 
-int encapsulation::BText::getTextSize() const noexcept
+float encapsulation::BText::getTextSize() const noexcept
 {
-    return (int)TEXT_SIZE;
+    return TEXT_SIZE;
 }
 
 encapsulation::BFont encapsulation::BText::getFont() const noexcept
@@ -97,14 +97,14 @@ void encapsulation::BText::setStr(const std::string &str) noexcept
     this->_str.assign(str);
 }
 
-void encapsulation::BText::setTextSize(const int &size) noexcept
+void encapsulation::BText::setTextSize(const float &size) noexcept
 {
-    TEXT_SIZE = (float)size;
+    TEXT_SIZE = size;
 }
 
-void encapsulation::BText::setTextPosition(const Vector<int> &position) noexcept
+void encapsulation::BText::setTextPosition(const Vector<float> &position) noexcept
 {
-    this->_position = {(float)position._x, (float)position._y, _position._z};
+    this->_position = {position._x, position._y, _position._z};
 }
 
 void encapsulation::BText::setFont(const BFont &font) noexcept

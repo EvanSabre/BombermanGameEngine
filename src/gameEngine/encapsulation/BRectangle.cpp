@@ -58,8 +58,8 @@ Rectangle encapsulation::BRectangle::getObj() const noexcept
 {
     Rectangle rec;
 
-    rec.height = getHeight();
-    rec.width = getWidth();
+    rec.height = getHeight() * _scale;
+    rec.width = getWidth() * _scale;
     rec.x = getX();
     rec.y = getY();
     return rec;

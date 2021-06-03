@@ -38,8 +38,8 @@ namespace gameEngine
                 [[nodiscard]] float getSpacing() const noexcept;
 
                 //specializer of interface class
-                [[nodiscard]] Vector<int> getTextPosition() const noexcept;
-                [[nodiscard]] int getTextSize() const noexcept;
+                [[nodiscard]] Vector<float> getTextPosition() const noexcept;
+                [[nodiscard]] float getTextSize() const noexcept;
 
             //setter
                 void setStr(const std::string &str) noexcept;
@@ -48,8 +48,8 @@ namespace gameEngine
                 void unloadFont() noexcept;
 
                 //specializer of interface functions
-                void setTextPosition(const Vector<int> &position) noexcept;
-                void setTextSize(const int &size) noexcept;
+                void setTextPosition(const Vector<float> &position) noexcept;
+                void setTextSize(const float &size) noexcept;
 
             //draw
                 void draw() const noexcept;

@@ -67,7 +67,6 @@ namespace gameEngine
             //_position: use x and y (y can be use for cube with ineritance)
             //_size: use x and y
 
-
             float _rotation;
         };
     } // namespace encapsulation
