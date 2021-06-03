@@ -74,13 +74,7 @@ void Map::dump()
 void Map::generateMapTiles()
 {
     std::string obj("./resources/models/cube.obj");
-    // Tile path("./resources/models/cube.obj", "./resources/models/cube_diffuse.png", {0, 0, 0}, WHITE, 1, Tile::TileType::PATH);
-    // Tile wall("./resources/models/cube.obj", "./resources/models/cube_diffuse.png", {0, 0, 0}, WHITE, 1, Tile::TileType::WALL);
-    // Tile brck("./resources/models/cube.obj", "./resources/models/cube_diffuse.png", {0, 0, 0}, WHITE, 1, Tile::TileType::BRICK);
 
-    // _tiles.push_back(std::make_unique<Tile>(obj, png, {0, 0, 0}, WHITE, 1, Tile::TileType::PATH));
-    // _tiles.push_back(std::make_unique<Tile>(wall));
-    // _tiles.push_back(std::make_unique<Tile>(brck));
     _path = std::make_unique<Tile>(obj, PATHTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.321, Tile::TileType::PATH);
     _wall = std::make_unique<Tile>(obj, WALLTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.321, Tile::TileType::WALL);
     _brick = std::make_unique<Tile>(obj, BRICKTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.321, Tile::TileType::BRICK);
@@ -91,28 +85,12 @@ void Map::draw()
     for (std::size_t i = 0; i < SIZE_X; i++) {
         for (std::size_t j = 0; j < SIZE_Y; j++) {
             if (_map[i][j] == MAPPATH) {
-                // for (auto &it : _tiles)
-                //     if (it->getType() == Tile::TileType::PATH) {
-                //         it->getModel().setPosition({i, 0, j});
-                //         it->getModel().draw();
-                //     }
                 _path->getModel().setPosition({i, 0, j});
                 _path->getModel().draw();
-            }
-             else if (_map[i][j] == MAPWALL) {
-                // for (auto &it : _tiles)
-                //     if (it->getType() == Tile::TileType::WALL) {
-                //         it->getModel().setPosition({i, 1, j});
-                //         it->getModel().draw();
-                //     }
+            } else if (_map[i][j] == MAPWALL) {
                 _wall->getModel().setPosition({i, 1, j});
                 _wall->getModel().draw();
             } else if (_map[i][j] == MAPBRICK) {
-                // for (auto &it : _tiles)
-                //     if (it->getType() == Tile::TileType::BRICK) {
-                //         it->getModel().setPosition({i, 1, j});
-                //         it->getModel().draw();
-                //     }
                 _brick->getModel().setPosition({i, 1, j});
                 _brick->getModel().draw();
             }

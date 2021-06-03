@@ -22,7 +22,8 @@ encapsulation::BTexture2D::BTexture2D()
 
 encapsulation::BTexture2D::~BTexture2D()
 {
-    this->unload();
+    if (isLoad())
+        this->unload();
 }
 
 //-----------------------

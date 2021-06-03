@@ -32,9 +32,9 @@
 #include "Tile.hpp"
 
 #define BLOCKPATHOBJ (std::string)"./resources/models/cube.obj"
-#define WALLTILEPNG  (std::string)"./resources/models/minecraft/blocks/CobbleBlock.png"
-#define BRICKTILEPNG (std::string)"./resources/models/minecraft/blocks/WoodenBlock.png"
-#define PATHTILEPNG  (std::string)"./resources/models/minecraft/blocks/GrassBlock.png"
+#define WALLTILEPNG  (std::string)"./resources/models/minecraft/blocks/smoothStone.png"
+#define BRICKTILEPNG (std::string)"./resources/models/minecraft/blocks/oakPlank.png"
+#define PATHTILEPNG  (std::string)"./resources/models/minecraft/blocks/grassBlock.png"
 
 using namespace game::objects;
 

@@ -32,10 +32,10 @@ game::objects::Tile::Tile(const Tile &tile)
 
 game::objects::Tile::~Tile()
 {
-    if (_model.isLoad())
-        _model.unload();
-    if (_texture.isLoad())
-        _texture.unload();
+    // if (_model.isLoad())
+    //     _model.unload();
+    // if (_texture.isLoad())
+    //     _texture.unload();
 }
 
 // member functions
