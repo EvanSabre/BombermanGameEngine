@@ -11,20 +11,20 @@ using namespace gameEngine;
 
 encapsulation::BModel::BModel(const std::string &filepath, const Vector3T<float> &pos,
                                 const BColor &color, float scale)
+    : _filePath(filepath),
+      _color(color),
+      _scale(scale),
+      _pos(pos)
 {
     this->resetObj();
     try
     {
-        this->load(filepath);
+        this->load(_filePath);
     }
     catch(const std::exception& e)
     {
         throw e;
     }
-    this->_color = color;
-    this->_pos = pos;
-    this->_scale = scale;
-    this->_filePath = filepath;
 }
 
 encapsulation::BModel::~BModel()

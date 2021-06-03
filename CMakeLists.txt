@@ -23,6 +23,9 @@ set(MY_SRC
        ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp
+       ${PROJECT_SOURCE_DIR}/src/game/objects/GameObject.cpp
+       ${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp
+       ${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp
        ${PROJECT_SOURCE_DIR}/src/game/objects/Map.cpp
         )
 

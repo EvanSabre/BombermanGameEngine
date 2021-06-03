@@ -85,7 +85,7 @@ void encapsulation::BTexture2D::unload() noexcept
     if (!isLoad())
         return;
     UnloadTexture(this->_texture);
-    this->resetObj();
+    // this->resetObj();
 }
 
 //------------------
