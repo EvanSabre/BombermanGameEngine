@@ -25,6 +25,7 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BAudio.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp
         )
 
 set(MY_INCLUDE
