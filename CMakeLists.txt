@@ -23,12 +23,14 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp
         )
 
 set(MY_INCLUDE
         ${PROJECT_SOURCE_DIR}/include
         ${PROEJCT_SOURCE_DIR}/include/gameEngine
         ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
+        ${PROJECT_SOURCE_DIR}/include/gameEngine/systems
         ${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces
         ${PROJECT_SOURCE_DIR}/include/game/managers
         )
