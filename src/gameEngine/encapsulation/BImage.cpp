@@ -208,9 +208,9 @@ void encapsulation::BImage::drawText(BText text, const Vector<int> &pos) noexcep
         Vector2 vec = {pos._x, pos._y};
 
         ImageDrawTextEx(&_img, text.getFont().getObj(), text.getStr().c_str(),
-            vec, text.getSize(), text.getSpacing(), text.getColor().getObj());
+            vec, text.getTextSize(), text.getSpacing(), text.getColor().getObj());
     } else {
         ImageDrawText(&this->_img, text.getStr().c_str(), pos._x, pos._y,
-                text.getSize(), text.getColor().getObj());
+                text.getTextSize(), text.getColor().getObj());
     }
 }

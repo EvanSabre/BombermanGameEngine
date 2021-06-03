@@ -10,15 +10,15 @@
 using namespace gameEngine::encapsulation;
 using namespace gameEngine;
 
-Button::Button(const Vector<float> &size, const Vector<float> &pos, 
+Button::Button(const Vector<float> &size, const Vector<float> &pos,
                 const BText &content, const BColor &color, const std::string &textureFile,
                 float rotation, int nbFrames) :
 _rectangle(size, pos, color, rotation), _frameRec(size, {0, 0}, color, rotation),
-_content(content.getStr(), content.getPosition(), content.getColor(), content.getSize())
+_content(content)
 {
     if (textureFile != "" && content.getStr() != "") {
             BImage img(textureFile);
-            img.drawText(content, content.getPosition());
+            img.drawText(content, content.getTextPosition());
             _texture.loadFromImg(img);
     } else if (textureFile != "")
         _texture.loadFromFile(textureFile);
@@ -53,7 +53,7 @@ Button &Button::operator=(const Button &ref)
     _state = ref.getState();
     _buttonPressed = ref.getButtonPressed();
     _rectangle = ref.getRect();
-    _frameRec = ref.getFrameRect();    
+    _frameRec = ref.getFrameRect();
     return *this;
 }
 
@@ -177,7 +177,7 @@ void Button::update()
 {
     Vector2 tmp = GetMousePosition();
     Vector<float> vec(tmp.x, tmp.y);
-    
+
     isButtonPressed(vec);
     isButtonReleased();
 }
