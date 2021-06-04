@@ -10,6 +10,7 @@
 
 #include <string>
 #include "Vector3T.hpp"
+#include "Move.hpp"
 
 namespace gameEngine
 {
@@ -32,6 +33,16 @@ namespace gameEngine
 
             //put it there or make a IMovable ?
             virtual void move(const std::size_t &tick) noexcept = 0;
+
+            virtual void moveDirection(std::size_t tick,
+                const gameEngine::systems::Move::direction_e direction) = 0;
+
+            virtual void moveRight(std::size_t tick) noexcept = 0;
+            virtual void moveLeft(std::size_t tick) noexcept = 0;
+            virtual void moveForward(std::size_t tick) noexcept = 0;
+            virtual void moveBackward(std::size_t tick) noexcept = 0;
+            virtual void moveUp(std::size_t tick) noexcept = 0;
+            virtual void moveDown(std::size_t tick) noexcept = 0;
 
             //which type to put here
             //virtual ?? copy(const std::string &new_id) const noexcept = 0;

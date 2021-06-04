@@ -9,7 +9,6 @@
 #define AGAMEOBJECT_HPP_
 
 #include "IGameObject.hpp"
-#include "Move.hpp"
 
 namespace gameEngine
 {
@@ -30,6 +29,16 @@ namespace gameEngine
 
             //move
             void move(const std::size_t &tick) noexcept;
+
+            void moveDirection(std::size_t tick,
+                const gameEngine::systems::Move::direction_e direction);
+
+            void moveRight(std::size_t tick) noexcept;
+            void moveLeft(std::size_t tick) noexcept;
+            void moveForward(std::size_t tick) noexcept;
+            void moveBackward(std::size_t tick) noexcept;
+            void moveUp(std::size_t tick) noexcept;
+            void moveDown(std::size_t tick) noexcept;
 
         protected:
             Vector3T<float> _postion{0, 0, 0};
