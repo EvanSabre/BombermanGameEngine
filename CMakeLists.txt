@@ -24,8 +24,11 @@ set(MY_SRC
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BAudio.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BMusic.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BSound.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp
         ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp
+        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/AAudioObject.cpp
         )
 
 set(MY_INCLUDE
