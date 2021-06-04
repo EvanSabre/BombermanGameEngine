@@ -43,7 +43,7 @@ namespace game {
         AI
     }
 
-    class Character extends game.Systems.Moveable, game.Systems.Animable {
+    class Character extends gameEngine.Objects.AGameObject {
         -std::string _name;
     }
 
@@ -94,14 +94,6 @@ namespace game.Systems {
 
         -ModelAnimation *_animation;
     }
-
-    class Collision {
-
-    }
-
-    class Explosion {
-
-    }
 }
 
 namespace game.Managers {
@@ -125,19 +117,15 @@ namespace game.Managers {
 
 namespace game.Objects {
 
-    class GameObject {
-        int getId();
-        int id
-    }
-    class Droppable extends GameObject {}
-    class Collectible extends GameObject {}
+    class Droppable extends gameEngine.Objects.AGameObject {}
+    class Collectible extends gameEngine.Objects.AGameObject {}
     class Bomb extends Droppable {}
 
     enum TileType {
         WALL,
         PATH,
     }
-    class Tile extends GameObject {
+    class Tile extends gameEngine.Objects.AGameObject {
         -Texture _texture;
         -Vector _pos;
         -TileType _type;
@@ -147,7 +135,7 @@ namespace game.Objects {
         -std::vector<std::vector<Tile>> _tiles;
     }
 
-    class Wall extends GameObject {
+    class Wall extends gameEngine.Objects.AGameObject {
         +Wall(bool isDestructible)
 
         -bool _isDestructible;
@@ -505,6 +493,44 @@ namespace Interfaces #DDDDDD {
         +int getKeyPressed();
     }
     'Voir pour les collisions si interface necessaires
+}
+
+namespace Systems {
+    class Collision {
+    }
+}
+
+namespace Component {
+    class BoxCollider {
+        +getBoundingBox();
+        +isColliding(const BBoundingBox &ref);
+        -BBoundingBox _box;
+    }
+
+    class Transform {
+        +LookAt();
+        +Rotate(float xAngle, float yAngle, float zAngle);
+        +getPosition();
+        +getRotation();
+        +operator==;
+        +operator!=;
+        -Vector3T<float> _position;
+        -Vector3T<float> _rotation;
+    }
+}
+
+gameEngine.Component.Transform--gameEngine.Objects.AGameObject
+gameEngine.Component.BoxCollider--gameEngine.Objects.AGameObject
+namespace Objects {
+    class AGameObject {
+        +int getId();
+        +Vector3T<float> getPosition();
+        +Vector3T<float> getSpeed();
+        +OnCollisionEnter(const Collision &collision);
+        -int id;
+        -Transform _transform;
+        -BoxCollider _collider;
+    }
 }
 }
 @enduml
