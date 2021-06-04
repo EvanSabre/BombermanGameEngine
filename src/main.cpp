@@ -14,21 +14,8 @@
 
 using namespace gameEngine;
 
-int main(void)
+static void init(game::Managers::WindowManager window, encapsulation::BCamera cam)
 {
-    const int screenWidth = 960;
-    const int screenHeight = 720;
-
-    game::Managers::WindowManager window{};
-    window.createWindow("Model example", {screenWidth, screenHeight});
-
-    encapsulation::BCamera cam{};
-    cam.setPosition({50, 50, 50});
-    cam.setTarget({0, 10, 0});
-    cam.setUp({0, 1, 0});
-    cam.setFovy(45);
-    cam.setProjection(CAMERA_PERSPECTIVE);
-
     Map map(15);
     map.dump();
 
@@ -53,6 +40,25 @@ int main(void)
         }
         EndDrawing();
     }
+}
+
+int main(void)
+{
+    const int screenWidth = 960;
+    const int screenHeight = 720;
+
+    game::Managers::WindowManager window{};
+    window.createWindow("Model example", {screenWidth, screenHeight});
+
+    encapsulation::BCamera cam{};
+    cam.setPosition({50, 50, 50});
+    cam.setTarget({0, 10, 0});
+    cam.setUp({0, 1, 0});
+    cam.setFovy(45);
+    cam.setProjection(CAMERA_PERSPECTIVE);
+
+    init(window, cam);
+
     window.deleteWindow();
     return 0;
 }
