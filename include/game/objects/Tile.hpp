@@ -23,6 +23,7 @@ namespace game::objects {
                 WALL,
                 PATH,
                 BRICK,
+                BORDER,
                 COLLECTIBLE,
             };
 

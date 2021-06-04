@@ -7,11 +7,12 @@
 
 #include "Map.hpp"
 
-Map::Map(const std::size_t &size)
-    : _seed(0)
+Map::Map(const std::size_t &size, const std::size_t &seed)
+    : _seed(seed)
 {
     setSize(size);
-    generateSeed();
+    if (!_seed)
+        generateSeed();
     generateMap();
     generateMapTiles();
 }
@@ -45,10 +46,11 @@ void Map::generateMap()
     newMap();
     for (std::size_t i = 0; i < SIZE_X; i++) {
         for (std::size_t j = 0; j < SIZE_Y; j++) {
-            if (!i || !j || i == SIZE_X - 1 || j == SIZE_Y - 1 ||
-                (EVEN(i) && EVEN(j)))
-                _map[i][j] = MAPWALL; // border_walls + middle_walls
-            else if (!(std::rand() % (_size / 2)) ||
+            if (!i || !j || i == SIZE_X - 1 || j == SIZE_Y - 1)
+                _map[i][j] = MAPWALL; // border_blocks + middle_walls
+            else if (EVEN(i) && EVEN(j))
+                _map[i][j] = MAPBORDR; // walls_block + middle_walls
+            else if (!(std::rand() % (_size / 4)) ||
                 SPAWN1 || SPAWN2 || SPAWN3 || SPAWN4)
                 _map[i][j] = MAPPATH; // random_path + spawners_path
         }
@@ -73,11 +75,10 @@ void Map::dump()
 
 void Map::generateMapTiles()
 {
-    std::string obj("./resources/models/cube.obj");
-
-    _path = std::make_unique<Tile>(obj, PATHTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.321, Tile::TileType::PATH);
-    _wall = std::make_unique<Tile>(obj, WALLTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.321, Tile::TileType::WALL);
-    _brick = std::make_unique<Tile>(obj, BRICKTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.321, Tile::TileType::BRICK);
+    _path = std::make_unique<Tile>(BLOCKPATHOBJ, PATHTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.5, Tile::TileType::PATH);
+    _wall = std::make_unique<Tile>(BLOCKPATHOBJ, WALLTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.5, Tile::TileType::WALL);
+    _brick = std::make_unique<Tile>(BLOCKPATHOBJ, BRICKTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.5, Tile::TileType::BRICK);
+    _border = std::make_unique<Tile>(BLOCKPATHOBJ, BORDERTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.5, Tile::TileType::BORDER);
 }
 
 void Map::draw()
@@ -89,10 +90,19 @@ void Map::draw()
                 _path->getModel().draw();
             } else if (_map[i][j] == MAPWALL) {
                 _wall->getModel().setPosition({i, 1, j});
+                _path->getModel().setPosition({i, 0, j});
                 _wall->getModel().draw();
+                _path->getModel().draw();
             } else if (_map[i][j] == MAPBRICK) {
                 _brick->getModel().setPosition({i, 1, j});
+                _path->getModel().setPosition({i, 0, j});
                 _brick->getModel().draw();
+                _path->getModel().draw();
+            } else if (_map[i][j] == MAPBORDR) {
+                _border->getModel().setPosition({i, 1, j});
+                _path->getModel().setPosition({i, 0, j});
+                _border->getModel().draw();
+                _path->getModel().draw();
             }
         }
     }
