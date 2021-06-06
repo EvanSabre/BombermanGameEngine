@@ -204,6 +204,41 @@ namespace Encapsulation #fc7c60  {
         -Color color;
         -float rotation;
     }
+    class IDrawable {
+        +virtual gameEngine::encapsulation::BColor getColor() const noexcept;
+        +virtual Vector3T<float> getPosition() const noexcept;
+        +virtual Vector3T<float> getSize() const noexcept;
+        +virtual float getScale() const noexcept;
+        +virtual Vector3T<float> getScaledSize() const noexcept;
+
+        +virtual void setColor(const gameEngine::encapsulation::BColor &color) noexcept = 0;
+        +virtual void setPosition(const Vector3T<float> &pos) noexcept = 0;
+        +virtual void setSize(const Vector3T<float> &size) noexcept = 0;
+        +virtual void setScale(float scale) noexcept = 0;
+
+        +virtual void draw() const noexcept = 0;
+    }
+    class ADrawable {
+        +ADrawable();
+
+        +gameEngine::encapsulation::BColor getColor() const noexcept final;
+        +Vector3T<float> getPosition() const noexcept final;
+        +Vector3T<float> getSize() const noexcept final;
+        +float getScale() const noexcept final;
+        +Vector3T<float> getScaledSize() const noexcept final;
+
+        +void setColor(const gameEngine::encapsulation::BColor &color) noexcept override;
+        +void setPosition(const Vector3T<float> &pos) noexcept override;
+        +void setSize(const Vector3T<float> &size) noexcept override;
+        +void setScale(float scale) noexcept override;
+
+        +void draw() const noexcept override;
+
+        -Vector3T<float> _size{1, 1, 1};
+        -Vector3T<float> _position{0, 0, 0};
+        -gameEngine::encapsulation::BColor _color = WHITE;
+        -float _scale = 1;
+    }
     class Image {
         +Image getObj() const noexcept;
         +bool isLoad() const noexcept;
@@ -294,6 +329,19 @@ namespace Encapsulation #fc7c60  {
         -Camera _camera;
     }
     class Shader {}
+    class IAudioObject {
+        +virtual void play() = 0;
+        +virtual void stop() = 0;
+        +virtual void pause() = 0;
+        +virtual void resume() = 0;
+
+        +virtual bool isPlaying() const = 0;
+
+        +virtual float getVolume() const noexcept = 0;
+        +virtual void setVolume(float volume) = 0;
+        +virtual float getPitch() const noexcept = 0;
+        +virtual void setPitch(float pitch) = 0;
+    }
     class Music {
         +BMusic(const std::string &filepath);
         +BMusic(const BMusic &ref) = delete;
@@ -363,7 +411,22 @@ namespace Encapsulation #fc7c60  {
         -unsigned char _a;
     }
 
-    class Font {}
+    class Font {
+        +BFont();
+        +BFont(const BFont &ref);
+        +BFont &operator=(const BFont &ref);
+        +~BFont();
+
+        +[[nodiscard]] Font getObj() const noexcept;
+        +[[nodiscard]] bool isLoad() const noexcept;
+        +void loadFromFile(const std::string &filepath);
+        +void unload() noexcept;
+
+            -Font _font;
+            -std::string _filepath;
+
+            +void resetObj() noexcept;
+    }
 
     class Rectangle {
         +BRectangle(const BRectangle &ref);
