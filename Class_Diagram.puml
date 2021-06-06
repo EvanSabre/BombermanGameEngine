@@ -497,13 +497,16 @@ namespace Interfaces #DDDDDD {
 
 namespace Systems {
     class Collision {
+        +calculateCollisions(const std::vector<AGameObject> &object);
     }
 }
 
 namespace Component {
     class BoxCollider {
         +getBoundingBox();
+        +getEnabled();
         +isColliding(const BBoundingBox &ref);
+        -bool _enabled;
         -BBoundingBox _box;
     }
 
@@ -521,7 +524,15 @@ namespace Component {
 
 gameEngine.Component.Transform--gameEngine.Objects.AGameObject
 gameEngine.Component.BoxCollider--gameEngine.Objects.AGameObject
+gameEngine.Objects.Quadrants--gameEngine.Objects.AGameObject
+
 namespace Objects {
+    enum Quadrants {
+        TOP-LEFT
+        TOP-RIGHT
+        BOT-LEFT
+        BOT-RIGHT
+    }
     class AGameObject {
         +int getId();
         +Vector3T<float> getPosition();
@@ -530,6 +541,7 @@ namespace Objects {
         -int id;
         -Transform _transform;
         -BoxCollider _collider;
+        -Quadrants _quadrant;
     }
 }
 }
