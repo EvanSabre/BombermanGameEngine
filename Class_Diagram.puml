@@ -43,7 +43,7 @@ namespace game {
         AI
     }
 
-    class Character extends game.Systems.Moveable, game.Systems.Animable {
+    class Character extends gameEngine.Objects.Moveable {
         -std::string _name;
     }
 
@@ -68,19 +68,6 @@ namespace game.Scenes {
 }
 
 namespace game.Systems {
-    class Moveable {
-        +Move(Vector &pos, Vector speed = {1,1});
-        +~Move();
-        +void moveUp();
-        +void moveDown();
-        +void moveLeft();
-        +void moveRight();
-        +Vector getSpeed();
-        +void setSpeed(Vector &);
-
-        -Vector _pos;
-        -Vector _speed;
-    }
 
     class Animable {
         +Animable();
@@ -93,14 +80,6 @@ namespace game.Systems {
         +bool isModelAnimationValid();
 
         -ModelAnimation *_animation;
-    }
-
-    class Collision {
-
-    }
-
-    class Explosion {
-
     }
 }
 
@@ -125,19 +104,15 @@ namespace game.Managers {
 
 namespace game.Objects {
 
-    class GameObject {
-        int getId();
-        int id
-    }
-    class Droppable extends GameObject {}
-    class Collectible extends GameObject {}
+    class Droppable extends gameEngine.Objects.AGameObject {}
+    class Collectible extends gameEngine.Objects.AGameObject {}
     class Bomb extends Droppable {}
 
     enum TileType {
         WALL,
         PATH,
     }
-    class Tile extends GameObject {
+    class Tile extends gameEngine.Objects.AGameObject {
         -Texture _texture;
         -Vector _pos;
         -TileType _type;
@@ -147,7 +122,7 @@ namespace game.Objects {
         -std::vector<std::vector<Tile>> _tiles;
     }
 
-    class Wall extends GameObject {
+    class Wall extends gameEngine.Objects.AGameObject {
         +Wall(bool isDestructible)
 
         -bool _isDestructible;
@@ -568,6 +543,78 @@ namespace Interfaces #DDDDDD {
         +int getKeyPressed();
     }
     'Voir pour les collisions si interface necessaires
+}
+
+namespace Systems {
+    class Collision {
+        +calculateCollisions(const std::vector<AGameObject> &object);
+    }
+}
+
+namespace Component {
+
+    class Collider {
+        +getEnabled();
+        -bool _enabled;
+    }
+    class BoxCollider extends Collider {
+        +getBoundingBox();
+        +isColliding(const BBoundingBox &ref);
+        -BBoundingBox _box;
+    }
+
+    class SphereCollider extends Collider {
+        +getSphere();
+    }
+
+    class Transform {
+        +LookAt();
+        +Rotate(float xAngle, float yAngle, float zAngle);
+        +getPosition();
+        +getRotation();
+        +operator==;
+        +operator!=;
+        +operator=;
+        +operator<<;
+        -Vector3T<float> _position;
+        -Vector3T<float> _rotation;
+    }
+}
+
+gameEngine.Component.Transform--gameEngine.Objects.AGameObject
+gameEngine.Component.Collider--gameEngine.Objects.AGameObject
+gameEngine.Objects.Quadrants--gameEngine.Objects.AGameObject
+
+namespace Objects {
+    enum Quadrants {
+        TOP-LEFT
+        TOP-RIGHT
+        BOT-LEFT
+        BOT-RIGHT
+    }
+    class AGameObject {
+        +int getId();
+        +Vector3T<float> getPosition();
+        +Vector3T<float> getSpeed();
+        +OnCollisionEnter(const Collision &collision);
+        -int id;
+        -Transform _transform;
+        -Collider _collider;
+        -Quadrants _quadrant;
+    }
+
+    class Moveable extends AGameObject {
+        +Move(Vector &pos, Vector speed = {1,1});
+        +~Move();
+        +void moveUp();
+        +void moveDown();
+        +void moveLeft();
+        +void moveRight();
+        +Vector getSpeed();
+        +void setSpeed(Vector &);
+
+        -Vector _speed;
+    }
 }
 }
 @enduml

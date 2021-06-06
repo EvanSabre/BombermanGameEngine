@@ -18,8 +18,8 @@ namespace gameEngine {
                 BBoundingBox(const Vector3T<float> &min, const Vector3T<float> &max);
                 ~BBoundingBox();
 
+                bool checkCollision(const BBoundingBox &ref);
                 void setBoundingBox(const Vector3T<float> &min, const Vector3T<float> &max);
-                std::tuple<Vector3T<float>, Vector3T<float>> getBoundingBox() const;
             private:
                 BoundingBox _box;
         };
