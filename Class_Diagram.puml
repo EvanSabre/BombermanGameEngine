@@ -43,7 +43,7 @@ namespace game {
         AI
     }
 
-    class Character extends gameEngine.Objects.AGameObject {
+    class Character extends gameEngine.Objects.Moveable {
         -std::string _name;
     }
 
@@ -68,19 +68,6 @@ namespace game.Scenes {
 }
 
 namespace game.Systems {
-    class Moveable {
-        +Move(Vector &pos, Vector speed = {1,1});
-        +~Move();
-        +void moveUp();
-        +void moveDown();
-        +void moveLeft();
-        +void moveRight();
-        +Vector getSpeed();
-        +void setSpeed(Vector &);
-
-        -Vector _pos;
-        -Vector _speed;
-    }
 
     class Animable {
         +Animable();
@@ -502,12 +489,19 @@ namespace Systems {
 }
 
 namespace Component {
-    class BoxCollider {
-        +getBoundingBox();
+
+    class Collider {
         +getEnabled();
-        +isColliding(const BBoundingBox &ref);
         -bool _enabled;
+    }
+    class BoxCollider extends Collider {
+        +getBoundingBox();
+        +isColliding(const BBoundingBox &ref);
         -BBoundingBox _box;
+    }
+
+    class SphereCollider extends Collider {
+        +getSphere();
     }
 
     class Transform {
@@ -517,13 +511,15 @@ namespace Component {
         +getRotation();
         +operator==;
         +operator!=;
+        +operator=;
+        +operator<<;
         -Vector3T<float> _position;
         -Vector3T<float> _rotation;
     }
 }
 
 gameEngine.Component.Transform--gameEngine.Objects.AGameObject
-gameEngine.Component.BoxCollider--gameEngine.Objects.AGameObject
+gameEngine.Component.Collider--gameEngine.Objects.AGameObject
 gameEngine.Objects.Quadrants--gameEngine.Objects.AGameObject
 
 namespace Objects {
@@ -540,8 +536,21 @@ namespace Objects {
         +OnCollisionEnter(const Collision &collision);
         -int id;
         -Transform _transform;
-        -BoxCollider _collider;
+        -Collider _collider;
         -Quadrants _quadrant;
+    }
+
+    class Moveable extends AGameObject {
+        +Move(Vector &pos, Vector speed = {1,1});
+        +~Move();
+        +void moveUp();
+        +void moveDown();
+        +void moveLeft();
+        +void moveRight();
+        +Vector getSpeed();
+        +void setSpeed(Vector &);
+
+        -Vector _speed;
     }
 }
 }
