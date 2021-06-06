@@ -36,7 +36,7 @@ namespace gameEngine
             component::BoxCollider getCollider() const noexcept;
             Quadrants getQuadrant();
 
-            void OnCollisionEnter(AGameObject &collision) = 0;
+            virtual void OnCollisionEnter(AGameObject &collision) = 0;
             void setPostion(const Vector3T<float> &pos) noexcept;
             void setQuadrant(Quadrants quad);
         protected:
