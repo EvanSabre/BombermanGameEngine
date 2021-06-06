@@ -69,18 +69,6 @@ namespace game.Scenes {
 
 namespace game.Systems {
 
-    class Animable {
-        +Animable();
-        +~Animable();
-
-        +void loadAnim();
-        +ModelAnimation *loadModelAnimation();
-        +void updateModelAnimation();
-        +void unloadModelAnimation();
-        +bool isModelAnimationValid();
-
-        -ModelAnimation *_animation;
-    }
 }
 
 namespace game.Managers {
@@ -434,16 +422,18 @@ namespace Encapsulation #fc7c60  {
         -BColor _color;
     }
 
-    class Animation {
-        +Animation(Model, ModelAnimation, size_t = 0);
-        +~Animation();
-        +ModelAnimation *loadModelAnimation(const std::string &, int *animCount);
-        +void updateModelAnimation(Model, ModelAnimation, int);
-        +void unloadModelAnimation(ModelAnimation *, unsigned int);
-        +bool isModelAnimationValid(Model, ModelAnimation);
-        -Model _model;
-        -size_t _frameCounter;
-        -ModelAnimation *_animation;
+    class ModelAnimation {
+        +ModelAnimation(const std::string &filePath);
+        +ModelAnimation(const BModelAnimation &ref);
+        +int getAnimFrameCount() const noexcept;
+        +ModelAnimation *getModelAnimation() const noexcept;
+        +std::string getFilePath() const noexcept;
+        +bool isLoad();
+        +void loadNewAnimation(const std::string &filePath);
+        +void destroyAnim();
+        -std::string _filePath;
+        -ModelAnimation *_anims;
+        -int _animsCount;
     }
 }
 
@@ -546,9 +536,15 @@ namespace Interfaces #DDDDDD {
 }
 
 namespace Systems {
+    gameEngine.Objects.AGameObject-->gameEngine.Systems.Collision
     class Collision {
         +calculateCollisions(const std::vector<AGameObject> &object);
     }
+    gameEngine.Encapsulation.ModelAnimation--gameEngine.Systems.Animate
+    class Animate {
+        +animateAll(const std::vector<ModelAnimation> animations);
+    }
+
 }
 
 namespace Component {
