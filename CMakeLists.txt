@@ -26,6 +26,7 @@ set(MY_SRC
         )
 
 set(MY_INCLUDE
+        SYSTEM ${Boost_INCLUDE_DIR}
         ${PROJECT_SOURCE_DIR}/include
         ${PROEJCT_SOURCE_DIR}/include/gameEngine
         ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
@@ -33,11 +34,19 @@ set(MY_INCLUDE
         ${PROJECT_SOURCE_DIR}/include/game/managers
         )
 
+
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)
+set(boost_DIR ${PROJECT_SOURCE_DIR}/cmake)
 find_package(raylib REQUIRED)
+find_package(boost REQUIRED COMPONENTS filesystem serialization system REQUIRED)
+message(STATUS "Boost version: ${Boost_VERSION}")
+
 
 set(MY_DEPENDENCIES
         raylib
+        #boost
+        ${Boost_LIBRAIRIES}
+        #boost_serialization
         )
 
 add_executable(bomberman
