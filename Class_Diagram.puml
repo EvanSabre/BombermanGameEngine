@@ -73,6 +73,21 @@ namespace game.Systems {
 
 namespace game.Managers {
 
+    class InputManager implements gameEngine.Interfaces.IInputManager
+    {
+        template <typename K, typename V>
+        +virtual InputManager(<K>keys, <V>interpret_values, std::string id={0});
+        +~InputManager();
+        +bool isKeyPressed(int) final;
+        +bool isKeyReleased(int) final;
+        +int getKeyPressed() final;
+        +bool mapKey(int, int) final;
+        +bool mapDefaultKeys(int, int);
+        +bool isConnected();
+
+        -std::unordered_map<K,V> _keymap;
+        -std::string _id;
+    }
     class SaveManager implements gameEngine.Interfaces.AFileManager{}
     class TextureManager implements gameEngine.Interfaces.ITextureManager {}
     class TextManager implements gameEngine.Interfaces.ITextManager {}
@@ -528,9 +543,12 @@ namespace Interfaces #DDDDDD {
     'Classe qui pourrait herite: Keyboard, Gamepad, Mouse
     interface IInputManager
     {
-        +bool isKeyPressed(int);
-        +bool isKeyReleased(int);
-        +int getKeyPressed();
+        +virtual bool isKeyPressed(int);
+        +virtual bool isKeyReleased(int);
+        +virtual int getKeyPressed();
+        +virtual bool mapKey(int, int);
+        +virtual bool mapDefaultKeys(int, int);
+        +bool isConnected();
     }
     'Voir pour les collisions si interface necessaires
 }
@@ -562,9 +580,9 @@ namespace Component {
     class SphereCollider extends Collider {
         +getSphere();
     }
-
+\
     class Transform {
-        +LookAt();
+        +LookAt(const Transform &);
         +Rotate(float xAngle, float yAngle, float zAngle);
         +getPosition();
         +getRotation();
@@ -592,7 +610,8 @@ namespace Objects {
         +int getId();
         +Vector3T<float> getPosition();
         +Vector3T<float> getSpeed();
-        +OnCollisionEnter(const Collision &collision);
+        +virtual OnCollisionEnter(const Collision &collision) = 0;
+        +virtual Update() = 0;
         -int id;
         -Transform _transform;
         -Collider _collider;
