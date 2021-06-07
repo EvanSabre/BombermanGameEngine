@@ -100,9 +100,6 @@ struct stat File::getStat() const
     return st;
 }
 
-
-//-------------------
-
 std::string File::getNameFromPath(const std::string &path) const noexcept
 {
     size_t idx_last_slash = path.rfind("/");
