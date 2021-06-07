@@ -38,6 +38,11 @@ namespace game
             //action
             //void dropBomb() const noexcept;
 
+            //tmp for test : to delete
+                void OnCollisionEnter(const AGameObject &collision);
+                void OnCollisionExit(const AGameObject &collision);
+                void Update();
+
 
         protected:
             ssize_t _score = 0;

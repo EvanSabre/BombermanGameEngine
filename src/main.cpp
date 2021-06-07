@@ -6,10 +6,14 @@
 */
 
 #include "raylib.h"
+#include <iostream>
 #include "gameEngine/encapsulation/Keyboard.hpp"
+#include "Player.hpp"
 
 int main(void)
 {
+    game::objects::Player player{"p1", "test_name"};
+  //  player.setSpeed({1, 1, 1});
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -45,6 +49,8 @@ int main(void)
             DrawCircleV(ballPosition, 50, MAROON);
 
         EndDrawing();
+        player.handleKeyEvent();
+        std::cout << "postion" << player.getPosition() << std::endl;
         //----------------------------------------------------------------------------------
     }
 

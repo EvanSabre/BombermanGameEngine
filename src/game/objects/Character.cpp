@@ -45,3 +45,8 @@ void objects::Character::subScore(const size_t value) noexcept
 {
     this->_score -= value;
 }
+
+
+void objects::Character::OnCollisionEnter(const AGameObject &collision) {}
+void objects::Character::OnCollisionExit(const AGameObject &collision) {}
+void objects::Character::Update() {}

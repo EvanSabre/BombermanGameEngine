@@ -34,7 +34,7 @@ namespace gameEngine {
                 void moveUp(std::size_t tick) noexcept;
                 void moveDown(std::size_t tick) noexcept;
             protected:
-                Vector3T<float> _speed{0, 0, 0};
+                Vector3T<float> _speed{1, 1, 1};
             private:
         };
     }
