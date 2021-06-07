@@ -27,11 +27,6 @@ int game::Managers::InputManager::getKeyPressed()
     return input->getKeyPressed()
 }
 
-template <typename E>
-bool game::Managers::InputManager::mapKey(int key, E interpret_value)
-{
-    
-}
 
 bool game::Managers::InputManager::mapDefaultKeys(int, int)
 {

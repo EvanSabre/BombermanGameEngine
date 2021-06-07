@@ -39,4 +39,10 @@ namespace game
     }
 }
 
+template <typename E>
+bool game::Managers::InputManager::mapKey(int key, E interpret_value)
+{
+    
+}
+
 #endif /* !KEYBOARDMANAGER_HPP_ */
