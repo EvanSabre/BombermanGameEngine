@@ -41,7 +41,9 @@ Button::Button(const BTexture2D &text, const BRectangle &rect, const BText &cont
 }
 
 Button::~Button()
-{}
+{
+    std::cout << "Destroy Button\n";
+}
 
 Button &Button::operator=(const Button &ref)
 {

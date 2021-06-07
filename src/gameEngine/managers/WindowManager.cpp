@@ -49,6 +49,16 @@ void WindowManager::deleteWindow(void)
         CloseWindow();
 }
 
+void WindowManager::BeginDraw()
+{
+    BeginDrawing();
+}
+
+void WindowManager::EndDraw()
+{
+    EndDrawing();
+}
+
 bool WindowManager::isRunning() const noexcept
 {
     if (!WindowShouldClose())

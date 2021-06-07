@@ -26,6 +26,8 @@ namespace gameEngine {
                 void resizeWindow(const Vector<int> &size) final;
                 bool isRunning() const noexcept final;
 
+                void BeginDraw() override;
+                void EndDraw() override;
                 void setFullScreen(void) final;
                 void setBackgroundColor(const gameEngine::encapsulation::BColor &color) final;
                 void set3DMode(const gameEngine::encapsulation::BCamera &camera) final;

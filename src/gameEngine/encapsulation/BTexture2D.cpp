@@ -22,6 +22,7 @@ encapsulation::BTexture2D::BTexture2D()
 
 encapsulation::BTexture2D::~BTexture2D()
 {
+    std::cout << "Destroying texture\n";
     this->unload();
 }
 

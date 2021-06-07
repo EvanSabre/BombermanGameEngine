@@ -9,16 +9,12 @@
 #include "gameEngine/encapsulation/Keyboard.hpp"
 #include "gameEngine/DLLoader.hpp"
 #include "game/scenes/MainMenuScene.hpp"
+#include <memory>
 
 int main(void)
 {
-    DLLoader<game::scenes::MainMenuScene> loader(std::string("game_lib.so"));
+    std::shared_ptr<gameEngine::interfaces::IScene> menu = std::make_shared<game::scenes::MainMenuScene>();
 
-    game::scenes::MainMenuScene *menu = loader.getInstance();
-    if (menu == NULL) {
-        std::cout << "error\n";
-        return 0;
-    }
     menu->start();
     menu->update();
     return 0;

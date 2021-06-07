@@ -14,12 +14,14 @@ ButtonManager::ButtonManager()
 {}
 
 ButtonManager::~ButtonManager()
-{}
+{
+    std::cout << "ButtonManager destroy\n";
+}
 
 bool ButtonManager::isButtonClicked(const Vector<float> &pos)
 {
     for (auto it : _currentButtons) {
-        if (it.isButtonPressed(pos))
+        if (it->isButtonPressed(pos))
             return true;
     }
     return false;
@@ -28,7 +30,7 @@ bool ButtonManager::isButtonClicked(const Vector<float> &pos)
 bool ButtonManager::isButtonClicked(const std::string &buttonContent, const Vector<float> &mousePos)
 {
     for (auto it : _currentButtons) {
-        if (it.getContent().getStr() == buttonContent && it.isButtonPressed(mousePos))
+        if (it->getContent().getStr() == buttonContent && it->isButtonPressed(mousePos))
             return true;
     }
     return false;
@@ -45,12 +47,17 @@ std::shared_ptr<gameEngine::encapsulation::Button> ButtonManager::getClickedButt
 
 gameEngine::encapsulation::Button ButtonManager::createButton(const BTexture2D &texture, const BRectangle &rect, const BText &content)
 {
-    Button button(texture, rect, content);
+    std::shared_ptr<Button> button = std::make_shared<Button>(texture, rect, content);
 
     _currentButtons.push_back(button);
 }
 
-std::vector<gameEngine::encapsulation::Button> ButtonManager::getCurrentButtons() const
+void ButtonManager::pushButton(std::shared_ptr<gameEngine::encapsulation::Button> button)
+{
+    _currentButtons.push_back(button);
+}
+
+std::vector<std::shared_ptr<gameEngine::encapsulation::Button>> ButtonManager::getCurrentButtons() const
 {
     return _currentButtons;
 }
@@ -58,13 +65,13 @@ std::vector<gameEngine::encapsulation::Button> ButtonManager::getCurrentButtons(
 void ButtonManager::drawButtons()
 {
     for (auto it : _currentButtons) {
-        it.drawButton();
+        it->drawButton();
     }
 }
 
 void ButtonManager::updateButtons()
 {
     for (auto it : _currentButtons) {
-        it.update();
+        it->update();
     }
 }

@@ -3,12 +3,15 @@ cmake_minimum_required(VERSION 3.17)
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_COLOR_MAKEFILE ON)
+
 project(project_bomberman
         LANGUAGES CXX
         DESCRIPTION "Bomberman like game"
         )
 
-set(MY_SRC
+set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/Animation.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp"
@@ -39,6 +42,10 @@ set(MY_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         )
 
+set(GAME_SRC
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
+        )
+
 set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include"
         "${PROJECT_SOURCE_DIR}/include/gameEngine"
@@ -52,7 +59,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         )
 
-set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)
+set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
 find_package(raylib REQUIRED)
 
 set(MY_DEPENDENCIES
@@ -62,10 +69,9 @@ set(MY_DEPENDENCIES
 
 add_executable(bomberman
         ${PROJECT_SOURCE_DIR}/src/main.cpp
-        ${MY_SRC}
+        ${GAMEENGINE_SRC}
+        ${GAME_SRC}
         )
-
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/game)
 
 set_target_properties(bomberman
         PROPERTIES

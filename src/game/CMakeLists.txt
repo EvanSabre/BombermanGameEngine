@@ -24,6 +24,11 @@ set(MYLIB_INCLUDE
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/../../cmake)
 find_package(raylib REQUIRED)
 
+set(MY_DEPENDENCIES
+        raylib
+        )
+
 add_library(gameLib SHARED ${MYLIB_SRC})
 
+target_link_libraries(gameLib ${MY_DEPENDENCIES})
 target_include_directories(gameLib BEFORE PUBLIC ${MYLIB_INCLUDE})
