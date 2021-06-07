@@ -18,7 +18,7 @@
 class File
 {
     public:
-        File(const std::string &path);
+        File(const std::string &path, bool force_creation=false);
         ~File();
 
         //getter
@@ -30,19 +30,18 @@ class File
 
         //return all file content
         //did nothing if file allready accessible
-        void create();
         bool isAccessible() const noexcept;
-
-        bool compareConent(const File &file) const noexcept;
+        bool compareContent(const File &file) const noexcept;
 
         //throw exception if file is not accessible
         std::string read() const;
         void clear() const;
-        void write(const std::string &to_append) const;
+        void write(const std::string &to_append, bool rewrite=false) const;
         struct stat getStat() const;
 
 
     private:
+        void create();
         std::string _path = "";
         std::string _name = "";
 

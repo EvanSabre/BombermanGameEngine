@@ -15,14 +15,17 @@ std::ostream& operator<<(std::ostream& out, const File &file)
     return out;
 }
 
-File::File(const std::string &path)
+File::File(const std::string &path, bool force_creation)
 {
     this->_path = path;
-    if (this->isAccessible()) {
+    if (this->isAccessible())
         this->_name = this->getNameFromPath(this->_path);
-    } else {
+    else if (force_creation) {
+        this->create();
         this->_name = this->_path;
     }
+    else
+        this->_name = this->_path;
 }
 
 File::~File()
@@ -39,9 +42,6 @@ std::string File::getName() const noexcept
     return this->_name;
 }
 
-
-//----------------
-
 void File::create()
 {
     if (this->isAccessible())
@@ -54,9 +54,6 @@ bool File::isAccessible() const noexcept
 {
     return (access(_path.c_str(), F_OK ) != -1 );
 }
-
-
-//-------------------
 
 std::string File::read() const
 {
@@ -72,6 +69,7 @@ std::string File::read() const
     } else {
         throw std::runtime_error("Fiel : Is not accessible");
     }
+    file.close();
     return content;
 }
 
@@ -82,11 +80,16 @@ void File::clear() const
     std::ofstream file{this->_path , std::ofstream::out | std::ofstream::trunc};
 }
 
-void File::write(const std::string &to_append) const
+void File::write(const std::string &to_append, bool rewrite) const
 {
+    std::ofstream file;
+
     if (!isAccessible())
         throw std::runtime_error("Fiel : Is not accessible");
-    std::ofstream file{this->_path};
+    if (rewrite)
+        file.open(this->_path);
+    else
+        file.open(this->_path, std::ios::app);
     file << to_append;
 }
 
@@ -112,7 +115,7 @@ std::string File::getNameFromPath(const std::string &path) const noexcept
     return name;
 }
 
-bool File::compareConent(const File &file) const noexcept
+bool File::compareContent(const File &file) const noexcept
 {
     if (!isAccessible() || !file.isAccessible())
         return false;

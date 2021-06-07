@@ -6,14 +6,25 @@
 */
 
 #include "Directory.hpp"
+#include <string.h>
 
-Directory::Directory(const std::string &dirpath)
+#ifdef __WIN32__
+    #define SEP "\\"
+#else
+    #define SEP "/"
+#endif
+
+Directory::Directory(const std::string &dirpath, bool force_creation)
 {
     this->_dirPath = dirpath;
     this->_directory = opendir(dirpath.c_str());
-    if (!this->_directory)
+    if (!this->_directory && !force_creation)
         throw std::invalid_argument(
             std::string("Read Dir: fail to open directory ") + dirpath);
+    else if (!this->_directory && !force_creation)
+    {
+
+    }
     this->_entry = nullptr;
 }
 
@@ -26,38 +37,40 @@ bool Directory::nextEntry()
 {
     this->_entry = readdir(this->_directory);
 
-    if (!this->_entry)
+    if (!this->_entry->d_type)
         return false;
 
-
-    Directory::file_info_t file;
-
-    std::string entry_path =
-        this->_dirPath + "/" + std::string(this->_entry->d_name);
-    file.path = entry_path;
-    stat(entry_path.c_str(), &file.stat);
-    file.name = std::string(this->_entry->d_name);
+    const std::string path(this->_dirPath + "/" + std::string(this->_entry->d_name));
+    File file(path);
     this->_dir_content.push_back(file);
     return true;
 }
 
-// getter
 const std::string Directory::getEntryName() const
 {
-    return this->_dir_content.back().name;
+    return this->_dir_content.back().getName();
 }
 
 const std::string Directory::getEntryPath() const
 {
-    return this->_dir_content.back().path;
+    return this->_dir_content.back().getPath();
 }
 
-const Directory::file_info_t Directory::getFileInfo() const noexcept
+File &Directory::loadFile(const std::string &filename, bool force_creation)
 {
-    return this->_dir_content.back();
+    for (auto &i : this->_dir_content) {
+        if (filename == i.getName())
+            return i;
+    }
+    if (force_creation) {
+        File file(this->_dirPath + SEP + filename, force_creation);
+        _dir_content.push_back(file);
+        return _dir_content.back();
+    }
+    throw std::runtime_error("File not found and doesn't want to be created");
 }
 
-std::vector<Directory::file_info_t> Directory::readAllDir() noexcept
+std::vector<File> Directory::getAllDirFiles() noexcept
 {
     while(this->nextEntry());
     return this->_dir_content;
@@ -65,6 +78,6 @@ std::vector<Directory::file_info_t> Directory::readAllDir() noexcept
 
 File Directory::getEntryAsFile() const noexcept
 {
-    File file{getEntryPath()};
+    File file{getEntryPath(), false};
     return file;
 }

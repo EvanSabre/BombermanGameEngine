@@ -26,7 +26,7 @@ class Directory
         std::string path;
     } file_info_t;
 
-    Directory(const std::string &dirpath);
+    Directory(const std::string &dirpath, bool force_creation=false);
     ~Directory();
 
     // false -> end of reading
@@ -35,17 +35,17 @@ class Directory
     // getter
     const std::string getEntryName() const;
     const std::string getEntryPath() const;
-    File getEntryAsFile() const noexcept;
-    const file_info_t getFileInfo() const noexcept;
+    std::vector<File> getAllDirFiles() noexcept;
 
-    std::vector<file_info_t> readAllDir() noexcept;
+    File &loadFile(const std::string &filename, bool force_creation=false);
+    File getEntryAsFile() const noexcept;
 
   private:
     std::string _dirPath;
     DIR *_directory = nullptr;
     struct dirent *_entry = nullptr;
     struct stat _entryInfo;
-    std::vector<file_info_t> _dir_content;
+    std::vector<File> _dir_content;
 };
 
 #endif /* !READDIR_HPP_ */
