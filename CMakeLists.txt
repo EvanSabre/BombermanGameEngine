@@ -9,7 +9,6 @@ project(project_bomberman
         )
 
 set(MY_SRC
-       # ${PROJECT_SOURCE_DIR}/src/Vector.cpp
         "${PROJECT_SOURCE_DIR}/src/gameEngine/Animation.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp"
