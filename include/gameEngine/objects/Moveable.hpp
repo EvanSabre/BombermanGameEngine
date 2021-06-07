@@ -12,7 +12,7 @@
 
 namespace gameEngine {
     namespace objects {
-        class Moveable : AGameObject {
+        class Moveable : public AGameObject {
             public:
                 Moveable(const std::string &id);
                 ~Moveable();
