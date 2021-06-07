@@ -29,6 +29,16 @@ void Transform::Rotate(float xAngle, float yAngle, float zAngle)
 
 }
 
+void Transform::setPosition(const Vector3T<float> &pos)
+{
+    _position = pos;
+}
+
+void Transform::setRotation(const Vector3T<float> &rot)
+{
+    _rotation = rot;
+}
+
 Vector3T<float> Transform::getPosition() const
 {
     return _position;

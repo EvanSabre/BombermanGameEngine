@@ -39,4 +39,4 @@ namespace gameEngine {
         };
     }
 }
-#endif /* !TRANSFORM_HPP_ *
+#endif /* !TRANSFORM_HPP_ */

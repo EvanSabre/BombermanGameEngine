@@ -15,13 +15,14 @@ Collision::Collision()
 Collision::~Collision()
 {}
 
-void Collision::calculateCollisions(const std::vector<gameEngine::objects::AGameObject> &objects)
+void Collision::calculateCollisions(std::vector<gameEngine::objects::AGameObject> &objects)
 {
-    for (auto it : objects) {
-        for (auto jt : objects) {
-            if (it.getId() != jt.getId() && it.getQuadrant() == jt.getQuadrant()
-            && it.getCollider().isColliding(jt.getCollider().getBoundingBox())) {
-                it.OnCollisionEnter(jt);
+    for (auto it = objects.begin(); it != objects.end(); it++) {
+        for (auto jt = objects.begin(); it != objects.end(); it++) {
+
+            if (it->getId() != jt->getId() && it->getQuadrant() == jt->getQuadrant()
+            && it->getCollider().isColliding(jt->getCollider().getBoundingBox())) {
+                it->OnCollisionEnter(*jt);
             }
         }
     }

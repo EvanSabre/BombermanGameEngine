@@ -562,9 +562,9 @@ namespace Component {
     class SphereCollider extends Collider {
         +getSphere();
     }
-
+\
     class Transform {
-        +LookAt();
+        +LookAt(const Transform &);
         +Rotate(float xAngle, float yAngle, float zAngle);
         +getPosition();
         +getRotation();
@@ -592,7 +592,8 @@ namespace Objects {
         +int getId();
         +Vector3T<float> getPosition();
         +Vector3T<float> getSpeed();
-        +OnCollisionEnter(const Collision &collision);
+        +virtual OnCollisionEnter(const Collision &collision) = 0;
+        +virtual Update() = 0;
         -int id;
         -Transform _transform;
         -Collider _collider;

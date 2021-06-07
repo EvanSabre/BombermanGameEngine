@@ -41,7 +41,8 @@ set(MY_SRC
 
 set(MY_INCLUDE
         ${PROJECT_SOURCE_DIR}/include
-        ${PROEJCT_SOURCE_DIR}/include/gameEngine
+        ${PROJECT_SOURCE_DIR}/include/gameEngine
+        ${PROJECT_SOURCE_DIR}/include/gameEngine/objects
         ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
         ${PROJECT_SOURCE_DIR}/include/gameEngine/systems
         ${PROJECT_SOURCE_DIR}/include/gameEngine/component

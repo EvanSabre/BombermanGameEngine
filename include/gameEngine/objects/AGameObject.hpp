@@ -8,11 +8,13 @@
 #ifndef AGAMEOBJECT_HPP_
 #define AGAMEOBJECT_HPP_
 
-#include "IGameObject.hpp"
+#include <string>
+#include "Vector3T.hpp"
+#include "Move.hpp"
 #include "Transform.hpp"
 #include "BoxCollider.hpp"
 
-typedef enum class Quadrants {
+enum class Quadrants {
     TOP_RIGHT,
     TOP_LEFT,
     BOT_RIGHT,
@@ -24,7 +26,7 @@ namespace gameEngine
 {
     namespace objects
     {
-        class AGameObject : public gameEngine::interfaces::IGameObject
+        class AGameObject
         {
         public:
             AGameObject(const std::string &id, const Vector3T<float> &pos = {0, 0, 0}, const Vector3T<float> &rot = {0, 0, 0},
@@ -34,9 +36,12 @@ namespace gameEngine
             Vector3T<float> getPosition() const noexcept;
             const std::string getId() const noexcept;
             component::BoxCollider getCollider() const noexcept;
-            Quadrants getQuadrant();
+            Quadrants getQuadrant() const noexcept;
 
-            virtual void OnCollisionEnter(AGameObject &collision) = 0;
+            virtual void OnCollisionEnter(const AGameObject &collision) = 0;
+            virtual void OnCollisionExit(const AGameObject &collision) = 0;
+            virtual void Update() = 0;
+
             void setPostion(const Vector3T<float> &pos) noexcept;
             void setQuadrant(Quadrants quad);
         protected:
