@@ -11,6 +11,7 @@
 #include "BRectangle.hpp"
 #include "BImage.hpp"
 #include "BTexture2D.hpp"
+#include "IDrawable.hpp"
 
 #include <unistd.h>
 #include <fstream>
@@ -48,6 +49,10 @@ int main(void)
    // Image my_img = LoadImage("./assets/test_image.png");
    // Texture2D texture = LoadTextureFromImage(img.getObj());
 
+    interfaces::IDrawable *my_int_text =  &text;
+    my_int_text->setPosition({100, 100, 0});
+    my_int_text->setScale(2);
+
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
@@ -64,6 +69,8 @@ int main(void)
         //DrawTexture(texture, 0, 0, WHITE);
         my_texture.draw();
         text.draw();
+        my_int_text->draw();
+
         EndDrawing();
         //----------------------------------------------------------------------------------
     }

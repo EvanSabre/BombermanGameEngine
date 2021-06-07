@@ -13,13 +13,14 @@
 #include <stdexcept>
 #include "raylib.h"
 #include "Vector.hpp"
-#include "BColor.hpp"
+
+#include "ADrawable.hpp"
 
 namespace gameEngine
 {
     namespace encapsulation
     {
-        class BRectangle
+        class BRectangle : public gameEngine::encapsulation::ADrawable
         {
         public:
             BRectangle(const Vector<float> &size,
@@ -37,37 +38,36 @@ namespace gameEngine
                 [[nodiscard]] float getHeight() const noexcept;
                 [[nodiscard]] float getX() const noexcept;
                 [[nodiscard]] float getY() const noexcept;
-                [[nodiscard]] Vector<float> getSize() const noexcept;
-                [[nodiscard]] Vector<float> getPos() const noexcept;
                 [[nodiscard]] float getRotation() const noexcept;
-                [[nodiscard]] BColor getColor() const noexcept;
+
+                //specializer of Abstract class Functions
+                [[nodiscard]] Vector<float> getRectSize() const noexcept;
+                [[nodiscard]] Vector<float> getRectPosition() const noexcept;
 
             //setter
                 void setX(const float &x) noexcept;
                 void setY(const float &y) noexcept;
                 void setWidth(const float &width) noexcept;
                 void setHeight(const float &height) noexcept;
-                void setSize(const Vector<float> &size) noexcept;
-                void setPos(const Vector<float> &pos) noexcept;
                 void setRotation(const float &rotation) noexcept;
-                void setColor(const BColor &color) noexcept;
 
-            //transform
-                void scale(const float &scale) noexcept;
+                //specializer of abstract class methods
+                void setRectPosition(const Vector<float> &pos) noexcept;
+                void setRectSize(const Vector<float> &size) noexcept;
 
             //draw
-                void draw() const noexcept;
+                void draw() const noexcept override;
 
             //collision
                 bool checkCollision(const BRectangle &other) const noexcept;
                 bool checkPointInside(const Vector<float> &point) const noexcept;
 
-        protected:
         private:
-            Vector<float> _pos{0, 0};
-            Vector<float> _size{0, 0};
+            //abstract class variables:
+            //_position: use x and y (y can be use for cube with ineritance)
+            //_size: use x and y
+
             float _rotation;
-            BColor _color;
         };
     } // namespace encapsulation
 
