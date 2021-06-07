@@ -7,7 +7,7 @@
 
 #include "raylib.h"
 #include "gameEngine/encapsulation/Keyboard.hpp"
-#include "game/managers/AFileManager.hpp"
+#include "gameEngine/managers/AFileManager.hpp"
 
 int main(void)
 {
@@ -16,7 +16,6 @@ int main(void)
     const int screenWidth = 800;
     const int screenHeight = 450;
     gameEngine::encapsulation::Keyboard keyboard;
-    //game::managers::AFileManager::checkFileExist("toto");
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
 
