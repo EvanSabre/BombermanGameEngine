@@ -16,7 +16,7 @@
 #include "BCamera2D.hpp"
 
 namespace gameEngine {
-    namespace Interfaces {
+    namespace interfaces {
         class IWindowManager {
             public:
                 virtual ~IWindowManager() = default;

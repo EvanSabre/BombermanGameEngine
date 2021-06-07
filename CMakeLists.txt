@@ -19,7 +19,6 @@ set(MY_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModel.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModelAnimation.cpp"
-        "${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Keyboard.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp"
@@ -27,6 +26,8 @@ set(MY_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BMusic.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BSound.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BBoundingBox.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/WindowManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/ButtonManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Collision.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
@@ -47,7 +48,8 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/component"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/component/collider"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces"
-        "${PROJECT_SOURCE_DIR}/include/game/managers"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/managers"
+        "${PROJECT_SOURCE_DIR}/include/game/scenes"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)
@@ -57,10 +59,13 @@ set(MY_DEPENDENCIES
         raylib
         )
 
+
 add_executable(bomberman
         ${PROJECT_SOURCE_DIR}/src/main.cpp
         ${MY_SRC}
         )
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/game)
 
 set_target_properties(bomberman
         PROPERTIES
@@ -77,4 +82,4 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_compile_options(bomberman PRIVATE -Wall -Wextra)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Window")
     target_compile_options(bomberman PRIVATE -Wall -Wextra)
-endif ()
+endif()
