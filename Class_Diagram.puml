@@ -16,6 +16,21 @@ namespace global {
         -T _x;
         -T _y;
     }
+
+    class Vector3<T> {
+        +Vector3T(T x, T y, T Z);
+        +~Vector3T() = default;
+        +Vector3T(const Vector3T<T> &copy);
+        +bool operator==(Vector3T<T> const &other) const noexcept;
+        +bool operator!=(Vector3T<T> const &other) const noexcept;
+        +Vector3T<T> operator+(Vector3T<T> const &other) const noexcept;
+        +Vector3T<T> operator-(Vector3T<T> const &other) const noexcept;
+        +Vector3T<T> &operator=(Vector3T<T> const &other) noexcept;
+
+        -T _x;
+        -T _y;
+        -T _z;
+    }
 }
 
 namespace game {
@@ -28,7 +43,7 @@ namespace game {
         AI
     }
 
-    class Character extends game.Systems.Moveable, game.Systems.Animable {
+    class Character extends gameEngine.Objects.Moveable {
         -std::string _name;
     }
 
@@ -53,40 +68,7 @@ namespace game.Scenes {
 }
 
 namespace game.Systems {
-    class Moveable {
-        +Move(Vector &pos, Vector speed = {1,1});
-        +~Move();
-        +void moveUp();
-        +void moveDown();
-        +void moveLeft();
-        +void moveRight();
-        +Vector getSpeed();
-        +void setSpeed(Vector &);
 
-        -Vector _pos;
-        -Vector _speed;
-    }
-
-    class Animable {
-        +Animable();
-        +~Animable();
-
-        +void loadAnim();
-        +ModelAnimation *loadModelAnimation();
-        +void updateModelAnimation();
-        +void unloadModelAnimation();
-        +bool isModelAnimationValid();
-
-        -ModelAnimation *_animation;
-    }
-
-    class Collision {
-
-    }
-
-    class Explosion {
-
-    }
 }
 
 namespace game.Managers {
@@ -107,7 +89,6 @@ namespace game.Managers {
         -std::string _id;
     }
     class SaveManager implements gameEngine.Interfaces.AFileManager{}
-    class MeshManager{}
     class TextureManager implements gameEngine.Interfaces.ITextureManager {}
     class TextManager implements gameEngine.Interfaces.ITextManager {}
     class WindowManager implements gameEngine.Interfaces.IWindowManager {}
@@ -126,19 +107,15 @@ namespace game.Managers {
 
 namespace game.Objects {
 
-    class GameObject {
-        int getId();
-        int id
-    }
-    class Droppable extends GameObject {}
-    class Collectible extends GameObject {}
+    class Droppable extends gameEngine.Objects.AGameObject {}
+    class Collectible extends gameEngine.Objects.AGameObject {}
     class Bomb extends Droppable {}
 
     enum TileType {
         WALL,
         PATH,
     }
-    class Tile extends GameObject {
+    class Tile extends gameEngine.Objects.AGameObject {
         -Texture _texture;
         -Vector _pos;
         -TileType _type;
@@ -148,7 +125,7 @@ namespace game.Objects {
         -std::vector<std::vector<Tile>> _tiles;
     }
 
-    class Wall extends GameObject {
+    class Wall extends gameEngine.Objects.AGameObject {
         +Wall(bool isDestructible)
 
         -bool _isDestructible;
@@ -160,56 +137,318 @@ namespace game.Objects {
 }
 
 namespace gameEngine {
-    class Button {
-        -Rectangle _border;
-        -Color _borderColor;
-        -Color _fontColor;
-        -Color _backgroundColor;
-        -Front _font;
-        -std::string _content;
-        -Vector _size;
-        -Vector _pos;
-    }
-
 
 namespace Encapsulation #fc7c60  {
-    class Image {}
-    class Camera {}
-
-    'Demander une precision a Julien, et remplir les class par rapport a la raylib
-    class Model {
-        +Model(const std::string &);
-        +~Model();
-        +Model loadModel(const std::string &);
-
-        -std::string _path;
+    enum ButtonState {
+        NORMAL,
+        HOVER,
+        PRESSED,
     }
-    class Camera2d {}
+    class Button {
+        +Button &operator=(const Button &ref);
+
+        +Vector<float> getPos() const;
+        +Vector<float> getSize() const;
+        +gameEngine::encapsulation::BText getContent() const;
+        +gameEngine::encapsulation::BTexture2D getTexture() const;
+        +gameEngine::encapsulation::BRectangle getRect() const;
+        +gameEngine::encapsulation::BRectangle getFrameRect() const;
+        +State getState() const;
+        +bool getButtonPressed() const;
+        +int getNbFrames() const;
+
+        +void setPos(const Vector<float> &pos);
+        +void setRotation(const float &rotation);
+        +void setSize(const Vector<float> &size);
+        +void setColor(const gameEngine::encapsulation::BColor &color);
+        +void setContentStr(const std::string &str);
+        +void setNbFrames(const int &nb);
+        +void setFrameRect(const gameEngine::encapsulation::BRectangle &rect);
+        +void setFrameRectSize(const Vector<float> &size);
+
+        +bool isInsideButton(const Vector<float> &point);
+        +bool isButtonPressed(Vector<float> mousePos);
+        +bool isButtonReleased();
+        +void update();
+        +void drawButton();
+
+        -Rectangle _rect;
+        -State state;
+        -Rectangle _frameRec;
+        -Text _content;
+        -Texture texture;
+        -Vector<float> size;
+        -Vector<float> pos;
+        -Color color;
+        -float rotation;
+    }
+    class IDrawable {
+        +virtual gameEngine::encapsulation::BColor getColor() const noexcept;
+        +virtual Vector3T<float> getPosition() const noexcept;
+        +virtual Vector3T<float> getSize() const noexcept;
+        +virtual float getScale() const noexcept;
+        +virtual Vector3T<float> getScaledSize() const noexcept;
+
+        +virtual void setColor(const gameEngine::encapsulation::BColor &color) noexcept = 0;
+        +virtual void setPosition(const Vector3T<float> &pos) noexcept = 0;
+        +virtual void setSize(const Vector3T<float> &size) noexcept = 0;
+        +virtual void setScale(float scale) noexcept = 0;
+
+        +virtual void draw() const noexcept = 0;
+    }
+    class ADrawable {
+        +ADrawable();
+
+        +gameEngine::encapsulation::BColor getColor() const noexcept final;
+        +Vector3T<float> getPosition() const noexcept final;
+        +Vector3T<float> getSize() const noexcept final;
+        +float getScale() const noexcept final;
+        +Vector3T<float> getScaledSize() const noexcept final;
+
+        +void setColor(const gameEngine::encapsulation::BColor &color) noexcept override;
+        +void setPosition(const Vector3T<float> &pos) noexcept override;
+        +void setSize(const Vector3T<float> &size) noexcept override;
+        +void setScale(float scale) noexcept override;
+
+        +void draw() const noexcept override;
+
+        -Vector3T<float> _size{1, 1, 1};
+        -Vector3T<float> _position{0, 0, 0};
+        -gameEngine::encapsulation::BColor _color = WHITE;
+        -float _scale = 1;
+    }
+    class Image {
+        +Image getObj() const noexcept;
+        +bool isLoad() const noexcept;
+        +int getWidth() const noexcept;
+        +int getHeight() const noexcept;
+        +Vector<int> getSize() const noexcept;
+        +Vector<int> getPosition() const noexcept;
+        +void load(const std::string &filpath);
+        +void unload() noexcept;
+        +void setImage(const Image &img) noexcept;
+        +void setImage(const Image &img, const Vector<int> &pos) noexcept;
+        +void setPosition(const Vector<int> &pos) noexcept;
+        +void resize(const Vector<int> &newSize) noexcept;
+        +void scale(const float &scale) noexcept;
+        +void rotateRight() noexcept;
+        +void rotateLeft() noexcept;
+        +void clearBackground(const BColor &color) noexcept;
+        +void drawPixel(const Vector<int> &pos, const BColor &color) noexcept;
+        +void drawLine(const Vector<float> &start, const Vector<float> &end, const BColor &color) noexcept;
+        +void drawCircle(const Vector<float> &center, int radius, const BColor &color) noexcept;
+        +void drawRectangle(const BRectangle &rec) noexcept;
+        +void drawText(const BText &text, const Vector<int> &pos) noexcept;
+        +void flipV() noexcept;
+        +void flipH() noexcept;
+
+        -Image _img;
+        -Vector<int> _pos{0, 0};
+    }
+
+    class Model {
+        +Model getObj() const noexcept;
+        +bool isLoad() const noexcept;
+        +BColor getColor() const noexcept;
+        +Vector3T<float> getPos() const noexcept;
+        +void load(const std::string &filepath);
+        +void unload() noexcept;
+        +void unloadKeepMesh() noexcept;
+        +void setPos(const Vector3T<float> &pos) noexcept;
+        +void setColor(const BColor &color) noexcept;
+        +void setMaterialTexture(int material_idx, int maps_idx, const BTexture2D &texture) noexcept;
+        +void draw() const noexcept;
+
+        -void resetObj() noexcept;
+        -Model _model;
+        -BColor _color{WHITE};
+        -float _scale = 0;
+        -Vector3T<float> _pos{0, 0, 0};
+    }
+    class Camera2d {
+        +BCamera2D();
+        +BCamera2D(const BCamera2D &ref);
+        +BCamera2D &operator=(const BCamera2D &ref);
+        +~BCamera2D();
+        +Camera2D getObj() const noexcept;
+        +Vector<float> getOffset() const noexcept;
+        +Vector<float> getTarget() const noexcept;
+        +float getRotation() const noexcept;
+        +float getZoom() const noexcept;
+        +void setOffset(const Vector<float> &offset) noexcept;
+        +void setTarget(const Vector<float> &target) noexcept;
+        +void setRotation(float rotation) noexcept;
+        +void rotateLeft(float value) noexcept;
+        +void rotateRight(float value) noexcept;
+        +void setZoom(float zoom) noexcept;
+        +void unzoom(float value) noexcept;
+        +void zoom(float value) noexcept;
+        +void resetObj() noexcept;
+        +void beginMode() const noexcept final;
+        +void endMode() const noexcept final;
+
+        -Camera2D _camera;
+    }
+    class Camera {
+        +BCamera(const BCamera &ref);
+        +BCamera &operator=(const BCamera &ref);
+        +~BCamera();
+        +Camera getObj() const noexcept;
+        +void setPosition(const Vector3T<float> &pos) noexcept;
+        +void setTarget(const Vector3T<float> &target) noexcept;
+        +void setUp(const Vector3T<float> &up) noexcept;
+        +void setFovy(float fov) noexcept;
+        +void setProjection(CameraProjection projection) noexcept;
+        +void update() noexcept;
+        +void setMode(CameraMode mode) noexcept;
+        +void beginMode() const noexcept final;
+        +void endMode() const noexcept final;
+
+        -Camera _camera;
+    }
     class Shader {}
-    class Mesh {}
-    class Music {}
-    class Sound {}
-    class Color {}
+    class IAudioObject {
+        +virtual void play() = 0;
+        +virtual void stop() = 0;
+        +virtual void pause() = 0;
+        +virtual void resume() = 0;
+
+        +virtual bool isPlaying() const = 0;
+
+        +virtual float getVolume() const noexcept = 0;
+        +virtual void setVolume(float volume) = 0;
+        +virtual float getPitch() const noexcept = 0;
+        +virtual void setPitch(float pitch) = 0;
+    }
+    class Music {
+        +BMusic(const std::string &filepath);
+        +BMusic(const BMusic &ref) = delete;
+        +BMusic &operator=(const BMusic &ref) = delete;
+        +~BMusic();
+        +Music getObj() const noexcept;
+        +bool isLoad() const noexcept;
+        +bool isPlaying() const noexcept;
+        +float getTimeLength() const noexcept;
+        +float getTimePlayed() const noexcept;
+        +void load(const std::string &filpath);
+        +void unload() noexcept;
+        +void play();
+        +void updateStream();
+        +void stop();
+        +void pause();
+        +void resumeStream();
+        +void setVolume(float volume);
+        +void setPitch(float pitch);
+
+        -Music _music = {0};
+        -bool _load;
+    }
+    class Audio {
+        +static void init();
+        +static void close(void) noexcept;
+        +static bool isReady(void) noexcept;
+        +static void setVolume(float volume) noexcept;
+    }
+    class Sound {
+        +BSound(const std::string &filepath);
+        +BSound(const BSound &ref) = delete;
+        +BSound &operator=(const BSound &ref) = delete;
+        +[[nodiscard]] Sound getObj() const noexcept;
+        +[[nodiscard]] bool isLoad() const noexcept;
+        +[[nodiscard]] bool isPlaying() const noexcept;
+        +void load(const std::string &filpath);
+        +void unload() noexcept;
+        +void play();
+        +void stop();
+        +void pause();
+        +void resumeStream();
+        +void setVolume(float volume);
+        +void setPitch(float pitch);
+    }
+    class Color {
+        +BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+        +BColor(const Color &ref);
+        +BColor(const BColor &ref);
+        +BColor &operator=(const BColor &ref);
+        +BColor &operator=(const Color &ref);
+        +~BColor();
+        +unsigned char getRed() const noexcept;
+        +unsigned char getGreen() const noexcept;
+        +unsigned char getBlue() const noexcept;
+        +unsigned char getAlpha() const noexcept;
+        +Color getObj() const noexcept;
+        +void setRed(unsigned char value) noexcept;
+        +void setGreen(unsigned char value) noexcept;
+        +void setBlue(unsigned char value) noexcept;
+        +void setAlpha(unsigned char value) noexcept;
+        +void copy(const BColor &ref) noexcept;
+
+        -unsigned char _r;
+        -unsigned char _g;
+        -unsigned char _b;
+        -unsigned char _a;
+    }
 
     class Font {
-        +Font(const std::string &path);
-        +~Font();
-        -std::string _path;
+        +BFont();
+        +BFont(const BFont &ref);
+        +BFont &operator=(const BFont &ref);
+        +~BFont();
+
+        +[[nodiscard]] Font getObj() const noexcept;
+        +[[nodiscard]] bool isLoad() const noexcept;
+        +void loadFromFile(const std::string &filepath);
+        +void unload() noexcept;
+
+            -Font _font;
+            -std::string _filepath;
+
+            +void resetObj() noexcept;
     }
 
-    class Rectangle {}
-    class Socket {}
+    class Rectangle {
+        +BRectangle(const BRectangle &ref);
+        +BRectangle &operator=(const BRectangle &ref);
+        +Rectangle getObj() const noexcept;
+        +float getWidth() const noexcept;
+        +float getHeight() const noexcept;
+        +float getX() const noexcept;
+        +float getY() const noexcept;
+        +Vector<float> getSize() const noexcept;
+        +Vector<float> getPos() const noexcept;
+        +float getRotation() const noexcept;
+        +BColor getColor() const noexcept;
+        +void setX(const float &x) noexcept;
+        +void setY(const float &y) noexcept;
+        +void setWidth(const float &width) noexcept;
+        +void setHeight(const float &height) noexcept;
+        +void setSize(const Vector<float> &size) noexcept;
+        +void setPos(const Vector<float> &pos) noexcept;
+        +void setRotation(const float &rotation) noexcept;
+        +void setColor(const BColor &color) noexcept;
+        +void scale(const float &scale) noexcept;
+        +void draw() const noexcept;
+        +bool checkCollision(const BRectangle &other) const noexcept;
+        +bool checkPointInside(const Vector<float> &point) const noexcept;
 
-    class Animation {
-        +Animation(Model, ModelAnimation, size_t = 0);
-        +~Animation();
-        +ModelAnimation *loadModelAnimation(const std::string &, int *animCount);
-        +void updateModelAnimation(Model, ModelAnimation, int);
-        +void unloadModelAnimation(ModelAnimation *, unsigned int);
-        +bool isModelAnimationValid(Model, ModelAnimation);
-        -Model _model;
-        -size_t _frameCounter;
-        -ModelAnimation *_animation;
+        -Vector<float> _pos;
+        -Vector<float> _size;
+        -float _rotation;
+        -BColor _color;
+    }
+
+    class ModelAnimation {
+        +ModelAnimation(const std::string &filePath);
+        +ModelAnimation(const BModelAnimation &ref);
+        +int getAnimFrameCount() const noexcept;
+        +ModelAnimation *getModelAnimation() const noexcept;
+        +std::string getFilePath() const noexcept;
+        +bool isLoad();
+        +void loadNewAnimation(const std::string &filePath);
+        +void destroyAnim();
+        -std::string _filePath;
+        -ModelAnimation *_anims;
+        -int _animsCount;
     }
 }
 
@@ -285,7 +524,7 @@ namespace Interfaces #DDDDDD {
     }
 
     abstract class AFileManager implements IFileManager {}
-    
+
     'Classe qui pourrait herite de IFileManager -> JsonManager, XMLManager, OBJFileManager, ConfigManager, SaveManager
     interface IFileManager
     {
@@ -312,6 +551,84 @@ namespace Interfaces #DDDDDD {
         +bool isConnected();
     }
     'Voir pour les collisions si interface necessaires
+}
+
+namespace Systems {
+    gameEngine.Objects.AGameObject-->gameEngine.Systems.Collision
+    class Collision {
+        +calculateCollisions(const std::vector<AGameObject> &object);
+    }
+    gameEngine.Encapsulation.ModelAnimation--gameEngine.Systems.Animate
+    class Animate {
+        +animateAll(const std::vector<ModelAnimation> animations);
+    }
+
+}
+
+namespace Component {
+
+    class Collider {
+        +getEnabled();
+        -bool _enabled;
+    }
+    class BoxCollider extends Collider {
+        +getBoundingBox();
+        +isColliding(const BBoundingBox &ref);
+        -BBoundingBox _box;
+    }
+
+    class SphereCollider extends Collider {
+        +getSphere();
+    }
+
+    class Transform {
+        +LookAt();
+        +Rotate(float xAngle, float yAngle, float zAngle);
+        +getPosition();
+        +getRotation();
+        +operator==;
+        +operator!=;
+        +operator=;
+        +operator<<;
+        -Vector3T<float> _position;
+        -Vector3T<float> _rotation;
+    }
+}
+
+gameEngine.Component.Transform--gameEngine.Objects.AGameObject
+gameEngine.Component.Collider--gameEngine.Objects.AGameObject
+gameEngine.Objects.Quadrants--gameEngine.Objects.AGameObject
+
+namespace Objects {
+    enum Quadrants {
+        TOP-LEFT
+        TOP-RIGHT
+        BOT-LEFT
+        BOT-RIGHT
+    }
+    class AGameObject {
+        +int getId();
+        +Vector3T<float> getPosition();
+        +Vector3T<float> getSpeed();
+        +OnCollisionEnter(const Collision &collision);
+        -int id;
+        -Transform _transform;
+        -Collider _collider;
+        -Quadrants _quadrant;
+    }
+
+    class Moveable extends AGameObject {
+        +Move(Vector &pos, Vector speed = {1,1});
+        +~Move();
+        +void moveUp();
+        +void moveDown();
+        +void moveLeft();
+        +void moveRight();
+        +Vector getSpeed();
+        +void setSpeed(Vector &);
+
+        -Vector _speed;
+    }
 }
 }
 @enduml

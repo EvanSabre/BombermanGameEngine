@@ -9,6 +9,12 @@
 
 using namespace gameEngine;
 
+encapsulation::BTexture2D::BTexture2D(const std::string &filePath)
+{
+    this->resetObj();
+    this->loadFromFile(filePath);
+}
+
 encapsulation::BTexture2D::BTexture2D()
 {
     this->resetObj();

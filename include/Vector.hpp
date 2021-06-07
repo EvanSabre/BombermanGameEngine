@@ -8,6 +8,8 @@
 #ifndef VECTOR_HPP_
 #define VECTOR_HPP_
 
+#include <iostream>
+
 template <class T>
 class Vector {
     public:
@@ -49,9 +51,17 @@ class Vector {
             _y = other._y;
             return *this;
         }
+
         T _x;
         T _y;
 };
+
+template <typename T>
+std::ostream &operator<<(std::ostream &s, Vector<T> vec)
+{
+    s << "{" << vec._x << ", " << vec._y << "}";
+    return s;
+}
 
 //-------------------------
 

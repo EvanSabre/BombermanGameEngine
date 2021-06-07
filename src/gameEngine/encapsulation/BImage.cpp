@@ -200,10 +200,17 @@ void encapsulation::BImage::drawRectangle(const BRectangle &rec) noexcept
     ImageDrawRectangleRec(&this->_img, rec.getObj(), rec.getColor().getObj());
 }
 
-void encapsulation::BImage::drawText(const BText &text, const Vector<int> &pos) noexcept
+void encapsulation::BImage::drawText(BText text, const Vector<float> &pos) noexcept
 {
     if (!isLoad())
         return;
-    ImageDrawText(&this->_img, text.getStr().c_str(), pos._x, pos._y,
-                text.getSize(), text.getColor().getObj());
+    if (text.getFont().isLoad()) {
+        Vector2 vec = {pos._x, pos._y};
+
+        ImageDrawTextEx(&_img, text.getFont().getObj(), text.getStr().c_str(),
+            vec, text.getTextSize(), text.getSpacing(), text.getColor().getObj());
+    } else {
+        ImageDrawText(&this->_img, text.getStr().c_str(), pos._x, pos._y,
+                text.getTextSize(), text.getColor().getObj());
+    }
 }

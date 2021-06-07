@@ -41,7 +41,8 @@ bool encapsulation::BMusic::isPlaying() const noexcept
 {
     if (!this->isLoad())
         return false;
-    return IsMusicPlaying(this->_music);
+
+    return IsMusicStreamPlaying(this->_music);
 }
 
 float encapsulation::BMusic::getTimeLength() const noexcept
@@ -68,7 +69,8 @@ void encapsulation::BMusic::load(const std::string &filepath)
 
 void encapsulation::BMusic::unload() noexcept
 {
-    Music buf = {0};
+    Music buf;
+    buf.ctxData = nullptr;
 
     if (!this->isLoad())
         return;
@@ -106,7 +108,7 @@ void encapsulation::BMusic::pause()
     PauseMusicStream(this->_music);
 }
 
-void encapsulation::BMusic::resumeStream()
+void encapsulation::BMusic::resume()
 {
     if (!isLoad())
         throw std::runtime_error("Music [RESUME]: no music load");
@@ -122,6 +124,7 @@ void encapsulation::BMusic::setVolume(float volume)
     else if (volume < 0.0f)
         volume = 0.0f;
     SetMusicVolume(this->_music, volume);
+    _volume = volume;
 }
 
 //base is 1.à
@@ -132,4 +135,5 @@ void encapsulation::BMusic::setPitch(float pitch)
     if (pitch < 0)
         pitch = 0;
     SetMusicPitch(this->_music, pitch);
+    _pitch = pitch;
 }

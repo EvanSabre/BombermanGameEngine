@@ -56,7 +56,7 @@ namespace gameEngine
                 void drawLine(const Vector<float> &start, const Vector<float> &end, const BColor &color) noexcept;
                 void drawCircle(const Vector<float> &center, int radius, const BColor &color) noexcept;
                 void drawRectangle(const BRectangle &rec) noexcept;
-                void drawText(const BText &text, const Vector<int> &pos) noexcept;
+                void drawText(BText text, const Vector<float> &pos) noexcept;
 
                 //flip vertically
                 void flipV() noexcept;
