@@ -14,7 +14,7 @@
 #include "raylib.h"
 #include <string>
 
-namespace game
+namespace gameEngine
 {
     namespace Managers
     {
@@ -39,10 +39,11 @@ namespace game
     }
 }
 
-template <typename E>
-bool game::Managers::InputManager::mapKey(int key, E interpret_value)
-{
-    
-}
+
+// template <typename E>
+// bool gameEngine::Managers::InputManager::mapKey(int key, E interpret_value)
+// {
+
+// }
 
 #endif /* !KEYBOARDMANAGER_HPP_ */

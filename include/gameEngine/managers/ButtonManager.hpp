@@ -13,7 +13,9 @@
 #include <memory>
 #include <raylib.h>
 
-namespace game {
+using namespace gameEngine::encapsulation;
+
+namespace gameEngine {
     namespace Managers {
         class ButtonManager {
             public:
@@ -33,4 +35,3 @@ namespace game {
     }
 }
 #endif /* !BUTTONMANAGER_HPP_ */
-

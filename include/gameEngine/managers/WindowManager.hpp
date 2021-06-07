@@ -14,9 +14,9 @@
 #include "Vector.hpp"
 #include "IWindowManager.hpp"
 
-namespace game {
+namespace gameEngine {
     namespace Managers {
-        class WindowManager : public gameEngine::Interfaces::IWindowManager {
+        class WindowManager : public gameEngine::interfaces::IWindowManager {
             public:
                 WindowManager();
                 ~WindowManager();

@@ -49,7 +49,7 @@ namespace game {
 
 namespace game.Scenes {
     class MainMenu implements gameEngine.Interfaces.IScene {
-        -game.Managers.ButtonManager _buttonManager;
+        -gameEngine.Managers.ButtonManager _buttonManager;
     }
 }
 
@@ -57,7 +57,7 @@ namespace game.Systems {
 
 }
 
-namespace game.Managers {
+namespace gameEngine.Managers {
 
     class InputManager implements gameEngine.Interfaces.IInputManager
     {
