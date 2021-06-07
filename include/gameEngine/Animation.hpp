@@ -21,7 +21,7 @@ namespace gameEngine {
             Animation(const encapsulation::BModel &model, const encapsulation::BModelAnimation &anim);
             Animation(const std::string &modelPath, const std::string &animPath, const std::string &texturePath);
             ~Animation();
-            
+
             void updateModelAnimation();
             void refresh();
         private:

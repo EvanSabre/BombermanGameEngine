@@ -11,17 +11,6 @@
 #include <string>
 #include <vector>
 
-<<<<<<< HEAD
-struct File
-{
-    int fd;
-    char *path;
-    char *
-};
-
-
-=======
->>>>>>> 1392318b7d83f3fa7d0c499a27a8bd22364704a3
 namespace gameEngine
 {
     namespace Interfaces
