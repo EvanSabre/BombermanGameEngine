@@ -10,7 +10,7 @@
 using namespace gameEngine;
 
 objects::AGameObject::AGameObject(const std::string &id, const Vector3T<float> &pos, const Vector3T<float> &rot,
-const Vector3T<float> &colliderMin, Vector3T<float> &colliderMax, bool colliderEnabled) :
+const Vector3T<float> &colliderMin, const Vector3T<float> &colliderMax, bool colliderEnabled) :
 _transform(pos, rot), _collider(colliderMin, colliderMax, colliderEnabled)
 {
     this->_id = id;
@@ -34,7 +34,7 @@ const std::string objects::AGameObject::getId() const noexcept
     return this->_id;
 }
 
-Quadrants objects::AGameObject::getQuadrant()
+Quadrants objects::AGameObject::getQuadrant() const noexcept
 {
     return this->_quadrant;
 }

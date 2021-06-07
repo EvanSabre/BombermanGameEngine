@@ -9,31 +9,45 @@ project(project_bomberman
         )
 
 set(MY_SRC
-       # ${PROJECT_SOURCE_DIR}/src/Vector.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/Animation.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BRectangle.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BImage.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BCamera.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BCamera2D.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModel.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModelAnimation.cpp
-        ${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp
-        ${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Keyboard.cpp
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/Animation.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BRectangle.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BImage.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BCamera.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BCamera2D.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModel.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModelAnimation.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Keyboard.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BAudio.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BMusic.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BSound.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BBoundingBox.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Collision.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/AAudioObject.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/objects/AGameObject.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/objects/Moveable.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Transform.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/Collider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         )
 
 set(MY_INCLUDE
-        ${PROJECT_SOURCE_DIR}/include
-        ${PROEJCT_SOURCE_DIR}/include/gameEngine
-        ${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation
-        ${PROJECT_SOURCE_DIR}/include/gameEngine/systems
-        ${PROJECT_SOURCE_DIR}/include/gameEngine/component
-        ${PROJECT_SOURCE_DIR}/include/gameEngine/component/collider
-        ${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces
-        ${PROJECT_SOURCE_DIR}/include/game/managers
+        "${PROJECT_SOURCE_DIR}/include"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/objects"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/systems"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/component"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/component/collider"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces"
+        "${PROJECT_SOURCE_DIR}/include/game/managers"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)

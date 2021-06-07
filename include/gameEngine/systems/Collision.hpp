@@ -10,14 +10,15 @@
 
 #include "AGameObject.hpp"
 #include <vector>
+#include <memory>
 
 namespace gameEngine {
     namespace systems {
         class Collision {
             public:
-                Collision() = default;
-                ~Collision() = delete;
-                static void calculateCollisions(const std::vector<objects::AGameObject> &objects);
+                Collision();
+                ~Collision();
+                static void calculateCollisions(std::vector<objects::AGameObject> &objects);
         };
     }
 }
