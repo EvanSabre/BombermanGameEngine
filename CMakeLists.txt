@@ -37,6 +37,7 @@ set(MY_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/Collider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
         )
 
 set(MY_INCLUDE
