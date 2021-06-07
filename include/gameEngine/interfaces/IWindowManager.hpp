@@ -24,6 +24,7 @@ namespace gameEngine {
                 virtual bool createWindow(std::string name, Vector<int> size) = 0;
                 virtual void deleteWindow(void) = 0;
                 virtual void resizeWindow(const Vector<int> &size) = 0;
+                virtual bool isRunning() const noexcept = 0;
 
                 virtual void setFullScreen(void) = 0;
                 virtual void setBackgroundColor(const encapsulation::BColor &color) = 0;

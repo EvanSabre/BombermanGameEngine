@@ -5,48 +5,33 @@
 ** main
 */
 
-#include <iostream>
 #include "raylib.h"
-#include "Button.hpp"
-#include "gameEngine/Animation.hpp"
-#define NUM_FRAMES 1
+#include "gameEngine/encapsulation/Keyboard.hpp"
 
+int main(void)
+{
     // Initialization
     //--------------------------------------------------------------------------------------
-const int screenWidth = 800;
-const int screenHeight = 450;
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+    gameEngine::encapsulation::Keyboard keyboard;
 
-void run()
-{
-    // Define the camera to look into our 3d world
-    Camera camera = { 0 };
-    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
-    camera.fovy = 45.0f;                                // Camera field-of-view Y
-    camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
+    InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
+    Vector2 ballPosition = { (float)screenWidth/2, (float)screenHeight/2 };
 
-    // Load animation data
-    gameEngine::Animation animation("resources/guy/guy.iqm", "resources/guy/guyanim.iqm", "resources/guy/guytex.png");
-    SetCameraMode(camera, CAMERA_FREE); // Set free camera mode
-
-    SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!WindowShouldClose())        // Detect window close button or ESC key
+    while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
-        UpdateCamera(&camera);
-
-        // Play animation when spacebar is held down
-        if (IsKeyDown(KEY_SPACE))
-        {
-            animation.updateModelAnimation();
-        }
+        if (keyboard.isKeyDown(KEY_RIGHT)) ballPosition.x += 2.0f;
+        if (keyboard.isKeyDown(KEY_LEFT)) ballPosition.x -= 2.0f;
+        if (keyboard.isKeyDown(KEY_UP)) ballPosition.y -= 2.0f;
+        if (keyboard.isKeyDown(KEY_DOWN)) ballPosition.y += 2.0f;
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -55,25 +40,18 @@ void run()
 
             ClearBackground(RAYWHITE);
 
-            BeginMode3D(camera);
-                animation.refresh();
-                DrawGrid(10, 1.0f);         // Draw a grid
+            DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
 
-            EndMode3D();
-
-            DrawText("PRESS SPACE to PLAY MODEL ANIMATION", 10, 10, 20, MAROON);
+            DrawCircleV(ballPosition, 50, MAROON);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
-}
 
-int main(void)
-{
-    InitWindow(screenWidth, screenHeight, "raylib [textures] example - sprite button");
-
-    run();
-    CloseWindow();          // Close window and OpenGL context
+    // De-Initialization
     //--------------------------------------------------------------------------------------
+    CloseWindow();        // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
+
     return 0;
 }

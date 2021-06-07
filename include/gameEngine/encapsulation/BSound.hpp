@@ -10,14 +10,14 @@
 
 #include <string>
 #include <stdexcept>
+#include "AAudioObject.hpp"
 #include "raylib.h"
-
 
 namespace gameEngine
 {
     namespace encapsulation
     {
-        class BSound
+        class BSound : public gameEngine::encapsulation::AAudioObject
         {
         public:
             BSound(const std::string &filepath);
@@ -28,29 +28,28 @@ namespace gameEngine
             //getter
                 [[nodiscard]] Sound getObj() const noexcept;
                 [[nodiscard]] bool isLoad() const noexcept;
-                [[nodiscard]] bool isPlaying() const noexcept;
+                [[nodiscard]] bool isPlaying() const noexcept override;
 
             //setter
             // Load image from file into CPU memory (RAM)
                 void load(const std::string &filpath);
-
                 void unload() noexcept;
 
             //transform
             //throw runtime_error if no Sound is loaded
-                void play();
-                void stop();
-                void pause();
-                void resumeStream();
+                void play() override;
+                void stop() override;
+                void pause() override;
+                void resume() override;
 
-                //max is 1.00
-                void setVolume(float volume);
-                //base is 1.à
-                void setPitch(float pitch);
+                //max is
+                    void setVolume(float volume) override;
 
-        protected:
+                //base is 1.0
+                    void setPitch(float pitch) override;
+
         private:
-            Sound _sound = {0};
+            Sound _sound;
             bool _load;
         };
     }

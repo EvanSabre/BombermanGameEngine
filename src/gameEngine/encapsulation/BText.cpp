@@ -22,32 +22,36 @@ std::ostream& operator<<(std::ostream& out, const encapsulation::BText &text)
 
 encapsulation::BText::BText(const std::string &str, const Vector<int> &pos,
                 const BColor &color, const int &size)
+    : ADrawable()
 {
     this->_color = color;
-    this->_pos = pos;
-    this->_size = size;
+    this->_position = {(float)pos._x, (float)pos._y, _position._z};
+    TEXT_SIZE = size;
     this->_str.assign(str);
 }
 
 encapsulation::BText::BText(const BText &ref)
 {
-    this->_str.assign(ref.getStr());
-    this->_color = ref.getColor();
-    this->_pos = ref.getPosition();
-    this->_size = ref.getSize();
+    this->setStr(ref.getStr());
+    this->setColor(ref.getColor());
+    this->setPosition(ref.getPosition());
+    this->setSize(ref.getSize());
+    this->setSpacing(ref.getSpacing());
+    this->setScale(ref.getScale());
 }
 
 encapsulation::BText &encapsulation::BText::operator=(const BText &ref)
 {
     if (this == &ref)
         return *this;
-    this->_str.assign(ref.getStr());
-    this->_color = ref.getColor();
-    this->_pos = ref.getPosition();
-    this->_size = ref.getSize();
+    this->setStr(ref.getStr());
+    this->setColor(ref.getColor());
+    this->setPosition(ref.getPosition());
+    this->setSize(ref.getSize());
+    this->setSpacing(ref.getSpacing());
+    this->setScale(ref.getScale());
     return *this;
 }
-
 
 encapsulation::BText::~BText()
 {
@@ -62,19 +66,16 @@ std::string encapsulation::BText::getStr() const noexcept
     return this->_str;
 }
 
-encapsulation::BColor encapsulation::BText::getColor() const noexcept
+Vector<float> encapsulation::BText::getTextPosition() const noexcept
 {
-    return this->_color;
+    Vector<float> pos = {_position._x, _position._y};
+
+    return pos;
 }
 
-Vector<int> encapsulation::BText::getPosition() const noexcept
+float encapsulation::BText::getTextSize() const noexcept
 {
-    return this->_pos;
-}
-
-int encapsulation::BText::getSize() const noexcept
-{
-    return this->_size;
+    return TEXT_SIZE;
 }
 
 encapsulation::BFont encapsulation::BText::getFont() const noexcept
@@ -84,10 +85,8 @@ encapsulation::BFont encapsulation::BText::getFont() const noexcept
 
 float encapsulation::BText::getSpacing() const noexcept
 {
-    return _spacing;
+    return TEXT_SPACING;
 }
-
-
 
 //--------------------------
 
@@ -98,19 +97,14 @@ void encapsulation::BText::setStr(const std::string &str) noexcept
     this->_str.assign(str);
 }
 
-void encapsulation::BText::setSize(const int &size) noexcept
+void encapsulation::BText::setTextSize(const float &size) noexcept
 {
-    this->_size = size;
+    TEXT_SIZE = size;
 }
 
-void encapsulation::BText::setPosition(const Vector<int> &position) noexcept
+void encapsulation::BText::setTextPosition(const Vector<float> &position) noexcept
 {
-    this->_pos = position;
-}
-
-void encapsulation::BText::setColor(const BColor &color) noexcept
-{
-    this->_color = color;
+    this->_position = {position._x, position._y, _position._z};
 }
 
 void encapsulation::BText::setFont(const BFont &font) noexcept
@@ -125,9 +119,8 @@ void encapsulation::BText::unloadFont() noexcept
 
 void encapsulation::BText::setSpacing(const float &spacing) noexcept
 {
-    _spacing = spacing;
+    TEXT_SPACING = spacing;
 }
-
 
 //--------------------
 
@@ -136,11 +129,11 @@ void encapsulation::BText::setSpacing(const float &spacing) noexcept
 void encapsulation::BText::draw() const noexcept
 {
     if (this->_font.isLoad()) {
-        Vector2 pos = {(float)_pos._x, (float)_pos._y};
+        Vector2 pos = {_position._x, _position._y};
 
-        DrawTextEx(_font.getObj(), _str.c_str(), pos, _size , _spacing,
+        DrawTextEx(_font.getObj(), _str.c_str(), pos, SCALE_SIZE, TEXT_SPACING,
             _color.getObj());
     } else {
-        DrawText(_str.c_str(), _pos._x, _pos._y, _size, _color.getObj());
+        DrawText(_str.c_str(), (int)_position._x, (int)_position._y, SCALE_SIZE, _color.getObj());
     }
 }
