@@ -45,5 +45,3 @@ void objects::Character::subScore(const size_t value) noexcept
 {
     this->_score -= value;
 }
-
-

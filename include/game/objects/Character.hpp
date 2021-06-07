@@ -10,6 +10,7 @@
 
 #include <string>
 #include "Moveable.hpp"
+#include "BModel.hpp"
 
 namespace game
 {
@@ -34,11 +35,16 @@ namespace game
                 void subScore(const size_t value) noexcept;
 
 
+            //action
+            //void dropBomb() const noexcept;
+
+
         protected:
             ssize_t _score = 0;
 
         private:
             std::string _name;
+           // gameEngine::encapsulation::BModel _model;
         };
     } // namespace objects
 } // namespace game
