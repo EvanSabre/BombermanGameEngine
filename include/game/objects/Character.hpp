@@ -27,8 +27,16 @@ namespace game
 
             //getter
                 std::string getName() const noexcept;
+                ssize_t getScore() const noexcept;
+
+            //setter
+                void addScore(const size_t value) noexcept;
+                void subScore(const size_t value) noexcept;
+
 
         protected:
+            ssize_t _score = 0;
+
         private:
             std::string _name;
         };

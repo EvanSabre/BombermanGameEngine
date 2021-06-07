@@ -29,3 +29,21 @@ std::string objects::Character::getName() const noexcept
 {
     return this->_name;
 }
+
+ssize_t objects::Character::getScore() const noexcept
+{
+    return this->_score;
+}
+
+//setter
+void objects::Character::addScore(const size_t value) noexcept
+{
+    this->_score += value;
+}
+
+void objects::Character::subScore(const size_t value) noexcept
+{
+    this->_score -= value;
+}
+
+
