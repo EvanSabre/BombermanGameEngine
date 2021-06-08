@@ -47,6 +47,8 @@ set(GAMEENGINE_SRC
 
 set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
         )
 
 set(MY_INCLUDE
@@ -61,6 +63,8 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/managers"
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
+        "${PROJECT_SOURCE_DIR}/include/game/managers"
+        "${PROJECT_SOURCE_DIR}/include/game/objects/"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
