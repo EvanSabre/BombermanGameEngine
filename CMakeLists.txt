@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.18)
 
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
@@ -40,6 +40,9 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Transform.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/Collider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/Directory.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         )
 
 set(GAME_SRC
@@ -48,6 +51,7 @@ set(GAME_SRC
 
 set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include"
+        "${PROJECT_SOURCE_DIR}/include/utils"
         "${PROJECT_SOURCE_DIR}/include/gameEngine"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/objects"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation"
@@ -56,11 +60,19 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/component/collider"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/managers"
+<<<<<<< HEAD
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
+=======
+        )
+
+
+set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)
+>>>>>>> 9c22b5806d802a48dc870ce336079b56b66f4485
 find_package(raylib REQUIRED)
+
 
 set(MY_DEPENDENCIES
         raylib
