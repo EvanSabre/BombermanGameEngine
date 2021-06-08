@@ -46,6 +46,18 @@ void objects::Character::subScore(const size_t value) noexcept
     this->_score -= value;
 }
 
+void objects::Character::setModel(gameEngine::encapsulation::BModel *model) noexcept
+{
+    this->_model = model;
+}
+
+void objects::Character::draw() const noexcept
+{
+    if (!this->_model)
+        return;
+    _model->setPosition(this->getPosition());
+    _model->draw();
+}
 
 void objects::Character::OnCollisionEnter(const AGameObject &collision) {}
 void objects::Character::OnCollisionExit(const AGameObject &collision) {}

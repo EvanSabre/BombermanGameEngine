@@ -33,11 +33,13 @@ namespace game
             //setter
                 void addScore(const size_t value) noexcept;
                 void subScore(const size_t value) noexcept;
-
+                void setModel(gameEngine::encapsulation::BModel *model) noexcept;
 
             //action
-            //void dropBomb() const noexcept;
+            //vo dropBomb() const noexcept;
 
+
+            void draw() const noexcept;
             //tmp for test : to delete
                 void OnCollisionEnter(const AGameObject &collision);
                 void OnCollisionExit(const AGameObject &collision);
@@ -49,7 +51,7 @@ namespace game
 
         private:
             std::string _name;
-           // gameEngine::encapsulation::BModel _model;
+            gameEngine::encapsulation::BModel *_model = nullptr;
         };
     } // namespace objects
 } // namespace game
