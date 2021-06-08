@@ -40,9 +40,9 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Transform.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/Collider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/Directory.cpp"
-        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         )
 
 set(GAME_SRC
@@ -60,17 +60,10 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/component/collider"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/managers"
-<<<<<<< HEAD
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
-=======
-        )
-
-
-set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)
->>>>>>> 9c22b5806d802a48dc870ce336079b56b66f4485
 find_package(raylib REQUIRED)
 
 
