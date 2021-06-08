@@ -28,22 +28,17 @@ _content(content)
 }
 
 Button::Button(const BTexture2D &text, const BRectangle &rect, const BText &content) :
-    _rectangle(rect), _frameRec(rect.getRectSize(), {0, 0}, rect.getColor(), rect.getRotation()),
+    _texture(text), _rectangle(rect), _frameRec(rect.getRectSize(), {0, 0}, rect.getColor(), rect.getRotation()),
     _content(content)
 {
 
     _state = NORMAL;
     _nbFrames = 1;
     _buttonPressed = false;
-    _texture = text;
-    _rectangle = rect;
-    _content = content;
 }
 
 Button::~Button()
-{
-    std::cout << "Destroy Button\n";
-}
+{}
 
 Button &Button::operator=(const Button &ref)
 {
@@ -187,9 +182,9 @@ void Button::update()
 //DRAW
 void Button::drawButton()
 {
-    if (_texture.isLoad())
-        _texture.drawRect(_frameRec, _rectangle.getRectPosition());
-    else {
+    if (_texture.isLoad()) {
+       _texture.drawRect(_frameRec, _rectangle.getRectPosition());
+    } else {
         _rectangle.draw();
         _content.draw();
     }
