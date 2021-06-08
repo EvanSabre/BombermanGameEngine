@@ -40,10 +40,16 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Transform.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/Collider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/SceneInfo.cpp"
+
         )
 
 set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"
         )
 
 set(MY_INCLUDE
@@ -56,7 +62,10 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/component/collider"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/managers"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/scenes"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/scenes/components"
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
+        "${PROJECT_SOURCE_DIR}/include/game/managers"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)

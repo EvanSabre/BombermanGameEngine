@@ -16,7 +16,7 @@
 using namespace gameEngine::encapsulation;
 
 namespace gameEngine {
-    namespace Managers {
+    namespace managers {
         class ButtonManager {
             public:
                 ButtonManager();

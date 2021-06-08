@@ -7,7 +7,7 @@
 
 #include "InputManager.hpp"
 
-using namespace gameEngine::Managers;
+using namespace gameEngine::managers;
 
 // InputManager::~InputManager()
 // {

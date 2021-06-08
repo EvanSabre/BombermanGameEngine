@@ -8,6 +8,9 @@
 #ifndef ISCENE_HPP_
 #define ISCENE_HPP_
 
+#include <memory>
+#include "WindowManager.hpp"
+
 namespace gameEngine {
 	namespace interfaces {
 		class IScene {

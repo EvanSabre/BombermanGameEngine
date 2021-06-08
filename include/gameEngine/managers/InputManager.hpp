@@ -16,7 +16,7 @@
 
 namespace gameEngine
 {
-    namespace Managers
+    namespace managers
     {
         template <typename E>
         class InputManager : public gameEngine::Interfaces::IInputManager

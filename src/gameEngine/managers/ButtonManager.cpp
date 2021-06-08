@@ -7,7 +7,7 @@
 
 #include "ButtonManager.hpp"
 
-using namespace gameEngine::Managers;
+using namespace gameEngine::managers;
 using namespace gameEngine::encapsulation;
 
 ButtonManager::ButtonManager()

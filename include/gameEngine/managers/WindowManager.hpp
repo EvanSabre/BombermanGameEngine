@@ -15,7 +15,7 @@
 #include "IWindowManager.hpp"
 
 namespace gameEngine {
-    namespace Managers {
+    namespace managers {
         class WindowManager : public gameEngine::interfaces::IWindowManager {
             public:
                 WindowManager();
