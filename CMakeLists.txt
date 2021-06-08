@@ -51,6 +51,10 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
         )
 
+set(UTILS_SRC
+        "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
+        )
+
 set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include"
         "${PROJECT_SOURCE_DIR}/include/utils"
@@ -80,6 +84,7 @@ add_executable(bomberman
         ${PROJECT_SOURCE_DIR}/src/main.cpp
         ${GAMEENGINE_SRC}
         ${GAME_SRC}
+        ${UTILS_SRC}
         )
 
 set_target_properties(bomberman
