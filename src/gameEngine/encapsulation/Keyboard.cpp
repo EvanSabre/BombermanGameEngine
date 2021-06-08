@@ -34,10 +34,12 @@ bool gameEngine::encapsulation::Keyboard::isKeyReleased(int key, int device)
     return IsKeyReleased(key);
 }
 
-const char *gameEngine::encapsulation::Keyboard::getDeviceName(int device)
+const std::string gameEngine::encapsulation::Keyboard::getDeviceName(int device)
 {
     (void) device;
-    return NULL;
+    std::string name{"Keyboard"};
+
+    return name;
 }
 
 bool gameEngine::encapsulation::Keyboard::isDeviceAvailable(int device)

@@ -24,7 +24,7 @@ namespace gameEngine
                 bool isKeyDown(int key, int device = -1) override;
                 bool isKeyUp(int key, int device = -1) override;
                 bool isKeyReleased(int key, int device = -1) override;
-                const char *getDeviceName(int device = -1) override;
+                const std::string getDeviceName(int device = -1) override;
                 bool isDeviceAvailable(int device) override;
                 bool isDeviceName(int device, const char *name) override;
                 int getKeyPressed(void) override;

@@ -21,6 +21,7 @@ set(MY_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModelAnimation.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Keyboard.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Gamepad.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BAudio.cpp"

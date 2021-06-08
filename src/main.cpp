@@ -7,6 +7,7 @@
 
 #include "raylib.h"
 #include "gameEngine/encapsulation/Keyboard.hpp"
+#include "gameEngine/encapsulation/Gamepad.hpp"
 #include "gameEngine/managers/AFileManager.hpp"
 
 int main(void)
@@ -15,7 +16,7 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
-    gameEngine::encapsulation::Keyboard keyboard;
+    gameEngine::encapsulation::Gamepad gamepad;
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
 
@@ -23,26 +24,31 @@ int main(void)
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
-
+    for (int i = -100; i < 100; i++) {
+        if (gamepad.isDeviceAvailable(i)) {
+            printf("i = %d\n", i);
+            //printf("NAME = %s#%d\n", gamepad.getDeviceName(i).c_str(), i);
+            //exit(i);
+        }
+    }
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
-        if (keyboard.isKeyDown(KEY_RIGHT)) ballPosition.x += 2.0f;
-        if (keyboard.isKeyDown(KEY_LEFT)) ballPosition.x -= 2.0f;
-        if (keyboard.isKeyDown(KEY_UP)) ballPosition.y -= 2.0f;
-        if (keyboard.isKeyDown(KEY_DOWN)) ballPosition.y += 2.0f;
+        if (gamepad.isKeyDown(GAMEPAD_BUTTON_LEFT_FACE_RIGHT, 0)) ballPosition.x += 2.0f;
+        if (gamepad.isKeyDown(GAMEPAD_BUTTON_LEFT_FACE_LEFT, 0)) ballPosition.x -= 2.0f;
+        if (gamepad.isKeyDown(GAMEPAD_BUTTON_LEFT_FACE_UP, 0)) ballPosition.y -= 2.0f;
+        if (gamepad.isKeyDown(GAMEPAD_BUTTON_LEFT_FACE_DOWN, 0)) ballPosition.y += 2.0f;
+        if (gamepad.isKeyDown(GAMEPAD_BUTTON_RIGHT_FACE_RIGHT, 0)) ballPosition.y += 2.0f;
         //----------------------------------------------------------------------------------
-
+        DrawText(TextFormat("GP0: %s", GetGamepadName(0)), 10, 10, 10, BLACK);
+        DrawText(TextFormat("GP1: %s", GetGamepadName(1)), 10, 20, 10, BLACK);
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
-
-            DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
-
             DrawCircleV(ballPosition, 50, MAROON);
 
         EndDrawing();

@@ -8,6 +8,8 @@
 #ifndef IINPUT_HPP_
 #define IINPUT_HPP_
 
+#include <stdlib.h>
+#include <string>
 namespace gameEngine
 {
     namespace interfaces
@@ -20,7 +22,7 @@ namespace gameEngine
                 virtual bool isKeyDown(int key, int device = -1) = 0;
                 virtual bool isKeyUp(int key, int device = -1) = 0;
                 virtual bool isKeyReleased(int key, int device = -1) = 0;
-                virtual const char *getDeviceName(int device = -1) = 0;
+                virtual const std::string getDeviceName(int device = -1) = 0;
                 virtual bool isDeviceAvailable(int device) = 0;
                 virtual bool isDeviceName(int device, const char *name) = 0;
                 virtual int getKeyPressed(void) = 0;
