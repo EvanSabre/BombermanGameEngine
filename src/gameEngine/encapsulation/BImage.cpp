@@ -204,10 +204,11 @@ void encapsulation::BImage::drawText(BText text, const Vector<float> &pos) noexc
 {
     if (!isLoad())
         return;
-    if (text.getFont().isLoad()) {
+    BFont font = text.getFont();
+    if (font.isLoad()) {
         Vector2 vec = {pos._x, pos._y};
 
-        ImageDrawTextEx(&_img, text.getFont().getObj(), text.getStr().c_str(),
+        ImageDrawTextEx(&_img, font.getObj(), text.getStr().c_str(),
             vec, text.getTextSize(), text.getSpacing(), text.getColor().getObj());
     } else {
         ImageDrawText(&this->_img, text.getStr().c_str(), pos._x, pos._y,

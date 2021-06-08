@@ -11,6 +11,7 @@
 #include "Vector.hpp"
 #include "BColor.hpp"
 #include "raylib.h"
+#include <memory>
 
 namespace gameEngine
 {
@@ -37,7 +38,7 @@ namespace gameEngine
 
 
         private:
-            Font _font;
+            std::unique_ptr<Font> _font;
             std::string _filepath;
 
         private:

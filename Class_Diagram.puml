@@ -43,27 +43,13 @@ namespace game {
         AI
     }
 
-    class Character extends gameEngine.Objects.Moveable {
-        -std::string _name;
-    }
-
     class AI {
     }
-
-    class Player extends game.Character {
-        -std::string _id;
-        -size_t _score;
-    }
-
-    class Bot extends game.Character, game.AI {
-
-    }
-
 }
 
 namespace game.Scenes {
     class MainMenu implements gameEngine.Interfaces.IScene {
-        -game.Managers.ButtonManager _buttonManager;
+        -gameEngine.Managers.ButtonManager _buttonManager;
     }
 }
 
@@ -71,7 +57,7 @@ namespace game.Systems {
 
 }
 
-namespace game.Managers {
+namespace gameEngine.Managers {
 
     class InputManager implements gameEngine.Interfaces.IInputManager
     {
@@ -110,6 +96,21 @@ namespace game.Objects {
     class Droppable extends gameEngine.Objects.AGameObject {}
     class Collectible extends gameEngine.Objects.AGameObject {}
     class Bomb extends Droppable {}
+
+    class Character extends gameEngine.Objects.Moveable {
+        -std::string _name;
+    }
+
+
+    class Player extends game.Objects.Character {
+        -std::string _id;
+        -size_t _score;
+    }
+
+    class Bot extends game.Objects.Character, game.AI {
+
+    }
+
 
     enum TileType {
         WALL,
@@ -156,7 +157,7 @@ namespace Encapsulation #fc7c60  {
         +State getState() const;
         +bool getButtonPressed() const;
         +int getNbFrames() const;
-
+        +virtual ButtonClickedCallBack(va_args ...) = 0;
         +void setPos(const Vector<float> &pos);
         +void setRotation(const float &rotation);
         +void setSize(const Vector<float> &size);
@@ -569,7 +570,10 @@ namespace Component {
 
     class Collider {
         +getEnabled();
+        +setTargetMask(int);
+        +getTargetMask();
         -bool _enabled;
+        -int targetMask;
     }
     class BoxCollider extends Collider {
         +getBoundingBox();
@@ -580,7 +584,7 @@ namespace Component {
     class SphereCollider extends Collider {
         +getSphere();
     }
-\
+
     class Transform {
         +LookAt(const Transform &);
         +Rotate(float xAngle, float yAngle, float zAngle);
@@ -607,12 +611,12 @@ namespace Objects {
         BOT-RIGHT
     }
     class AGameObject {
-        +int getId();
+        +string getId();
         +Vector3T<float> getPosition();
         +Vector3T<float> getSpeed();
         +virtual OnCollisionEnter(const Collision &collision) = 0;
         +virtual Update() = 0;
-        -int id;
+        -string id;
         -Transform _transform;
         -Collider _collider;
         -Quadrants _quadrant;

@@ -45,12 +45,12 @@ encapsulation::BFont::~BFont()
 
 Font encapsulation::BFont::getObj() const noexcept
 {
-    return this->_font;
+    return *_font;
 }
 
 bool encapsulation::BFont::isLoad() const noexcept
 {
-    if (!_font.recs || !_font.chars)
+    if (_font == nullptr)
         return false;
     return true;
 }
@@ -61,7 +61,8 @@ void encapsulation::BFont::loadFromFile(const std::string &filepath)
 {
     if (this->isLoad())
         this->unload();
-    this->_font = LoadFont(filepath.c_str());
+    _font = std::make_unique<Font>();
+    *_font = LoadFont(filepath.c_str());
     if (!this->isLoad())
         throw std::runtime_error("Font : Loading failed");
     this->_filepath = filepath;
@@ -71,13 +72,13 @@ void encapsulation::BFont::unload() noexcept
 {
     if (!this->isLoad())
         return;
-    UnloadFont(this->_font);
+    UnloadFont(*_font);
     this->resetObj();
 }
 
 void encapsulation::BFont::resetObj() noexcept
 {
-    this->_font.chars = nullptr;
-    this->_font.recs = nullptr;
+    this->_font = nullptr;
+    this->_font = nullptr;
     this->_filepath.clear();
 }

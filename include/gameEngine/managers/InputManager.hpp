@@ -14,9 +14,9 @@
 #include "raylib.h"
 #include <string>
 
-namespace game
+namespace gameEngine
 {
-    namespace Managers
+    namespace managers
     {
         template <typename E>
         class InputManager : public gameEngine::Interfaces::IInputManager
@@ -27,8 +27,10 @@ namespace game
                 bool isKeyPressed(int) final;
                 bool isKeyReleased(int) final;
                 int getKeyPressed() final;
-                bool mapKey(int key, E interpret_value) final;
                 bool mapDefaultKeys(int, int);
+                template <typename E>
+                bool game::managers::InputManager::mapKey(int key, E interpret_value) final;
+                {}
 
             private:
                 std::unordered_map<int,E> _Eventsmap;
@@ -37,12 +39,6 @@ namespace game
         };
 
     }
-}
-
-template <typename E>
-bool game::Managers::InputManager::mapKey(int key, E interpret_value)
-{
-    
 }
 
 #endif /* !KEYBOARDMANAGER_HPP_ */
