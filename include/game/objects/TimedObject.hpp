@@ -12,7 +12,7 @@
 #include <chrono>
 #include "BModel.hpp"
 
-namespace gmae
+namespace game
 {
     namespace objects
     {
@@ -25,17 +25,16 @@ namespace gmae
             ~TimedObject();
 
             //getter
-                std::chrono::microseconds getLifeTime() const noexcept;
-                std::chrono::microseconds getRemainedTime() const noexcept;
-                std::chrono::microseconds getElapsedTime() const noexcept;
+                std::chrono::milliseconds getLifeTime() const noexcept;
+                std::chrono::milliseconds getRemainedTime() const noexcept;
+                std::chrono::milliseconds getElapsedTime() const noexcept;
                 bool isTimeOver() const noexcept;
 
             //setter
                 void setModel(gameEngine::encapsulation::BModel *model) noexcept;
 
-            void draw() const noexcept;
 
-            void updateElapsedTime() noexcept;
+            void draw() const noexcept;
 
             virtual void onOverTime() = 0;
 
@@ -45,12 +44,19 @@ namespace gmae
                 virtual void Update() override;
 
         protected:
-            gameEngine::encapsulation::BModel *_model;
+            gameEngine::encapsulation::BModel *_model = nullptr;
 
         private:
-            std::chrono::microseconds _lifeTime;
+            std::chrono::milliseconds _lifeTime;
             std::chrono::system_clock::time_point _startLifePoint = std::chrono::system_clock::now();
             std::chrono::system_clock::time_point _lastLifeTimeCheckPoint = std::chrono::system_clock::now();
+
+        private:
+            void updateLastTimeCheck() noexcept;
+
+            //update _lastCheck adnd lauch onOvertime if neccessary
+                void updateLifeTime() noexcept;
+
         };
 
     } // namespace systems
