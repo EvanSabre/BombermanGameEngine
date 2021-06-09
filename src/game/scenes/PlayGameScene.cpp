@@ -12,7 +12,13 @@ using namespace game::scenes;
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
 : AScene(windowManager, info)
 {
+    _playerTexture.loadFromFile("./resources/models/kaya/kayaTexture.png");
+    _playerModel.load("./resources/models/kaya/kaya.iqm");
+    _playerModel.setTexture(0, MATERIAL_MAP_DIFFUSE, _playerTexture);
+    _playerModel.setScale(0.02);
+    _player.setPostion({0, 3, 0});
     this->setupCamera();
+    this->_player.setModel(&_playerModel);
 }
 
 PlayGameScene::~PlayGameScene()
@@ -21,13 +27,11 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
-    gameEngine::encapsulation::BColor bgColor = {0, 170, 170, 255};
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
 
     _buttonManager.pushButton(button);
-
-    this->_windowManager.get()->setBackgroundColor(bgColor);
+    _windowManager->clear({0, 170, 170, 255});
 }
 
 void PlayGameScene::setupCamera() noexcept
@@ -46,6 +50,7 @@ std::string PlayGameScene::update()
         std::cout << "Clicked pause button" << std::endl;
         //return "play";
     }
+    _player.handleKeyEvent();
     return "";
 }
 
@@ -54,5 +59,6 @@ void PlayGameScene::draw()
     _buttonManager.drawButtons();
     this->_windowManager.get()->set3DMode(_cam);
     _map.draw();
+    _player.draw();
     _cam.endMode();
 }
