@@ -1,79 +1,160 @@
-/*
-** EPITECH PROJECT, 2021
-** B-YEP-400-REN-4-1-indiestudio-pol.bachelin
-** File description:
-** main
-*/
+/*******************************************************************************************
+*
+*   raylib [models] example - Models loading
+*
+*   raylib supports multiple models file formats:
+*
+*     - OBJ > Text file, must include vertex position-texcoords-normals information,
+*             if files references some .mtl materials file, it will be loaded (or try to)
+*     - GLTF > Modern text/binary file format, includes lot of information and it could
+*              also reference external files, raylib will try loading mesh and materials data
+*     - IQM > Binary file format including mesh vertex data but also animation data,
+*             raylib can load .iqm animations.
+*
+*   This example has been created using raylib 2.6 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Copyright (c) 2014-2019 Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
 
-#include <iostream>
+#include "BCamera.hpp"
+#include "BModel.hpp"
+#include "BTexture2D.hpp"
+#include "WindowManager.hpp"
+#include "Player.hpp"
+
 #include "raylib.h"
-#include "Button.hpp"
-#include "gameEngine/Animation.hpp"
-#define NUM_FRAMES 1
+using namespace gameEngine;
 
+int main(void)
+{
+    game::objects::Player player{"p1", "test_name"};
     // Initialization
     //--------------------------------------------------------------------------------------
-const int screenWidth = 800;
-const int screenHeight = 450;
+    const int screenWidth = 800;
+    const int screenHeight = 450;
 
-void run()
-{
+    gameEngine::Managers::WindowManager window{};
+    window.createWindow("Model example", {screenWidth, screenHeight});
+    //InitWindow(screenWidth, screenHeight, "raylib [models] example - models loading");
+
     // Define the camera to look into our 3d world
-    Camera camera = { 0 };
-    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
-    camera.fovy = 45.0f;                                // Camera field-of-view Y
-    camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
+    encapsulation::BCamera cam{};
+    cam.setPosition({50, 50, 50});
+    cam.setTarget({0, 10, 0});
+    cam.setUp({0, 1, 0});
+    cam.setFovy(45);
+    cam.setProjection(CAMERA_PERSPECTIVE);
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
+    encapsulation::BModel my_model{"./resources/models/castle.obj"};
+   // Model model = LoadModel("./resources/models/castle.obj");                 // Load model
+    encapsulation::BTexture2D my_texture{};
+    my_texture.loadFromFile("./resources/models/castle_diffuse.png");
+    //model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = my_texture.getObj();              // Set map diffuse texture
+    my_model.setTexture(0, MATERIAL_MAP_DIFFUSE, my_texture);
+    my_model.setPosition({0, 0, 0});
+    my_model.setColor(WHITE);
+    player.setModel(&my_model);
 
-    // Load animation data
-    gameEngine::Animation animation("resources/guy/guy.iqm", "resources/guy/guyanim.iqm", "resources/guy/guytex.png");
-    SetCameraMode(camera, CAMERA_FREE); // Set free camera mode
+    encapsulation::BTexture2D my_texture_2{};
+    my_texture_2.loadFromFile("./resources/models/castle_diffuse.png");
+    encapsulation::BModel model_copy{"./resources/models/castle.obj"};
+    model_copy = my_model;
+    model_copy.setPosition({10, 0, 0});
+    model_copy.setTexture(0, MATERIAL_MAP_DIFFUSE, my_texture_2);
+   // BoundingBox bounds = GetMeshBoundingBox(model.meshes[0]);  // Set model bounds
 
-    SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
+    // NOTE: bounds are calculated from the original size of the model,
+    // if model is scaled on drawing, bounds must be also scaled
+
+    cam.setMode(CAMERA_FREE);
+    bool selected = false;          // Selected object flag
+
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Main game loop
-    while (!WindowShouldClose())        // Detect window close button or ESC key
+    while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
-        UpdateCamera(&camera);
+        cam.update();
 
-        // Play animation when spacebar is held down
-        if (IsKeyDown(KEY_SPACE))
+        // Load new models/textures on drag&drop
+        if (IsFileDropped()) {
+            int count = 0;
+            char **droppedFiles = GetDroppedFiles(&count);
+
+            if (count == 1) // Only support one file dropped
+            {
+                if (IsFileExtension(droppedFiles[0], ".obj") ||
+                    IsFileExtension(droppedFiles[0], ".gltf") ||
+                    IsFileExtension(droppedFiles[0], ".iqm"))       // Model file formats supported
+                {
+                    my_model.load(droppedFiles[0]);
+                    my_model.setTexture(0, MATERIAL_MAP_DIFFUSE, my_texture);
+
+                   // bounds = GetMeshBoundingBox(model.meshes[0]);
+
+                    // TODO: Move camera position from target enough distance to visualize model properly
+                }
+                else if (IsFileExtension(droppedFiles[0], ".png"))  // Texture file formats supported
+                {
+                    my_texture.unload();
+                    my_texture.loadFromFile(droppedFiles[0]);
+                    my_model.setTexture(0, MATERIAL_MAP_DIFFUSE, my_texture);
+                }
+            }
+            ClearDroppedFiles();    // Clear internal buffers
+        }
+
+        // Select model on mouse click
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
-            animation.updateModelAnimation();
+            // Check collision between ray and box
+            // if (CheckCollisionRayBox(GetMouseRay(GetMousePosition(), camera), bounds)) selected = !selected;
+            // else selected = false;
         }
         //----------------------------------------------------------------------------------
-
+        player.handleKeyEvent();
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
             ClearBackground(RAYWHITE);
 
-            BeginMode3D(camera);
-                animation.refresh();
-                DrawGrid(10, 1.0f);         // Draw a grid
+            window.set3DMode(cam);
 
-            EndMode3D();
+               // my_model.draw();
+                player.draw();
+                model_copy.draw();
+                //DrawModel(model, position, 1.0f, WHITE);        // Draw 3d model with texture
 
-            DrawText("PRESS SPACE to PLAY MODEL ANIMATION", 10, 10, 20, MAROON);
+                DrawGrid(20, 10.0f);         // Draw a grid
+
+              //  if (selected) DrawBoundingBox(bounds, GREEN);   // Draw selection box
+
+            cam.endMode();
+
+            DrawText("Drag & drop model to load mesh/texture.", 10, GetScreenHeight() - 20, 10, DARKGRAY);
+            if (selected) DrawText("MODEL SELECTED", GetScreenWidth() - 110, 10, 10, GREEN);
+
+            DrawText("(c) Castle 3D model by Alberto Cano", screenWidth - 200, screenHeight - 20, 10, GRAY);
+
+            DrawFPS(10, 10);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
-}
 
-int main(void)
-{
-    InitWindow(screenWidth, screenHeight, "raylib [textures] example - sprite button");
-
-    run();
-    CloseWindow();          // Close window and OpenGL context
+    // De-Initialization
     //--------------------------------------------------------------------------------------
+    my_texture.unload();
+    my_model.unload();         // Unload model
+
+    window.deleteWindow();
+    //--------------------------------------------------------------------------------------
+
     return 0;
 }

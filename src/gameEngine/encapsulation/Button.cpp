@@ -10,15 +10,15 @@
 using namespace gameEngine::encapsulation;
 using namespace gameEngine;
 
-Button::Button(const Vector<float> &size, const Vector<float> &pos, 
+Button::Button(const Vector<float> &size, const Vector<float> &pos,
                 const BText &content, const BColor &color, const std::string &textureFile,
                 float rotation, int nbFrames) :
 _rectangle(size, pos, color, rotation), _frameRec(size, {0, 0}, color, rotation),
-_content(content.getStr(), content.getPosition(), content.getColor(), content.getSize())
+_content(content)
 {
     if (textureFile != "" && content.getStr() != "") {
             BImage img(textureFile);
-            img.drawText(content, content.getPosition());
+            img.drawText(content, content.getTextPosition());
             _texture.loadFromImg(img);
     } else if (textureFile != "")
         _texture.loadFromFile(textureFile);
@@ -28,16 +28,13 @@ _content(content.getStr(), content.getPosition(), content.getColor(), content.ge
 }
 
 Button::Button(const BTexture2D &text, const BRectangle &rect, const BText &content) :
-    _rectangle(rect), _frameRec(rect.getSize(), {0, 0}, rect.getColor(), rect.getRotation()),
+    _texture(text), _rectangle(rect), _frameRec(rect.getRectSize(), {0, 0}, rect.getColor(), rect.getRotation()),
     _content(content)
 {
 
     _state = NORMAL;
     _nbFrames = 1;
     _buttonPressed = false;
-    _texture = text;
-    _rectangle = rect;
-    _content = content;
 }
 
 Button::~Button()
@@ -53,19 +50,19 @@ Button &Button::operator=(const Button &ref)
     _state = ref.getState();
     _buttonPressed = ref.getButtonPressed();
     _rectangle = ref.getRect();
-    _frameRec = ref.getFrameRect();    
+    _frameRec = ref.getFrameRect();
     return *this;
 }
 
 //GETTERS
 Vector<float> Button::getPos() const
 {
-    return _rectangle.getPos();
+    return _rectangle.getRectPosition();
 }
 
 Vector<float> Button::getSize() const
 {
-    return _rectangle.getSize();
+    return _rectangle.getRectSize();
 }
 
 BText Button::getContent() const
@@ -106,7 +103,7 @@ int Button::getNbFrames() const
 //SETTERS
 void Button::setPos(const Vector<float> &pos)
 {
-    _rectangle.setPos(pos);
+    _rectangle.setRectPosition(pos);
 }
 
 void Button::setRotation(const float &rotation)
@@ -116,7 +113,7 @@ void Button::setRotation(const float &rotation)
 
 void Button::setSize(const Vector<float> &size)
 {
-    _rectangle.setSize(size);
+    _rectangle.setRectSize(size);
 }
 
 void Button::setColor(const BColor &color)
@@ -141,7 +138,7 @@ void Button::setFrameRect(const BRectangle &rect)
 
 void Button::setFrameRectSize(const Vector<float> &size)
 {
-    _frameRec.setSize(size);
+    _frameRec.setRectSize(size);
 }
 
 //CHECKERS
@@ -177,7 +174,7 @@ void Button::update()
 {
     Vector2 tmp = GetMousePosition();
     Vector<float> vec(tmp.x, tmp.y);
-    
+
     isButtonPressed(vec);
     isButtonReleased();
 }
@@ -185,9 +182,9 @@ void Button::update()
 //DRAW
 void Button::drawButton()
 {
-    if (_texture.isLoad())
-        _texture.drawRect(_frameRec, _rectangle.getPos());
-    else {
+    if (_texture.isLoad()) {
+       _texture.drawRect(_frameRec, _rectangle.getRectPosition());
+    } else {
         _rectangle.draw();
         _content.draw();
     }
