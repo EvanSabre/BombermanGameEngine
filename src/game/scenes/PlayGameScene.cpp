@@ -20,13 +20,13 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
+    gameEngine::encapsulation::BColor bgColor = {0, 170, 170, 255};
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
 
     _buttonManager.pushButton(button);
 
-
-
+    this->_windowManager.get()->setBackgroundColor(bgColor);
 }
 
 std::string PlayGameScene::update()
