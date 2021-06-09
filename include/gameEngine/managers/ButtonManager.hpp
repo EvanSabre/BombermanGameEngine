@@ -13,7 +13,9 @@
 #include <memory>
 #include <raylib.h>
 
-namespace game {
+using namespace gameEngine::encapsulation;
+
+namespace gameEngine {
     namespace Managers {
         class ButtonManager {
             public:
@@ -22,15 +24,17 @@ namespace game {
 
                 bool isButtonClicked(const Vector<float> &pos);
                 bool isButtonClicked(const std::string &buttonContent, const Vector<float> &pos);
-                std::shared_ptr<gameEngine::encapsulation::Button> getClickedButton(const Vector<float> &pos);
+
                 gameEngine::encapsulation::Button createButton(const BTexture2D &texture, const BRectangle &rect, const BText &content);
-                std::vector<gameEngine::encapsulation::Button> getCurrentButtons() const;
+                void pushButton(std::shared_ptr<encapsulation::Button> button);
+
+                std::shared_ptr<gameEngine::encapsulation::Button> getClickedButton(const Vector<float> &pos);
+                std::vector<std::shared_ptr<gameEngine::encapsulation::Button>> getCurrentButtons() const;
                 void drawButtons();
                 void updateButtons();
             private:
-                std::vector<gameEngine::encapsulation::Button> _currentButtons;
+                std::vector<std::shared_ptr<gameEngine::encapsulation::Button>> _currentButtons;
         };
     }
 }
 #endif /* !BUTTONMANAGER_HPP_ */
-

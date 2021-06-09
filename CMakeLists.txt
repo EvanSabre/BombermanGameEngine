@@ -3,12 +3,15 @@ cmake_minimum_required(VERSION 3.18)
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_COLOR_MAKEFILE ON)
+
 project(project_bomberman
         LANGUAGES CXX
         DESCRIPTION "Bomberman like game"
         )
 
-set(MY_SRC
+set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/Animation.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp"
@@ -19,7 +22,6 @@ set(MY_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModel.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModelAnimation.cpp"
-        "${PROJECT_SOURCE_DIR}/src/game/managers/WindowManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Keyboard.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp"
@@ -27,6 +29,8 @@ set(MY_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BMusic.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BSound.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BBoundingBox.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/WindowManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/ButtonManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Collision.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
@@ -36,9 +40,19 @@ set(MY_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Transform.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/Collider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/Directory.cpp"
-        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
+        )
+
+set(GAME_SRC
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
+        )
+
+set(UTILS_SRC
+        "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
         )
 
 set(MY_INCLUDE
@@ -52,10 +66,12 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/component/collider"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/managers"
+        "${PROJECT_SOURCE_DIR}/include/game/scenes"
+        "${PROJECT_SOURCE_DIR}/include/game/managers"
+        "${PROJECT_SOURCE_DIR}/include/game/objects/"
         )
 
-
-set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake)
+set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
 find_package(raylib REQUIRED)
 
 
@@ -63,9 +79,12 @@ set(MY_DEPENDENCIES
         raylib
         )
 
+
 add_executable(bomberman
         ${PROJECT_SOURCE_DIR}/src/main.cpp
-        ${MY_SRC}
+        ${GAMEENGINE_SRC}
+        ${GAME_SRC}
+        ${UTILS_SRC}
         )
 
 set_target_properties(bomberman
@@ -83,4 +102,4 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_compile_options(bomberman PRIVATE -Wall -Wextra)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Window")
     target_compile_options(bomberman PRIVATE -Wall -Wextra)
-endif ()
+endif()

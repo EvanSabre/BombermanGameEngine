@@ -48,7 +48,9 @@ encapsulation::BRectangle &encapsulation::BRectangle::operator=(const BRectangle
 }
 
 encapsulation::BRectangle::~BRectangle()
-{}
+{
+    std::cout << "Rectangle destory\n";
+}
 
 //----------------------------
 

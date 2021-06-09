@@ -5,9 +5,11 @@
 ** WindowManager
 */
 
-#include "game/managers/WindowManager.hpp"
+#include "gameEngine/managers/WindowManager.hpp"
 
-game::Managers::WindowManager::WindowManager()
+using namespace gameEngine::Managers;
+
+WindowManager::WindowManager()
 {
     _size._x = 0;
     _size._y = 0;
@@ -16,13 +18,13 @@ game::Managers::WindowManager::WindowManager()
     is3D = false;
 }
 
-game::Managers::WindowManager::~WindowManager()
+WindowManager::~WindowManager()
 {
     if (IsWindowReady())
         CloseWindow();
 }
 
-bool game::Managers::WindowManager::createWindow(std::string name, Vector<int> size)
+bool WindowManager::createWindow(std::string name, Vector<int> size)
 {
     _size = size;
     _windowName = name;
@@ -34,20 +36,30 @@ bool game::Managers::WindowManager::createWindow(std::string name, Vector<int> s
     return true;
 }
 
-void game::Managers::WindowManager::resizeWindow(const Vector<int> &size)
+void WindowManager::resizeWindow(const Vector<int> &size)
 {
     _size._y = size._y;
     _size._x = size._x;
     SetWindowSize(size._x, size._y);
 }
 
-void game::Managers::WindowManager::deleteWindow(void)
+void WindowManager::deleteWindow(void)
 {
     if (IsWindowReady())
         CloseWindow();
 }
 
-bool game::Managers::WindowManager::isRunning() const noexcept
+void WindowManager::BeginDraw()
+{
+    BeginDrawing();
+}
+
+void WindowManager::EndDraw()
+{
+    EndDrawing();
+}
+
+bool WindowManager::isRunning() const noexcept
 {
     if (!WindowShouldClose())
         return true;
@@ -55,36 +67,36 @@ bool game::Managers::WindowManager::isRunning() const noexcept
 }
 
 
-// void *game::Managers::WindowManager::getWindow(void) const
+// void *WindowManager::getWindow(void) const
 // {
 //     return GetWindowHandle();
 // }
 
-void game::Managers::WindowManager::setFullScreen(void)
+void WindowManager::setFullScreen(void)
 {
     ToggleFullscreen();
 }
 
-void game::Managers::WindowManager::setBackgroundColor(const gameEngine::encapsulation::BColor &color)
+void WindowManager::setBackgroundColor(const gameEngine::encapsulation::BColor &color)
 {
     ClearBackground(color.getObj());
 }
 
-void game::Managers::WindowManager::set3DMode(const gameEngine::encapsulation::BCamera &camera)
+void WindowManager::set3DMode(const gameEngine::encapsulation::BCamera &camera)
 {
     if (is2D)
         EndMode2D();
     camera.beginMode();
 }
 
-void game::Managers::WindowManager::set2DMode(const gameEngine::encapsulation::BCamera2D &camera)
+void WindowManager::set2DMode(const gameEngine::encapsulation::BCamera2D &camera)
 {
     if (is3D)
         EndMode3D();
     camera.beginMode();
 }
 
-Vector<int> game::Managers::WindowManager::getWindowSize() const
+Vector<int> WindowManager::getWindowSize() const
 {
     return _size;
 }

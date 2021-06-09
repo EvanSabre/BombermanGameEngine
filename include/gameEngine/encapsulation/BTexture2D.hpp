@@ -21,6 +21,7 @@ namespace gameEngine
         {
         public:
             BTexture2D(const std::string &filePath);
+            BTexture2D(const BTexture2D &ref);
             BTexture2D();
             ~BTexture2D();
 
@@ -29,6 +30,8 @@ namespace gameEngine
             [[nodiscard]] bool isLoad() const noexcept;
             [[nodiscard]] BColor getColor() const noexcept;
             [[nodiscard]] Vector<int> getPos() const noexcept;
+            [[nodiscard]] Vector<int> getSize() const noexcept;
+            [[nodiscard]] std::string getFilePath() const noexcept;
 
         //setter
             void setPos(const Vector<int> &pos) noexcept;
@@ -46,6 +49,7 @@ namespace gameEngine
 
         private:
             Texture2D _texture;
+            std::string _filepath;
             Vector<int> _pos{0, 0};
             BColor _color{WHITE};
 

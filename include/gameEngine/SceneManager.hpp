@@ -16,7 +16,7 @@
 #include <iostream>
 #include "IScene.hpp"
 
-namespace Interfaces {
+namespace gameEngine {
     class SceneManager {
     public:
         SceneManager();
@@ -27,5 +27,4 @@ namespace Interfaces {
         static const std::unordered_map<std::string, std::function<std::shared_ptr<Interfaces::IScene>(void)>>_scene;
     };
 }
-
 #endif /* !SCENEMANAGER_HPP_ */

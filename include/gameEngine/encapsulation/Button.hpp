@@ -23,8 +23,8 @@ namespace gameEngine {
                     MOUSE_HOVER,
                     PRESSED
                 };
-                Button(const Vector<float> &size, const Vector<float> &pos, 
-                        const gameEngine::encapsulation::BText &content, const gameEngine::encapsulation::BColor &color = BLACK,
+                Button(const Vector<float> &size, const Vector<float> &pos,
+                        const BText &content, const BColor &color = BLACK,
                         const std::string &textureFile = "",
                         float rotation = 0, int nbFrames = 1);
                 Button(const BTexture2D &text, const BRectangle &rect, const BText &content);
