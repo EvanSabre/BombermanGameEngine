@@ -10,10 +10,10 @@
 
 using namespace game::scenes;
 
-#define BACKGROUND "./ressources/backgrounds/cyberpunk_street_background.png"
-#define MIDGROUND "./ressources/backgrounds/cyberpunk_street_midground.png"
-#define FOREGROUND "./ressources/backgrounds/cyberpunk_street_foreground.png"
-#define PLAY_BUTTON "./ressources/UI-Elements/PlayButton.png"
+#define BACKGROUND "./resources/backgrounds/cyberpunk_street_background.png"
+#define MIDGROUND "./resources/backgrounds/cyberpunk_street_midground.png"
+#define FOREGROUND "./resources/backgrounds/cyberpunk_street_foreground.png"
+#define PLAY_BUTTON "./resources/UI-Elements/PlayButton.png"
 
 MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
 : AScene(windowManager, info)
@@ -27,7 +27,8 @@ MainMenuScene::~MainMenuScene()
 void MainMenuScene::start()
 {
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(_windowManager->getWindowSize()._x/3, _windowManager->getWindowSize()._y/3), Vector<float>(_windowManager->getWindowSize()._x / 2, _windowManager->getWindowSize()._y / 2), gameEngine::encapsulation::BText("PLAY"));
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(_windowManager->getWindowSize()._x/3, _windowManager->getWindowSize()._y/3), Vector<float>(_windowManager->getWindowSize()._x / 2, _windowManager->getWindowSize()._y / 2),
+    gameEngine::encapsulation::BText("PLAY"));
 
     _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
     _buttonManager.pushButton(button);

@@ -9,6 +9,8 @@
 
 using namespace gameEngine::scenes;
 
+#define SCALE 2
+
 Parallax::Parallax()
 {
     scrollingBack = 0;
@@ -39,26 +41,26 @@ void Parallax::calculateParallax(float back, float mid, float fore)
     if (scrollingFront <= -_foreground->getSize()._x * 2)
         scrollingFront = 0;
 
-    _background->setPos({scrollingBack, 20});
-    _midground->setPos({scrollingMid, 20});
+    _background->setPos({scrollingBack, 0});
+    _midground->setPos({scrollingMid, 0});
     _foreground->setPos({scrollingFront, 70});
 }
 
 void Parallax::drawParallax()
 {
 
-    _background->drawEx(2);
-    // _background->setPos({_background->getSize()._x * 2 + scrollingBack, 20});
-    // _background->draw();
-    // _background->setPos({scrollingBack, 20});
+    _background->drawEx(SCALE);
+    _background->setPos({_background->getSize()._x * 2 + scrollingBack, 0});
+    _background->drawEx(SCALE);
+    _background->setPos({scrollingBack, 20});
 
-    _midground->drawEx(2);
-    // _midground->setPos({_midground->getSize()._x * 2 + scrollingMid, 20});
-    // _midground->draw();
-    // _midground->setPos({scrollingMid, 20});
+    _midground->drawEx(SCALE);
+    _midground->setPos({_midground->getSize()._x * 2 + scrollingMid, 0});
+    _midground->drawEx(SCALE);
+    _midground->setPos({scrollingMid, 20});
 
-    _foreground->drawEx(2);
-    // _foreground->setPos({_foreground->getSize()._x * 2 + scrollingFront, 70});
-    // _foreground->draw();
-    // _foreground->setPos({scrollingFront, 70});
+    _foreground->drawEx(SCALE);
+    _foreground->setPos({_foreground->getSize()._x * 2 + scrollingFront, 70});
+    _foreground->drawEx(SCALE);
+    _foreground->setPos({scrollingFront, 70});
 }
