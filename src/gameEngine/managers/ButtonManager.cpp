@@ -61,7 +61,8 @@ void ButtonManager::createButton(const std::shared_ptr<BTexture2D> &texture, con
     std::shared_ptr<Button> button = std::make_shared<Button>(texture, rect, content);
 
     _currentButtons.push_back(button);
-    return true;
+    return;
+    //return true;
 }
 
 void ButtonManager::pushButton(std::shared_ptr<gameEngine::encapsulation::Button> button)

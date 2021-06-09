@@ -18,19 +18,23 @@ namespace gameEngine
         class Gamepad : public gameEngine::interfaces::IInput
         {
             public:
-                Gamepad();
+                Gamepad(int deviceID=0) : _deviceID(deviceID) {}
                 ~Gamepad() = default;
-                bool isKeyPressed(int key, int device=-1) override;
-                bool isKeyDown(int key, int device=-1) override;
-                bool isKeyUp(int key, int device=-1) override;
-                bool isKeyReleased(int key, int device=-1) override;
-                const std::string getDeviceName(int device=-1) override;
-                bool isDeviceAvailable(int device) override;
-                bool isDeviceName(int device, const char *name) override;
+                bool isKeyPressed(int key) override;
+                bool isKeyDown(int key) override;
+                bool isKeyUp(int key) override;
+                bool isKeyReleased(int key) override;
+                const std::string getDeviceName(void) override;
+                bool isDeviceAvailable(void) override;
+                bool isDeviceName(const char *name) override;
                 int getKeyPressed(void) override;
                 int getCharPressed(void) override;
+                int getDeviceID(void) override {return _deviceID;}
+
+            private:
+                int _deviceID;
         };
-    }
-}
+    };
+};
 
 #endif /* !GAMEPAD_HPP_ */

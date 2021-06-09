@@ -8,7 +8,8 @@
 #ifndef KEYBOARDMANAGER_HPP_
 #define KEYBOARDMANAGER_HPP_
 
-#include "IInput.hpp"
+#include "gameEngine/encapsulation/Keyboard.hpp"
+#include "gameEngine/encapsulation/Gamepad.hpp"
 #include <unordered_map>
 #include <memory>
 #include "raylib.h"
@@ -215,7 +216,7 @@ namespace gameEngine
                     auto search = _inputList.find(key);
 
                     if (search != _inputList.end())
-                        return search->second.get()->isKeyReleased(key, userID);
+                        return search->second.get()->isKeyReleased(key);
                     return false;
 
                 }
@@ -225,7 +226,7 @@ namespace gameEngine
                     auto search = _inputList.find(key);
 
                     if (search != _inputList.end())
-                        return search->second.get()->isKeyDown(key, userID);
+                        return search->second.get()->isKeyDown(key);
                     return false;
 
                 }
@@ -235,7 +236,7 @@ namespace gameEngine
                     auto search = _inputList.find(key);
 
                     if (search != _inputList.end())
-                        return search->second.get()->isKeyUp(key, userID);
+                        return search->second.get()->isKeyUp(key);
                     return false;
 
                 }
@@ -319,12 +320,9 @@ namespace gameEngine
                     std::vector<std::pair<int, E>> results;
 
                     for (auto &input : _inputList) {
-                        for (auto &event : _keymap)
-                        {
+                        for (auto &event : _keymap) {
                             if (input.second.get()->*event->second.first(event->second.second))
                                 results.push_back(std::make_pair(input.first, event->first));
-                            else
-                                results.emplace(std::make_pair(input.first, input.second.get()->*event->second.first(event->second.second)));
                         }
                     }
                     return results;

@@ -13,7 +13,7 @@
 #include "Map.hpp"
 
 using namespace gameEngine;
-#include "gameEngine/encapsulation/Keyboard.hpp"
+#include "gameEngine/managers/InputManager.hpp"
 #include "gameEngine/DLLoader.hpp"
 #include "game/scenes/MainMenuScene.hpp"
 #include "SceneManager.hpp"

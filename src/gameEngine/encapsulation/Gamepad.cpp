@@ -7,44 +7,43 @@
 
 #include "Gamepad.hpp"
 
-gameEngine::encapsulation::Gamepad::Gamepad() {}
 
-bool gameEngine::encapsulation::Gamepad::isKeyPressed(int key, int device)
+bool gameEngine::encapsulation::Gamepad::isKeyPressed(int key)
 {
-    return IsGamepadButtonPressed(device, key);
+    return IsGamepadButtonPressed(_deviceID, key);
 }
 
-bool gameEngine::encapsulation::Gamepad::isKeyDown(int key, int device)
+bool gameEngine::encapsulation::Gamepad::isKeyDown(int key)
 {
-    return IsGamepadButtonDown(device, key);
+    return IsGamepadButtonDown(_deviceID, key);
 }
 
-bool gameEngine::encapsulation::Gamepad::isKeyUp(int key, int device)
+bool gameEngine::encapsulation::Gamepad::isKeyUp(int key)
 {
-    return IsGamepadButtonUp(device, key);
+    return IsGamepadButtonUp(_deviceID, key);
 }
 
-bool gameEngine::encapsulation::Gamepad::isKeyReleased(int key, int device)
+bool gameEngine::encapsulation::Gamepad::isKeyReleased(int key)
 {
-    return IsGamepadButtonReleased(device, key);
+    return IsGamepadButtonReleased(_deviceID, key);
 }
 
-const std::string gameEngine::encapsulation::Gamepad::getDeviceName(int device)
+const std::string gameEngine::encapsulation::Gamepad::getDeviceName()
 {
-    std::string name{GetGamepadName(device)};
+    std::string name{GetGamepadName(_deviceID)};
 
-    name += "#" + std::to_string(device);
+    name += "#" + std::to_string(_deviceID);
     return name;
 }
 
-bool gameEngine::encapsulation::Gamepad::isDeviceAvailable(int device)
+bool gameEngine::encapsulation::Gamepad::isDeviceAvailable()
 {
-    return IsGamepadAvailable(device);
+    return IsGamepadAvailable(_deviceID);
 }
 
-bool gameEngine::encapsulation::Gamepad::isDeviceName(int device, const char *name)
+bool gameEngine::encapsulation::Gamepad::isDeviceName(const char *name)
 {
-    return IsGamepadName(device, name);
+    return IsGamepadName(_deviceID, name);
 }
 
 int gameEngine::encapsulation::Gamepad::getKeyPressed(void)
