@@ -7,28 +7,26 @@
 
 #include "InputManager.hpp"
 
-game::managers::InputManager::~InputManager()
+gameEngine::managers::InputManager::~InputManager()
+{}
+
+bool gameEngine::managers::InputManager::isKeyPressed(int key)
 {
-    
+    return input->isKeyPressed(key, _id);
 }
 
-bool game::managers::InputManager::isKeyPressed(int key)
+bool gameEngine::managers::InputManager::isKeyReleased(int key)
 {
-    return input->isKeyPressed(key);
+    return input->isKeyPressed(key, _id);
 }
 
-bool game::managers::InputManager::isKeyReleased(int key)
+int gameEngine::managers::InputManager::getLastKeyPressed()
 {
-    return input->isKeyPressed(key);
-}
-
-int game::managers::InputManager::getKeyPressed()
-{
-    return input->getKeyPressed()
+    return input->getKeyPressed();
 }
 
 
-bool game::managers::InputManager::mapDefaultKeys(int, int)
+bool gameEngine::managers::InputManager::mapDefaultKeys(int, int)
 {
     
 }
