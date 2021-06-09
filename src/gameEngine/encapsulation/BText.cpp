@@ -21,11 +21,15 @@ std::ostream& operator<<(std::ostream& out, const encapsulation::BText &text)
 }
 
 encapsulation::BText::BText(const std::string &str, const Vector<int> &pos,
-                const BColor &color, const int &size)
+                const BColor &color, const int &size,
+                gameEngine::encapsulation::ADrawable *relativeObj)
     : ADrawable()
 {
     this->_color = color;
-    this->_position = {(float)pos._x, (float)pos._y, _position._z};
+    if (relativeObj != nullptr) {
+        this->_position = {(float)(relativeObj->getPosition()._x + pos._x), (float)(relativeObj->getPosition()._y + pos._y), (float)(relativeObj->getPosition()._z + _position._z)};
+    } else
+        this->_position = {(float)pos._x, (float)pos._y, _position._z};
     TEXT_SIZE = size;
     this->_str.assign(str);
 }

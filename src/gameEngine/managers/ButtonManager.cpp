@@ -14,9 +14,7 @@ ButtonManager::ButtonManager()
 {}
 
 ButtonManager::~ButtonManager()
-{
-    std::cout << "ButtonManager destroy\n";
-}
+{}
 
 bool ButtonManager::isButtonClicked(const Vector<float> &pos)
 {
@@ -58,7 +56,7 @@ std::shared_ptr<gameEngine::encapsulation::Button> ButtonManager::getClickedButt
     return nullptr;
 }
 
-bool ButtonManager::createButton(const BTexture2D &texture, const BRectangle &rect, const BText &content)
+void ButtonManager::createButton(const std::shared_ptr<BTexture2D> &texture, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content)
 {
     std::shared_ptr<Button> button = std::make_shared<Button>(texture, rect, content);
 
