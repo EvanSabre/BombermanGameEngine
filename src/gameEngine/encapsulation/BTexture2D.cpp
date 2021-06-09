@@ -138,13 +138,13 @@ void encapsulation::BTexture2D::draw() const noexcept
 void encapsulation::BTexture2D::drawEx(int scale) const noexcept
 {
     if (isLoad())
-        DrawTextureEx(this->_texture, (Vector2){_pos._x, _pos._y}, 0.0f, (float)scale, WHITE);
+        DrawTextureEx(this->_texture, (Vector2){(float)_pos._x, (float)_pos._y}, 0.0f, (float)scale, WHITE);
 }
 
 void encapsulation::BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept
 {
     if (isLoad()) {
-        DrawTextureRec(this->_texture, rect.getObj(), (Vector2) {pos._x, pos._y}, _color.getObj());
+        DrawTextureRec(this->_texture, rect.getObj(), (Vector2){pos._x, pos._y}, _color.getObj());
     }
 }
 

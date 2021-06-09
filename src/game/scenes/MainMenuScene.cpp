@@ -48,9 +48,11 @@ std::string MainMenuScene::update()
         std::cout << "Clicked play button\n";
         return "play";
     }
-    _windowManager->BeginDraw();
+    return "";
+}
+
+void MainMenuScene::draw()
+{
     _parallax.drawParallax();
     _buttonManager.drawButtons();
-    _windowManager->EndDraw();
-    return "";
 }

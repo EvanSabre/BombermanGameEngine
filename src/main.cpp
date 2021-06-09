@@ -169,6 +169,9 @@ int main()
             win->clear(WHITE);
             scene->start();
         }
+        win->BeginDraw();
+        scene->draw();
+        win->EndDraw();
     }
     return 0;
 }
