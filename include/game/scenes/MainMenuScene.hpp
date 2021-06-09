@@ -20,7 +20,7 @@ namespace game {
 
                 void start() override;
                 std::string update() override;
-
+                void draw() override;
                 //Unique to this scene
             protected:
                 gameEngine::scenes::Parallax _parallax;
