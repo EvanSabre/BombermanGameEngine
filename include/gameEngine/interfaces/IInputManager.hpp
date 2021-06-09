@@ -11,7 +11,7 @@
 
 namespace gameEngine
 {
-namespace Interfaces
+namespace interfaces
 {
 
 class IInputManager

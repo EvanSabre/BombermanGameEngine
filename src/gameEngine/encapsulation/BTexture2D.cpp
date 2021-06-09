@@ -13,12 +13,20 @@ encapsulation::BTexture2D::BTexture2D(const std::string &filePath)
 {
     this->resetObj();
     this->loadFromFile(filePath);
+    _filepath = filePath;
 }
 
 encapsulation::BTexture2D::BTexture2D()
 {
     this->resetObj();
 }
+
+encapsulation::BTexture2D::BTexture2D(const BTexture2D &ref)
+{
+    this->resetObj();
+    this->loadFromFile(ref.getFilePath());
+}
+
 
 encapsulation::BTexture2D::~BTexture2D()
 {
@@ -49,6 +57,18 @@ encapsulation::BColor encapsulation::BTexture2D::getColor() const noexcept
 Vector<int> encapsulation::BTexture2D::getPos() const noexcept
 {
     return this->_pos;
+}
+
+Vector<int> encapsulation::BTexture2D::getSize() const noexcept
+{
+    Vector<int> size(getObj().width, getObj().height);
+
+    return size;
+}
+
+std::string encapsulation::BTexture2D::getFilePath() const noexcept
+{
+    return this->_filepath;
 }
 
 //setter
@@ -100,9 +120,9 @@ void encapsulation::BTexture2D::draw() const noexcept
 
 void encapsulation::BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept
 {
-
-    if (isLoad())
+    if (isLoad()) {
         DrawTextureRec(this->_texture, rect.getObj(), (Vector2) {pos._x, pos._y}, _color.getObj());
+    }
 }
 
 //-----------------
