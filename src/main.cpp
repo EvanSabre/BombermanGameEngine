@@ -19,8 +19,8 @@ using namespace gameEngine;
 #include "SceneManager.hpp"
 #include <memory>
 
-#define WIN_HEIGHT 450
-#define WIN_WIDTH 800
+#define WIN_HEIGHT 1080
+#define WIN_WIDTH 1920
 
 // static void init(gameEngine::Managers::WindowManager window, encapsulation::BCamera cam)
 // {
