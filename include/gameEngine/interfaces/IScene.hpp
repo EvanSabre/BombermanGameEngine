@@ -8,6 +8,9 @@
 #ifndef ISCENE_HPP_
 #define ISCENE_HPP_
 
+#include <memory>
+#include "WindowManager.hpp"
+
 namespace gameEngine {
 	namespace interfaces {
 		class IScene {
@@ -15,7 +18,8 @@ namespace gameEngine {
 				virtual ~IScene() = default;
 
 				virtual void start() = 0;
-				virtual void update() = 0;
+				virtual std::string update() = 0;
+				virtual void draw() = 0;
 		};
 	}
 }

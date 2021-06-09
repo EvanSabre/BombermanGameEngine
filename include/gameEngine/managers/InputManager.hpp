@@ -8,7 +8,7 @@
 #ifndef KEYBOARDMANAGER_HPP_
 #define KEYBOARDMANAGER_HPP_
 
-#include "gameEngine/interfaces/IInput.hpp"
+#include "IInput.hpp"
 #include <unordered_map>
 #include <memory>
 #include "raylib.h"
@@ -18,7 +18,6 @@
 namespace gameEngine
 {
     // ! every scene must define her enum
-    enum Actions; // c'est ce qui est templatisé sous E dans inputManager
 
     //chaque scene à sa map--><Action, function>
     //chaque scene à sa map--><Key, Action>
@@ -167,9 +166,9 @@ namespace gameEngine
     };
 
     //Chaque scene s'envoie un vector de Player_Infos, le menu principal ne gère que le joueur 1 avec son keyboard
-    //TODO: faut_il pas plutot passer la map à IInput et faire une fonction qui guette l'event
 
     //TODO: Every scene should contain an InputManager and an associated Keymap
+    //TODO: every scene enum Actions; // c'est ce qui est templatisé sous E dans inputManager
     //* for example see below:
     // Keymap_t default_Keymap=
     // {
@@ -181,13 +180,12 @@ namespace gameEngine
 
     // };
 
-    typedef std::vector<int, gameEngine::interfaces::IInput> PlayerInputs; // <id, Keyboard or Gamepad>
-
     namespace managers
     {
         template <typename E>
         class InputManager
         {
+            typedef std::unordered_map<int, std::shared_ptr<gameEngine::interfaces::IInput>> PlayerInputs; // <id, Keyboard or Gamepad>
         public:
             InputManager(PlayerInputs inputList, std::unordered_map<Key, E> keymap);
             ~InputManager();
@@ -195,20 +193,19 @@ namespace gameEngine
             bool isPlayerKeyReleased(int playerId, Key key);
             bool isPlayerKeyDown(int playerId, Key key);
             bool isPlayerKeyUp(int playerId, Key key);
-            std::vector<int, bool> isPlayersKeyPressed(Key key);
-            std::vector<int, bool> isPlayersKeyReleased(Key key);
-            std::vector<int, bool> isPlayersKeyDown(Key key);
-            std::vector<int, bool> isPlayersKeyUp(Key key);
-            bool isPlayerEventHappened(int player, E event)
-            std::vector<int, bool> isPlayersEventHappened(E event);
-            std::vector<int, E> pollEvents();
+            std::unordered_map<int, bool> isPlayersKeyPressed(Key key);
+            std::unordered_map<int, bool> isPlayersKeyReleased(Key key);
+            std::unordered_map<int, bool> isPlayersKeyDown(Key key);
+            std::unordered_map<int, bool> isPlayersKeyUp(Key key);
+            bool isPlayerEventHappened(int player, E event);
+            std::unordered_map<int, bool> isPlayersEventHappened(E event);
+            std::unordered_map<int, E> pollEvents();
             Key getLastKeyPressedByAPlayer();
             E getLastEventPressedByAPlayer();
 
         private:
             std::unordered_map<Key, E> _keymap;
             PlayerInputs _inputList;
-            std::unique_ptr<gameEngine::interfaces::IInput> input;
         };
     }
 }

@@ -28,6 +28,7 @@ namespace gameEngine {
                         const std::string &textureFile = "",
                         float rotation = 0, int nbFrames = 1);
                 Button(const BTexture2D &text, const BRectangle &rect, const BText &content);
+                Button(const BTexture2D &text);
                 ~Button();
 
                 //operator

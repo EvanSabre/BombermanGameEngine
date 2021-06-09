@@ -7,10 +7,12 @@
 
 #include "gameEngine/managers/WindowManager.hpp"
 
-using namespace gameEngine::Managers;
+using namespace gameEngine::managers;
 
 WindowManager::WindowManager()
 {
+    //@todo set fps from settings variable
+    SetTargetFPS(60);
     _size._x = 0;
     _size._y = 0;
     _windowName = "";
@@ -80,6 +82,13 @@ void WindowManager::setFullScreen(void)
 void WindowManager::setBackgroundColor(const gameEngine::encapsulation::BColor &color)
 {
     ClearBackground(color.getObj());
+}
+
+void WindowManager::clear(const gameEngine::encapsulation::BColor &color)
+{
+    this->BeginDraw();
+    this->setBackgroundColor(color);
+    this->EndDraw();
 }
 
 void WindowManager::set3DMode(const gameEngine::encapsulation::BCamera &camera)
