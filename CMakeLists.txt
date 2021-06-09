@@ -1,9 +1,8 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.18)
 
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_COLOR_MAKEFILE ON)
 
 project(project_bomberman
@@ -40,6 +39,9 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Transform.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/Collider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/Directory.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
@@ -49,12 +51,19 @@ set(GAMEENGINE_SRC
 
 set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
+        )
+
+set(UTILS_SRC
+        "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"
         )
 
 set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include"
+        "${PROJECT_SOURCE_DIR}/include/utils"
         "${PROJECT_SOURCE_DIR}/include/gameEngine"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/objects"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/encapsulation"
@@ -67,10 +76,12 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/scenes/components"
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         "${PROJECT_SOURCE_DIR}/include/game/managers"
+        "${PROJECT_SOURCE_DIR}/include/game/objects/"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
 find_package(raylib REQUIRED)
+
 
 set(MY_DEPENDENCIES
         raylib
@@ -81,6 +92,7 @@ add_executable(bomberman
         ${PROJECT_SOURCE_DIR}/src/main.cpp
         ${GAMEENGINE_SRC}
         ${GAME_SRC}
+        ${UTILS_SRC}
         )
 
 set_target_properties(bomberman

@@ -84,6 +84,13 @@ void WindowManager::setBackgroundColor(const gameEngine::encapsulation::BColor &
     ClearBackground(color.getObj());
 }
 
+void WindowManager::clear(const gameEngine::encapsulation::BColor &color)
+{
+    this->BeginDraw();
+    this->setBackgroundColor(color);
+    this->EndDraw();
+}
+
 void WindowManager::set3DMode(const gameEngine::encapsulation::BCamera &camera)
 {
     if (is2D)
