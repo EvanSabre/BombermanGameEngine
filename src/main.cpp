@@ -1,30 +1,17 @@
-/*******************************************************************************************
-*
-*   raylib [models] example - Models loading
-*
-*   raylib supports multiple models file formats:
-*
-*     - OBJ > Text file, must include vertex position-texcoords-normals information,
-*             if files references some .mtl materials file, it will be loaded (or try to)
-*     - GLTF > Modern text/binary file format, includes lot of information and it could
-*              also reference external files, raylib will try loading mesh and materials data
-*     - IQM > Binary file format including mesh vertex data but also animation data,
-*             raylib can load .iqm animations.
-*
-*   This example has been created using raylib 2.6 (www.raylib.com)
-*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
-*
-*   Copyright (c) 2014-2019 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+/*
+** EPITECH PROJECT, 2021
+** indieStudio
+** File description:
+** main
+*/
 
+#include "raylib.h"
 #include "BCamera.hpp"
 #include "BModel.hpp"
 #include "BTexture2D.hpp"
 #include "WindowManager.hpp"
-#include "Player.hpp"
+#include "Map.hpp"
 
-#include "raylib.h"
 using namespace gameEngine;
 #include "gameEngine/encapsulation/Keyboard.hpp"
 #include "gameEngine/DLLoader.hpp"
@@ -35,8 +22,8 @@ using namespace gameEngine;
 #define WIN_HEIGHT 450
 #define WIN_WIDTH 800
 
-int main(void)
-{
+// static void init(gameEngine::Managers::WindowManager window, encapsulation::BCamera cam)
+// {
 //     game::objects::Player player{"p1", "test_name"};
 //     // Initialization
 //     //--------------------------------------------------------------------------------------
@@ -164,6 +151,9 @@ int main(void)
 //     window.deleteWindow();
 //     //--------------------------------------------------------------------------------------
 
+
+int main()
+{
     std::shared_ptr<gameEngine::managers::WindowManager> win = std::make_shared<gameEngine::managers::WindowManager>();
     gameEngine::scenes::SceneInfo info;
     std::string nextScene;

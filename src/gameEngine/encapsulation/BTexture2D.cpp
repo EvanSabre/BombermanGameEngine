@@ -38,7 +38,8 @@ encapsulation::BTexture2D::BTexture2D(const BTexture2D &ref)
 
 encapsulation::BTexture2D::~BTexture2D()
 {
-    this->unload();
+    if (isLoad())
+        this->unload();
 }
 
 //-----------------------
@@ -121,7 +122,7 @@ void encapsulation::BTexture2D::unload() noexcept
     if (!isLoad())
         return;
     UnloadTexture(this->_texture);
-    this->resetObj();
+    // this->resetObj();
 }
 
 //------------------

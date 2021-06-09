@@ -137,4 +137,3 @@ void encapsulation::BModel::resetObj() noexcept
 {
     this->_model.materials = nullptr;
 }
-

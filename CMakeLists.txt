@@ -53,6 +53,11 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/GameObject.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Map.cpp"
         )
 
 set(UTILS_SRC
@@ -110,4 +115,4 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_compile_options(bomberman PRIVATE -Wall -Wextra)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Window")
     target_compile_options(bomberman PRIVATE -Wall -Wextra)
-endif()
+endif ()
