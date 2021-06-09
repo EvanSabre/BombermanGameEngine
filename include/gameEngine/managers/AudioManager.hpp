@@ -8,9 +8,9 @@
 #ifndef AUDIOMANAGER_HPP_
 #define AUDIOMANAGER_HPP_
 
-#include "gameEngine/interfaces/IAudioManager.hpp"
+#include "IAudioManager.hpp"
 
-namespace game {
+namespace gameEngine {
     namespace managers {
         class AudioManager : public gameEngine::Interfaces::IAudioManager {
             public:

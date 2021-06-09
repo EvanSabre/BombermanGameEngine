@@ -5,21 +5,23 @@
 ** AudioManager
 */
 
-#include "game/managers/AudioManager.hpp"
+#include "gameEngine/managers/AudioManager.hpp"
 
-game::managers::AudioManager::AudioManager()
+using namespace gameEngine::managers;
+
+AudioManager::AudioManager()
 {
     InitAudioDevice();
     SetMasterVolume(100);
 }
 
-game::managers::AudioManager::~AudioManager()
+AudioManager::~AudioManager()
 {
     if (IsAudioDeviceReady)
         CloseAudioDevice();
 }
 
-Sound game::managers::AudioManager::loadSoundromFile(char *filepath)
+Sound AudioManager::loadSoundromFile(char *filepath)
 {
     Sound sound;
 
@@ -30,33 +32,33 @@ Sound game::managers::AudioManager::loadSoundromFile(char *filepath)
     return sound;
 }
 
-void game::managers::AudioManager::playSound(Sound sound)
+void AudioManager::playSound(Sound sound)
 {
     PlaySound(sound);
 }
 
-void game::managers::AudioManager::pauseSound(Sound sound)
+void AudioManager::pauseSound(Sound sound)
 {
     PauseSound(sound);
 }
 
-void game::managers::AudioManager::resumeSound(Sound sound)
+void AudioManager::resumeSound(Sound sound)
 {
     ResumeSound(sound);
 }
 
-void game::managers::AudioManager::stopSound(Sound sound)
+void AudioManager::stopSound(Sound sound)
 {
     StopSound(sound);
 }
 
-void game::managers::AudioManager::setSoundVolume(Sound sound, float volume)
+void AudioManager::setSoundVolume(Sound sound, float volume)
 {
     _soundVolume = volume;
     SetSoundVolume(sound, volume);
 }
 
-Music game::managers::AudioManager::loadMusicStreamFromFile(char *filepath)
+Music AudioManager::loadMusicStreamFromFile(char *filepath)
 {
     Music music;
 
@@ -67,22 +69,22 @@ Music game::managers::AudioManager::loadMusicStreamFromFile(char *filepath)
     return music;
 }
 
-void game::managers::AudioManager::playMusic(Music music)
+void AudioManager::playMusic(Music music)
 {
     PlayMusicStream(music);
 }
 
-void game::managers::AudioManager::pauseMusic(Music music)
+void AudioManager::pauseMusic(Music music)
 {
     PauseMusicStream(music);
 }
 
-void game::managers::AudioManager::resumeMusic(Music music)
+void AudioManager::resumeMusic(Music music)
 {
     ResumeMusicStream(music);
 }
 
-void game::managers::AudioManager::stopMusic(Music music)
+void AudioManager::stopMusic(Music music)
 {
     StopMusicStream(music);
 }
