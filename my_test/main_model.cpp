@@ -22,12 +22,14 @@
 #include "BModel.hpp"
 #include "BTexture2D.hpp"
 #include "WindowManager.hpp"
+#include "Player.hpp"
 
 #include "raylib.h"
 using namespace gameEngine;
 
 int main(void)
 {
+    game::objects::Player player{"p1", "test_name"};
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -53,7 +55,7 @@ int main(void)
     my_model.setTexture(0, MATERIAL_MAP_DIFFUSE, my_texture);
     my_model.setPosition({0, 0, 0});
     my_model.setColor(WHITE);
-
+    player.setModel(&my_model);
 
     encapsulation::BTexture2D my_texture_2{};
     my_texture_2.loadFromFile("./resources/models/castle_diffuse.png");
@@ -115,7 +117,7 @@ int main(void)
             // else selected = false;
         }
         //----------------------------------------------------------------------------------
-
+        player.handleKeyEvent();
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
@@ -124,7 +126,8 @@ int main(void)
 
             window.set3DMode(cam);
 
-                my_model.draw();
+               // my_model.draw();
+                player.draw();
                 model_copy.draw();
                 //DrawModel(model, position, 1.0f, WHITE);        // Draw 3d model with texture
 

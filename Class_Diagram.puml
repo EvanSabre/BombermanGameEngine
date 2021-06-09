@@ -43,69 +43,37 @@ namespace game {
         AI
     }
 
-    class Character extends game.Systems.Moveable, game.Systems.Animable {
-        -std::string _name;
-    }
-
     class AI {
     }
-
-    class Player extends game.Character {
-        -std::string _id;
-        -size_t _score;
-    }
-
-    class Bot extends game.Character, game.AI {
-
-    }
-
 }
 
 namespace game.Scenes {
     class MainMenu implements gameEngine.Interfaces.IScene {
-        -game.Managers.ButtonManager _buttonManager;
+        -gameEngine.Managers.ButtonManager _buttonManager;
     }
 }
 
 namespace game.Systems {
-    class Moveable {
-        +Move(Vector &pos, Vector speed = {1,1});
-        +~Move();
-        +void moveUp();
-        +void moveDown();
-        +void moveLeft();
-        +void moveRight();
-        +Vector getSpeed();
-        +void setSpeed(Vector &);
 
-        -Vector _pos;
-        -Vector _speed;
-    }
-
-    class Animable {
-        +Animable();
-        +~Animable();
-
-        +void loadAnim();
-        +ModelAnimation *loadModelAnimation();
-        +void updateModelAnimation();
-        +void unloadModelAnimation();
-        +bool isModelAnimationValid();
-
-        -ModelAnimation *_animation;
-    }
-
-    class Collision {
-
-    }
-
-    class Explosion {
-
-    }
 }
 
-namespace game.Managers {
+namespace gameEngine.Managers {
 
+    class InputManager implements gameEngine.Interfaces.IInputManager
+    {
+        template <typename K, typename V>
+        +virtual InputManager(<K>keys, <V>interpret_values, std::string id={0});
+        +~InputManager();
+        +bool isKeyPressed(int) final;
+        +bool isKeyReleased(int) final;
+        +int getKeyPressed() final;
+        +bool mapKey(int, int) final;
+        +bool mapDefaultKeys(int, int);
+        +bool isConnected();
+
+        -std::unordered_map<K,V> _keymap;
+        -std::string _id;
+    }
     class SaveManager implements gameEngine.Interfaces.AFileManager{}
     class TextureManager implements gameEngine.Interfaces.ITextureManager {}
     class TextManager implements gameEngine.Interfaces.ITextManager {}
@@ -125,13 +93,24 @@ namespace game.Managers {
 
 namespace game.Objects {
 
-    class GameObject {
-        int getId();
-        int id
-    }
-    class Droppable extends GameObject {}
-    class Collectible extends GameObject {}
+    class Droppable extends gameEngine.Objects.AGameObject {}
+    class Collectible extends gameEngine.Objects.AGameObject {}
     class Bomb extends Droppable {}
+
+    class Character extends gameEngine.Objects.Moveable {
+        -std::string _name;
+    }
+
+
+    class Player extends game.Objects.Character {
+        -std::string _id;
+        -size_t _score;
+    }
+
+    class Bot extends game.Objects.Character, game.AI {
+
+    }
+
 
     enum TileType {
         WALL,
@@ -140,7 +119,7 @@ namespace game.Objects {
         COLLECTIBLE,
     }
 
-    class Tile extends GameObject {
+    class Tile extends gameEngine.Objects.AGameObject {
         -Texture _texture;
         -Model _model;
         -std::Vector<std::size_t> _pos;
@@ -170,6 +149,8 @@ namespace game.Objects {
 
     class Wall extends Tile {
     }
+    class Wall extends gameEngine.Objects.AGameObject {
+        +Wall(bool isDestructible)
 
     class Brick extends Wall {
         -Collectible _powerup;
@@ -204,7 +185,7 @@ namespace Encapsulation #fc7c60  {
         +State getState() const;
         +bool getButtonPressed() const;
         +int getNbFrames() const;
-
+        +virtual ButtonClickedCallBack(va_args ...) = 0;
         +void setPos(const Vector<float> &pos);
         +void setRotation(const float &rotation);
         +void setSize(const Vector<float> &size);
@@ -229,6 +210,41 @@ namespace Encapsulation #fc7c60  {
         -Vector<float> pos;
         -Color color;
         -float rotation;
+    }
+    class IDrawable {
+        +virtual gameEngine::encapsulation::BColor getColor() const noexcept;
+        +virtual Vector3T<float> getPosition() const noexcept;
+        +virtual Vector3T<float> getSize() const noexcept;
+        +virtual float getScale() const noexcept;
+        +virtual Vector3T<float> getScaledSize() const noexcept;
+
+        +virtual void setColor(const gameEngine::encapsulation::BColor &color) noexcept = 0;
+        +virtual void setPosition(const Vector3T<float> &pos) noexcept = 0;
+        +virtual void setSize(const Vector3T<float> &size) noexcept = 0;
+        +virtual void setScale(float scale) noexcept = 0;
+
+        +virtual void draw() const noexcept = 0;
+    }
+    class ADrawable {
+        +ADrawable();
+
+        +gameEngine::encapsulation::BColor getColor() const noexcept final;
+        +Vector3T<float> getPosition() const noexcept final;
+        +Vector3T<float> getSize() const noexcept final;
+        +float getScale() const noexcept final;
+        +Vector3T<float> getScaledSize() const noexcept final;
+
+        +void setColor(const gameEngine::encapsulation::BColor &color) noexcept override;
+        +void setPosition(const Vector3T<float> &pos) noexcept override;
+        +void setSize(const Vector3T<float> &size) noexcept override;
+        +void setScale(float scale) noexcept override;
+
+        +void draw() const noexcept override;
+
+        -Vector3T<float> _size{1, 1, 1};
+        -Vector3T<float> _position{0, 0, 0};
+        -gameEngine::encapsulation::BColor _color = WHITE;
+        -float _scale = 1;
     }
     class Image {
         +Image getObj() const noexcept;
@@ -320,6 +336,19 @@ namespace Encapsulation #fc7c60  {
         -Camera _camera;
     }
     class Shader {}
+    class IAudioObject {
+        +virtual void play() = 0;
+        +virtual void stop() = 0;
+        +virtual void pause() = 0;
+        +virtual void resume() = 0;
+
+        +virtual bool isPlaying() const = 0;
+
+        +virtual float getVolume() const noexcept = 0;
+        +virtual void setVolume(float volume) = 0;
+        +virtual float getPitch() const noexcept = 0;
+        +virtual void setPitch(float pitch) = 0;
+    }
     class Music {
         +BMusic(const std::string &filepath);
         +BMusic(const BMusic &ref) = delete;
@@ -389,7 +418,22 @@ namespace Encapsulation #fc7c60  {
         -unsigned char _a;
     }
 
-    class Font {}
+    class Font {
+        +BFont();
+        +BFont(const BFont &ref);
+        +BFont &operator=(const BFont &ref);
+        +~BFont();
+
+        +[[nodiscard]] Font getObj() const noexcept;
+        +[[nodiscard]] bool isLoad() const noexcept;
+        +void loadFromFile(const std::string &filepath);
+        +void unload() noexcept;
+
+            -Font _font;
+            -std::string _filepath;
+
+            +void resetObj() noexcept;
+    }
 
     class Rectangle {
         +BRectangle(const BRectangle &ref);
@@ -422,16 +466,18 @@ namespace Encapsulation #fc7c60  {
         -BColor _color;
     }
 
-    class Animation {
-        +Animation(Model, ModelAnimation, size_t = 0);
-        +~Animation();
-        +ModelAnimation *loadModelAnimation(const std::string &, int *animCount);
-        +void updateModelAnimation(Model, ModelAnimation, int);
-        +void unloadModelAnimation(ModelAnimation *, unsigned int);
-        +bool isModelAnimationValid(Model, ModelAnimation);
-        -Model _model;
-        -size_t _frameCounter;
-        -ModelAnimation *_animation;
+    class ModelAnimation {
+        +ModelAnimation(const std::string &filePath);
+        +ModelAnimation(const BModelAnimation &ref);
+        +int getAnimFrameCount() const noexcept;
+        +ModelAnimation *getModelAnimation() const noexcept;
+        +std::string getFilePath() const noexcept;
+        +bool isLoad();
+        +void loadNewAnimation(const std::string &filePath);
+        +void destroyAnim();
+        -std::string _filePath;
+        -ModelAnimation *_anims;
+        -int _animsCount;
     }
 }
 
@@ -526,11 +572,96 @@ namespace Interfaces #DDDDDD {
     'Classe qui pourrait herite: Keyboard, Gamepad, Mouse
     interface IInputManager
     {
-        +bool isKeyPressed(int);
-        +bool isKeyReleased(int);
-        +int getKeyPressed();
+        +virtual bool isKeyPressed(int);
+        +virtual bool isKeyReleased(int);
+        +virtual int getKeyPressed();
+        +virtual bool mapKey(int, int);
+        +virtual bool mapDefaultKeys(int, int);
+        +bool isConnected();
     }
     'Voir pour les collisions si interface necessaires
+}
+
+namespace Systems {
+    gameEngine.Objects.AGameObject-->gameEngine.Systems.Collision
+    class Collision {
+        +calculateCollisions(const std::vector<AGameObject> &object);
+    }
+    gameEngine.Encapsulation.ModelAnimation--gameEngine.Systems.Animate
+    class Animate {
+        +animateAll(const std::vector<ModelAnimation> animations);
+    }
+
+}
+
+namespace Component {
+
+    class Collider {
+        +getEnabled();
+        +setTargetMask(int);
+        +getTargetMask();
+        -bool _enabled;
+        -int targetMask;
+    }
+    class BoxCollider extends Collider {
+        +getBoundingBox();
+        +isColliding(const BBoundingBox &ref);
+        -BBoundingBox _box;
+    }
+
+    class SphereCollider extends Collider {
+        +getSphere();
+    }
+
+    class Transform {
+        +LookAt(const Transform &);
+        +Rotate(float xAngle, float yAngle, float zAngle);
+        +getPosition();
+        +getRotation();
+        +operator==;
+        +operator!=;
+        +operator=;
+        +operator<<;
+        -Vector3T<float> _position;
+        -Vector3T<float> _rotation;
+    }
+}
+
+gameEngine.Component.Transform--gameEngine.Objects.AGameObject
+gameEngine.Component.Collider--gameEngine.Objects.AGameObject
+gameEngine.Objects.Quadrants--gameEngine.Objects.AGameObject
+
+namespace Objects {
+    enum Quadrants {
+        TOP-LEFT
+        TOP-RIGHT
+        BOT-LEFT
+        BOT-RIGHT
+    }
+    class AGameObject {
+        +string getId();
+        +Vector3T<float> getPosition();
+        +Vector3T<float> getSpeed();
+        +virtual OnCollisionEnter(const Collision &collision) = 0;
+        +virtual Update() = 0;
+        -string id;
+        -Transform _transform;
+        -Collider _collider;
+        -Quadrants _quadrant;
+    }
+
+    class Moveable extends AGameObject {
+        +Move(Vector &pos, Vector speed = {1,1});
+        +~Move();
+        +void moveUp();
+        +void moveDown();
+        +void moveLeft();
+        +void moveRight();
+        +Vector getSpeed();
+        +void setSpeed(Vector &);
+
+        -Vector _speed;
+    }
 }
 }
 @enduml

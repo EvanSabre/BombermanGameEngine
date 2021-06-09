@@ -14,7 +14,7 @@
 
 using namespace gameEngine;
 
-static void init(game::Managers::WindowManager window, encapsulation::BCamera cam)
+static void init(gameEngine::Managers::WindowManager window, encapsulation::BCamera cam)
 {
     Map map(15, 637520213);
     map.dump();
@@ -47,7 +47,7 @@ int main(void)
     const int screenWidth = 960;
     const int screenHeight = 720;
 
-    game::Managers::WindowManager window;
+    gameEngine::Managers::WindowManager window;
     window.createWindow("Model example", {screenWidth, screenHeight});
 
     encapsulation::BCamera cam;

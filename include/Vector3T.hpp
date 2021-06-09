@@ -14,6 +14,7 @@ template <class T>
 class Vector3T {
     public:
         Vector3T(T x, T y, T Z);
+        Vector3T();
         ~Vector3T() = default;
         Vector3T(const Vector3T<T> &copy);
 
@@ -48,6 +49,14 @@ Vector3T<T>::Vector3T(T x, T y, T z)
     _x = x;
     _y = y;
     _z = z;
+}
+
+template <class T>
+Vector3T<T>::Vector3T()
+{
+    _x = 0;
+    _y = 0;
+    _z = 0;
 }
 
 template <class T>

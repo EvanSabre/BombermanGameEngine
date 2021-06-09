@@ -30,3 +30,8 @@ void BBoundingBox::setBoundingBox(const Vector3T<float> &min, const Vector3T<flo
     _box.min = vec_min;
     _box.max = vec_max;
 }
+
+bool BBoundingBox::checkCollision(const BBoundingBox &ref)
+{
+    return CheckCollisionBoxes(_box, ref._box);
+}

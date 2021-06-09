@@ -14,9 +14,9 @@
 #include "Vector.hpp"
 #include "IWindowManager.hpp"
 
-namespace game {
+namespace gameEngine {
     namespace Managers {
-        class WindowManager : public gameEngine::Interfaces::IWindowManager {
+        class WindowManager : public gameEngine::interfaces::IWindowManager {
             public:
                 WindowManager();
                 ~WindowManager();
@@ -26,6 +26,8 @@ namespace game {
                 void resizeWindow(const Vector<int> &size) final;
                 bool isRunning() const noexcept final;
 
+                void BeginDraw() override;
+                void EndDraw() override;
                 void setFullScreen(void) final;
                 void setBackgroundColor(const gameEngine::encapsulation::BColor &color) final;
                 void set3DMode(const gameEngine::encapsulation::BCamera &camera) final;
