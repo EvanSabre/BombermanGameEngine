@@ -101,13 +101,15 @@ void encapsulation::BTexture2D::loadFromImg(const BImage &img)
         throw std::runtime_error("Texture test : loading failed");
 }
 
-void encapsulation::BTexture2D::loadFromImgRelRect(const std::string &path, const BRectangle &rect)
+void encapsulation::BTexture2D::loadFromImgRelRect(const std::string &path, const Vector<float> &size)
 {
     BImage img(path);
-    Vector<float> size = rect.getRectSize();
 
+    this->resetObj();
     img.resize(Vector<int>(size._x, size._y));
+    img.setPosition(Vector<int>(0, 0));
     this->loadFromImg(img);
+    _filepath = path;
 }
 
 void encapsulation::BTexture2D::loadFromFile(const std::string &filepath)

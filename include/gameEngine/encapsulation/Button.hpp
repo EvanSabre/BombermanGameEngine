@@ -28,7 +28,6 @@ namespace gameEngine {
                         const std::string &textureFile = "",
                         float rotation = 0, int nbFrames = 1);
                 Button(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content);
-                Button(const BTexture2D &text);
                 ~Button();
 
                 //operator

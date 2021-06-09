@@ -15,7 +15,7 @@ Button::Button(const Vector<float> &size, const Vector<float> &pos,
                 float rotation, int nbFrames)
 {
     _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
-    _frameRec = std::make_shared<BRectangle>(size, {0,0}, color, rotation);
+    _frameRec = std::make_shared<BRectangle>(size, Vector<float>(0, 0), color, rotation);
     _content = std::make_shared<BText>(content);
     _texture = std::make_shared<BTexture2D>();
     if (textureFile != "" && content.getStr() != "") {
@@ -32,6 +32,8 @@ Button::Button(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BR
     _texture = text;
     _rectangle = rect;
     _content = content;
+    _frameRec = std::make_shared<BRectangle>(*rect);
+    _frameRec->setRectPosition(Vector<float>(0, 0));
     _state = NORMAL;
     _nbFrames = 1;
     _buttonPressed = false;
@@ -57,17 +59,17 @@ Button &Button::operator=(const Button &ref)
 //GETTERS
 Vector<float> Button::getPos() const
 {
-    return _rectangle.getRectPosition();
+    return _rectangle->getRectPosition();
 }
 
 Vector<float> Button::getSize() const
 {
-    return _rectangle.getRectSize();
+    return _rectangle->getRectSize();
 }
 
 BText Button::getContent() const
 {
-    return _content;
+    return *_content;
 }
 
 Button::State Button::getState() const
@@ -82,17 +84,17 @@ bool Button::getButtonPressed() const
 
 BTexture2D Button::getTexture() const
 {
-    return _texture;
+    return *_texture;
 }
 
 BRectangle Button::getRect() const
 {
-    return _rectangle;
+    return *_rectangle;
 }
 
 BRectangle Button::getFrameRect() const
 {
-    return _frameRec;
+    return *_frameRec;
 }
 
 int Button::getNbFrames() const
@@ -103,22 +105,22 @@ int Button::getNbFrames() const
 //SETTERS
 void Button::setPos(const Vector<float> &pos)
 {
-    _rectangle.setRectPosition(pos);
+    _rectangle->setRectPosition(pos);
 }
 
 void Button::setRotation(const float &rotation)
 {
-    _rectangle.setRotation(rotation);
+    _rectangle->setRotation(rotation);
 }
 
 void Button::setSize(const Vector<float> &size)
 {
-    _rectangle.setRectSize(size);
+    _rectangle->setRectSize(size);
 }
 
 void Button::setColor(const BColor &color)
 {
-    _rectangle.setColor(color);
+    _rectangle->setColor(color);
 }
 
 void Button::setNbFrames(const int &nb)
@@ -128,23 +130,23 @@ void Button::setNbFrames(const int &nb)
 
 void Button::setContentStr(const std::string &str)
 {
-    _content.setStr(str);
+    _content->setStr(str);
 }
 
 void Button::setFrameRect(const BRectangle &rect)
 {
-    _frameRec = rect;
+    *_frameRec = rect;
 }
 
 void Button::setFrameRectSize(const Vector<float> &size)
 {
-    _frameRec.setRectSize(size);
+    _frameRec->setRectSize(size);
 }
 
 //CHECKERS
 bool Button::isInsideButton(const Vector<float> &point)
 {
-    if (_rectangle.checkPointInside(point)) {
+    if (_rectangle->checkPointInside(point)) {
         _state = MOUSE_HOVER;
         return true;
     }
@@ -182,10 +184,11 @@ void Button::update()
 //DRAW
 void Button::drawButton()
 {
-    if (_texture.isLoad()) {
-       _texture.drawRect(_frameRec, _rectangle.getRectPosition());
+
+    if (_texture->isLoad()) {
+       _texture->drawRect(*_frameRec, _rectangle->getRectPosition());
     } else {
-        _rectangle.draw();
-        _content.draw();
+        _rectangle->draw();
+        _content->draw();
     }
 }
