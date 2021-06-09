@@ -12,24 +12,26 @@ using namespace gameEngine;
 
 Button::Button(const Vector<float> &size, const Vector<float> &pos,
                 const BText &content, const BColor &color, const std::string &textureFile,
-                float rotation, int nbFrames) :
-_rectangle(size, pos, color, rotation), _frameRec(size, {0, 0}, color, rotation),
-_content(content)
+                float rotation, int nbFrames)
 {
+    _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
+    _frameRec = std::make_shared<BRectangle>(size, {0,0}, color, rotation);
+    _content = std::make_shared<BText>(content);
+    _texture = std::make_shared<BTexture2D>();
     if (textureFile != "" && content.getStr() != "") {
-        _texture.addTextToTexture(content, textureFile);
+        _texture->addTextToTexture(content, textureFile);
     } else if (textureFile != "")
-        _texture.loadFromFile(textureFile);
+        _texture->loadFromFile(textureFile);
     _state = NORMAL;
     _nbFrames = nbFrames;
     _buttonPressed = false;
 }
 
-Button::Button(const BTexture2D &text, const BRectangle &rect, const BText &content) :
-    _texture(text), _rectangle(rect), _frameRec(rect.getRectSize(), {0, 0}, rect.getColor(), rect.getRotation()),
-    _content(content)
+Button::Button(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content)
 {
-
+    _texture = text;
+    _rectangle = rect;
+    _content = content;
     _state = NORMAL;
     _nbFrames = 1;
     _buttonPressed = false;
@@ -42,13 +44,13 @@ Button &Button::operator=(const Button &ref)
 {
     if (this == &ref)
         return *this;
-    _content = ref.getContent();
-    _texture = ref.getTexture();
+    *_content = ref.getContent();
+    *_texture = ref.getTexture();
     _nbFrames = ref.getNbFrames();
     _state = ref.getState();
     _buttonPressed = ref.getButtonPressed();
-    _rectangle = ref.getRect();
-    _frameRec = ref.getFrameRect();
+    *_rectangle = ref.getRect();
+    *_frameRec = ref.getFrameRect();
     return *this;
 }
 
