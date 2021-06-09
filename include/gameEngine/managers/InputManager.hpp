@@ -14,6 +14,7 @@
 #include "raylib.h"
 #include <string>
 #include <vector>
+#include <bits/stdc++.h>
 
 namespace gameEngine
 {
@@ -165,7 +166,7 @@ namespace gameEngine
         GAMEPAD_BUTTON_RIGHT_THUMB = 416
     };
 
-    //Chaque scene s'envoie un vector de Player_Infos, le menu principal ne gère que le joueur 1 avec son keyboard
+    //Chaque scene s'envoie un vector de User_Infos, le menu principal ne gère que le joueur 1 avec son keyboard
 
     //TODO: Every scene should contain an InputManager and an associated Keymap
     //TODO: every scene enum Actions; // c'est ce qui est templatisé sous E dans inputManager
@@ -177,35 +178,171 @@ namespace gameEngine
     //     {Key::KEY_RIGHT, INGAME_MOVE_RIGHT},
     //     {Key::KEY_LEFT, INGAME_MOVE_LEFT},
 
-
-    // };
+    //template <typename E>
+    typedef std::unordered_map<int, std::shared_ptr<gameEngine::interfaces::IInput>> UserInputs; // <id, Keyboard or Gamepad>
+    typedef bool (gameEngine::interfaces::IInput::*InputFunc)(int, int);
+    typedef std::pair<InputFunc, Key> keyEvent;
+    std::unordered_map<int, keyEvent> ExampleMap =
+    {
+        {1, {&gameEngine::interfaces::IInput::isKeyPressed, KEY_UP}}
+    };
 
     namespace managers
     {
         template <typename E>
         class InputManager
         {
-            typedef std::unordered_map<int, std::shared_ptr<gameEngine::interfaces::IInput>> PlayerInputs; // <id, Keyboard or Gamepad>
-        public:
-            InputManager(PlayerInputs inputList, std::unordered_map<Key, E> keymap);
-            ~InputManager();
-            bool isPlayerKeyPressed(int playerId, Key key);
-            bool isPlayerKeyReleased(int playerId, Key key);
-            bool isPlayerKeyDown(int playerId, Key key);
-            bool isPlayerKeyUp(int playerId, Key key);
-            std::unordered_map<int, bool> isPlayersKeyPressed(Key key);
-            std::unordered_map<int, bool> isPlayersKeyReleased(Key key);
-            std::unordered_map<int, bool> isPlayersKeyDown(Key key);
-            std::unordered_map<int, bool> isPlayersKeyUp(Key key);
-            bool isPlayerEventHappened(int player, E event);
-            std::unordered_map<int, bool> isPlayersEventHappened(E event);
-            std::unordered_map<int, E> pollEvents();
-            Key getLastKeyPressedByAPlayer();
-            E getLastEventPressedByAPlayer();
 
-        private:
-            std::unordered_map<Key, E> _keymap;
-            PlayerInputs _inputList;
+            public:
+                InputManager(UserInputs inputList, std::unordered_map<E, InputFunc> keymap)
+                {
+                    _inputList = inputList;
+                    _keymap = keymap;
+                }
+                ~InputManager() = default;
+                bool isUserKeyPressed(int userID, Key key)
+                {
+                    auto search = _inputList.find(userID);
+
+                    if (search != _inputList.end())
+                        return search->second.get()->isKeyPressed(key);
+                    return false;
+                }
+
+                bool isUserKeyReleased(int userID, Key key)
+                {
+                    auto search = _inputList.find(key);
+
+                    if (search != _inputList.end())
+                        return search->second.get()->isKeyReleased(key, userID);
+                    return false;
+
+                }
+
+                bool isUserKeyDown(int userID, Key key)
+                {
+                    auto search = _inputList.find(key);
+
+                    if (search != _inputList.end())
+                        return search->second.get()->isKeyDown(key, userID);
+                    return false;
+
+                }
+
+                bool isUserKeyUp(int userID, Key key)
+                {
+                    auto search = _inputList.find(key);
+
+                    if (search != _inputList.end())
+                        return search->second.get()->isKeyUp(key, userID);
+                    return false;
+
+                }
+
+                std::unordered_map<int, bool> isUsersKeyPressed(Key key)
+                {
+                    std::unordered_map<int, bool> results;
+
+                    for (auto &input : _inputList)
+                        results.emplace(std::make_pair(input.first, input.second.get()->isKeyPressed(key)));
+                    return results;
+                }
+
+                std::unordered_map<int, bool> isUsersKeyReleased(Key key)
+                {
+                    std::unordered_map<int, bool> results;
+
+                    for (auto &input : _inputList)
+                        results.emplace(std::make_pair(input.first, input.second.get()->isKeyReleased(key)));
+                    return results;
+                }
+
+                std::unordered_map<int, bool> isUsersKeyDown(Key key)
+                {
+                    std::unordered_map<int, bool> results;
+
+                    for (auto &input : _inputList)
+                        results.emplace(std::make_pair(input.first, input.second.get()->isKeyDown(key)));
+                    return results;
+                }
+
+                std::unordered_map<int, bool> isUsersKeyUp(Key key)
+                {
+                    std::unordered_map<int, bool> results;
+
+                    for (auto &input : _inputList)
+                        results.emplace(std::make_pair(input.first, input.second.get()->isKeyUp(key)));
+                    return results;
+                }
+
+                bool isUserEventHappened(int userID, E event)
+                {
+                    auto searchUser = _inputList.find(userID);
+                    auto searchEvent = _keymap.find(event);
+
+                    if (searchUser != _inputList.end())
+                    {
+                        if (searchEvent != _keymap.end())
+                            return searchUser->second.get()->*searchEvent->second.first(searchEvent->second.second);
+                    }
+                    return false;
+                }
+
+                std::unordered_map<int, bool> isUsersEventHappened(E event)
+                {
+                    std::unordered_map<int, bool> results;
+                    auto searchEvent = _keymap.find(event);
+
+                    for (auto &input : _inputList) {
+                        if (searchEvent != _keymap.end())
+                            results.emplace(std::make_pair(input.first, false));
+                        else
+                            results.emplace(std::make_pair(input.first, input.second.get()->*searchEvent->second.first(searchEvent->second.second)));
+                    }
+                    return results;
+                }
+
+                Key getLastKeyPressedByAUser()
+                {
+                    if (_inputList.empty())
+                        return -1;
+                    Key key = _inputList[0].get()->getKeyPressed();
+
+                    if (_keymap.find(key))
+                        return _keymap[key];
+                    return -1;
+                }
+
+                std::vector<std::pair<int, E>> pollEvents()
+                {
+                    std::vector<std::pair<int, E>> results;
+
+                    for (auto &input : _inputList) {
+                        for (auto &event : _keymap)
+                        {
+                            if (input.second.get()->*event->second.first(event->second.second))
+                                results.push_back(std::make_pair(input.first, event->first));
+                            else
+                                results.emplace(std::make_pair(input.first, input.second.get()->*event->second.first(event->second.second)));
+                        }
+                    }
+                    return results;
+                }
+
+                E getLastEventPressedByAUser()
+                {
+                    if (_inputList.empty())
+                        return -1;
+                    Key key = _inputList[0].get()->getKeyPressed();
+
+                    if (_keymap.find(key))
+                        return _keymap[key];
+                    return -1;
+                };
+
+            private:
+                std::unordered_map<Key, E> _keymap;
+                UserInputs _inputList;
         };
     }
 }
