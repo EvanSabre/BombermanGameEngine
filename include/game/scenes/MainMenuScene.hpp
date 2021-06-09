@@ -9,9 +9,7 @@
 #define MAINMENUSCENE_HPP_
 
 #include "AScene.hpp"
-#include "ButtonManager.hpp"
 #include "Parallax.hpp"
-#include "SceneInfo.hpp"
 
 namespace game {
     namespace scenes {
@@ -21,11 +19,10 @@ namespace game {
                 ~MainMenuScene();
 
                 void start() override;
-                void update() override;
+                std::string update() override;
 
                 //Unique to this scene
             protected:
-                gameEngine::managers::ButtonManager _buttonManager;
                 gameEngine::scenes::Parallax _parallax;
             private:
 
