@@ -10,6 +10,8 @@
 
 #include "AScene.hpp"
 #include "ButtonManager.hpp"
+#include "Map.hpp"
+#include "BCamera.hpp"
 
 namespace game {
     namespace scenes {
@@ -23,6 +25,11 @@ namespace game {
                 void draw() override;
             protected:
             private:
+                Map _map{15, 637520213};
+                gameEngine::encapsulation::BCamera _cam;
+
+            private:
+                void setupCamera() noexcept;
         };
     }
 }

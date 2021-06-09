@@ -12,6 +12,7 @@ using namespace game::scenes;
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
 : AScene(windowManager, info)
 {
+    this->setupCamera();
 }
 
 PlayGameScene::~PlayGameScene()
@@ -29,6 +30,15 @@ void PlayGameScene::start()
     this->_windowManager.get()->setBackgroundColor(bgColor);
 }
 
+void PlayGameScene::setupCamera() noexcept
+{
+    _cam.setPosition({7, 20, -7});
+    _cam.setTarget({7, 0, 7});
+    _cam.setUp({0, 1, 0});
+    _cam.setFovy(55);
+    _cam.setProjection(CAMERA_PERSPECTIVE);
+}
+
 std::string PlayGameScene::update()
 {
     _buttonManager.updateButtons();
@@ -42,4 +52,7 @@ std::string PlayGameScene::update()
 void PlayGameScene::draw()
 {
     _buttonManager.drawButtons();
+    this->_windowManager.get()->set3DMode(_cam);
+    _map.draw();
+    _cam.endMode();
 }
