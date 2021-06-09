@@ -21,16 +21,25 @@ encapsulation::BTexture2D::BTexture2D()
     this->resetObj();
 }
 
+encapsulation::BTexture2D::BTexture2D(const std::string &filePath, const encapsulation::BText &content)
+{
+    this->resetObj();
+    this->addTextToTexture(content, filePath);
+    _filepath = filePath;
+}
+
 encapsulation::BTexture2D::BTexture2D(const BTexture2D &ref)
 {
     this->resetObj();
     this->loadFromFile(ref.getFilePath());
+    this->_filepath = ref._filepath;
 }
 
 
 encapsulation::BTexture2D::~BTexture2D()
 {
-    this->unload();
+    if (isLoad())
+        this->unload();
 }
 
 //-----------------------
@@ -100,12 +109,20 @@ void encapsulation::BTexture2D::loadFromFile(const std::string &filepath)
         throw std::runtime_error("Texture : Loading failedd");
 }
 
+void encapsulation::BTexture2D::addTextToTexture(const BText &text, const std::string &filePath)
+{
+    BImage img(filePath);
+
+    img.drawText(text, text.getTextPosition());
+    loadFromImg(img);
+}
+
 void encapsulation::BTexture2D::unload() noexcept
 {
     if (!isLoad())
         return;
     UnloadTexture(this->_texture);
-    this->resetObj();
+    // this->resetObj();
 }
 
 //------------------
@@ -118,10 +135,16 @@ void encapsulation::BTexture2D::draw() const noexcept
         DrawTexture(this->_texture, _pos._x, _pos._y, _color.getObj());
 }
 
+void encapsulation::BTexture2D::drawEx(int scale) const noexcept
+{
+    if (isLoad())
+        DrawTextureEx(this->_texture, (Vector2){(float)_pos._x, (float)_pos._y}, 0.0f, (float)scale, WHITE);
+}
+
 void encapsulation::BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept
 {
     if (isLoad()) {
-        DrawTextureRec(this->_texture, rect.getObj(), (Vector2) {pos._x, pos._y}, _color.getObj());
+        DrawTextureRec(this->_texture, rect.getObj(), (Vector2){pos._x, pos._y}, _color.getObj());
     }
 }
 

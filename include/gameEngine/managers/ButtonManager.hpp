@@ -16,16 +16,17 @@
 using namespace gameEngine::encapsulation;
 
 namespace gameEngine {
-    namespace Managers {
+    namespace managers {
         class ButtonManager {
             public:
                 ButtonManager();
                 ~ButtonManager();
 
                 bool isButtonClicked(const Vector<float> &pos);
+                bool isButtonClicked(const std::string &content);
                 bool isButtonClicked(const std::string &buttonContent, const Vector<float> &pos);
 
-                gameEngine::encapsulation::Button createButton(const BTexture2D &texture, const BRectangle &rect, const BText &content);
+                bool createButton(const BTexture2D &texture, const BRectangle &rect, const BText &content);
                 void pushButton(std::shared_ptr<encapsulation::Button> button);
 
                 std::shared_ptr<gameEngine::encapsulation::Button> getClickedButton(const Vector<float> &pos);
