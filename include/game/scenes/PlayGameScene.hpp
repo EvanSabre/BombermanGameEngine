@@ -20,6 +20,7 @@ namespace game {
 
                 void start() override;
                 std::string update() override;
+                void draw() override;
             protected:
             private:
         };

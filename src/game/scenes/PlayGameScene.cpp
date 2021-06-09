@@ -28,9 +28,9 @@ void PlayGameScene::start()
 
 std::string PlayGameScene::update()
 {
-    _windowManager->BeginDraw();
+}
 
+void PlayGameScene::draw()
+{
     _buttonManager.drawButtons();
-
-    _windowManager->EndDraw();
 }
