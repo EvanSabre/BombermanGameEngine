@@ -44,8 +44,6 @@ class File
         void create();
         std::string _path = "";
         std::string _name = "";
-
-    private:
         std::string getNameFromPath(const std::string &path) const noexcept;
 };
 

@@ -20,12 +20,6 @@
 class Directory
 {
   public:
-    typedef struct file_info_t {
-        struct stat stat;
-        std::string name;
-        std::string path;
-    } file_info_t;
-
     Directory(const std::string &dirpath, bool force_creation=false);
     ~Directory();
 
