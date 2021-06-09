@@ -7,7 +7,7 @@
 
 #include "ButtonManager.hpp"
 
-using namespace gameEngine::Managers;
+using namespace gameEngine::managers;
 using namespace gameEngine::encapsulation;
 
 ButtonManager::ButtonManager()
@@ -25,6 +25,18 @@ bool ButtonManager::isButtonClicked(const Vector<float> &pos)
             return true;
     }
     return false;
+}
+
+bool ButtonManager::isButtonClicked(const std::string &content)
+{
+    Vector2 mouse;
+
+    for (auto it : _currentButtons) {
+        if (it->getContent().getStr() == content) {
+            mouse = GetMousePosition();
+            return it->isButtonPressed(Vector<float>(mouse.x, mouse.y));
+        }
+    }
 }
 
 bool ButtonManager::isButtonClicked(const std::string &buttonContent, const Vector<float> &mousePos)

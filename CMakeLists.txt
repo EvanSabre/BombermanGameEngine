@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.18)
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_COLOR_MAKEFILE ON)
 
 project(project_bomberman
@@ -43,6 +42,11 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/Directory.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/SceneInfo.cpp"
+
         )
 
 set(GAME_SRC
@@ -58,6 +62,8 @@ set(GAME_SRC
 
 set(UTILS_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"
         )
 
 set(MY_INCLUDE
@@ -71,6 +77,8 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/component/collider"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/interfaces"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/managers"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/scenes"
+        "${PROJECT_SOURCE_DIR}/include/gameEngine/scenes/components"
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         "${PROJECT_SOURCE_DIR}/include/game/managers"
         "${PROJECT_SOURCE_DIR}/include/game/objects/"

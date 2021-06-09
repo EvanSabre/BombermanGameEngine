@@ -17,9 +17,7 @@ _rectangle(size, pos, color, rotation), _frameRec(size, {0, 0}, color, rotation)
 _content(content)
 {
     if (textureFile != "" && content.getStr() != "") {
-            BImage img(textureFile);
-            img.drawText(content, content.getTextPosition());
-            _texture.loadFromImg(img);
+        _texture.addTextToTexture(content, textureFile);
     } else if (textureFile != "")
         _texture.loadFromFile(textureFile);
     _state = NORMAL;

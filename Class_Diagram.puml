@@ -1,5 +1,6 @@
 @startuml Indie_Studio
-
+!define DARKBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
 'Gestion de souris, manettes, clavier, fps, fichier (sauvegarde), parsing JSON, textures
 'texte, drawShapes, models(2d, 3D), audio
 
@@ -34,7 +35,7 @@ namespace global {
 }
 
 namespace game {
-        enum EntityType {
+    enum EntityType {
         COLLECTABLE,
         DROPPABLE,
         BOMB,
@@ -45,21 +46,68 @@ namespace game {
 
     class AI {
     }
-}
 
-namespace game.Scenes {
-    class MainMenu implements gameEngine.Interfaces.IScene {
-        -gameEngine.Managers.ButtonManager _buttonManager;
+    namespace Scenes {
+        class MainMenu {
+            -gameEngine.Managers.ButtonManager _buttonManager;
+    }
+    }
+
+    namespace Systems {
+
+    }
+
+    namespace Objects {
+
+        class Droppable {}
+        class Collectible {}
+        class Bomb {}
+
+        class Character {
+            -std::string _name;
+        }
+
+
+        class Player {
+            -std::string _id;
+            -size_t _score;
+        }
+
+        class Bot {
+
+        }
+
+
+        enum TileType {
+            WALL,
+            PATH,
+        }
+        class Tile {
+            -Texture _texture;
+            -Vector _pos;
+            -TileType _type;
+        }
+
+        class Map {
+            -std::vector<std::vector<Tile>> _tiles;
+        }
+
+        class Wall {
+            +Wall(bool isDestructible)
+
+            -bool _isDestructible;
+        }
+
+        class Mine {}
+        class HealthPack {}
     }
 }
 
-namespace game.Systems {
+namespace gameEngine {
 
-}
+namespace Managers {
 
-namespace gameEngine.Managers {
-
-    class InputManager implements gameEngine.Interfaces.IInputManager
+    class InputManager
     {
         template <typename K, typename V>
         +virtual InputManager(<K>keys, <V>interpret_values, std::string id={0});
@@ -74,11 +122,10 @@ namespace gameEngine.Managers {
         -std::unordered_map<K,V> _keymap;
         -std::string _id;
     }
-    class SaveManager implements gameEngine.Interfaces.AFileManager{}
-    class TextureManager implements gameEngine.Interfaces.ITextureManager {}
-    class TextManager implements gameEngine.Interfaces.ITextManager {}
-    class WindowManager implements gameEngine.Interfaces.IWindowManager {}
-    class ObjFileManager implements gameEngine.Interfaces.AFileManager {}
+    class SaveManager
+    class TextureManager
+    class WindowManager
+    class ObjFileManager
     class SceneManager{}
     class GameManager{}
     class ModelManager {}
@@ -91,83 +138,7 @@ namespace gameEngine.Managers {
     }
 }
 
-namespace game.Objects {
-
-    class Droppable extends gameEngine.Objects.AGameObject {}
-    class Collectible extends gameEngine.Objects.AGameObject {}
-    class Bomb extends Droppable {}
-
-    class Character extends gameEngine.Objects.Moveable {
-        -std::string _name;
-    }
-
-
-    class Player extends game.Objects.Character {
-        -std::string _id;
-        -size_t _score;
-    }
-
-    class Bot extends game.Objects.Character, game.AI {
-
-    }
-
-
-    enum TileType {
-        WALL,
-        PATH,
-        BRICK,
-        COLLECTIBLE,
-    }
-
-    class Tile extends gameEngine.Objects.AGameObject {
-        -Texture _texture;
-        -Model _model;
-        -std::Vector<std::size_t> _pos;
-        -TileType _type;
-    }
-
-    class Map {
-        +Map(const int &size);
-
-        +void generateMap(const int &seed);
-        +void generateSeed(void);
-
-        -std::vector<std::vector<int>> _bombermap;
-        -std::vector<Tile> _tiles;
-        -std::size_t _size;
-        -std::size_t _seed;
-    }
-
-    class ACollectible extends Tile {
-        +void powerUpCallback(Player &p);
-
-        -Clock _clock;
-    }
-
-    class Path extends Tile {
-    }
-
-    class Wall extends Tile {
-    }
-    class Wall extends gameEngine.Objects.AGameObject {
-        +Wall(bool isDestructible)
-
-    class Brick extends Wall {
-        -Collectible _powerup;
-    }
-
-    class HealthUp extends ACollectible {}
-    class SpeedUp extends ACollectible {}
-    class FireUp extends ACollectible {}
-    class BombUp extends ACollectible {}
-    class BombPass extends ACollectible {}
-    class OneUp extends ACollectible {}
-
-}
-
-namespace gameEngine {
-
-namespace Encapsulation #fc7c60  {
+namespace Encapsulation {
     enum ButtonState {
         NORMAL,
         HOVER,
@@ -481,7 +452,7 @@ namespace Encapsulation #fc7c60  {
     }
 }
 
-namespace Interfaces #DDDDDD {
+namespace interfaces {
 
     interface IScene
     {
@@ -520,12 +491,6 @@ namespace Interfaces #DDDDDD {
         +void destroyTexture();
     }
 
-    interface ITextManager
-    {
-        +void drawText(const Font &f);
-        +void drawTextInRect(const Font &f, const std::string &text, const Vector<float> &offset, Rectangle rect);
-    }
-
     interface IAudioManager
     {
         'Classe audio avec playlist
@@ -538,18 +503,6 @@ namespace Interfaces #DDDDDD {
         +void setMusicVolume(const Music &, float);
         +void DestroySound(Sound &);
         +void DestroyMusic(Sound &);
-    }
-
-    'Definir un port
-    'A completer, poser des questions sur les attentes et ce qu'on
-    'Voir rush2 SantaServer de Polo
-    interface INetworkManager
-    {
-        +void connect(const Socket &);
-        +void createSocket(int);
-        +void disconnect(const Socker &);
-        +void sendInfo(const std::string &, const Socket &In, const Socker &Out);
-
     }
 
     abstract class AFileManager implements IFileManager {}
@@ -568,9 +521,7 @@ namespace Interfaces #DDDDDD {
         +std::vector<std::string> getDirectoryFiles(const File &);
     }
 
-    'Mapper std::map<Key, int Code> pareil pour manette
-    'Classe qui pourrait herite: Keyboard, Gamepad, Mouse
-    interface IInputManager
+    interface IInput
     {
         +virtual bool isKeyPressed(int);
         +virtual bool isKeyReleased(int);
@@ -583,11 +534,9 @@ namespace Interfaces #DDDDDD {
 }
 
 namespace Systems {
-    gameEngine.Objects.AGameObject-->gameEngine.Systems.Collision
     class Collision {
         +calculateCollisions(const std::vector<AGameObject> &object);
     }
-    gameEngine.Encapsulation.ModelAnimation--gameEngine.Systems.Animate
     class Animate {
         +animateAll(const std::vector<ModelAnimation> animations);
     }
@@ -627,10 +576,6 @@ namespace Component {
     }
 }
 
-gameEngine.Component.Transform--gameEngine.Objects.AGameObject
-gameEngine.Component.Collider--gameEngine.Objects.AGameObject
-gameEngine.Objects.Quadrants--gameEngine.Objects.AGameObject
-
 namespace Objects {
     enum Quadrants {
         TOP-LEFT
@@ -663,5 +608,41 @@ namespace Objects {
         -Vector _speed;
     }
 }
+
+gameEngine.Component.Transform--gameEngine.Objects.AGameObject
+gameEngine.Component.Collider--gameEngine.Objects.AGameObject
+gameEngine.Objects.Quadrants--gameEngine.Objects.AGameObject
+gameEngine.Encapsulation.ModelAnimation--gameEngine.Systems.Animate
+
+' ! Implements'
+'1 implémente l'interface 2'
+
+game.Scenes.MainMenu-->gameEngine.interfaces.IScene
+gameEngine.Managers.TextureManager-->gameEngine.interfaces.ITextureManager
+gameEngine.Managers.WindowManager-->gameEngine.interfaces.IWindowManager
+gameEngine.Managers.SaveManager-->gameEngine.Managers.AFileManager
+gameEngine.Managers.ObjFileManager-->gameEngine.Managers.AFileManager
+
+'1 hérite de 2'
+game.Objects.Bot-->game.AI
+game.Objects.Bot-->game.Objects.Character
+game.Objects.Player-->game.Objects.Character
+game.Objects.Mine-->game.Objects.Droppable
+game.Objects.Bomb-->game.Objects.Droppable
+game.Objects.Droppable-->gameEngine.Objects.AGameObject
+game.Objects.Collectible-->gameEngine.Objects.AGameObject
+game.Objects.Character-->gameEngine.Objects.Moveable
+game.Objects.Tile-->gameEngine.Objects.AGameObject
+game.Objects.Wall-->gameEngine.Objects.AGameObject
+game.Objects.Mine-->gameEngine.Objects.Droppable
+game.Objects.HealthPack-->game.Objects.Collectible
+
+gameEngine.Component.BoxCollider-->gameEngine.Component.Collider
+gameEngine.Component.SphereCollider-->gameEngine.Component.Collider
+gameEngine.Objects.AGameObject-->gameEngine.Systems.Collision
+gameEngine.Objects.Moveable-->gameEngine.Systems.AGameObject
+gameEngine.Encapsulation.ModelAnimation--gameEngine.Systems.Animate
+gameEngine.Objects.AGameObject-->gameEngine.Systems.Collision
+
 }
 @enduml
