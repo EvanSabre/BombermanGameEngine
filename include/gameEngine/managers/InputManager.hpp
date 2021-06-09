@@ -19,7 +19,7 @@ namespace gameEngine
     namespace managers
     {
         template <typename E>
-        class InputManager : public gameEngine::Interfaces::IInputManager
+        class InputManager : public gameEngine::interfaces::IInputManager
         {
             public:
                 InputManager(gameEngine::interfaces::IInput *input, E interpret_values, std::string id={0}) : input(input) {}
