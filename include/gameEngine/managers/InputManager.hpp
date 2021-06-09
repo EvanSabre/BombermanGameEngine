@@ -182,10 +182,11 @@ namespace gameEngine
     typedef std::unordered_map<int, std::shared_ptr<gameEngine::interfaces::IInput>> UserInputs; // <id, Keyboard or Gamepad>
     typedef bool (gameEngine::interfaces::IInput::*InputFunc)(int, int);
     typedef std::pair<InputFunc, Key> keyEvent;
-    std::unordered_map<int, keyEvent> ExampleMap =
-    {
-        {1, {&gameEngine::interfaces::IInput::isKeyPressed, KEY_UP}}
-    };
+    //TODO: ajouter une map tel que dessous dans scene
+    // std::unordered_map<int, keyEvent> ExampleMap =
+    // {
+    //     {1, {&gameEngine::interfaces::IInput::isKeyPressed, KEY_UP}}
+    // };
 
     namespace managers
     {
