@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.18)
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_COLOR_MAKEFILE ON)
 
 project(project_bomberman

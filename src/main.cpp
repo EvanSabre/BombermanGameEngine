@@ -176,6 +176,7 @@ int main(void)
         nextScene = scene->update();
         if (nextScene != "") {
             scene = game::managers::SceneManager::loadScene(nextScene, win, info);
+            win->clear(WHITE);
             scene->start();
         }
     }
