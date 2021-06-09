@@ -10,10 +10,10 @@
 
 using namespace game::scenes;
 
-#define BACKGROUND "./ressources/backgrounds/cyberpunk_street_background.png"
-#define MIDGROUND "./ressources/backgrounds/cyberpunk_street_midground.png"
-#define FOREGROUND "./ressources/backgrounds/cyberpunk_street_foreground.png"
-#define PLAY_BUTTON "./ressources/UI-Elements/PlayButton.png"
+#define BACKGROUND "./resources/backgrounds/cyberpunk_street_background.png"
+#define MIDGROUND "./resources/backgrounds/cyberpunk_street_midground.png"
+#define FOREGROUND "./resources/backgrounds/cyberpunk_street_foreground.png"
+#define PLAY_BUTTON "./resources/UI-Elements/PlayButton.png"
 
 MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
 : AScene(windowManager, info)
