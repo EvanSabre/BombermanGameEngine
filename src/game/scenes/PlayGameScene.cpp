@@ -28,6 +28,7 @@ void PlayGameScene::start()
 
 std::string PlayGameScene::update()
 {
+    return "";
 }
 
 void PlayGameScene::draw()

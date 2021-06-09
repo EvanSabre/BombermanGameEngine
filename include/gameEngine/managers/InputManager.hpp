@@ -30,7 +30,8 @@ namespace gameEngine
                 bool getLastEvent(int event);
                 int getLastKeyPressed(void);
                 bool mapDefaultKeys(int, int);
-                bool mapKey(int key, E interpret_value) {}
+                //TODO
+                bool mapKey(int key, E interpret_value) { return false;}
 
             private:
                 std::unordered_map<int, E> _Eventsmap;

@@ -37,6 +37,7 @@ bool ButtonManager::isButtonClicked(const std::string &content)
             return it->isButtonPressed(Vector<float>(mouse.x, mouse.y));
         }
     }
+    return false;
 }
 
 bool ButtonManager::isButtonClicked(const std::string &buttonContent, const Vector<float> &mousePos)
@@ -57,11 +58,12 @@ std::shared_ptr<gameEngine::encapsulation::Button> ButtonManager::getClickedButt
     return nullptr;
 }
 
-gameEngine::encapsulation::Button ButtonManager::createButton(const BTexture2D &texture, const BRectangle &rect, const BText &content)
+bool ButtonManager::createButton(const BTexture2D &texture, const BRectangle &rect, const BText &content)
 {
     std::shared_ptr<Button> button = std::make_shared<Button>(texture, rect, content);
 
     _currentButtons.push_back(button);
+    return true;
 }
 
 void ButtonManager::pushButton(std::shared_ptr<gameEngine::encapsulation::Button> button)
