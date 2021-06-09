@@ -25,9 +25,9 @@ namespace gameEngine {
                 std::shared_ptr<gameEngine::encapsulation::BTexture2D> _background;
                 std::shared_ptr<gameEngine::encapsulation::BTexture2D> _midground;
                 std::shared_ptr<gameEngine::encapsulation::BTexture2D> _foreground;
-                float scrollingBack;
-                float scrollingMid;
-                float scrollingFront;
+                int scrollingBack;
+                int scrollingMid;
+                int scrollingFront;
             private:
         };
     }

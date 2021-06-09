@@ -83,6 +83,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         "${PROJECT_SOURCE_DIR}/include/game/managers"
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
+        "${PROJECT_SOURCE_DIR}/include/WindowsEquivalent"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
