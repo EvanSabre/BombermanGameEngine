@@ -49,6 +49,7 @@ set(GAMEENGINE_SRC
 
 set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"
         )
 
