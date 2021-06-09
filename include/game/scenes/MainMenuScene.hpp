@@ -8,22 +8,22 @@
 #ifndef MAINMENUSCENE_HPP_
 #define MAINMENUSCENE_HPP_
 
-#include "IScene.hpp"
-#include "WindowManager.hpp"
-#include "ButtonManager.hpp"
+#include "AScene.hpp"
+#include "Parallax.hpp"
 
 namespace game {
     namespace scenes {
-        class MainMenuScene : public gameEngine::interfaces::IScene {
+        class MainMenuScene : public gameEngine::AScene {
             public:
-                MainMenuScene();
+                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info);
                 ~MainMenuScene();
 
                 void start() override;
-                void update() override;
+                std::string update() override;
+
+                //Unique to this scene
             protected:
-                gameEngine::Managers::WindowManager _windowManager;
-                gameEngine::Managers::ButtonManager _buttonManager;
+                gameEngine::scenes::Parallax _parallax;
             private:
 
         };
