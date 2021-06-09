@@ -21,13 +21,21 @@ PlayGameScene::~PlayGameScene()
 void PlayGameScene::start()
 {
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(_windowManager->getWindowSize()._x/3, _windowManager->getWindowSize()._y/3), Vector<float>(_windowManager->getWindowSize()._x / 2, _windowManager->getWindowSize()._y / 2), gameEngine::encapsulation::BText("In GAME"), WHITE);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
 
     _buttonManager.pushButton(button);
+
+
+
 }
 
 std::string PlayGameScene::update()
 {
+    _buttonManager.updateButtons();
+    if (_buttonManager.isButtonClicked("PAUSE")) {
+        std::cout << "Clicked pause button" << std::endl;
+        //return "play";
+    }
     return "";
 }
 
