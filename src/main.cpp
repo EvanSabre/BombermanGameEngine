@@ -18,10 +18,18 @@ int main(void)
 {
     std::shared_ptr<gameEngine::managers::WindowManager> win = std::make_shared<gameEngine::managers::WindowManager>();
     gameEngine::scenes::SceneInfo info;
+    std::string nextScene;
 
     win->createWindow("Bomberman", {WIN_WIDTH, WIN_HEIGHT});
     std::shared_ptr<gameEngine::interfaces::IScene> scene = game::managers::SceneManager::loadScene("menu", win, info);
+
     scene->start();
-    scene->update();
+    while (win->isRunning()) {
+        nextScene = scene->update();
+        if (nextScene != "") {
+            scene = game::managers::SceneManager::loadScene(nextScene, win, info);
+            scene->start();
+        }
+    }
     return 0;
 }
