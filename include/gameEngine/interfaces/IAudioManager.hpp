@@ -12,27 +12,35 @@
 #include <unordered_map>
 #include <vector>
 
-namespace gameEngine {
+#include <AAudioObject.hpp>
+#include <BSound.hpp>
+#include <BMusic.hpp>
+
+using namespace gameEngine::encapsulation;
+
+namespace gameEngine
+{
     namespace Interfaces {
         class IAudioManager {
             public:
                 virtual ~IAudioManager() = default;
 
-                virtual Sound loadSoundromFile(char *filepath) = 0;
+                virtual void loadSoundFromFile(const char *filepath) = 0;
 
-                virtual void playSound(Sound sound) = 0;
-                virtual void pauseSound(Sound sound) = 0;
-                virtual void resumeSound(Sound sound) = 0;
-                virtual void stopSound(Sound sound) = 0;
-                virtual void setSoundVolume(Sound sound, float volume) = 0;
+                virtual void playSound() = 0;
+                virtual void pauseSound() = 0;
+                virtual void resumeSound() = 0;
+                virtual void stopSound() = 0;
+                virtual void setSoundVolume(float volume) = 0;
 
-                virtual Music loadMusicStreamFromFile(char *filepath) = 0;
+                virtual void loadMusicStreamFromFile(const char *filepath) = 0;
+                virtual void updateMusicStream() = 0;
 
-                virtual void playMusic(Music music) = 0;
-                virtual void pauseMusic(Music music) = 0;
-                virtual void resumeMusic(Music music) = 0;
-                virtual void stopMusic(Music music) = 0;
-                virtual void setMusicVolume(Music music, float volume) = 0;
+                virtual void playMusic() = 0;
+                virtual void pauseMusic() = 0;
+                virtual void resumeMusic() = 0;
+                virtual void stopMusic() = 0;
+                virtual void setMusicVolume(float volume) = 0;
 
                 virtual float getCurrentSoundVolume() const = 0;
                 virtual float getCurrentMusicVolume() const = 0;

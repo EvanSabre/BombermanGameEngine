@@ -5,8 +5,9 @@
 ** AudioManager
 */
 
-#include "gameEngine/managers/AudioManager.hpp"
+#include "AudioManager.hpp"
 
+using namespace gameEngine::encapsulation;
 using namespace gameEngine::managers;
 
 AudioManager::AudioManager()
@@ -17,90 +18,91 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager()
 {
-    if (IsAudioDeviceReady)
+    if (IsAudioDeviceReady())
         CloseAudioDevice();
 }
 
-Sound AudioManager::loadSoundromFile(char *filepath)
+void AudioManager::loadSoundFromFile(const char *filepath)
 {
-    Sound sound;
-
-    if (!filepath)
-        return NULL;
-
-    sound = LoadSound(filepath);
-    return sound;
+    _sound = std::make_unique<BSound>(filepath);
 }
 
-void AudioManager::playSound(Sound sound)
+void AudioManager::playSound()
 {
-    PlaySound(sound);
+    if (_sound->isLoad())
+        PlaySound(_sound->getObj());
 }
 
-void AudioManager::pauseSound(Sound sound)
+void AudioManager::pauseSound()
 {
-    PauseSound(sound);
+    if (_sound->isLoad())
+        PauseSound(_sound->getObj());
 }
 
-void AudioManager::resumeSound(Sound sound)
+void AudioManager::resumeSound()
 {
-    ResumeSound(sound);
+    if (_sound->isLoad())
+        ResumeSound(_sound->getObj());
 }
 
-void AudioManager::stopSound(Sound sound)
+void AudioManager::stopSound()
 {
-    StopSound(sound);
+    if (_sound->isLoad())
+        StopSound(_sound->getObj());
 }
 
-void AudioManager::setSoundVolume(Sound sound, float volume)
+void AudioManager::setSoundVolume(float volume)
 {
     _soundVolume = volume;
-    SetSoundVolume(sound, volume);
+    SetSoundVolume(_sound->getObj(), volume);
 }
 
-Music AudioManager::loadMusicStreamFromFile(char *filepath)
+void AudioManager::loadMusicStreamFromFile(const char *filepath)
 {
-    Music music;
-
-    if (!filepath)
-        return NULL;
-
-    music = LoadMusicStream(filepath);
-    return music;
+    _music = std::make_unique<BMusic>(filepath);
 }
 
-void AudioManager::playMusic(Music music)
+void AudioManager::updateMusicStream()
 {
-    PlayMusicStream(music);
+    UpdateMusicStream(_music->getObj());
 }
 
-void AudioManager::pauseMusic(Music music)
+void AudioManager::playMusic()
 {
-    PauseMusicStream(music);
+    if (_music->isLoad())
+        PlayMusicStream(_music->getObj());
 }
 
-void AudioManager::resumeMusic(Music music)
+void AudioManager::pauseMusic()
 {
-    ResumeMusicStream(music);
+    if (_music->isLoad())
+        PauseMusicStream(_music->getObj());
 }
 
-void AudioManager::stopMusic(Music music)
+void AudioManager::resumeMusic()
 {
-    StopMusicStream(music);
+    if (_music->isLoad())
+        ResumeMusicStream(_music->getObj());
 }
 
-void game::managers::AudioManager::setMusicVolume(Music music, float volume)
+void AudioManager::stopMusic()
+{
+    if (_music->isLoad())
+        StopMusicStream(_music->getObj());
+}
+
+void AudioManager::setMusicVolume(float volume)
 {
     _musicVolume = volume;
-    SetMusicVolume(music, volume);
+    SetMusicVolume(_music->getObj(), volume);
 }
 
-float game::managers::AudioManager::getCurrentSoundVolume() const
+float AudioManager::getCurrentSoundVolume() const
 {
     return _soundVolume;
 }
 
-float game::managers::AudioManager::getCurrentMusicVolume() const
+float AudioManager::getCurrentMusicVolume() const
 {
     return _musicVolume;
 }

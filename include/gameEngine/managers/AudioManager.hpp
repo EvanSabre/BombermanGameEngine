@@ -9,6 +9,9 @@
 #define AUDIOMANAGER_HPP_
 
 #include "IAudioManager.hpp"
+#include <memory>
+
+using namespace gameEngine::encapsulation;
 
 namespace gameEngine {
     namespace managers {
@@ -17,26 +20,29 @@ namespace gameEngine {
                 AudioManager();
                 ~AudioManager();
 
-                Sound loadSoundromFile(char *filepath);
+                void loadSoundFromFile(const char *filepath);
 
-                void playSound(Sound sound);
-                void pauseSound(Sound sound);
-                void resumeSound(Sound sound);
-                void stopSound(Sound sound);
-                void setSoundVolume(Sound sound, float volume);
+                void playSound();
+                void pauseSound();
+                void resumeSound();
+                void stopSound();
+                void setSoundVolume(float volume);
 
-                Music loadMusicStreamFromFile(char *filepath);
+                void loadMusicStreamFromFile(const char *filepath);
+                void updateMusicStream();
 
-                void playMusic(Music music);
-                void pauseMusic(Music music);
-                void resumeMusic(Music music);
-                void stopMusic(Music music);
-                void setMusicVolume(Music music, float volume);
+                void playMusic();
+                void pauseMusic();
+                void resumeMusic();
+                void stopMusic();
+                void setMusicVolume(float volume);
 
                 float getCurrentSoundVolume() const;
                 float getCurrentMusicVolume() const;
 
             private:
+                std::unique_ptr<BSound> _sound;
+                std::unique_ptr<BMusic> _music;
                 float _soundVolume;
                 float _musicVolume;
         };

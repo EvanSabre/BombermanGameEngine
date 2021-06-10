@@ -10,6 +10,7 @@
 #include "BModel.hpp"
 #include "BTexture2D.hpp"
 #include "WindowManager.hpp"
+#include "AudioManager.hpp"
 #include "Map.hpp"
 
 using namespace gameEngine;
@@ -20,6 +21,44 @@ using namespace gameEngine;
 
 #define WIN_HEIGHT 1080
 #define WIN_WIDTH 1920
+
+
+int main()
+{
+    std::shared_ptr<gameEngine::managers::WindowManager> win = std::make_shared<gameEngine::managers::WindowManager>();
+    std::shared_ptr<gameEngine::managers::AudioManager> audio = std::make_shared<gameEngine::managers::AudioManager>();
+    gameEngine::scenes::SceneInfo info;
+    std::string nextScene("menu");
+
+    win->createWindow("Bomberman", {WIN_WIDTH, WIN_HEIGHT});
+    std::shared_ptr<gameEngine::interfaces::IScene> scene = game::managers::SceneManager::loadScene("menu", win, info);
+
+    scene->start();
+    audio->loadMusicStreamFromFile("assets/music/menu_music.mp3");
+    audio->loadSoundFromFile("assets/music/play_sound.wav");
+    audio->playMusic();
+    while (win->isRunning()) {
+        if (nextScene == "play") {
+            audio->playSound();
+            audio->stopMusic();
+            audio->loadMusicStreamFromFile("assets/music/game_music.mp3");
+            audio->playMusic();
+        }
+        audio->updateMusicStream();
+        nextScene = scene->update();
+        if (nextScene != "") {
+            scene = game::managers::SceneManager::loadScene(nextScene, win, info);
+            win->setBackgroundColor(WHITE);
+            win->clear(WHITE);
+            scene->start();
+        }
+        win->BeginDraw();
+        win->clear();
+        scene->draw();
+        win->EndDraw();
+    }
+    return 0;
+}
 
 // static void init(gameEngine::Managers::WindowManager window, encapsulation::BCamera cam)
 // {
@@ -150,29 +189,3 @@ using namespace gameEngine;
 //     window.deleteWindow();
 //     //--------------------------------------------------------------------------------------
 
-
-int main()
-{
-    std::shared_ptr<gameEngine::managers::WindowManager> win = std::make_shared<gameEngine::managers::WindowManager>();
-    gameEngine::scenes::SceneInfo info;
-    std::string nextScene;
-
-    win->createWindow("Bomberman", {WIN_WIDTH, WIN_HEIGHT});
-    std::shared_ptr<gameEngine::interfaces::IScene> scene = game::managers::SceneManager::loadScene("menu", win, info);
-
-    scene->start();
-    while (win->isRunning()) {
-        nextScene = scene->update();
-        if (nextScene != "") {
-            scene = game::managers::SceneManager::loadScene(nextScene, win, info);
-            win->setBackgroundColor(WHITE);
-            win->clear(WHITE);
-            scene->start();
-        }
-        win->BeginDraw();
-        win->clear();
-        scene->draw();
-        win->EndDraw();
-    }
-    return 0;
-}
