@@ -158,7 +158,7 @@ int main()
     std::string nextScene;
 
     win->createWindow("Bomberman", {WIN_WIDTH, WIN_HEIGHT});
-    std::shared_ptr<gameEngine::interfaces::IScene> scene = game::managers::SceneManager::loadScene("menu", win, info);
+    std::shared_ptr<gameEngine::interfaces::IScene> scene = game::managers::SceneManager::loadScene("splash", win, info);
 
     scene->start();
     while (win->isRunning()) {
