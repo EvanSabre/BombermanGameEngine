@@ -6,10 +6,12 @@
  * https://stackoverflow.com/a/826027/1202830
  */
 
+#ifdef _WIN32
+	#include <io.h>
+	#include <process.h> /* for getpid() and the exec..() family */
+	#include <direct.h> /* for _getcwd() and _chdir() */
+#endif
 #include <stdlib.h>
-#include <io.h>
-#include <process.h> /* for getpid() and the exec..() family */
-#include <direct.h> /* for _getcwd() and _chdir() */
 
 #define srandom srand
 #define random rand
