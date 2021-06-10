@@ -59,6 +59,10 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Map.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/AEffect.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/HealthUp.cpp"
+       # "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
+       # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
 
 set(UTILS_SRC
