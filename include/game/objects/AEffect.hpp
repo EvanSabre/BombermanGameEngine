@@ -23,10 +23,11 @@ namespace game
             game::EffectType_e getType() const noexcept = 0;
 
             int getHealth() const noexcept;
+            int getBombPower() const noexcept;
 
         protected:
             int _health = 0;
-
+            int _bombPower = 0;
         private:
             game::EffectType_e _type;
         };

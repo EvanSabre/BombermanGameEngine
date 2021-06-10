@@ -61,6 +61,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Map.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/AEffect.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/HealthUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/BombUp.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )

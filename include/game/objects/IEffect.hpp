@@ -12,6 +12,7 @@ namespace game
 {
     typedef enum EffectType {
         HEALTH,
+        BOMBPOWER,
     } EffectType_e;
 } // namespace game
 
