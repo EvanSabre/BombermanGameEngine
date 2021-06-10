@@ -40,6 +40,7 @@ namespace gameEngine
 
             //trhrow runtime error if img is not load
             void loadFromImg(const BImage &img);
+            void loadFromImgRelRect(const std::string &path, const Vector<float> &size);
 
             void loadFromFile(const std::string &filepath);
             void unload() noexcept;

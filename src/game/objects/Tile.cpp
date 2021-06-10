@@ -45,6 +45,7 @@ game::objects::Tile &game::objects::Tile::operator=(game::objects::Tile &tile)
     setModel(tile._model);
     setType(tile._type);
     setPos(tile._pos);
+    return *this;
 }
 
 void game::objects::Tile::createTile(const std::string &modelfilepath,

@@ -75,10 +75,11 @@ void Map::dump()
 
 void Map::generateMapTiles()
 {
-    _path = std::make_unique<Tile>(BLOCKPATHOBJ, PATHTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.5, Tile::TileType::PATH);
-    _wall = std::make_unique<Tile>(BLOCKPATHOBJ, WALLTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.5, Tile::TileType::WALL);
-    _brick = std::make_unique<Tile>(BLOCKPATHOBJ, BRICKTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.5, Tile::TileType::BRICK);
-    _border = std::make_unique<Tile>(BLOCKPATHOBJ, BORDERTILEPNG, (Vector3T<float>){0, 0, 0}, WHITE, 0.5, Tile::TileType::BORDER);
+   
+    _path = std::make_unique<Tile>(BLOCKPATHOBJ, PATHTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::PATH);
+    _wall = std::make_unique<Tile>(BLOCKPATHOBJ, WALLTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::WALL);
+    _brick = std::make_unique<Tile>(BLOCKPATHOBJ, BRICKTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::BRICK);
+    _border = std::make_unique<Tile>(BLOCKPATHOBJ, BORDERTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::BORDER);
 }
 
 void Map::draw()
@@ -86,21 +87,21 @@ void Map::draw()
     for (std::size_t i = 0; i < SIZE_X; i++) {
         for (std::size_t j = 0; j < SIZE_Y; j++) {
             if (_map[i][j] == MAPPATH) {
-                _path->getModel().setPosition({i, 0, j});
+                _path->getModel().setPosition({(float)i, 0, (float)j});
                 _path->getModel().draw();
             } else if (_map[i][j] == MAPWALL) {
-                _wall->getModel().setPosition({i, 1, j});
-                _path->getModel().setPosition({i, 0, j});
+                _wall->getModel().setPosition({(float)i, 1, (float)j});
+                _path->getModel().setPosition({(float)i, 0, (float)j});
                 _wall->getModel().draw();
                 _path->getModel().draw();
             } else if (_map[i][j] == MAPBRICK) {
-                _brick->getModel().setPosition({i, 1, j});
-                _path->getModel().setPosition({i, 0, j});
+                _brick->getModel().setPosition({(float)i, 1, (float)j});
+                _path->getModel().setPosition({(float)i, 0, (float)j});
                 _brick->getModel().draw();
                 _path->getModel().draw();
             } else if (_map[i][j] == MAPBORDR) {
-                _border->getModel().setPosition({i, 1, j});
-                _path->getModel().setPosition({i, 0, j});
+                _border->getModel().setPosition({(float)i, 1, (float)j});
+                _path->getModel().setPosition({(float)i, 0, (float)j});
                 _border->getModel().draw();
                 _path->getModel().draw();
             }

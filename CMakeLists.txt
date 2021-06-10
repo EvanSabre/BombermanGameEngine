@@ -22,6 +22,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BTexture2D.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BModelAnimation.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Keyboard.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Gamepad.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BAudio.cpp"
@@ -82,6 +83,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         "${PROJECT_SOURCE_DIR}/include/game/managers"
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
+        "${PROJECT_SOURCE_DIR}/include/WindowsEquivalent"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
