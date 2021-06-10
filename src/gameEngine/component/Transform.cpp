@@ -74,4 +74,5 @@ Transform &Transform::operator=(const Transform &ref)
 {
     _position = ref._position;
     _rotation = ref._rotation;
+    return *this;
 }

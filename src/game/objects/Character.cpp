@@ -30,7 +30,7 @@ std::string objects::Character::getName() const noexcept
     return this->_name;
 }
 
-ssize_t objects::Character::getScore() const noexcept
+size_t objects::Character::getScore() const noexcept
 {
     return this->_score;
 }

@@ -10,3 +10,8 @@ cmake_install.cmake
 Makefile
 bomberman
 bareme_indie
+bomberman.exe
+bomberman.ilk
+bomberman.pdb
+.vs/
+out/

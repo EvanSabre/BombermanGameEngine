@@ -32,6 +32,43 @@ namespace global {
         -T _y;
         -T _z;
     }
+
+    class Directory
+    {
+        +Directory(const std::string &dirpath, bool force_creation=false);
+        ~Directory();
+        +bool nextEntry();
+        +const std::string getEntryName() const;
+        +const std::string getEntryPath() const;
+        +std::vector<File> getAllDirFiles() noexcept;
+
+        +File &loadFile(const std::string &filename, bool force_creation=false);
+        +File getEntryAsFile() const noexcept;
+
+        -std::string _dirPath;
+        -DIR *_directory = nullptr;
+        -struct dirent *_entry = nullptr;
+        -struct stat _entryInfo;
+        -std::vector<File> _dir_content;
+    }
+
+    class File
+    {
+            +File(const std::string &path, bool force_creation=false);
+            +~File();
+            +[[nodiscard]] std::string getPath() const noexcept;
+            +[[nodiscard]] std::string getName() const noexcept;
+            +bool isAccessible() const noexcept;
+            +bool compareContent(const File &file) const noexcept;
+            +std::string read() const;
+            +void clear() const;
+            +void write(const std::string &to_append, bool rewrite=false) const;
+            +struct stat getStat() const;
+            -void create();
+            -std::string _path = "";
+            -std::string _name = "";
+            -std::string getNameFromPath(const std::string &path) const noexcept;
+    }
 }
 
 namespace game {
@@ -182,6 +219,7 @@ namespace Encapsulation {
         -Color color;
         -float rotation;
     }
+
     class IDrawable {
         +virtual gameEngine::encapsulation::BColor getColor() const noexcept;
         +virtual Vector3T<float> getPosition() const noexcept;
@@ -196,6 +234,7 @@ namespace Encapsulation {
 
         +virtual void draw() const noexcept = 0;
     }
+
     class ADrawable {
         +ADrawable();
 
@@ -217,6 +256,7 @@ namespace Encapsulation {
         -gameEngine::encapsulation::BColor _color = WHITE;
         -float _scale = 1;
     }
+
     class Image {
         +Image getObj() const noexcept;
         +bool isLoad() const noexcept;
@@ -265,6 +305,7 @@ namespace Encapsulation {
         -float _scale = 0;
         -Vector3T<float> _pos{0, 0, 0};
     }
+
     class Camera2d {
         +BCamera2D();
         +BCamera2D(const BCamera2D &ref);
@@ -289,6 +330,7 @@ namespace Encapsulation {
 
         -Camera2D _camera;
     }
+
     class Camera {
         +BCamera(const BCamera &ref);
         +BCamera &operator=(const BCamera &ref);
@@ -306,7 +348,9 @@ namespace Encapsulation {
 
         -Camera _camera;
     }
+
     class Shader {}
+
     class IAudioObject {
         +virtual void play() = 0;
         +virtual void stop() = 0;
@@ -320,6 +364,7 @@ namespace Encapsulation {
         +virtual float getPitch() const noexcept = 0;
         +virtual void setPitch(float pitch) = 0;
     }
+
     class Music {
         +BMusic(const std::string &filepath);
         +BMusic(const BMusic &ref) = delete;
@@ -343,12 +388,14 @@ namespace Encapsulation {
         -Music _music = {0};
         -bool _load;
     }
+
     class Audio {
         +static void init();
         +static void close(void) noexcept;
         +static bool isReady(void) noexcept;
         +static void setVolume(float volume) noexcept;
     }
+
     class Sound {
         +BSound(const std::string &filepath);
         +BSound(const BSound &ref) = delete;
@@ -365,6 +412,7 @@ namespace Encapsulation {
         +void setVolume(float volume);
         +void setPitch(float pitch);
     }
+
     class Color {
         +BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
         +BColor(const Color &ref);
@@ -450,6 +498,37 @@ namespace Encapsulation {
         -ModelAnimation *_anims;
         -int _animsCount;
     }
+
+    class Gamepad
+    {
+        +Gamepad();
+        +~Gamepad() = default;
+        +bool isKeyPressed(int key, int device=-1) override;
+        +bool isKeyDown(int key, int device=-1) override;
+        +bool isKeyUp(int key, int device=-1) override;
+        +bool isKeyReleased(int key, int device=-1) override;
+        +const std::string getDeviceName(int device=-1) override;
+        +bool isDeviceAvailable(int device) override;
+        +bool isDeviceName(int device, const char *name) override;
+        +int getKeyPressed(void) override;
+        +int getCharPressed(void) override;
+    }
+
+    class Keyboard
+    {
+        +Keyboard();
+        +~Keyboard() = default;
+        +bool isKeyPressed(int key, int device = -1) override;
+        +bool isKeyDown(int key, int device = -1) override;
+        +bool isKeyUp(int key, int device = -1) override;
+        +bool isKeyReleased(int key, int device = -1) override;
+        +const std::string getDeviceName(int device = -1) override;
+        +bool isDeviceAvailable(int device) override;
+        +bool isDeviceName(int device, const char *name) override;
+        +int getKeyPressed(void) override;
+        +int getCharPressed(void) override;
+    }
+
 }
 
 namespace interfaces {
@@ -622,6 +701,8 @@ gameEngine.Managers.TextureManager-->gameEngine.interfaces.ITextureManager
 gameEngine.Managers.WindowManager-->gameEngine.interfaces.IWindowManager
 gameEngine.Managers.SaveManager-->gameEngine.Managers.AFileManager
 gameEngine.Managers.ObjFileManager-->gameEngine.Managers.AFileManager
+gameEngine.Encapsulation.Gamepad-->gameEngine.interfaces.IInput
+gameEngine.Encapsulation.Keyboard-->gameEngine.interfaces.IInput
 
 '1 hérite de 2'
 game.Objects.Bot-->game.AI
@@ -636,6 +717,7 @@ game.Objects.Tile-->gameEngine.Objects.AGameObject
 game.Objects.Wall-->gameEngine.Objects.AGameObject
 game.Objects.Mine-->gameEngine.Objects.Droppable
 game.Objects.HealthPack-->game.Objects.Collectible
+
 
 gameEngine.Component.BoxCollider-->gameEngine.Component.Collider
 gameEngine.Component.SphereCollider-->gameEngine.Component.Collider

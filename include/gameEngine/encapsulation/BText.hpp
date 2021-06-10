@@ -23,10 +23,11 @@ namespace gameEngine
         class BText : public gameEngine::encapsulation::ADrawable
         {
         public:
-            BText(const std::string &str,
+            BText(const std::string &str = "",
                 const Vector<int> &pos = {0, 0},
                 const BColor &color = BColor{},
-                const int &size = 10
+                const int &size = 10,
+                gameEngine::encapsulation::ADrawable *relativeObj = nullptr
                 );
             BText(const BText &ref);
             BText &operator=(const BText &ref);
