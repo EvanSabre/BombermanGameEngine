@@ -19,14 +19,18 @@ Transform::~Transform()
 {
 }
 
-void Transform::LookAt(const Transform &destination)
+void Transform::LookAt(const Transform &dest)
 {
-
+    _rotation._x = std::atan((dest._position._x - _position._x)/(dest._position._y - _position._y));
+    _rotation._y = std::atan((dest._position._y - _position._y)/(dest._position._z - _position._z));
+    _rotation._z = std::atan((dest._position._z - _position._z)/(dest._position._x - _position._x));
 }
 
 void Transform::Rotate(float xAngle, float yAngle, float zAngle)
 {
-
+    _rotation._x = (xAngle / 180) * M_PI; // degree to radian (180° -> PI)
+    _rotation._y = (yAngle / 180) * M_PI;
+    _rotation._z = (zAngle / 180) * M_PI;
 }
 
 void Transform::setPosition(const Vector3T<float> &pos)

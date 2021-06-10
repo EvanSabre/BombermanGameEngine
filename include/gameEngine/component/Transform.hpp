@@ -9,6 +9,7 @@
 #define TRANSFORM_HPP_
 
 #include "Vector3T.hpp"
+#include <cmath>
 
 namespace gameEngine {
     namespace component {
