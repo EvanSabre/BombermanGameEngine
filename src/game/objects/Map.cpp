@@ -50,8 +50,8 @@ void Map::generateMap()
                 _map[i][j] = MAPWALL; // border_blocks + middle_walls
             else if (EVEN(i) && EVEN(j))
                 _map[i][j] = MAPBORDR; // walls_block + middle_walls
-            else if (!(std::rand() % (_size / 4)) ||
-                SPAWN1 || SPAWN2 || SPAWN3 || SPAWN4)
+            else if (!(std::rand() % (int)((float)_size / 3.5)) ||
+                SPAWN1 || SPAWN2 || SPAWN3 || SPAWN4 || SPAWN5 || SPAWN6)
                 _map[i][j] = MAPPATH; // random_path + spawners_path
         }
     }
@@ -85,24 +85,17 @@ void Map::draw()
 {
     for (std::size_t i = 0; i < SIZE_X; i++) {
         for (std::size_t j = 0; j < SIZE_Y; j++) {
-            if (_map[i][j] == MAPPATH) {
-                _path->getModel().setPosition({i, 0, j});
-                _path->getModel().draw();
-            } else if (_map[i][j] == MAPWALL) {
+            _path->getModel().setPosition({i, 0, j});
+            _path->getModel().draw();
+            if (_map[i][j] == MAPWALL) {
                 _wall->getModel().setPosition({i, 1, j});
-                _path->getModel().setPosition({i, 0, j});
                 _wall->getModel().draw();
-                _path->getModel().draw();
             } else if (_map[i][j] == MAPBRICK) {
                 _brick->getModel().setPosition({i, 1, j});
-                _path->getModel().setPosition({i, 0, j});
                 _brick->getModel().draw();
-                _path->getModel().draw();
             } else if (_map[i][j] == MAPBORDR) {
                 _border->getModel().setPosition({i, 1, j});
-                _path->getModel().setPosition({i, 0, j});
                 _border->getModel().draw();
-                _path->getModel().draw();
             }
         }
     }
@@ -127,7 +120,7 @@ std::vector<std::vector<int>> Map::getMap() const
 // setters
 void Map::setSize(const std::size_t &size)
 {
-    _size = (size < 5) ? 5 : size + 1 - size % 2;
+    _size = (size < 9) ? 9 : size + 1 - size % 2;
 }
 
 void Map::setSeed(const std::size_t &seed)

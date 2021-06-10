@@ -16,7 +16,7 @@ using namespace gameEngine;
 
 static void init(game::Managers::WindowManager window, encapsulation::BCamera cam)
 {
-    Map map(15, 637520213);
+    Map map(15);
     map.dump();
 
     cam.setMode(CAMERA_FREE);
