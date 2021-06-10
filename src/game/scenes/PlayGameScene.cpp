@@ -31,7 +31,7 @@ void PlayGameScene::start()
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
 
     _buttonManager.pushButton(button);
-    _windowManager->clear({0, 170, 170, 255});
+    _windowManager->setBackgroundColor({0, 170, 170, 255});
 }
 
 void PlayGameScene::setupCamera() noexcept
@@ -57,7 +57,7 @@ std::string PlayGameScene::update()
 void PlayGameScene::draw()
 {
     _buttonManager.drawButtons();
-    this->_windowManager.get()->set3DMode(_cam);
+    this->_windowManager->set3DMode(_cam);
     _map.draw();
     _player.draw();
     _cam.endMode();

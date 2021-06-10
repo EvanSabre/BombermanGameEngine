@@ -166,10 +166,12 @@ int main()
         nextScene = scene->update();
         if (nextScene != "") {
             scene = game::managers::SceneManager::loadScene(nextScene, win, info);
+            win->setBackgroundColor(WHITE);
             win->clear(WHITE);
             scene->start();
         }
         win->BeginDraw();
+        win->clear();
         scene->draw();
         win->EndDraw();
     }
