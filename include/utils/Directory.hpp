@@ -10,7 +10,11 @@
 
 #include <sys/stat.h>
 #include <string>
-#include "Bdirent.h"
+#ifdef _WIN64
+  #include "Bdirent.h"
+#else
+  #include <dirent.h>
+#endif
 #include <vector>
 #include <stdexcept>
 
