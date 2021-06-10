@@ -102,6 +102,17 @@ void encapsulation::BTexture2D::loadFromImg(const BImage &img)
         throw std::runtime_error("Texture test : loading failed");
 }
 
+void encapsulation::BTexture2D::loadFromImgRelRect(const std::string &path, const Vector<float> &size)
+{
+    BImage img(path);
+
+    this->resetObj();
+    img.resize(Vector<int>(size._x, size._y));
+    img.setPosition(Vector<int>(0, 0));
+    this->loadFromImg(img);
+    _filepath = path;
+}
+
 void encapsulation::BTexture2D::loadFromFile(const std::string &filepath)
 {
     this->_texture = LoadTexture(filepath.c_str());
@@ -137,14 +148,23 @@ void encapsulation::BTexture2D::draw() const noexcept
 
 void encapsulation::BTexture2D::drawEx(int scale) const noexcept
 {
+    Vector2 vec;
+
+    vec.x = _pos._x;
+    vec.y = _pos._y;
+
     if (isLoad())
-        DrawTextureEx(this->_texture, (Vector2){_pos._x, _pos._y}, 0.0f, (float)scale, WHITE);
+        DrawTextureEx(this->_texture, vec, 0.0f, (float)scale, WHITE);
 }
 
 void encapsulation::BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept
 {
+    Vector2 vec;
+
+    vec.x = pos._x;
+    vec.y = pos._y;
     if (isLoad()) {
-        DrawTextureRec(this->_texture, rect.getObj(), (Vector2) {pos._x, pos._y}, _color.getObj());
+        DrawTextureRec(this->_texture, rect.getObj(), vec, _color.getObj());
     }
 }
 

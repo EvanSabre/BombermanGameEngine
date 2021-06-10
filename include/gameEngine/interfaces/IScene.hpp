@@ -19,6 +19,7 @@ namespace gameEngine {
 
 				virtual void start() = 0;
 				virtual std::string update() = 0;
+				virtual void draw() = 0;
 		};
 	}
 }

@@ -13,6 +13,7 @@
 #include <iostream>
 #include "Vector.hpp"
 #include "IWindowManager.hpp"
+#include "BColor.hpp"
 
 namespace gameEngine {
     namespace managers {
@@ -29,6 +30,7 @@ namespace gameEngine {
                 void BeginDraw() final;
                 void EndDraw() final;
                 void setFullScreen(void) final;
+                void clear() noexcept;
                 void clear(const gameEngine::encapsulation::BColor &color) final;
                 void setBackgroundColor(const gameEngine::encapsulation::BColor &color) final;
                 void set3DMode(const gameEngine::encapsulation::BCamera &camera) final;
@@ -42,6 +44,7 @@ namespace gameEngine {
             private:
                 std::string _windowName;
                 Vector<int> _size{0, 0};
+                gameEngine::encapsulation::BColor _color{{255, 255, 255, 255}};
                 bool is3D;
                 bool is2D;
         };
