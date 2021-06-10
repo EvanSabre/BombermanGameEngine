@@ -9,7 +9,11 @@
 #define FILE_HPP_
 
 #include <fstream>
-#include <unistd.h>
+#ifdef _WIN64
+    #include "Bunistd.h"
+#else
+    #include <unistd.h>
+#endif
 #include <sys/stat.h>
 #include <string>
 #include <stdexcept>
@@ -44,8 +48,6 @@ class File
         void create();
         std::string _path = "";
         std::string _name = "";
-
-    private:
         std::string getNameFromPath(const std::string &path) const noexcept;
 };
 

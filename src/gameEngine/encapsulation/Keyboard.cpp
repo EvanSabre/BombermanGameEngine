@@ -8,47 +8,41 @@
 #include "Keyboard.hpp"
 #include <stdlib.h>
 
-gameEngine::encapsulation::Keyboard::Keyboard() {}
 
-bool gameEngine::encapsulation::Keyboard::isKeyPressed(int key, int device)
+bool gameEngine::encapsulation::Keyboard::isKeyPressed(int key)
 {
-    (void) device;
     return IsKeyPressed(key);
 }
 
-bool gameEngine::encapsulation::Keyboard::isKeyDown(int key, int device)
+bool gameEngine::encapsulation::Keyboard::isKeyDown(int key)
 {
-    (void) device;
     return IsKeyDown(key);
 }
 
-bool gameEngine::encapsulation::Keyboard::isKeyUp(int key, int device)
+bool gameEngine::encapsulation::Keyboard::isKeyUp(int key)
 {
-    (void) device;
     return IsKeyUp(key);
 }
 
-bool gameEngine::encapsulation::Keyboard::isKeyReleased(int key, int device)
+bool gameEngine::encapsulation::Keyboard::isKeyReleased(int key)
 {
-    (void) device;
     return IsKeyReleased(key);
 }
 
-const char *gameEngine::encapsulation::Keyboard::getDeviceName(int device)
+const std::string gameEngine::encapsulation::Keyboard::getDeviceName()
 {
-    (void) device;
-    return NULL;
+    std::string name{"Keyboard"};
+
+    return name;
 }
 
-bool gameEngine::encapsulation::Keyboard::isDeviceAvailable(int device)
+bool gameEngine::encapsulation::Keyboard::isDeviceAvailable()
 {
-    (void) device;
     return true;
 }
 
-bool gameEngine::encapsulation::Keyboard::isDeviceName(int device, const char *name)
+bool gameEngine::encapsulation::Keyboard::isDeviceName(const char *name)
 {
-    (void) device;
     (void) name;
     return true;
 }

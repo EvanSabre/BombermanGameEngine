@@ -21,6 +21,7 @@ namespace gameEngine
         {
         public:
             BTexture2D(const std::string &filePath);
+            BTexture2D(const std::string &filePath, const BText &content);
             BTexture2D(const BTexture2D &ref);
             BTexture2D();
             ~BTexture2D();
@@ -39,14 +40,18 @@ namespace gameEngine
 
             //trhrow runtime error if img is not load
             void loadFromImg(const BImage &img);
+            void loadFromImgRelRect(const std::string &path, const Vector<float> &size);
 
             void loadFromFile(const std::string &filepath);
             void unload() noexcept;
 
         //draw
             void draw() const noexcept;
+            void drawEx(int scale) const noexcept;
             void drawRect(const BRectangle &rect, Vector<float> pos) const noexcept;
 
+        //utils
+            void addTextToTexture(const BText &text, const std::string &filePath);
         private:
             Texture2D _texture;
             std::string _filepath;

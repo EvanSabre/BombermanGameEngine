@@ -10,7 +10,11 @@
 
 #include <sys/stat.h>
 #include <string>
-#include <dirent.h>
+#ifdef _WIN64
+  #include "Bdirent.h"
+#else
+  #include <dirent.h>
+#endif
 #include <vector>
 #include <stdexcept>
 
@@ -20,12 +24,6 @@
 class Directory
 {
   public:
-    typedef struct file_info_t {
-        struct stat stat;
-        std::string name;
-        std::string path;
-    } file_info_t;
-
     Directory(const std::string &dirpath, bool force_creation=false);
     ~Directory();
 

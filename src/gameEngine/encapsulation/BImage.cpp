@@ -19,14 +19,12 @@ encapsulation::BImage::BImage(const std::string &filepaht, const Vector<int> &po
 
 encapsulation::BImage::BImage(const BImage &ref)
 {
-    Image img_buf;
 
     if (ref.isLoad()) {
         this->_img = ImageCopy(ref.getObj());
         if (!this->_img.data)
             throw std::runtime_error("Image : Copy failed");
-    } else
-        this->_img = img_buf;
+    }
     this->_pos = ref._pos;
 }
 
