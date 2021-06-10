@@ -16,7 +16,7 @@
 #include "BCamera2D.hpp"
 
 namespace gameEngine {
-    namespace Interfaces {
+    namespace interfaces {
         class IWindowManager {
             public:
                 virtual ~IWindowManager() = default;
@@ -25,8 +25,10 @@ namespace gameEngine {
                 virtual void deleteWindow(void) = 0;
                 virtual void resizeWindow(const Vector<int> &size) = 0;
                 virtual bool isRunning() const noexcept = 0;
-
+                virtual void BeginDraw() = 0;
+                virtual void EndDraw() = 0;
                 virtual void setFullScreen(void) = 0;
+                virtual void clear(const encapsulation::BColor &color) = 0;
                 virtual void setBackgroundColor(const encapsulation::BColor &color) = 0;
                 virtual void set3DMode(const encapsulation::BCamera &camera) = 0;
                 virtual void set2DMode(const encapsulation::BCamera2D &camera) = 0;

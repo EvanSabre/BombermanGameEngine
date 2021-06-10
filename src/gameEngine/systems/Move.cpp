@@ -38,25 +38,25 @@ void systems::Move::moveLeft(Vector3T<float> &pos, const float velocity, std::si
     Move::move(pos, speed, tick);
 }
 
-void systems::Move::moveForward(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveUp(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, velocity, 0};
     Move::move(pos, speed, tick);
 }
 
-void systems::Move::moveBackward(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveDown(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, -velocity, 0};
     Move::move(pos, speed, tick);
 }
 
-void systems::Move::moveUp(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveForward(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, 0, velocity};
     Move::move(pos, speed, tick);
 }
 
-void systems::Move::moveDown(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveBackward(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, 0, -velocity};
     Move::move(pos, speed, tick);

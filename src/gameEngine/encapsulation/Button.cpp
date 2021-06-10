@@ -17,9 +17,7 @@ _rectangle(size, pos, color, rotation), _frameRec(size, {0, 0}, color, rotation)
 _content(content)
 {
     if (textureFile != "" && content.getStr() != "") {
-            BImage img(textureFile);
-            img.drawText(content, content.getTextPosition());
-            _texture.loadFromImg(img);
+        _texture.addTextToTexture(content, textureFile);
     } else if (textureFile != "")
         _texture.loadFromFile(textureFile);
     _state = NORMAL;
@@ -28,16 +26,13 @@ _content(content)
 }
 
 Button::Button(const BTexture2D &text, const BRectangle &rect, const BText &content) :
-    _rectangle(rect), _frameRec(rect.getRectSize(), {0, 0}, rect.getColor(), rect.getRotation()),
+    _texture(text), _rectangle(rect), _frameRec(rect.getRectSize(), {0, 0}, rect.getColor(), rect.getRotation()),
     _content(content)
 {
 
     _state = NORMAL;
     _nbFrames = 1;
     _buttonPressed = false;
-    _texture = text;
-    _rectangle = rect;
-    _content = content;
 }
 
 Button::~Button()
@@ -185,9 +180,9 @@ void Button::update()
 //DRAW
 void Button::drawButton()
 {
-    if (_texture.isLoad())
-        _texture.drawRect(_frameRec, _rectangle.getRectPosition());
-    else {
+    if (_texture.isLoad()) {
+       _texture.drawRect(_frameRec, _rectangle.getRectPosition());
+    } else {
         _rectangle.draw();
         _content.draw();
     }

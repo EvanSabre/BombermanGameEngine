@@ -55,7 +55,8 @@ void encapsulation::BSound::load(const std::string &filepath)
 
 void encapsulation::BSound::unload() noexcept
 {
-    Sound buf = {0};
+    Sound buf;
+    buf.stream.buffer = nullptr;
 
     if (!this->isLoad())
         return;
@@ -86,7 +87,7 @@ void encapsulation::BSound::pause()
     PauseSound(this->_sound);
 }
 
-void encapsulation::BSound::resumeStream()
+void encapsulation::BSound::resume()
 {
     if (!isLoad())
         throw std::runtime_error("Sound [RESUME]: no Sound load");
