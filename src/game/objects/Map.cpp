@@ -75,29 +75,32 @@ void Map::dump()
 
 void Map::generateMapTiles()
 {
-    _path = std::make_unique<Tile>(BLOCKPATHOBJ, PATHTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::PATH);
-    _wall = std::make_unique<Tile>(BLOCKPATHOBJ, WALLTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::WALL);
-    _brick = std::make_unique<Tile>(BLOCKPATHOBJ, BRICKTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::BRICK);
-    _border = std::make_unique<Tile>(BLOCKPATHOBJ, BORDERTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::BORDER);
+    _brickMod = std::make_shared<BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, 0.5);
+    _wallMod = std::make_shared<BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, 0.5);
+    _pathMod = std::make_shared<BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, 0.5);
+    _borderMod = std::make_shared<BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, 0.5);
+    _brickTex = std::make_shared<BTexture2D>(BRICKTILEPNG);
+    _wallTex = std::make_shared<BTexture2D>(WALLTILEPNG);
+    _pathTex = std::make_shared<BTexture2D>(PATHTILEPNG);
+    _borderTex = std::make_shared<BTexture2D>(BORDERTILEPNG);
+
+    for (std::size_t i = 0; i < SIZE_X; i++) {
+        for (std::size_t j = 0; j < SIZE_Y; j++) {
+            _tiledMap.push_back(Tile(_pathMod, _pathTex, Tile::TileType::PATH, Vector3T<float>((float)i, 0, (float)j)));
+            if (_map[i][j] == MAPBRICK)
+                _tiledMap.push_back(Tile(_brickMod, _brickTex, Tile::TileType::BRICK, Vector3T<float>((float)i, 1, (float)j)));
+            else if (_map[i][j] == MAPWALL)
+                _tiledMap.push_back(Tile(_wallMod, _wallTex, Tile::TileType::WALL, Vector3T<float>((float)i, 1, (float)j)));
+            else if (_map[i][j] == MAPBORDR)
+                _tiledMap.push_back(Tile(_borderMod, _borderTex, Tile::TileType::BORDER, Vector3T<float>((float)i, 1, (float)j)));
+        }
+    }
 }
 
 void Map::draw()
 {
-    for (std::size_t i = 0; i < SIZE_X; i++) {
-        for (std::size_t j = 0; j < SIZE_Y; j++) {
-            _path->getModel().setPosition({(float)i, 0, (float)j});
-            _path->getModel().draw();
-            if (_map[i][j] == MAPWALL) {
-                _wall->getModel().setPosition({(float)i, 1, (float)j});
-                _wall->getModel().draw();
-            } else if (_map[i][j] == MAPBRICK) {
-                _brick->getModel().setPosition({(float)i, 1, (float)j});
-                _brick->getModel().draw();
-            } else if (_map[i][j] == MAPBORDR) {
-                _border->getModel().setPosition({(float)i, 1, (float)j});
-                _border->getModel().draw();
-            }
-        }
+    for (auto &it : _tiledMap) {
+        it.draw();
     }
 }
 

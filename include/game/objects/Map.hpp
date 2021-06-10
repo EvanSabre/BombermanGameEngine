@@ -71,10 +71,16 @@ namespace game::objects {
             std::vector<std::vector<int>> _map;
             std::size_t _size;
             std::size_t _seed;
-            std::unique_ptr<Tile> _wall;
-            std::unique_ptr<Tile> _path;
-            std::unique_ptr<Tile> _brick;
-            std::unique_ptr<Tile> _border;
+            std::vector<Tile> _tiledMap;
+
+            std::shared_ptr<BModel> _brickMod;
+            std::shared_ptr<BModel> _wallMod;
+            std::shared_ptr<BModel> _pathMod;
+            std::shared_ptr<BModel> _borderMod;
+            std::shared_ptr<BTexture2D> _wallTex;
+            std::shared_ptr<BTexture2D> _pathTex;
+            std::shared_ptr<BTexture2D> _brickTex;
+            std::shared_ptr<BTexture2D> _borderTex;
     };
 }
 
