@@ -7,16 +7,16 @@
 
 #include "TimedObject.hpp"
 
-using namespace game;
+using namespace game::objects;
 
-objects::TimedObject::TimedObject(const std::string &id,
-    const std::chrono::microseconds &life_time)
+TimedObject::TimedObject(const std::string &id,
+    const std::chrono::milliseconds &life_time)
     : gameEngine::objects::AGameObject(id)
 {
     this->_lifeTime = life_time;
 }
 
-objects::TimedObject::~TimedObject()
+TimedObject::~TimedObject()
 {
 }
 
@@ -24,13 +24,12 @@ objects::TimedObject::~TimedObject()
 
 //GETTER
 
-
-std::chrono::microseconds objects::TimedObject::getLifeTime() const noexcept
+std::chrono::milliseconds TimedObject::getLifeTime() const noexcept
 {
     return this->_lifeTime;
 }
 
-std::chrono::milliseconds objects::TimedObject::getElapsedTime() const noexcept
+std::chrono::milliseconds TimedObject::getElapsedTime() const noexcept
 {
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 
@@ -39,7 +38,7 @@ std::chrono::milliseconds objects::TimedObject::getElapsedTime() const noexcept
     return delta_t;
 }
 
-std::chrono::milliseconds objects::TimedObject::getRemainedTime() const noexcept
+std::chrono::milliseconds TimedObject::getRemainedTime() const noexcept
 {
     std::chrono::milliseconds remain_time = _lifeTime - this->getElapsedTime();
 
@@ -50,7 +49,7 @@ std::chrono::milliseconds objects::TimedObject::getRemainedTime() const noexcept
     return remain_time;
 }
 
-bool objects::TimedObject::isTimeOver() const noexcept
+bool TimedObject::isTimeOver() const noexcept
 {
     if (getElapsedTime() > _lifeTime)
         return true;
@@ -61,7 +60,7 @@ bool objects::TimedObject::isTimeOver() const noexcept
 
 //SETTER
 
-void objects::TimedObject::setModel(gameEngine::encapsulation::BModel *model) noexcept
+void TimedObject::setModel(gameEngine::encapsulation::BModel *model) noexcept
 {
     this->_model = model;
 }
@@ -69,7 +68,7 @@ void objects::TimedObject::setModel(gameEngine::encapsulation::BModel *model) no
 
 //----------------
 
-void objects::TimedObject::draw() const noexcept
+void TimedObject::draw() const noexcept
 {
     if (_model != nullptr)
         _model->draw();
@@ -81,12 +80,12 @@ void objects::TimedObject::draw() const noexcept
 
 //PRIVATE FUNCTIONS
 
-void objects::TimedObject::updateLastTimeCheck() noexcept
+void TimedObject::updateLastTimeCheck() noexcept
 {
     this->_lastLifeTimeCheckPoint = std::chrono::system_clock::now();
 }
 
-void objects::TimedObject::updateLifeTime() noexcept
+void TimedObject::updateLifeTime() noexcept
 {
     std::chrono::duration<double> diff = _lastLifeTimeCheckPoint - _startLifePoint;
     auto delta_t = std::chrono::duration_cast<std::chrono::milliseconds>(diff);
@@ -98,3 +97,11 @@ void objects::TimedObject::updateLifeTime() noexcept
     this->updateLastTimeCheck();
 }
 
+//-------------------
+
+//AGAMEOBJECT FUNCTIONS
+
+void TimedObject::Update()
+{
+    this->updateLifeTime();
+}

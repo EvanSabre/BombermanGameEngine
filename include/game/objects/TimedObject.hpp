@@ -20,7 +20,7 @@ namespace game
         {
         public:
             TimedObject(const std::string &id,
-                const std::chrono::microseconds &life_time
+                const std::chrono::milliseconds &life_time
                 );
             ~TimedObject();
 
