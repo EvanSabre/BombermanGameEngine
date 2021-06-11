@@ -34,4 +34,11 @@ public:
                          std::string const &component = "Unknown");
 };
 
+class UserManagmentError : public IndeeError
+{
+public:
+    UserManagmentError(std::string const &message,
+                         std::string const &component = "UserManager.cpp");
+};
+
 #endif /* !ERRORS_HPP_ */

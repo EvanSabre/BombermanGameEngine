@@ -27,7 +27,6 @@ namespace gameEngine
     //     {Key::KEY_RIGHT, INGAME_MOVE_RIGHT},
     //     {Key::KEY_LEFT, INGAME_MOVE_LEFT},
 
-    //TODO: ajouter une map tel que dessous dans scene
     // std::unordered_map<Event, InputFunc> ExampleMap =
     // {
     //     {MOVE_UP_IN_MENU, {&gameEngine::interfaces::IInput::isKeyPressed, KEY_UP}}
@@ -160,6 +159,7 @@ namespace gameEngine
                     return -1;
                 }
 
+                //TODO: fix by queue
                 std::vector<std::pair<int, E>> pollEvents()
                 {
                     std::vector<std::pair<int, E>> results;

@@ -40,6 +40,7 @@ namespace game
                 const gameEngine::UserInputs &getUserInputs(void) const noexcept {return _IdInputMap;}
 
             private:
+                //std::string 
                 std::vector<std::shared_ptr<File>> _usersFile;
                 std::vector<std::shared_ptr<User>> _users;
                 std::unordered_map<int, User&> _IdUserMap;

@@ -20,7 +20,7 @@ const std::string &IndeeError::getComponent() const noexcept
 
 const char *IndeeError::what() const noexcept
 {
-    return _message.c_str();
+    return (_componnent + ": " + _message).c_str();
 }
 
 LoadingError::LoadingError(std::string const &message,
