@@ -37,12 +37,16 @@ int main()
     audio->loadMusicStreamFromFile("assets/music/menu_music.mp3");
     audio->loadSoundFromFile("assets/music/play_sound.wav");
     audio->playMusic();
+    audio->setMusicVolume(1.0); //1.0 is max level
     while (win->isRunning()) {
         if (nextScene == "play") {
+            audio->setMusicVolume(0);
+            audio->playSound();
             audio->playSound();
             audio->stopMusic();
             audio->loadMusicStreamFromFile("assets/music/game_music.mp3");
             audio->playMusic();
+            audio->setMusicVolume(1.0);
         }
         audio->updateMusicStream();
         nextScene = scene->update();
