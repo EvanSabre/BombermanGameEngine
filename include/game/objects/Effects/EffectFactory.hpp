@@ -19,6 +19,7 @@
 #include <memory>
 #include <unordered_map>
 #include <stdexcept>
+#include <functional>
 
 namespace game
 {
@@ -27,7 +28,6 @@ namespace game
         class EffectFactory;
 
         typedef std::unique_ptr<game::interfaces::IEffect> (*BuildEffectFct)();
-
 
         class EffectFactory {
         public:
@@ -42,6 +42,7 @@ namespace game
 
         private:
             static const std::unordered_map<std::string, BuildEffectFct> _producer;
+            static const std::unordered_map<std::string, std::function<std::unique_ptr<game::interfaces::IEffect>()>> _efxProducer;
 
         };
     } // namespace objects

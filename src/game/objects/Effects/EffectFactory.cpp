@@ -17,19 +17,45 @@ const std::unordered_map<std::string, BuildEffectFct> EffectFactory::_producer =
     {"OneUp", &EffectFactory::makeOneUP},
 };
 
+const std::unordered_map<std::string, std::function<std::unique_ptr<game::interfaces::IEffect>()>> EffectFactory::_efxProducer = {
+    {"HealthUp",
+        []() {
+            return std::make_unique<game::objects::HealthUp>();
+        }},
+    {"BombUp",
+        []() {
+            return std::make_unique<game::objects::BombUp>();
+        }},
+    {"FireUp",
+        []() {
+            return std::make_unique<game::objects::FireUp>();
+        }},
+    {"SpeedUp",
+        []() {
+            return std::make_unique<game::objects::SpeedUp>();
+        }},
+    {"OneUp",
+        []() {
+            return std::make_unique<game::objects::OneUp>();
+    }}
+};
+
+
 EffectFactory::IEffect_unq EffectFactory::makeEffect(const std::string &type)
 {
-    EffectFactory::IEffect_unq efx = nullptr;
+   // EffectFactory::IEffect_unq efx = nullptr;
 
     try
     {
-        efx = _producer.at(type)();
+       // efx = _producer.at(type)();
+        return _efxProducer.at(type)();
     }
     catch(const std::exception& e)
     {
         throw std::invalid_argument("Effect Factory : unknown type");
     }
-    return efx;
+   // return efx;
+   return nullptr;
 }
 
 EffectFactory::IEffect_unq EffectFactory::makeHealthUP() noexcept
