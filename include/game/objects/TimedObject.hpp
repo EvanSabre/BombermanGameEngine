@@ -8,15 +8,14 @@
 #ifndef TIMEDOBJECT_HPP_
 #define TIMEDOBJECT_HPP_
 
-#include "AGameObject.hpp"
-#include <chrono>
-#include "BModel.hpp"
+#include "Tile.hpp"
+#include "Clock.hpp"
 
 namespace game
 {
     namespace objects
     {
-        class TimedObject : public gameEngine::objects::AGameObject
+        class TimedObject : public Clock, public Tile
         {
         public:
             TimedObject(const std::string &id,
@@ -30,8 +29,6 @@ namespace game
                 std::chrono::milliseconds getElapsedTime() const noexcept;
                 bool isTimeOver() const noexcept;
 
-            //setter
-                void setModel(gameEngine::encapsulation::BModel *model) noexcept;
 
 
             void draw() const noexcept;

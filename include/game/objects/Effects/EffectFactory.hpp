@@ -10,6 +10,10 @@
 
 #include "IEffect.hpp"
 #include "HealthUp.hpp"
+#include "OneUp.hpp"
+#include "SpeedUp.hpp"
+#include "BombUp.hpp"
+#include "FireUp.hpp"
 #include <memory>
 #include <unordered_map>
 #include <stdexcept>
@@ -29,6 +33,10 @@ namespace game
             static IEffect_unq makeEffect(game::EffectType_e type);
 
             static IEffect_unq makeHealthUP() noexcept;
+            static IEffect_unq makeBombUP() noexcept;
+            static IEffect_unq makeFireUP() noexcept;
+            static IEffect_unq makeSpeedUP() noexcept;
+            static IEffect_unq makeOneUP() noexcept;
 
         private:
             static const std::unordered_map<game::EffectType_e, BuildEffectFct> _producer;

@@ -59,6 +59,9 @@ void objects::Character::draw() const noexcept
     _model->draw();
 }
 
-void objects::Character::OnCollisionEnter(const AGameObject &collision) {}
+void objects::Character::OnCollisionEnter(const AGameObject &collision)
+{
+}
+
 void objects::Character::OnCollisionExit(const AGameObject &collision) {}
 void objects::Character::Update() {}
