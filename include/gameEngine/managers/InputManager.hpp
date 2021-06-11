@@ -41,7 +41,7 @@ namespace gameEngine
         {
 
             public:
-                InputManager(UserInputs inputList, std::unordered_map<E, InputFunc> keymap)
+                InputManager(const UserInputs &inputList, std::unordered_map<E, InputFunc> keymap)
                 {
                     _inputList = inputList;
                     _keymap = keymap;

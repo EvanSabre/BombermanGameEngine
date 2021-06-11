@@ -63,6 +63,7 @@ set(GAME_SRC
 
 set(UTILS_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/User.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"
         )
@@ -83,6 +84,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         "${PROJECT_SOURCE_DIR}/include/game/managers"
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
+        "${PROJECT_SOURCE_DIR}/include/game/"
         "${PROJECT_SOURCE_DIR}/include/WindowsEquivalent"
         )
 
@@ -96,7 +98,7 @@ set(MY_DEPENDENCIES
 
 
 add_executable(bomberman
-        ${PROJECT_SOURCE_DIR}/src/main.cpp
+        ${PROJECT_SOURCE_DIR}/my_test/main_user.cpp
         ${GAMEENGINE_SRC}
         ${GAME_SRC}
         ${UTILS_SRC}

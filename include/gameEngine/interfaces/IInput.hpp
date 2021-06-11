@@ -180,8 +180,8 @@ namespace gameEngine
 
         };
     }
-    typedef std::pair<int, const std::shared_ptr<gameEngine::interfaces::IInput>&> UserInput;
-    typedef std::unordered_map<int, std::shared_ptr<gameEngine::interfaces::IInput>&> UserInputs; // <id, Keyboard or Gamepad>
+    //typedef std::pair<int, const std::shared_ptr<gameEngine::interfaces::IInput>&> UserInput;
+    typedef std::unordered_map<int, std::shared_ptr<gameEngine::interfaces::IInput>> UserInputs; // <id, Keyboard or Gamepad>
     typedef bool (gameEngine::interfaces::IInput::*InputFunc)(int, int);
     typedef std::pair<InputFunc, Key> keyEvent;
 }
