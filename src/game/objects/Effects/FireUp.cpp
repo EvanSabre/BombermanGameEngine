@@ -10,7 +10,7 @@
 using namespace game::objects;
 
 FireUp::FireUp()
-    : AEffect(game::EffectType::BOMBPOWER)
+    : AEffect("FireUp")
 {
     _blastPower = 1;
 }

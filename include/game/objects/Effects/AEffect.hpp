@@ -17,10 +17,10 @@ namespace game
         class AEffect : public game::interfaces::IEffect
         {
         public:
-            AEffect(game::EffectType_e type);
+            AEffect(const std::string &type);
             ~AEffect();
 
-            game::EffectType_e getType() const noexcept;
+            std::string getType() const noexcept;
 
             int getLife() const noexcept final;
             int getHealth() const noexcept final;
@@ -36,7 +36,7 @@ namespace game
             Vector3T<float> _speed{0, 0, 0};
 
         private:
-            game::EffectType_e _type;
+            std::string _type;
         };
     } // namespace name
 } // namespace game

@@ -8,6 +8,8 @@
 #ifndef EFFECTFACTORY_HPP_
 #define EFFECTFACTORY_HPP_
 
+#include <string>
+
 #include "IEffect.hpp"
 #include "HealthUp.hpp"
 #include "OneUp.hpp"
@@ -30,7 +32,7 @@ namespace game
         class EffectFactory {
         public:
             using IEffect_unq = std::unique_ptr<game::interfaces::IEffect>;
-            static IEffect_unq makeEffect(game::EffectType_e type);
+            static IEffect_unq makeEffect(const std::string &type);
 
             static IEffect_unq makeHealthUP() noexcept;
             static IEffect_unq makeBombUP() noexcept;
@@ -39,7 +41,7 @@ namespace game
             static IEffect_unq makeOneUP() noexcept;
 
         private:
-            static const std::unordered_map<game::EffectType_e, BuildEffectFct> _producer;
+            static const std::unordered_map<std::string, BuildEffectFct> _producer;
 
         };
     } // namespace objects

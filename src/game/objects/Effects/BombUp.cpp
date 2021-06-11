@@ -10,7 +10,7 @@
 using namespace game::objects;
 
 BombUp::BombUp()
-    : AEffect(game::EffectType::NBBOMB)
+    : AEffect("BombUp")
 {
     _nbBomb = 1;
 }

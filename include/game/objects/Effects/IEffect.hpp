@@ -12,24 +12,13 @@
 
 namespace game
 {
-    typedef enum EffectType {
-        HEALTH,
-        LIFE,
-        NBBOMB,
-        BOMBPOWER,
-        SPEED,
-    } EffectType_e;
-} // namespace game
-
-namespace game
-{
     namespace interfaces
     {
         class IEffect {
         public:
             virtual ~IEffect() = default;
 
-            virtual game::EffectType_e getType() const noexcept = 0;
+            virtual std::string getType() const noexcept = 0;
 
             virtual int getLife() const noexcept = 0;
             virtual int getHealth() const noexcept = 0;

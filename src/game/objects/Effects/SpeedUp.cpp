@@ -10,7 +10,7 @@
 using namespace game::objects;
 
 SpeedUp::SpeedUp()
-    : AEffect(game::EffectType::SPEED)
+    : AEffect("SpeedUp")
 {
     _speed = {0.1, 0, 0.1};
 }

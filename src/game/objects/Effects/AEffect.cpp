@@ -9,7 +9,7 @@
 
 using namespace game::objects;
 
-AEffect::AEffect(game::EffectType_e type)
+AEffect::AEffect(const std::string &type)
 {
     _type = type;
 }
@@ -28,7 +28,7 @@ int AEffect::getLife() const noexcept
 }
 
 
-game::EffectType_e AEffect::getType() const noexcept
+std::string AEffect::getType() const noexcept
 {
     return this->_type;
 }

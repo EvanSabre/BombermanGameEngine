@@ -10,7 +10,7 @@
 using namespace game::objects;
 
 OneUp::OneUp()
-    : AEffect(game::EffectType::LIFE)
+    : AEffect("OneUp")
 {
     _extraLife = 1;
 }

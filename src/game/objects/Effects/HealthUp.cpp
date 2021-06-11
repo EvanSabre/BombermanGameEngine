@@ -10,7 +10,7 @@
 using namespace game::objects;
 
 HealthUp::HealthUp()
-    : AEffect(game::EffectType::HEALTH)
+    : AEffect("HealthUP")
 {
     _health = 1;
 }

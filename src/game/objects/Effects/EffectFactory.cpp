@@ -9,15 +9,15 @@
 
 using namespace game::objects;
 
-const std::unordered_map<game::EffectType_e, BuildEffectFct> EffectFactory::_producer = {
-    {game::EffectType_e::HEALTH, &EffectFactory::makeHealthUP},
-    {game::EffectType::NBBOMB, &EffectFactory::makeBombUP},
-    {game::EffectType::BOMBPOWER, &EffectFactory::makeFireUP},
-    {game::EffectType::SPEED, &EffectFactory::makeSpeedUP},
-    {game::EffectType::LIFE, &EffectFactory::makeOneUP},
+const std::unordered_map<std::string, BuildEffectFct> EffectFactory::_producer = {
+    {"HealthUp", &EffectFactory::makeHealthUP},
+    {"BombUp", &EffectFactory::makeBombUP},
+    {"FireUp", &EffectFactory::makeFireUP},
+    {"SpeedUp", &EffectFactory::makeSpeedUP},
+    {"OneUp", &EffectFactory::makeOneUP},
 };
 
-EffectFactory::IEffect_unq EffectFactory::makeEffect(game::EffectType_e type)
+EffectFactory::IEffect_unq EffectFactory::makeEffect(const std::string &type)
 {
     EffectFactory::IEffect_unq efx = nullptr;
 
@@ -61,5 +61,3 @@ EffectFactory::IEffect_unq EffectFactory::makeOneUP() noexcept
     EffectFactory::IEffect_unq efx = std::make_unique<OneUp>();
     return efx;
 }
-
-
