@@ -59,9 +59,10 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Map.cpp"
-        "${PROJECT_SOURCE_DIR}/src/game/objects/AEffect.cpp"
-        "${PROJECT_SOURCE_DIR}/src/game/objects/HealthUp.cpp"
-        "${PROJECT_SOURCE_DIR}/src/game/objects/BombUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/EffectFactory.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/AEffect.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/HealthUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/BombUp.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
@@ -88,6 +89,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         "${PROJECT_SOURCE_DIR}/include/game/managers"
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
+        "${PROJECT_SOURCE_DIR}/include/game/objects/Effects"
         "${PROJECT_SOURCE_DIR}/include/WindowsEquivalent"
         )
 

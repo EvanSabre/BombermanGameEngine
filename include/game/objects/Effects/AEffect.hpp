@@ -20,7 +20,7 @@ namespace game
             AEffect(game::EffectType_e type);
             ~AEffect();
 
-            game::EffectType_e getType() const noexcept = 0;
+            game::EffectType_e getType() const noexcept;
 
             int getHealth() const noexcept;
             int getBombPower() const noexcept;
@@ -28,6 +28,7 @@ namespace game
         protected:
             int _health = 0;
             int _bombPower = 0;
+
         private:
             game::EffectType_e _type;
         };
