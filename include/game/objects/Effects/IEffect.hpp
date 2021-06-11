@@ -14,6 +14,7 @@ namespace game
 {
     typedef enum EffectType {
         HEALTH,
+        LIFE,
         NBBOMB,
         BOMBPOWER,
         SPEED,
@@ -30,6 +31,7 @@ namespace game
 
             virtual game::EffectType_e getType() const noexcept = 0;
 
+            virtual int getLife() const noexcept = 0;
             virtual int getHealth() const noexcept = 0;
             virtual int getBlastPower() const noexcept = 0;
             virtual int getNbBomb() const noexcept = 0;

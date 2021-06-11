@@ -22,6 +22,12 @@ AEffect::~AEffect()
 
 //GETTER
 
+int AEffect::getLife() const noexcept
+{
+    return this->_extraLife;
+}
+
+
 game::EffectType_e AEffect::getType() const noexcept
 {
     return this->_type;

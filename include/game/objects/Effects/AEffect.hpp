@@ -22,12 +22,14 @@ namespace game
 
             game::EffectType_e getType() const noexcept;
 
+            int getLife() const noexcept final;
             int getHealth() const noexcept final;
             int getNbBomb() const noexcept final;
             int getBlastPower() const noexcept final;
             Vector3T<float> getSpeed() const noexcept final;
 
         protected:
+            int _extraLife = 0;
             int _health = 0;
             int _nbBomb = 0;
             int _blastPower = 0;

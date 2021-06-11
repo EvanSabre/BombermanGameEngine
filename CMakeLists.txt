@@ -64,7 +64,9 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/HealthUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/BombUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/FireUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/FireUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/SpeedUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
