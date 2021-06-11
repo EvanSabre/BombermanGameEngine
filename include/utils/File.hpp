@@ -9,7 +9,11 @@
 #define FILE_HPP_
 
 #include <fstream>
-#include "Bunistd.h"
+#ifdef _WIN64
+    #include "Bunistd.h"
+#else
+    #include <unistd.h>
+#endif
 #include <sys/stat.h>
 #include <string>
 #include <stdexcept>

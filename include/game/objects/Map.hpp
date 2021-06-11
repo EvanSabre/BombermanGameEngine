@@ -8,8 +8,8 @@
 #ifndef MAP_HPP_
 #define MAP_HPP_
 
-#define MAPWALL  1
 #define MAPPATH  0
+#define MAPWALL  1
 #define MAPBRICK 2
 #define MAPBORDR 3
 #define TILESIZE 320
@@ -19,10 +19,12 @@
 #define SIZE_Y  (_size + 2)
 #define EVEN(a) !(a % 2)
 #define ODD(a)  (a % 2)
-#define SPAWN1  ((i == 1 || i == 2 || i == SIZE_X - 2 || i == SIZE_X - 3) && j == 1)
+#define SPAWN1  ((i == 1 || i == 2 || i == 3 || i == SIZE_X - 2 || i == SIZE_X - 3 || i == SIZE_X - 4) && j == 1)
 #define SPAWN2  ((i == 1 || i == SIZE_X - 2) && j == 2)
-#define SPAWN3  ((i == 1 || i == SIZE_X - 2) && j == SIZE_Y - 3)
-#define SPAWN4  ((i == 1 || i == 2 || i == SIZE_X - 2 || i == SIZE_X - 3) && j == SIZE_Y - 2)
+#define SPAWN3  ((i == 1 || i == SIZE_X - 2) && j == 3)
+#define SPAWN4  ((i == 1 || i == SIZE_X - 2) && j == SIZE_Y - 3)
+#define SPAWN5  ((i == 1 || i == SIZE_X - 2) && j == SIZE_Y - 4)
+#define SPAWN6  ((i == 1 || i == 2 || i == 3 || i == SIZE_X - 2 || i == SIZE_X - 3 || i == SIZE_X - 4) && j == SIZE_Y - 2)
 
 #include <cstdlib>
 #include <iostream>
@@ -69,10 +71,16 @@ namespace game::objects {
             std::vector<std::vector<int>> _map;
             std::size_t _size;
             std::size_t _seed;
-            std::unique_ptr<Tile> _wall;
-            std::unique_ptr<Tile> _path;
-            std::unique_ptr<Tile> _brick;
-            std::unique_ptr<Tile> _border;
+            std::vector<Tile> _tiledMap;
+
+            std::shared_ptr<BModel> _brickMod;
+            std::shared_ptr<BModel> _wallMod;
+            std::shared_ptr<BModel> _pathMod;
+            std::shared_ptr<BModel> _borderMod;
+            std::shared_ptr<BTexture2D> _wallTex;
+            std::shared_ptr<BTexture2D> _pathTex;
+            std::shared_ptr<BTexture2D> _brickTex;
+            std::shared_ptr<BTexture2D> _borderTex;
     };
 }
 

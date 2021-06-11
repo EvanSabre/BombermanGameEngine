@@ -7,13 +7,13 @@
 
 #include "Player.hpp"
 
-using namespace game;
+using namespace game::objects;
 
-objects::Player::Player(const std::string &id, const std::string &name) : Character(id, name)
+Player::Player(const std::string &id, const std::string &name) : Character(id, name)
 {
 }
 
-objects::Player::~Player()
+Player::~Player()
 {
 }
 
@@ -21,7 +21,7 @@ objects::Player::~Player()
 
 //EVENT
 
-void objects::Player::handleKeyEvent() noexcept
+void Player::handleKeyEvent() noexcept
 {
     gameEngine::encapsulation::Keyboard kb;
 

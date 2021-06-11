@@ -81,15 +81,19 @@ void WindowManager::setFullScreen(void)
 
 void WindowManager::setBackgroundColor(const gameEngine::encapsulation::BColor &color)
 {
-    ClearBackground(color.getObj());
+    _color = color;
+}
+
+void WindowManager::clear() noexcept
+{
+    ClearBackground(_color.getObj());
 }
 
 void WindowManager::clear(const gameEngine::encapsulation::BColor &color)
 {
-    this->BeginDraw();
-    this->setBackgroundColor(color);
-    this->EndDraw();
+    ClearBackground(color.getObj());
 }
+
 
 void WindowManager::set3DMode(const gameEngine::encapsulation::BCamera &camera)
 {

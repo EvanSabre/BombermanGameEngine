@@ -27,13 +27,21 @@ namespace game::objects {
                 COLLECTIBLE,
             };
 
+            // Ctor 1
             Tile(const std::string &modelfilepath = "",
                  const std::string &texturefilepath = "",
                  const Vector3T<float> &pos = {0, 0, 0},
                  const BColor &color = WHITE,
                  const float &scale = 1,
                  const TileType &type = NONE);
+            // Ctor 2
+            Tile(const std::shared_ptr<BModel> &,
+                 const std::shared_ptr<BTexture2D> &,
+                 const TileType &type,
+                 const Vector3T<float> &pos = {0, 0, 0});
+            // copy Ctor
             Tile(const Tile &);
+            // Dtor
             ~Tile();
 
             // member functions
@@ -44,6 +52,7 @@ namespace game::objects {
                             const BColor &,
                             const float &,
                             const TileType &);
+            void draw();
 
             // getters
             BTexture2D getTexture() const;
@@ -58,8 +67,8 @@ namespace game::objects {
             void setPos(const Vector3T<float> &);
 
         protected:
-            BModel _model;
-            BTexture2D _texture;
+            std::shared_ptr<BModel> _model;
+            std::shared_ptr<BTexture2D> _texture;
             TileType _type;
             Vector3T<float> _pos;
         private:
