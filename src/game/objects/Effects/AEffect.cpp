@@ -42,3 +42,7 @@ int AEffect::getBlastPower() const noexcept
     return this->_blastPower;
 }
 
+Vector3T<float> AEffect::getSpeed() const noexcept
+{
+    return this->_speed;
+}

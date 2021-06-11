@@ -8,12 +8,15 @@
 #ifndef IEFFECT_HPP_
 #define IEFFECT_HPP_
 
+#include "Vector3T.hpp"
+
 namespace game
 {
     typedef enum EffectType {
         HEALTH,
         NBBOMB,
         BOMBPOWER,
+        SPEED,
     } EffectType_e;
 } // namespace game
 
@@ -30,6 +33,7 @@ namespace game
             virtual int getHealth() const noexcept = 0;
             virtual int getBlastPower() const noexcept = 0;
             virtual int getNbBomb() const noexcept = 0;
+            virtual Vector3T<float> getSpeed() const noexcept = 0;
         };
     } // namespace interfaces
 } // namespace game
