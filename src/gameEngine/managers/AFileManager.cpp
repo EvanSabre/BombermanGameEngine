@@ -60,3 +60,10 @@ bool AFileManager::writeFile(File &file, const std::string &text, bool rewrite)
         throw e;
     }
 }
+
+std::vector<std::shared_ptr<File>> getDirectoryFiles(const std::string &directoryName)
+{
+    Directory directory(directoryName);
+
+    return directory.getAllDirFiles();
+}

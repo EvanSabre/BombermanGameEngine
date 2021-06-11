@@ -41,43 +41,40 @@ bool Directory::nextEntry()
         return false;
 
     const std::string path(this->_dirPath + "/" + std::string(this->_entry->d_name));
-    File file(path);
-    this->_dir_content.push_back(file);
+    this->_dir_content.push_back(std::make_shared<File>(path));
     return true;
 }
 
 const std::string Directory::getEntryName() const
 {
-    return this->_dir_content.back().getName();
+    return this->_dir_content.back()->getName();
 }
 
 const std::string Directory::getEntryPath() const
 {
-    return this->_dir_content.back().getPath();
+    return this->_dir_content.back()->getPath();
 }
 
-File &Directory::loadFile(const std::string &filename, bool force_creation)
+std::shared_ptr<File> &Directory::loadFile(const std::string &filename, bool force_creation)
 {
     for (auto &i : this->_dir_content) {
-        if (filename == i.getName())
+        if (filename == i->getName())
             return i;
     }
     if (force_creation) {
-        File file(this->_dirPath + SEP + filename, force_creation);
-        _dir_content.push_back(file);
+        _dir_content.push_back(std::make_shared<File>(this->_dirPath + SEP + filename, force_creation));
         return _dir_content.back();
     }
     throw std::runtime_error("File not found and doesn't want to be created");
 }
 
-std::vector<File> Directory::getAllDirFiles() noexcept
+std::vector<std::shared_ptr<File>> Directory::getAllDirFiles() noexcept
 {
     while(this->nextEntry());
     return this->_dir_content;
 }
 
-File Directory::getEntryAsFile() const noexcept
+std::shared_ptr<File> Directory::getEntryAsFile() const noexcept
 {
-    File file{getEntryPath(), false};
-    return file;
+    return std::make_shared<File>(getEntryPath(), false);
 }

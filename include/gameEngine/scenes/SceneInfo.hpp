@@ -18,7 +18,7 @@ namespace gameEngine {
             ~SceneInfo();
 
         protected:
-            std::unique_ptr<game::managers::UserManager> _userManager;
+            //std::unique_ptr<game::managers::UserManager> _userManager;
             //PlayerInfo {Inputs, Names, Map Seed choosen}
             //AudioLevels
         private:

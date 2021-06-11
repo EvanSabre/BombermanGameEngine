@@ -17,7 +17,7 @@
 #endif
 #include <vector>
 #include <stdexcept>
-
+#include <memory>
 #include "File.hpp"
 
 
@@ -33,17 +33,17 @@ class Directory
     // getter
     const std::string getEntryName() const;
     const std::string getEntryPath() const;
-    std::vector<File> getAllDirFiles() noexcept;
+    std::vector<std::shared_ptr<File>> getAllDirFiles() noexcept;
 
-    File &loadFile(const std::string &filename, bool force_creation=false);
-    File getEntryAsFile() const noexcept;
+    std::shared_ptr<File> &loadFile(const std::string &filename, bool force_creation=false);
+    std::shared_ptr<File> getEntryAsFile() const noexcept;
 
   private:
     std::string _dirPath;
     DIR *_directory = nullptr;
     struct dirent *_entry = nullptr;
     struct stat _entryInfo;
-    std::vector<File> _dir_content;
+    std::vector<std::shared_ptr<File>> _dir_content;
 };
 
 #endif /* !READDIR_HPP_ */

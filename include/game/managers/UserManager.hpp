@@ -11,6 +11,7 @@
 #include "game/User.hpp"
 #include "gameEngine/encapsulation/Keyboard.hpp"
 #include "gameEngine/encapsulation/Gamepad.hpp"
+#include "gameEngine/managers/AFileManager.hpp"
 
 namespace game
 {
@@ -22,7 +23,7 @@ namespace game
             GAMEPAD,
         }InputType_e;
 
-        class UserManager
+        class UserManager : public gameEngine::managers::AFileManager
         {
             public:
                 UserManager(const std::string &pathDatabase);
@@ -39,6 +40,7 @@ namespace game
                 const gameEngine::UserInputs &getUserInputs(void) const noexcept {return _IdInputMap;}
 
             private:
+                std::vector<std::shared_ptr<File>> _usersFile;
                 std::vector<std::shared_ptr<User>> _users;
                 std::unordered_map<int, User&> _IdUserMap;
                 const gameEngine::UserInputs _IdInputMap =
