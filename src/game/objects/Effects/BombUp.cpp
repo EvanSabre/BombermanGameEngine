@@ -10,9 +10,9 @@
 using namespace game::objects;
 
 BombUp::BombUp()
-    : AEffect(game::EffectType::BOMBPOWER)
+    : AEffect(game::EffectType::NBBOMB)
 {
-    _bombPower = 1;
+    _nbBomb = 1;
 }
 
 BombUp::~BombUp()

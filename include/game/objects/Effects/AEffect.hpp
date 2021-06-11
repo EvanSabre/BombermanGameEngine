@@ -22,12 +22,14 @@ namespace game
 
             game::EffectType_e getType() const noexcept;
 
-            int getHealth() const noexcept;
-            int getBombPower() const noexcept;
+            int getHealth() const noexcept final;
+            int getNbBomb() const noexcept final;
+            int getBlastPower() const noexcept final;
 
         protected:
             int _health = 0;
-            int _bombPower = 0;
+            int _nbBomb = 0;
+            int _blastPower = 0;
 
         private:
             game::EffectType_e _type;

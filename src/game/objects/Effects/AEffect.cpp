@@ -32,8 +32,13 @@ int AEffect::getHealth() const noexcept
     return this->_health;
 }
 
-int AEffect::getBombPower() const noexcept
+int AEffect::getNbBomb() const noexcept
 {
-    return this->_bombPower;
+    return this->_nbBomb;
+}
+
+int AEffect::getBlastPower() const noexcept
+{
+    return this->_blastPower;
 }
 
