@@ -8,69 +8,58 @@
 #ifndef TILE_HPP_
 #define TILE_HPP_
 
-#include "GameObject.hpp"
+#include "AGameObject.hpp"
 #include "BTexture2D.hpp"
 #include "BModel.hpp"
 #include "Vector3T.hpp"
+#include "Tags.hpp"
 
 using namespace gameEngine::encapsulation;
+using namespace gameEngine::objects;
 
 namespace game::objects {
-    class Tile : public GameObject {
+    class Tile : public AGameObject {
         public:
-            enum TileType {
-                NONE,
-                WALL,
-                PATH,
-                BRICK,
-                BORDER,
-                COLLECTIBLE,
-            };
-
             // Ctor 1
             Tile(const std::string &modelfilepath = "",
                  const std::string &texturefilepath = "",
                  const Vector3T<float> &pos = {0, 0, 0},
+                 const Vector3T<float> &scale = {1, 1, 1},
+                 const Vector3T<float> &rotation = {0, 0, 0},
                  const BColor &color = WHITE,
-                 const float &scale = 1,
-                 const TileType &type = NONE);
+                 const game::Tag &type = NONE);
             // Ctor 2
-            Tile(const std::shared_ptr<BModel> &,
-                 const std::shared_ptr<BTexture2D> &,
-                 const TileType &type,
-                 const Vector3T<float> &pos = {0, 0, 0});
+            Tile(const std::shared_ptr<BModel> &model,
+                 const std::shared_ptr<BTexture2D> &texture,
+                 const Vector3T<float> &pos = {0, 0, 0},
+                 const Vector3T<float> &scale = {1, 1, 1},
+                 const Vector3T<float> &rotation = {0, 0, 0},
+                 const game::Tag &type = NONE);
             // copy Ctor
             Tile(const Tile &);
             // Dtor
             ~Tile();
 
             // member functions
-            Tile &operator=(Tile &);
-            void createTile(const std::string &,
-                            const std::string &,
-                            const Vector3T<float> &,
-                            const BColor &,
-                            const float &,
-                            const TileType &);
+            void OnCollisionEnter(const AGameObject &collision);
+            void OnCollisionExit(const AGameObject &collision);
+            void Update();
             void draw();
 
             // getters
             BTexture2D getTexture() const;
             BModel &getModel();
-            TileType getType() const;
-            Vector3T<float> getPos() const;
+            game::Tag getType() const;
 
             // setters
             void setTexture(const BTexture2D &);
             void setModel(const BModel &);
-            void setType(const TileType &);
-            void setPos(const Vector3T<float> &);
+            void setType(const game::Tag &);
 
         protected:
             std::shared_ptr<BModel> _model;
             std::shared_ptr<BTexture2D> _texture;
-            TileType _type;
-            Vector3T<float> _pos;
+            game::Tag _type;
         private:
     };
 }
