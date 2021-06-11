@@ -24,11 +24,6 @@ objects::AGameObject::~AGameObject()
 
 //GETTER
 
-Vector3T<float> objects::AGameObject::getPosition() const noexcept
-{
-    return this->_transform.getPosition();
-}
-
 const std::string objects::AGameObject::getId() const noexcept
 {
     return this->_id;
@@ -42,6 +37,11 @@ Quadrants objects::AGameObject::getQuadrant() const noexcept
 component::BoxCollider objects::AGameObject::getCollider() const noexcept
 {
     return this->_collider;
+}
+
+component::Transform objects::AGameObject::getTransform() const noexcept
+{
+    return this->_transform;
 }
 
 //----------------

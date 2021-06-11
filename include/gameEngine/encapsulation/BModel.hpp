@@ -26,7 +26,7 @@ namespace gameEngine
             BModel(const std::string &filepath,
                     const Vector3T<float> &pos = {0, 0, 0},
                     const BColor &color = BColor{WHITE},
-                    float scale = 1
+                    const Vector3T<float> &scale = {1, 1, 1}
             );
             //BModel(const std::string &filepath, const BMesh &mesh);
             BModel(const BModel &ref);

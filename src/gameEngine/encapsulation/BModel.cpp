@@ -10,7 +10,7 @@
 using namespace gameEngine;
 
 encapsulation::BModel::BModel(const std::string &filepath, const Vector3T<float> &pos,
-                                const BColor &color, float scale)
+                                const BColor &color, const Vector3T<float> &scale)
                                 : ADrawable()
 {
     this->resetObj();
@@ -23,7 +23,8 @@ encapsulation::BModel::BModel(const std::string &filepath, const Vector3T<float>
         throw e;
     }
     this->_color = color;
-    this->_position = pos;
+    this->_transform.setPosition(pos);
+    this->_transform.setRotation({0, 0, 0});
     this->_scale = scale;
     this->_filePath = filepath;
 }
@@ -43,7 +44,8 @@ encapsulation::BModel::BModel(const encapsulation::BModel &ref)
         throw e;
     }
     this->_color = ref.getColor();
-    this->_position = ref.getPosition();
+    this->_transform.setPosition(ref.getPosition());
+    this->_transform.setRotation(ref.getRotation());
     this->_scale = ref.getScale();
 }
 
@@ -59,7 +61,8 @@ encapsulation::BModel &encapsulation::BModel::BModel::operator=(const encapsulat
         throw e;
     }
     this->_color = ref.getColor();
-    this->_position = ref.getPosition();
+    this->_transform.setPosition(ref.getPosition());
+    this->_transform.setRotation(ref.getRotation());
     this->_scale = ref.getScale();
     return *this;
 }
@@ -124,9 +127,14 @@ void encapsulation::BModel::setTexture(int material_idx, int maps_idx,
 
 void encapsulation::BModel::draw() const noexcept
 {
-    Vector3 vec = {_position._x , _position._y, _position._z};
+    Vector3T pos(this->_transform.getPosition());
+    Vector3 vecPos = {pos._x, pos._y, pos._z};
+    Vector3T rota(this->_transform.getRotation());
+    Vector3 vecRota = {pos._x, pos._y, pos._z};
+    Vector3 vecScale = {_scale._x, _scale._y, _scale._z};
 
-    DrawModel(this->_model, vec, _scale, _color.getObj());
+    DrawModelEx(this->_model, vecPos, vecRota, 1.0f, vecScale, _color.getObj());
+    // DrawModel(this->_model, vec, _scale, _color.getObj());
 }
 
 //---------------------

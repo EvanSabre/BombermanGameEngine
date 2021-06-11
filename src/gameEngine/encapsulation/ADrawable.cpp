@@ -10,6 +10,7 @@
 using namespace gameEngine;
 
 encapsulation::ADrawable::ADrawable()
+    : _transform({0, 0, 0}, {0, 0, 0}, {0, 0, 0})
 {
 }
 
@@ -27,7 +28,12 @@ gameEngine::encapsulation::BColor encapsulation::ADrawable::getColor() const noe
 
 Vector3T<float> encapsulation::ADrawable::getPosition() const noexcept
 {
-    return this->_position;
+    return this->_transform.getPosition();
+}
+
+Vector3T<float> encapsulation::ADrawable::getRotation() const noexcept
+{
+    return this->_transform.getRotation();
 }
 
 Vector3T<float> encapsulation::ADrawable::getSize() const noexcept
@@ -35,7 +41,7 @@ Vector3T<float> encapsulation::ADrawable::getSize() const noexcept
     return this->_size;
 }
 
-float encapsulation::ADrawable::getScale() const noexcept
+Vector3T<float> encapsulation::ADrawable::getScale() const noexcept
 {
     return this->_scale;
 }
@@ -57,7 +63,12 @@ void encapsulation::ADrawable::setColor(const gameEngine::encapsulation::BColor 
 
 void encapsulation::ADrawable::setPosition(const Vector3T<float> &pos) noexcept
 {
-    this->_position = pos;
+    this->_transform.setPosition(pos);
+}
+
+void encapsulation::ADrawable::setRotation(const Vector3T<float> &pos) noexcept
+{
+    this->_transform.setRotation(pos);
 }
 
 void encapsulation::ADrawable::setSize(const Vector3T<float> &size) noexcept
@@ -65,9 +76,16 @@ void encapsulation::ADrawable::setSize(const Vector3T<float> &size) noexcept
     this->_size = size;
 }
 
-void encapsulation::ADrawable::setScale(float scale) noexcept
+void encapsulation::ADrawable::setScale(const Vector3T<float> &scale) noexcept
 {
     this->_scale = scale;
+}
+
+void encapsulation::ADrawable::setScale(const float &scale) noexcept
+{
+    this->_scale._x = scale;
+    this->_scale._y = scale;
+    this->_scale._z = scale;
 }
 
 //-----------------------

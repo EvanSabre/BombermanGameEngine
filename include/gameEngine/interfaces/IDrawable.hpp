@@ -21,14 +21,17 @@ namespace gameEngine
 
             virtual gameEngine::encapsulation::BColor getColor() const noexcept = 0;
             virtual Vector3T<float> getPosition() const noexcept = 0;
+            virtual Vector3T<float> getRotation() const noexcept = 0;
             virtual Vector3T<float> getSize() const noexcept = 0;
-            virtual float getScale() const noexcept = 0;
+            virtual Vector3T<float> getScale() const noexcept = 0;
             virtual Vector3T<float> getScaledSize() const noexcept = 0;
 
             virtual void setColor(const gameEngine::encapsulation::BColor &color) noexcept = 0;
             virtual void setPosition(const Vector3T<float> &pos) noexcept = 0;
+            virtual void setRotation(const Vector3T<float> &pos) noexcept = 0;
             virtual void setSize(const Vector3T<float> &size) noexcept = 0;
-            virtual void setScale(float scale) noexcept = 0;
+            virtual void setScale(const Vector3T<float> &scale) noexcept = 0;
+            virtual void setScale(const float &scale) noexcept = 0;
 
             virtual void draw() const noexcept = 0;
         };

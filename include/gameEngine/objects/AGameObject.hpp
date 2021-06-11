@@ -37,6 +37,7 @@ namespace gameEngine
             const std::string getId() const noexcept;
             component::BoxCollider getCollider() const noexcept;
             Quadrants getQuadrant() const noexcept;
+            component::Transform getTransform() const noexcept;
 
             virtual void OnCollisionEnter(const AGameObject &collision) = 0;
             virtual void OnCollisionExit(const AGameObject &collision) = 0;

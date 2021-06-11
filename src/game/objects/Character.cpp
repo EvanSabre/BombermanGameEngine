@@ -55,7 +55,8 @@ void objects::Character::draw() const noexcept
 {
     if (!this->_model)
         return;
-    _model->setPosition(this->getPosition());
+    _model->setPosition(this->_transform.getPosition());
+    _model->setRotation(this->_transform.getRotation());
     _model->draw();
 }
 
