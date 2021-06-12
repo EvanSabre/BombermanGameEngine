@@ -42,7 +42,7 @@ bool encapsulation::BMusic::isPlaying() const noexcept
     if (!this->isLoad())
         return false;
 
-    return IsMusicStreamPlaying(this->_music);
+    //return IsMusicStreamPlaying(this->_music);
 }
 
 float encapsulation::BMusic::getTimeLength() const noexcept
