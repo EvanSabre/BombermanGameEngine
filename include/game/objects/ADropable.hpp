@@ -10,23 +10,22 @@
 
 #include "Tile.hpp"
 
-using namespace game::objects;
-
 namespace game::objects {
-    class ADropable : public Tile {
+    class ADropable : public game::objects::Tile {
         public:
             ADropable(const std::string &,
                          const std::string &,
                          const Vector3T<float> &,
-                         const BColor &,
+                         const gameEngine::encapsulation::BColor &,
                          const float &,
-                         const TileType &);
+                         const game::Tag &);
             ~ADropable();
 
-            virtual void Explosion_bomb() = 0;
+            virtual void ExplosionBomb(/* Player &player */) = 0;
 
         protected:
         private:
     };
 }
+
 #endif /* !ADROPABLE_HPP_ */

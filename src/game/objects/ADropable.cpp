@@ -7,16 +7,16 @@
 
 #include "ADropable.hpp"
 
-ADropable::ADropable(const std::string &modelfilePath,
+game::objects::ADropable::ADropable(const std::string &modelfilePath,
                            const std::string &texturefilePath,
                            const Vector3T<float> &pos,
-                           const BColor &color,
+                           const gameEngine::encapsulation::BColor &color,
                            const float &scale,
-                           const TileType &type)
-    : game::objects::Tile(modelfilePath, texturefilePath, pos, color, scale, type)
+                           const game::Tag &type)
+    : game::objects::Tile(modelfilePath, texturefilePath, type, pos)
 {
 }
 
-ADropable::~ADropable()
+game::objects::ADropable::~ADropable()
 {
 }
