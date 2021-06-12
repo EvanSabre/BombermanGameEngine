@@ -73,14 +73,14 @@ namespace game::objects {
             std::size_t _seed;
             std::vector<Tile> _tiledMap;
 
-            std::shared_ptr<BModel> _brickMod;
-            std::shared_ptr<BModel> _wallMod;
-            std::shared_ptr<BModel> _pathMod;
-            std::shared_ptr<BModel> _borderMod;
-            std::shared_ptr<BTexture2D> _wallTex;
-            std::shared_ptr<BTexture2D> _pathTex;
-            std::shared_ptr<BTexture2D> _brickTex;
-            std::shared_ptr<BTexture2D> _borderTex;
+            std::shared_ptr<gameEngine::encapsulation::BModel> _brickMod;
+            std::shared_ptr<gameEngine::encapsulation::BModel> _wallMod;
+            std::shared_ptr<gameEngine::encapsulation::BModel> _pathMod;
+            std::shared_ptr<gameEngine::encapsulation::BModel> _borderMod;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _wallTex;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _pathTex;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _brickTex;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _borderTex;
     };
 }
 

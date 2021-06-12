@@ -80,6 +80,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/gameEngine/managers"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/scenes"
         "${PROJECT_SOURCE_DIR}/include/gameEngine/scenes/components"
+        "${PROJECT_SOURCE_DIR}/include/game"
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         "${PROJECT_SOURCE_DIR}/include/game/managers"
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
