@@ -29,8 +29,12 @@ namespace gameEngine
         class AGameObject
         {
         public:
-            AGameObject(const std::string &id, const Vector3T<float> &pos = {0, 0, 0}, const Vector3T<float> &rot = {0, 0, 0},
-                        const Vector3T<float> &colliderMin = {0, 0, 0}, const Vector3T<float> &colliderMax = {0, 0, 0}, bool colliderEnabled = true);
+            AGameObject(const std::string &id,
+                        const Vector3T<float> &pos = {0, 0, 0},
+                        const Vector3T<float> &rot = {0, 0, 0},
+                        const Vector3T<float> &colliderMin = {0, 0, 0},
+                        const Vector3T<float> &colliderMax = {0, 0, 0},
+                        bool colliderEnabled = true);
             ~AGameObject();
 
             Vector3T<float> getPosition() const noexcept;

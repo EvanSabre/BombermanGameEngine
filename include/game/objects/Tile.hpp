@@ -14,51 +14,48 @@
 #include "Vector3T.hpp"
 #include "Tags.hpp"
 
-using namespace gameEngine::encapsulation;
-using namespace gameEngine::objects;
-
 namespace game::objects {
-    class Tile : public AGameObject {
+    class Tile : public gameEngine::objects::AGameObject {
         public:
             // Ctor 1
             Tile(const std::string &modelfilepath = "",
                  const std::string &texturefilepath = "",
+                 game::Tag type = NONE,
                  const Vector3T<float> &pos = {0, 0, 0},
                  const Vector3T<float> &scale = {1, 1, 1},
                  const Vector3T<float> &rotation = {0, 0, 0},
-                 const BColor &color = WHITE,
-                 const game::Tag &type = NONE);
+                 const gameEngine::encapsulation::BColor &color = WHITE);
             // Ctor 2
-            Tile(const std::shared_ptr<BModel> &model,
-                 const std::shared_ptr<BTexture2D> &texture,
+            Tile(const std::shared_ptr<gameEngine::encapsulation::BModel> &model,
+                 const std::shared_ptr<gameEngine::encapsulation::BTexture2D> &texture,
+                 game::Tag type = NONE,
                  const Vector3T<float> &pos = {0, 0, 0},
                  const Vector3T<float> &scale = {1, 1, 1},
-                 const Vector3T<float> &rotation = {0, 0, 0},
-                 const game::Tag &type = NONE);
+                 const Vector3T<float> &rotation = {0, 0, 0});
             // copy Ctor
             Tile(const Tile &);
             // Dtor
             ~Tile();
 
             // member functions
-            void OnCollisionEnter(const AGameObject &collision);
-            void OnCollisionExit(const AGameObject &collision);
+            void OnCollisionEnter(const gameEngine::objects::AGameObject &collision);
+            void OnCollisionExit(const gameEngine::objects::AGameObject &collision);
             void Update();
             void draw();
 
             // getters
-            BTexture2D getTexture() const;
-            BModel &getModel();
+            gameEngine::encapsulation::BTexture2D getTexture() const;
+            gameEngine::encapsulation::BModel &getModel();
             game::Tag getType() const;
 
             // setters
-            void setTexture(const BTexture2D &);
-            void setModel(const BModel &);
+            void setTexture(const gameEngine::encapsulation::BTexture2D &);
+            void setModel(const gameEngine::encapsulation::BModel &);
             void setType(const game::Tag &);
 
         protected:
-            std::shared_ptr<BModel> _model;
-            std::shared_ptr<BTexture2D> _texture;
+            std::shared_ptr<gameEngine::encapsulation::BModel> _model;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _texture;
             game::Tag _type;
         private:
     };

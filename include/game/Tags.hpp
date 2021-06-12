@@ -21,7 +21,6 @@ namespace game
         BOMBUP,
         HEALTHUP,
         FIREUP,
-        FIREUP,
         ONEUP,
         SPEEDUP,
         BOMBPASS,
