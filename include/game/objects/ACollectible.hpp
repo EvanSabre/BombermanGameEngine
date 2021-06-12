@@ -10,17 +10,15 @@
 
 #include "Tile.hpp"
 
-using namespace game::objects;
-
 namespace game::objects {
-    class ACollectible : public Tile {
+    class ACollectible : public game::objects::Tile {
         public:
             ACollectible(const std::string &,
                          const std::string &,
                          const Vector3T<float> &,
-                         const BColor &,
+                         const gameEngine::encapsulation::BColor &,
                          const float &,
-                         const TileType &);
+                         const game::Tag &);
             ~ACollectible();
 
             // member function
