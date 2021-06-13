@@ -44,6 +44,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/Directory.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/SceneInfo.cpp"
@@ -67,7 +68,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/FireUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/SpeedUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
-       # "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
 

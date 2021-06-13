@@ -18,35 +18,25 @@ namespace game
         class TimedObject : public Clock, public Tile
         {
         public:
-            TimedObject(const std::string &id,
-                const std::chrono::milliseconds &life_time
-                );
+            //handle timle in seconds
+            TimedObject(double life_time);
             ~TimedObject();
 
             //getter
-                std::chrono::milliseconds getLifeTime() const noexcept;
-                std::chrono::milliseconds getRemainedTime() const noexcept;
-                std::chrono::milliseconds getElapsedTime() const noexcept;
+                double getLifeTime() const noexcept;
+                double getRemainedTime() const noexcept;
                 bool isTimeOver() const noexcept;
 
-
-
-            void draw() const noexcept;
+            void Update();
 
             virtual void onOverTime() = 0;
-
-            //AGameObject overide
-                virtual void OnCollisionEnter(const AGameObject &collision) override;
-                virtual void OnCollisionExit(const AGameObject &collision) override;
-                virtual void Update() override;
 
         protected:
             gameEngine::encapsulation::BModel *_model = nullptr;
 
         private:
-            std::chrono::milliseconds _lifeTime;
-            std::chrono::system_clock::time_point _startLifePoint = std::chrono::system_clock::now();
-            std::chrono::system_clock::time_point _lastLifeTimeCheckPoint = std::chrono::system_clock::now();
+            double _lifeTime;
+            double _lastLifeTimeCheckPoint = 0;
 
         private:
             void updateLastTimeCheck() noexcept;
