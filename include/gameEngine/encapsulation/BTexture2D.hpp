@@ -20,6 +20,9 @@ namespace gameEngine
         class BTexture2D
         {
         public:
+            BTexture2D(const std::string &filePath);
+            BTexture2D(const std::string &filePath, const BText &content);
+            BTexture2D(const BTexture2D &ref);
             BTexture2D();
             ~BTexture2D();
 
@@ -28,23 +31,32 @@ namespace gameEngine
             [[nodiscard]] bool isLoad() const noexcept;
             [[nodiscard]] BColor getColor() const noexcept;
             [[nodiscard]] Vector<int> getPos() const noexcept;
-
+            [[nodiscard]] Vector<int> getSize() const noexcept;
+            [[nodiscard]] std::string getFilePath() const noexcept;
+            [[nodiscard]] bool getEnabled() const noexcept;
         //setter
             void setPos(const Vector<int> &pos) noexcept;
             void setColor(const BColor &color) noexcept;
+            void setEnabled(bool enabled) noexcept;
 
             //trhrow runtime error if img is not load
             void loadFromImg(const BImage &img);
+            void loadFromImgRelRect(const std::string &path, const Vector<float> &size);
 
             void loadFromFile(const std::string &filepath);
             void unload() noexcept;
 
         //draw
             void draw() const noexcept;
+            void drawEx(int scale) const noexcept;
             void drawRect(const BRectangle &rect, Vector<float> pos) const noexcept;
 
+        //utils
+            void addTextToTexture(const BText &text, const std::string &filePath);
         private:
+            bool _enabled = true;
             Texture2D _texture;
+            std::string _filepath;
             Vector<int> _pos{0, 0};
             BColor _color{WHITE};
 

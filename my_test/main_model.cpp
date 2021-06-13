@@ -22,12 +22,14 @@
 #include "BModel.hpp"
 #include "BTexture2D.hpp"
 #include "WindowManager.hpp"
+#include "Player.hpp"
 
 #include "raylib.h"
 using namespace gameEngine;
 
 int main(void)
 {
+    game::objects::Player player{"p1", "test_name"};
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
@@ -51,9 +53,16 @@ int main(void)
     my_texture.loadFromFile("./resources/models/castle_diffuse.png");
     //model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = my_texture.getObj();              // Set map diffuse texture
     my_model.setTexture(0, MATERIAL_MAP_DIFFUSE, my_texture);
-    my_model.setPos({0, 0, 0});
+    my_model.setPosition({0, 0, 0});
     my_model.setColor(WHITE);
+    player.setModel(&my_model);
 
+    encapsulation::BTexture2D my_texture_2{};
+    my_texture_2.loadFromFile("./resources/models/castle_diffuse.png");
+    encapsulation::BModel model_copy{"./resources/models/castle.obj"};
+    model_copy = my_model;
+    model_copy.setPosition({10, 0, 0});
+    model_copy.setTexture(0, MATERIAL_MAP_DIFFUSE, my_texture_2);
    // BoundingBox bounds = GetMeshBoundingBox(model.meshes[0]);  // Set model bounds
 
     // NOTE: bounds are calculated from the original size of the model,
@@ -108,7 +117,7 @@ int main(void)
             // else selected = false;
         }
         //----------------------------------------------------------------------------------
-
+        player.handleKeyEvent();
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
@@ -117,7 +126,9 @@ int main(void)
 
             window.set3DMode(cam);
 
-                my_model.draw();
+               // my_model.draw();
+                player.draw();
+                model_copy.draw();
                 //DrawModel(model, position, 1.0f, WHITE);        // Draw 3d model with texture
 
                 DrawGrid(20, 10.0f);         // Draw a grid

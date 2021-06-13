@@ -1,66 +1,48 @@
 /*
 ** EPITECH PROJECT, 2021
-** B-YEP-400-REN-4-1-indiestudio-pol.bachelin
+** indieStudio
 ** File description:
 ** main
 */
 
-#include <iostream>
 #include "raylib.h"
-#include "Button.hpp"
+#include "BCamera.hpp"
+#include "BModel.hpp"
+#include "BTexture2D.hpp"
+#include "WindowManager.hpp"
+#include "Map.hpp"
 
-#define NUM_FRAMES 1
+using namespace gameEngine;
+#include "gameEngine/managers/InputManager.hpp"
+#include "game/scenes/MainMenuScene.hpp"
+#include "SceneManager.hpp"
+#include <memory>
 
-    // Initialization
-    //--------------------------------------------------------------------------------------
-const int screenWidth = 800;
-const int screenHeight = 450;
+#define WIN_HEIGHT 1080
+#define WIN_WIDTH 1920
 
-void run()
+int main()
 {
-    Vector2 mousePoint = { 0.0f, 0.0f };
-    Texture2D button = LoadTexture("assets/button_test.png");
-    Vector<float> pos(screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/2.0f);
+    std::shared_ptr<gameEngine::managers::WindowManager> win = std::make_shared<gameEngine::managers::WindowManager>();
+    gameEngine::scenes::SceneInfo info;
+    std::string nextScene;
 
-    float frameHeight = (float)button.height/NUM_FRAMES;
-    Rectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
+    win->createWindow("Bomberman", {WIN_WIDTH, WIN_HEIGHT});
+    std::shared_ptr<gameEngine::interfaces::IScene> scene = game::managers::SceneManager::loadScene("splash", win, info);
 
-    // Define button bounds on screen
-    Rectangle btnBounds = { screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/NUM_FRAMES/2.0f, (float)button.width, frameHeight };
-    gameEngine::encapsulation::BText text("Press me", {pos._x, pos._y}, WHITE, 64);
-    gameEngine::encapsulation::Button but({button.width, button.height}, pos, text, BLACK);
-    SetTargetFPS(60);
-    //--------------------------------------------------------------------------------------
-
-    // Main game loop
-     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        mousePoint = GetMousePosition();
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        but.drawButton();
-        Vector<float> mousP(mousePoint.x, mousePoint.y);
-        but.update();
-        if (but.getState() == gameEngine::encapsulation::Button::State::PRESSED)
-            but.setContentStr("I have been Pressed\n");
-        else
-            but.setContentStr("Press me!!!\n");
-        EndDrawing();
-        //----------------------------------------------------------------------------------
+    scene->start();
+    while (win->isRunning()) {
+        nextScene = scene->update();
+        if (nextScene != "") {
+            scene = game::managers::SceneManager::loadScene(nextScene, win, info);
+            win->setBackgroundColor(WHITE);
+            win->clear(WHITE);
+            scene->start();
+        }
+        win->BeginDraw();
+        win->clear();
+        scene->draw();
+        win->EndDraw();
     }
-}
-
-int main(void)
-{
-    InitWindow(screenWidth, screenHeight, "raylib [textures] example - sprite button");
-
-    InitAudioDevice();      // Initialize audio device
-    run();
-    CloseAudioDevice();     // Close audio device
-    CloseWindow();          // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
     return 0;
 }

@@ -9,14 +9,37 @@
 
 using namespace gameEngine;
 
+encapsulation::BTexture2D::BTexture2D(const std::string &filePath)
+{
+    this->resetObj();
+    this->loadFromFile(filePath);
+    _filepath = filePath;
+}
+
 encapsulation::BTexture2D::BTexture2D()
 {
     this->resetObj();
 }
 
+encapsulation::BTexture2D::BTexture2D(const std::string &filePath, const encapsulation::BText &content)
+{
+    this->resetObj();
+    this->addTextToTexture(content, filePath);
+    _filepath = filePath;
+}
+
+encapsulation::BTexture2D::BTexture2D(const BTexture2D &ref)
+{
+    this->resetObj();
+    this->loadFromFile(ref.getFilePath());
+    this->_filepath = ref._filepath;
+}
+
+
 encapsulation::BTexture2D::~BTexture2D()
 {
-    this->unload();
+    if (isLoad())
+        this->unload();
 }
 
 //-----------------------
@@ -45,6 +68,23 @@ Vector<int> encapsulation::BTexture2D::getPos() const noexcept
     return this->_pos;
 }
 
+Vector<int> encapsulation::BTexture2D::getSize() const noexcept
+{
+    Vector<int> size(getObj().width, getObj().height);
+
+    return size;
+}
+
+std::string encapsulation::BTexture2D::getFilePath() const noexcept
+{
+    return this->_filepath;
+}
+
+bool encapsulation::BTexture2D::getEnabled() const noexcept
+{
+    return this->_enabled;
+}
+
 //setter
 void encapsulation::BTexture2D::setPos(const Vector<int> &pos) noexcept
 {
@@ -54,6 +94,11 @@ void encapsulation::BTexture2D::setPos(const Vector<int> &pos) noexcept
 void encapsulation::BTexture2D::setColor(const BColor &color) noexcept
 {
     this->_color = color;
+}
+
+void encapsulation::BTexture2D::setEnabled(bool enable) noexcept
+{
+    this->_enabled = enable;
 }
 
 //trhrow runtime error if img is not load
@@ -67,6 +112,17 @@ void encapsulation::BTexture2D::loadFromImg(const BImage &img)
         throw std::runtime_error("Texture test : loading failed");
 }
 
+void encapsulation::BTexture2D::loadFromImgRelRect(const std::string &path, const Vector<float> &size)
+{
+    BImage img(path);
+
+    this->resetObj();
+    img.resize(Vector<int>(size._x, size._y));
+    img.setPosition(Vector<int>(0, 0));
+    this->loadFromImg(img);
+    _filepath = path;
+}
+
 void encapsulation::BTexture2D::loadFromFile(const std::string &filepath)
 {
     this->_texture = LoadTexture(filepath.c_str());
@@ -74,12 +130,20 @@ void encapsulation::BTexture2D::loadFromFile(const std::string &filepath)
         throw std::runtime_error("Texture : Loading failedd");
 }
 
+void encapsulation::BTexture2D::addTextToTexture(const BText &text, const std::string &filePath)
+{
+    BImage img(filePath);
+
+    img.drawText(text, text.getTextPosition());
+    loadFromImg(img);
+}
+
 void encapsulation::BTexture2D::unload() noexcept
 {
     if (!isLoad())
         return;
     UnloadTexture(this->_texture);
-    this->resetObj();
+    // this->resetObj();
 }
 
 //------------------
@@ -88,15 +152,30 @@ void encapsulation::BTexture2D::unload() noexcept
 
 void encapsulation::BTexture2D::draw() const noexcept
 {
-    if (isLoad())
+    if (isLoad() && _enabled == true)
         DrawTexture(this->_texture, _pos._x, _pos._y, _color.getObj());
+}
+
+void encapsulation::BTexture2D::drawEx(int scale) const noexcept
+{
+    Vector2 vec;
+
+    vec.x = _pos._x;
+    vec.y = _pos._y;
+
+    if (isLoad() && _enabled == true)
+        DrawTextureEx(this->_texture, vec, 0.0f, (float)scale, WHITE);
 }
 
 void encapsulation::BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept
 {
+    Vector2 vec;
 
-    if (isLoad())
-        DrawTextureRec(this->_texture, rect.getObj(), (Vector2) {pos._x, pos._y}, _color.getObj());
+    vec.x = pos._x;
+    vec.y = pos._y;
+    if (isLoad() && _enabled == true) {
+        DrawTextureRec(this->_texture, rect.getObj(), vec, _color.getObj());
+    }
 }
 
 //-----------------

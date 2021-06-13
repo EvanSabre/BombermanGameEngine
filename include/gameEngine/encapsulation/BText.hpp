@@ -10,22 +10,24 @@
 
 #include <string>
 #include <stdexcept>
-#include "BColor.hpp"
 #include "BFont.hpp"
 #include "Vector.hpp"
 #include "raylib.h"
+
+#include "ADrawable.hpp"
 
 namespace gameEngine
 {
     namespace encapsulation
     {
-        class BText
+        class BText : public gameEngine::encapsulation::ADrawable
         {
         public:
-            BText(const std::string &str,
+            BText(const std::string &str = "",
                 const Vector<int> &pos = {0, 0},
                 const BColor &color = BColor{},
-                const int &size = 10
+                const int &size = 10,
+                gameEngine::encapsulation::ADrawable *relativeObj = nullptr
                 );
             BText(const BText &ref);
             BText &operator=(const BText &ref);
@@ -33,30 +35,34 @@ namespace gameEngine
 
             //getter
                 [[nodiscard]] std::string getStr() const noexcept;
-                [[nodiscard]] BColor getColor() const noexcept;
-                [[nodiscard]] Vector<int> getPosition() const noexcept;
-                [[nodiscard]] int getSize() const noexcept;
                 [[nodiscard]] BFont getFont() const noexcept;
                 [[nodiscard]] float getSpacing() const noexcept;
+
+                //specializer of interface class
+                [[nodiscard]] Vector<float> getTextPosition() const noexcept;
+                [[nodiscard]] float getTextSize() const noexcept;
 
             //setter
                 void setStr(const std::string &str) noexcept;
                 void setFont(const BFont &font) noexcept;
-                void setSize(const int &size) noexcept;
-                void setPosition(const Vector<int> &position) noexcept;
-                void setColor(const BColor &color) noexcept;
                 void setSpacing(const float &spacing) noexcept;
                 void unloadFont() noexcept;
 
+                //specializer of interface functions
+                void setTextPosition(const Vector<float> &position) noexcept;
+                void setTextSize(const float &size) noexcept;
+
             //draw
                 void draw() const noexcept;
-        protected:
         private:
+            //ADrawable protected vaiable
+            //_position: use only x and y
+            //_SIZE : x = SIZE, y = Spacing
+            #define TEXT_SIZE (this->_size._x)
+            #define SCALE_SIZE ((int)this->getScaledSize()._x)
+            #define TEXT_SPACING (this->_size._y)
+
             std::string _str{};
-            BColor _color;
-            int _size = 11;
-            float _spacing = 1;
-            Vector<int> _pos{0, 0};
             BFont _font{};
         };
     }

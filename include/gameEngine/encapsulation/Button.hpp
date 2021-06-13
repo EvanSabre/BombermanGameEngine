@@ -23,11 +23,11 @@ namespace gameEngine {
                     MOUSE_HOVER,
                     PRESSED
                 };
-                Button(const Vector<float> &size, const Vector<float> &pos, 
-                        const gameEngine::encapsulation::BText &content, const gameEngine::encapsulation::BColor &color = BLACK,
+                Button(const Vector<float> &size, const Vector<float> &pos,
+                        const BText &content, const BColor &color = BLACK,
                         const std::string &textureFile = "",
                         float rotation = 0, int nbFrames = 1);
-                Button(const BTexture2D &text, const BRectangle &rect, const BText &content);
+                Button(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content);
                 ~Button();
 
                 //operator
@@ -36,10 +36,10 @@ namespace gameEngine {
                 //getter
                 Vector<float> getPos() const;
                 Vector<float> getSize() const;
-                gameEngine::encapsulation::BText getContent() const;
-                gameEngine::encapsulation::BTexture2D getTexture() const;
-                gameEngine::encapsulation::BRectangle getRect() const;
-                gameEngine::encapsulation::BRectangle getFrameRect() const;
+                BText getContent() const;
+                BTexture2D getTexture() const;
+                BRectangle getRect() const;
+                BRectangle getFrameRect() const;
                 State getState() const;
                 bool getButtonPressed() const;
                 int getNbFrames() const;
@@ -48,10 +48,10 @@ namespace gameEngine {
                 void setPos(const Vector<float> &pos);
                 void setRotation(const float &rotation);
                 void setSize(const Vector<float> &size);
-                void setColor(const gameEngine::encapsulation::BColor &color);
+                void setColor(const BColor &color);
                 void setContentStr(const std::string &str);
                 void setNbFrames(const int &nb);
-                void setFrameRect(const gameEngine::encapsulation::BRectangle &rect);
+                void setFrameRect(const BRectangle &rect);
                 void setFrameRectSize(const Vector<float> &size);
 
                 //Checkers
@@ -64,10 +64,10 @@ namespace gameEngine {
                 State _state;
                 int _nbFrames;
                 bool _buttonPressed;
-                gameEngine::encapsulation::BTexture2D _texture;
-                gameEngine::encapsulation::BRectangle _rectangle;
-                gameEngine::encapsulation::BRectangle _frameRec;
-                gameEngine::encapsulation::BText _content;
+                std::shared_ptr<BTexture2D> _texture;
+                std::shared_ptr<BRectangle> _rectangle;
+                std::shared_ptr<BRectangle> _frameRec;
+                std::shared_ptr<BText> _content;
         };
     } //encapsulation
 } //gameEngine
