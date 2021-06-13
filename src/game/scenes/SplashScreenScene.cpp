@@ -19,7 +19,7 @@ using namespace game::scenes;
 #define JUMP_X 95
 #define IDLE_X 93
 #define ATTACK_X 140
-#define NB_JUMPS 6
+#define NB_JUMPS 5
 
 static size_t FRAME_SPEED = 8;
 
