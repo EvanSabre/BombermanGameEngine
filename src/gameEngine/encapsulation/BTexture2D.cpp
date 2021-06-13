@@ -80,6 +80,11 @@ std::string encapsulation::BTexture2D::getFilePath() const noexcept
     return this->_filepath;
 }
 
+bool encapsulation::BTexture2D::getEnabled() const noexcept
+{
+    return this->_enabled;
+}
+
 //setter
 void encapsulation::BTexture2D::setPos(const Vector<int> &pos) noexcept
 {
@@ -89,6 +94,11 @@ void encapsulation::BTexture2D::setPos(const Vector<int> &pos) noexcept
 void encapsulation::BTexture2D::setColor(const BColor &color) noexcept
 {
     this->_color = color;
+}
+
+void encapsulation::BTexture2D::setEnabled(bool enable) noexcept
+{
+    this->_enabled = enable;
 }
 
 //trhrow runtime error if img is not load
@@ -142,7 +152,7 @@ void encapsulation::BTexture2D::unload() noexcept
 
 void encapsulation::BTexture2D::draw() const noexcept
 {
-    if (isLoad())
+    if (isLoad() && _enabled == true)
         DrawTexture(this->_texture, _pos._x, _pos._y, _color.getObj());
 }
 
@@ -153,7 +163,7 @@ void encapsulation::BTexture2D::drawEx(int scale) const noexcept
     vec.x = _pos._x;
     vec.y = _pos._y;
 
-    if (isLoad())
+    if (isLoad() && _enabled == true)
         DrawTextureEx(this->_texture, vec, 0.0f, (float)scale, WHITE);
 }
 
@@ -163,7 +173,7 @@ void encapsulation::BTexture2D::drawRect(const encapsulation::BRectangle &rect, 
 
     vec.x = pos._x;
     vec.y = pos._y;
-    if (isLoad()) {
+    if (isLoad() && _enabled == true) {
         DrawTextureRec(this->_texture, rect.getObj(), vec, _color.getObj());
     }
 }

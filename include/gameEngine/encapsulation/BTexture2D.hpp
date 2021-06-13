@@ -33,10 +33,11 @@ namespace gameEngine
             [[nodiscard]] Vector<int> getPos() const noexcept;
             [[nodiscard]] Vector<int> getSize() const noexcept;
             [[nodiscard]] std::string getFilePath() const noexcept;
-
+            [[nodiscard]] bool getEnabled() const noexcept;
         //setter
             void setPos(const Vector<int> &pos) noexcept;
             void setColor(const BColor &color) noexcept;
+            void setEnabled(bool enabled) noexcept;
 
             //trhrow runtime error if img is not load
             void loadFromImg(const BImage &img);
@@ -53,6 +54,7 @@ namespace gameEngine
         //utils
             void addTextToTexture(const BText &text, const std::string &filePath);
         private:
+            bool _enabled = true;
             Texture2D _texture;
             std::string _filepath;
             Vector<int> _pos{0, 0};
