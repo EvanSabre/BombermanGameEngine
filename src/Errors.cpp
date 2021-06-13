@@ -11,6 +11,7 @@ IndeeError::IndeeError(std::string const &message, std::string const &component)
 {
     this->_message = message;
     this->_componnent = component;
+    _message.append(" [").append(_componnent).append("]");
 }
 
 const std::string &IndeeError::getComponent() const noexcept
@@ -23,8 +24,11 @@ const char *IndeeError::what() const noexcept
     return _message.c_str();
 }
 
-LoadingError::LoadingError(std::string const &message,
-                         std::string const &component) : IndeeError(message, component)
+LoadingError::LoadingError(const std::string &filepath,
+                        std::string const &message,
+                         std::string const &component
+                         )
+                         : IndeeError(message + filepath, component)
 {
 }
 

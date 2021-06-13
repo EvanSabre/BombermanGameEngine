@@ -48,6 +48,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/SceneInfo.cpp"
+        "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         )
 
 set(GAME_SRC

@@ -7,28 +7,27 @@
 
 #include "BImage.hpp"
 
-using namespace gameEngine;
+using namespace gameEngine::encapsulation;
 
-encapsulation::BImage::BImage(const std::string &filepaht, const Vector<int> &pos)
+BImage::BImage(const std::string &filepaht, const Vector<int> &pos)
 {
     this->_img = LoadImage(filepaht.c_str());
     if (!this->_img.data)
-        throw std::runtime_error("Image: Loading failed");
+        throw LoadingError(filepaht, "Loading Failed", "IMAGE");
     this->_pos = pos;
 }
 
-encapsulation::BImage::BImage(const BImage &ref)
+BImage::BImage(const BImage &ref)
 {
-
     if (ref.isLoad()) {
         this->_img = ImageCopy(ref.getObj());
         if (!this->_img.data)
-            throw std::runtime_error("Image : Copy failed");
+            throw IndeeError("Copy failed", "IMAGE");
     }
     this->_pos = ref._pos;
 }
 
-encapsulation::BImage &encapsulation::BImage::operator=(const BImage &ref)
+BImage &BImage::operator=(const BImage &ref)
 {
     if (this == &ref)
         return *this;
@@ -36,62 +35,62 @@ encapsulation::BImage &encapsulation::BImage::operator=(const BImage &ref)
         this->unload();
     this->_img = ImageCopy(ref.getObj());
     if (!this->_img.data)
-        throw std::runtime_error("Image : Copy failed");
+        throw IndeeError("Copy Failed", "IMAGE");
     return *this;
 }
 
-encapsulation::BImage::~BImage()
+BImage::~BImage()
 {
     if (this->isLoad())
         this->unload();
 }
 
 //GETTER
-Image encapsulation::BImage::getObj() const noexcept
+Image BImage::getObj() const noexcept
 {
     return this->_img;
 }
 
-bool encapsulation::BImage::isLoad() const noexcept
+bool BImage::isLoad() const noexcept
 {
     if (this->_img.data)
         return true;
     return false;
 }
 
-int encapsulation::BImage::getWidth() const noexcept
+int BImage::getWidth() const noexcept
 {
     return this->_img.width;
 }
 
-int encapsulation::BImage::getHeight() const noexcept
+int BImage::getHeight() const noexcept
 {
     return this->_img.height;
 }
 
-Vector<int> encapsulation::BImage::getSize() const noexcept
+Vector<int> BImage::getSize() const noexcept
 {
     Vector<int> vec{this->_img.width, this->_img.height};
     return vec;
 }
 
-Vector<int> encapsulation::BImage::getPosition() const noexcept
+Vector<int> BImage::getPosition() const noexcept
 {
     return this->_pos;
 }
 
 //setter
 //Load image from file into CPU memory (RAM)
-void encapsulation::BImage::load(const std::string &filepath)
+void BImage::load(const std::string &filepath)
 {
     if (this->isLoad())
         this->unload();
     this->_img = LoadImage(filepath.c_str());
     if (!this->_img.data)
-        throw std::runtime_error("Image : Loading failed");
+        throw LoadingError(filepath, "Loading Failed", "IMAGE");
 }
 
-void encapsulation::BImage::unload() noexcept
+void BImage::unload() noexcept
 {
     if (!this->isLoad())
         return;
@@ -101,25 +100,25 @@ void encapsulation::BImage::unload() noexcept
     this->_img.data = nullptr;
 }
 
-void encapsulation::BImage::setImage(const Image &img) noexcept
+void BImage::setImage(const Image &img) noexcept
 {
     if (this->isLoad())
         this->unload();
     this->_img = img;
 }
 
-void encapsulation::BImage::setImage(const Image &img, const Vector<int> &pos) noexcept
+void BImage::setImage(const Image &img, const Vector<int> &pos) noexcept
 {
     this->setImage(img);
     this->setPosition(pos);
 }
 
-void encapsulation::BImage::setPosition(const Vector<int> &pos) noexcept
+void BImage::setPosition(const Vector<int> &pos) noexcept
 {
     this->_pos = pos;
 }
 
-void encapsulation::BImage::resize(const Vector<int> &newSize) noexcept
+void BImage::resize(const Vector<int> &newSize) noexcept
 {
     if (this->isLoad())
         ImageResize(&this->_img, newSize._x, newSize._y);
@@ -129,7 +128,7 @@ void encapsulation::BImage::resize(const Vector<int> &newSize) noexcept
 
 //TRANSFORM
 
-void encapsulation::BImage::scale(const float &scale) noexcept
+void BImage::scale(const float &scale) noexcept
 {
     if (!this->isLoad())
         return;
@@ -140,41 +139,41 @@ void encapsulation::BImage::scale(const float &scale) noexcept
 }
 
 
-void encapsulation::BImage::rotateRight() noexcept
+void BImage::rotateRight() noexcept
 {
     ImageRotateCW(&this->_img);
 }
 
-void encapsulation::BImage::rotateLeft() noexcept
+void BImage::rotateLeft() noexcept
 {
     ImageRotateCCW(&this->_img);
 }
 
-void encapsulation::BImage::flipV() noexcept
+void BImage::flipV() noexcept
 {
     ImageFlipVertical(&this->_img);
 }
 
-void encapsulation::BImage::flipH() noexcept
+void BImage::flipH() noexcept
 {
     ImageFlipHorizontal(&this->_img);
 }
 
-void encapsulation::BImage::clearBackground(const BColor &color) noexcept
+void BImage::clearBackground(const BColor &color) noexcept
 {
     if (!isLoad())
         return;
     ImageClearBackground(&this->_img, color.getObj());
 }
 
-void encapsulation::BImage::drawPixel(const Vector<int> &pos, const BColor &color) noexcept
+void BImage::drawPixel(const Vector<int> &pos, const BColor &color) noexcept
 {
     if (!isLoad())
         return;
     ImageDrawPixel(&this->_img, pos._x, pos._y, color.getObj());
 }
 
-void encapsulation::BImage::drawLine(const Vector<float> &start, const Vector<float> &end, const BColor &color) noexcept
+void BImage::drawLine(const Vector<float> &start, const Vector<float> &end, const BColor &color) noexcept
 {
     if (!isLoad())
         return;
@@ -183,7 +182,7 @@ void encapsulation::BImage::drawLine(const Vector<float> &start, const Vector<fl
     ImageDrawLineV(&this->_img, from, to, color.getObj());
 }
 
-void encapsulation::BImage::drawCircle(const Vector<float> &center, int radius, const BColor &color) noexcept
+void BImage::drawCircle(const Vector<float> &center, int radius, const BColor &color) noexcept
 {
     if (!isLoad())
         return;
@@ -191,14 +190,14 @@ void encapsulation::BImage::drawCircle(const Vector<float> &center, int radius, 
     ImageDrawCircleV(&this->_img, middle, radius, color.getObj());
 }
 
-void encapsulation::BImage::drawRectangle(const BRectangle &rec) noexcept
+void BImage::drawRectangle(const BRectangle &rec) noexcept
 {
     if (!isLoad())
 
     ImageDrawRectangleRec(&this->_img, rec.getObj(), rec.getColor().getObj());
 }
 
-void encapsulation::BImage::drawText(BText text, const Vector<float> &pos) noexcept
+void BImage::drawText(BText text, const Vector<float> &pos) noexcept
 {
     if (!isLoad())
         return;

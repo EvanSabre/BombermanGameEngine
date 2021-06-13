@@ -119,7 +119,7 @@ std::string SplashScreenScene::update()
         default:
             break;
     }
-    return "";
+    return "menu";
 }
 
 void SplashScreenScene::draw()

@@ -30,8 +30,10 @@ private:
 class LoadingError : public IndeeError
 {
 public:
-    LoadingError(std::string const &message,
-                         std::string const &component = "Unknown");
+    LoadingError(const std::string &filepath,
+                std::string const &message = "Loading Failed : ",
+                std::string const &component = "Unknown"
+                );
 };
 
 #endif /* !ERRORS_HPP_ */
