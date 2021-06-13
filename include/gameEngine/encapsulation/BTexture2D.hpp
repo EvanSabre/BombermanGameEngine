@@ -12,6 +12,7 @@
 #include "BImage.hpp"
 #include "Vector.hpp"
 #include "BColor.hpp"
+#include "Errors.hpp"
 
 namespace gameEngine
 {

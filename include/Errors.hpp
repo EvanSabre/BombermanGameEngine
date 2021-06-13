@@ -11,7 +11,7 @@
 #include <string>
 #include <exception>
 #include <stdexcept>
-
+#include <iostream>
 
 
 class IndeeError : public std::exception
