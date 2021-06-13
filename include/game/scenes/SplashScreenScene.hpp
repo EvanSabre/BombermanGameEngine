@@ -38,6 +38,7 @@ namespace game {
                 gameEngine::encapsulation::BTexture2D _jumpText;
                 gameEngine::encapsulation::BTexture2D _attackText;
                 gameEngine::encapsulation::BTexture2D _idleText;
+                gameEngine::encapsulation::BTexture2D _logo;
                 gameEngine::component::Clock _clock;
                 enum STATE _state;
                 size_t _attackFrame;
@@ -45,7 +46,6 @@ namespace game {
                 size_t _idleFrame;
                 size_t _currentFrame;
                 size_t _nbReset;
-                bool _reset;
             private:
 
         };
