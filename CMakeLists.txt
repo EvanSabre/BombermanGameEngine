@@ -45,6 +45,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/Directory.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/SceneInfo.cpp"
@@ -61,6 +62,16 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Map.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/EffectFactory.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/AEffect.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/HealthUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/BombUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/FireUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/FireUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/SpeedUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
+       # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
 
 set(UTILS_SRC
@@ -86,6 +97,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/scenes"
         "${PROJECT_SOURCE_DIR}/include/game/managers"
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
+        "${PROJECT_SOURCE_DIR}/include/game/objects/Effects"
         "${PROJECT_SOURCE_DIR}/include/WindowsEquivalent"
         )
 

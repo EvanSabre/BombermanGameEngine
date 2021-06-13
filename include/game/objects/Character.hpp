@@ -11,6 +11,7 @@
 #include <string>
 #include "Moveable.hpp"
 #include "BModel.hpp"
+#include "IEffect.hpp"
 
 namespace game
 {
@@ -48,10 +49,17 @@ namespace game
 
         protected:
             size_t _score = 0;
+            int _nbBomb = 1;
+            int _bombRange = 1;
+            int _health = 1;
+            int _lives = 1;
 
         private:
             std::string _name;
             gameEngine::encapsulation::BModel *_model = nullptr;
+
+        private:
+            void addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept;
         };
     } // namespace objects
 } // namespace game
