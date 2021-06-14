@@ -20,6 +20,11 @@ _transform(pos, rot), _collider(colliderMin, colliderMax, colliderEnabled)
 objects::AGameObject::~AGameObject()
 {}
 
+objects::AGameObject::AGameObject(const objects::AGameObject &obj) :
+_transform(obj._transform), _collider(obj._collider), _quadrant(obj._quadrant)
+{
+
+}
 //---------------
 
 //GETTER

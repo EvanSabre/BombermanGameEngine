@@ -20,6 +20,13 @@ Transform::~Transform()
 {
 }
 
+Transform::Transform(const Transform &t)
+{
+    _position = t._position;
+    _rotation = t._rotation;
+    _scale = t._scale;
+}
+
 void Transform::LookAt(const Transform &dest)
 {
     _rotation._x = std::atan((dest._position._x - _position._x) / (dest._position._y - _position._y));
