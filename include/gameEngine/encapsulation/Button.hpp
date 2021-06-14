@@ -8,21 +8,12 @@
 #ifndef BUTTON_HPP_
 #define BUTTON_HPP_
 
-#include "Vector.hpp"
-#include "BTexture2D.hpp"
-#include "BRectangle.hpp"
-#include "BColor.hpp"
-#include <string>
+#include "AButton.hpp"
 
 namespace gameEngine {
     namespace encapsulation {
-        class Button {
+        class Button : public AButton {
             public:
-                enum State {
-                    NORMAL,
-                    MOUSE_HOVER,
-                    PRESSED
-                };
                 Button(const Vector<float> &size, const Vector<float> &pos,
                         const BText &content, const BColor &color = BLACK,
                         const BColor &selectColor = RED,
@@ -35,41 +26,26 @@ namespace gameEngine {
                 Button &operator=(const Button &ref);
 
                 //getter
-                Vector<float> getPos() const;
-                Vector<float> getSize() const;
-                BText getContent() const;
                 BTexture2D getTexture() const;
                 BRectangle getRect() const;
                 BRectangle getFrameRect() const;
-                State getState() const;
                 bool getButtonPressed() const;
                 int getNbFrames() const;
 
                 //setter
-                void setPos(const Vector<float> &pos);
-                void setRotation(const float &rotation);
-                void setSize(const Vector<float> &size);
-                void setColor(const BColor &color);
-                void setContentStr(const std::string &str);
                 void setNbFrames(const int &nb);
                 void setFrameRect(const BRectangle &rect);
                 void setFrameRectSize(const Vector<float> &size);
 
                 //Checkers
-                bool isInsideButton(const Vector<float> &point);
-                bool isButtonPressed(Vector<float> mousePos);
-                bool isButtonReleased();
-                void update();
-                void drawButton();
+                void update() override;
+                void draw() override;
             private:
-                State _state;
                 int _nbFrames;
                 bool _buttonPressed;
                 std::shared_ptr<BColor> _selectColor;
                 std::shared_ptr<BTexture2D> _texture;
-                std::shared_ptr<BRectangle> _rectangle;
                 std::shared_ptr<BRectangle> _frameRec;
-                std::shared_ptr<BText> _content;
         };
     } //encapsulation
 } //gameEngine
