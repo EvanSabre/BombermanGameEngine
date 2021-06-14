@@ -11,6 +11,8 @@
 #include <string>
 #include "Moveable.hpp"
 #include "BModel.hpp"
+#include "IEffect.hpp"
+#include "EffectFactory.hpp"
 
 namespace game
 {
@@ -41,17 +43,24 @@ namespace game
 
             void draw() const noexcept;
             //tmp for test : to delete
-                void OnCollisionEnter(const AGameObject &collision);
-                void OnCollisionExit(const AGameObject &collision);
-                void Update();
-
+                void onCollisionEnter(const AGameObject &collision);
+                void onCollisionExit(const AGameObject &collision);
+                void update();
+               game::Tag_e getTag() const noexcept override;
 
         protected:
             size_t _score = 0;
+            int _nbBomb = 1;
+            int _bombRange = 1;
+            int _health = 1;
+            int _lives = 1;
 
         private:
             std::string _name;
             gameEngine::encapsulation::BModel *_model = nullptr;
+
+        private:
+            void addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept;
         };
     } // namespace objects
 } // namespace game

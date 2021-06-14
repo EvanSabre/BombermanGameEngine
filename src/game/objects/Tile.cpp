@@ -57,15 +57,15 @@ game::objects::Tile::~Tile()
 {
 }
 
-void game::objects::Tile::OnCollisionEnter(const AGameObject &collision)
+void game::objects::Tile::onCollisionEnter(const AGameObject &collision)
 {
 }
 
-void game::objects::Tile::OnCollisionExit(const AGameObject &collision)
+void game::objects::Tile::onCollisionExit(const AGameObject &collision)
 {
 }
 
-void game::objects::Tile::Update()
+void game::objects::Tile::update()
 {
 }
 
@@ -84,6 +84,11 @@ gameEngine::encapsulation::BTexture2D game::objects::Tile::getTexture() const
 gameEngine::encapsulation::BModel &game::objects::Tile::getModel()
 {
     return *_model;
+}
+
+game::Tag game::objects::Tile::getTag() const noexcept
+{
+    return _type;
 }
 
 game::Tag game::objects::Tile::getType() const

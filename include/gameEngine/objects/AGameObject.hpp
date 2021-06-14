@@ -8,6 +8,8 @@
 #ifndef AGAMEOBJECT_HPP_
 #define AGAMEOBJECT_HPP_
 
+#include "Tags.hpp"
+
 #include <string>
 #include "Vector3T.hpp"
 #include "Move.hpp"
@@ -43,9 +45,10 @@ namespace gameEngine
             Quadrants getQuadrant() const noexcept;
             component::Transform getTransform() const noexcept;
 
-            virtual void OnCollisionEnter(const AGameObject &collision) = 0;
-            virtual void OnCollisionExit(const AGameObject &collision) = 0;
-            virtual void Update() = 0;
+            virtual void onCollisionEnter(const AGameObject &collision) = 0;
+            virtual void onCollisionExit(const AGameObject &collision) = 0;
+            virtual void update() = 0;
+            virtual game::Tag_e getTag() const noexcept = 0;
 
             void setQuadrant(Quadrants quad);
             component::Transform &setTransform();
@@ -53,6 +56,7 @@ namespace gameEngine
             component::Transform _transform;
             component::BoxCollider _collider;
             Quadrants _quadrant;
+            game::Tag_e _tag;
         private:
             std::string _id;
         };

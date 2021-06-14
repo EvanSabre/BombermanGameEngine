@@ -23,9 +23,10 @@ namespace gameEngine
             ~ADrawable();
 
             // member functions
-            void OnCollisionEnter(const AGameObject &collision);
-            void OnCollisionExit(const AGameObject &collision);
-            void Update();
+            void onCollisionEnter(const AGameObject &collision);
+            void onCollisionExit(const AGameObject &collision);
+            void update();
+            game::Tag_e getTag() const noexcept;
 
             //getter
             gameEngine::encapsulation::BColor getColor() const noexcept;

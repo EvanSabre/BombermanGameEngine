@@ -7,18 +7,18 @@
 
 #include "BModel.hpp"
 
-using namespace gameEngine;
+using namespace gameEngine::encapsulation;
 
-encapsulation::BModel::BModel(const std::string &filepath, const Vector3T<float> &pos,
-                                const BColor &color, const Vector3T<float> &scale)
-                                : ADrawable()
+BModel::BModel(const std::string &filepath, const Vector3T<float> &pos,
+               const BColor &color, const Vector3T<float> &scale)
+    : ADrawable()
 {
     this->resetObj();
     try
     {
         this->load(filepath);
     }
-    catch(const std::exception& e)
+    catch(const LoadingError &e)
     {
         throw e;
     }
@@ -28,18 +28,18 @@ encapsulation::BModel::BModel(const std::string &filepath, const Vector3T<float>
     this->_filePath = filepath;
 }
 
-encapsulation::BModel::~BModel()
+BModel::~BModel()
 {
     if (isLoad())
         this->unload();
 }
 
-encapsulation::BModel::BModel(const encapsulation::BModel &ref)
+BModel::BModel(const encapsulation::BModel &ref)
 {
     this->resetObj();
     try {
         this->load(ref.getFilePath());
-    } catch (const std::exception &e) {
+    } catch (const LoadingError &e) {
         throw e;
     }
     this->_color = ref.getColor();
@@ -48,7 +48,7 @@ encapsulation::BModel::BModel(const encapsulation::BModel &ref)
     this->_transform.setScale(ref._transform.getScale());
 }
 
-encapsulation::BModel &encapsulation::BModel::BModel::operator=(const encapsulation::BModel &ref)
+BModel &BModel::BModel::operator=(const encapsulation::BModel &ref)
 {
     if (this == &ref)
         return *this;
@@ -56,7 +56,7 @@ encapsulation::BModel &encapsulation::BModel::BModel::operator=(const encapsulat
         this->unload();
     try {
         this->load(ref.getFilePath());
-    } catch (const std::exception &e) {
+    } catch (const LoadingError &e) {
         throw e;
     }
     this->_color = ref.getColor();
@@ -70,19 +70,19 @@ encapsulation::BModel &encapsulation::BModel::BModel::operator=(const encapsulat
 
 //GETTER
 
-Model encapsulation::BModel::getObj() const noexcept
+Model BModel::getObj() const noexcept
 {
     return this->_model;
 }
 
-bool encapsulation::BModel::isLoad() const noexcept
+bool BModel::isLoad() const noexcept
 {
     if (this->_model.materials == nullptr)
         return false;
     return true;
 }
 
-std::string encapsulation::BModel::getFilePath() const noexcept
+std::string BModel::getFilePath() const noexcept
 {
     return this->_filePath;
 }
@@ -90,16 +90,16 @@ std::string encapsulation::BModel::getFilePath() const noexcept
 //----------------------------
 
 //SETTER
-void encapsulation::BModel::load(const std::string &filepath)
+void BModel::load(const std::string &filepath)
 {
     if (isLoad())
         this->unload();
     this->_model = LoadModel(filepath.c_str());
     if (!isLoad())
-        throw std::runtime_error("Model : Loading failed");
+        throw LoadingError(filepath, "Loading failed : ", "MODEL");
 }
 
-void encapsulation::BModel::unload() noexcept
+void BModel::unload() noexcept
 {
     if (!isLoad())
         return;
@@ -107,14 +107,14 @@ void encapsulation::BModel::unload() noexcept
     this->resetObj();
 }
 
-void encapsulation::BModel::unloadKeepMesh() noexcept
+void BModel::unloadKeepMesh() noexcept
 {
     if (!isLoad())
         return;
     UnloadModelKeepMeshes(this->_model);
 }
 
-void encapsulation::BModel::setTexture(int material_idx, int maps_idx,
+void BModel::setTexture(int material_idx, int maps_idx,
                 const BTexture2D &texture) noexcept
 {
     _model.materials[material_idx].maps[maps_idx].texture = texture.getObj();              // Set map diffuse texture
@@ -123,7 +123,7 @@ void encapsulation::BModel::setTexture(int material_idx, int maps_idx,
 
 //DRAW
 
-void encapsulation::BModel::draw() const noexcept
+void BModel::draw() const noexcept
 {
     Vector3T pos(this->_transform.getPosition());
     Vector3 vecPos = {pos._x, pos._y, pos._z};
@@ -139,7 +139,7 @@ void encapsulation::BModel::draw() const noexcept
 
 //PRIVATE FUNCTION
 
-void encapsulation::BModel::resetObj() noexcept
+void BModel::resetObj() noexcept
 {
     this->_model.materials = nullptr;
 }

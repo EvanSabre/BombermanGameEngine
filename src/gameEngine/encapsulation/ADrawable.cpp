@@ -22,15 +22,15 @@ encapsulation::ADrawable::~ADrawable()
 
 //MEMBER FUNCTIONS
 
-void gameEngine::encapsulation::ADrawable::OnCollisionEnter(const AGameObject &collision)
+void gameEngine::encapsulation::ADrawable::onCollisionEnter(const AGameObject &collision)
 {
 }
 
-void gameEngine::encapsulation::ADrawable::OnCollisionExit(const AGameObject &collision)
+void gameEngine::encapsulation::ADrawable::onCollisionExit(const AGameObject &collision)
 {
 }
 
-void gameEngine::encapsulation::ADrawable::Update()
+void gameEngine::encapsulation::ADrawable::update()
 {
 }
 
@@ -39,6 +39,10 @@ void gameEngine::encapsulation::ADrawable::Update()
 gameEngine::encapsulation::BColor encapsulation::ADrawable::getColor() const noexcept
 {
     return this->_color;
+}
+
+game::Tag_e encapsulation::ADrawable::getTag() const noexcept
+{
 }
 
 //---------------------

@@ -38,9 +38,11 @@ namespace game::objects {
             ~Tile();
 
             // member functions
-            void OnCollisionEnter(const gameEngine::objects::AGameObject &collision);
-            void OnCollisionExit(const gameEngine::objects::AGameObject &collision);
-            void Update();
+            void onCollisionEnter(const gameEngine::objects::AGameObject &collision);
+            void onCollisionExit(const gameEngine::objects::AGameObject &collision);
+            void update();
+            game::Tag_e getTag() const noexcept override;
+
             void draw();
 
             // getters

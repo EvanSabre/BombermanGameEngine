@@ -47,6 +47,7 @@ namespace gameEngine
 
             //draw
                 void draw() const noexcept;
+                void drawLines(const BColor &color) const noexcept;
 
             //collision
                 bool checkCollision(const BRectangle &other) const noexcept;

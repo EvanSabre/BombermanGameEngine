@@ -16,6 +16,7 @@ using namespace gameEngine;
 #include "gameEngine/managers/InputManager.hpp"
 #include "game/scenes/MainMenuScene.hpp"
 #include "SceneManager.hpp"
+#include "gameEngine/exceptions/NoSceneException.hpp"
 #include <memory>
 
 #define WIN_HEIGHT 1080
@@ -34,7 +35,11 @@ int main()
     while (win->isRunning()) {
         nextScene = scene->update();
         if (nextScene != "") {
-            scene = game::managers::SceneManager::loadScene(nextScene, win, info);
+            try {
+                scene = game::managers::SceneManager::loadScene(nextScene, win, info);
+            } catch (NoSceneException &e) {
+                return 84;
+            }
             win->setBackgroundColor(WHITE);
             win->clear(WHITE);
             scene->start();

@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include "AAudioObject.hpp"
 #include "raylib.h"
+#include "Errors.hpp"
 
 namespace gameEngine
 {
