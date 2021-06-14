@@ -15,8 +15,8 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     _playerTexture.loadFromFile("./resources/models/kaya/kayaTexture.png");
     _playerModel.load("./resources/models/kaya/kaya.iqm");
     _playerModel.setTexture(0, MATERIAL_MAP_DIFFUSE, _playerTexture);
-    _playerModel.setScale(0.02);
-    _player.setPostion({0, 3, 0});
+    _playerModel.setTransform().setScale({0.02, 0.02, 0.02});
+    _player.setTransform().setPosition({0, 3, 0});
     this->setupCamera();
     this->_player.setModel(&_playerModel);
 }

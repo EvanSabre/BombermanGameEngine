@@ -17,7 +17,7 @@ namespace gameEngine {
             public:
                 Transform(const Vector3T<float> &pos = {0, 0, 0},
                           const Vector3T<float> &rot = {0, 0, 0},
-                          const Vector3T<float> &sca = {0, 0, 0});
+                          const Vector3T<float> &sca = {1, 1, 1});
                 ~Transform();
 
                 //Rotate the transform so that it faces the destination;
@@ -30,7 +30,7 @@ namespace gameEngine {
 
                 void setPosition(const Vector3T<float> &pos);
                 void setRotation(const Vector3T<float> &rot);
-                void setScale(const Vector3T<float> &rot);
+                void setScale(const Vector3T<float> &sca);
 
                 bool operator==(const Transform &ref);
                 bool operator!=(const Transform &ref);

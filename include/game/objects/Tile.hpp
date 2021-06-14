@@ -20,18 +20,18 @@ namespace game::objects {
             // Ctor 1
             Tile(const std::string &modelfilepath = "",
                  const std::string &texturefilepath = "",
-                 game::Tag type = NONE,
-                 const Vector3T<float> &pos = {0, 0, 0},
-                 const Vector3T<float> &scale = {1, 1, 1},
+                 const game::Tag &type = NONE,
+                 const Vector3T<float> &position = {0, 0, 0},
                  const Vector3T<float> &rotation = {0, 0, 0},
+                 const Vector3T<float> &scale = {1, 1, 1},
                  const gameEngine::encapsulation::BColor &color = WHITE);
             // Ctor 2
             Tile(const std::shared_ptr<gameEngine::encapsulation::BModel> &model,
                  const std::shared_ptr<gameEngine::encapsulation::BTexture2D> &texture,
-                 game::Tag type = NONE,
-                 const Vector3T<float> &pos = {0, 0, 0},
-                 const Vector3T<float> &scale = {1, 1, 1},
-                 const Vector3T<float> &rotation = {0, 0, 0});
+                 const game::Tag &type = NONE,
+                 const Vector3T<float> &position = {0, 0, 0},
+                 const Vector3T<float> &rotation = {0, 0, 0},
+                 const Vector3T<float> &scale = {1, 1, 1});
             // copy Ctor
             Tile(const Tile &);
             // Dtor

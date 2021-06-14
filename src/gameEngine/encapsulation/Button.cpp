@@ -33,7 +33,6 @@ Button::Button(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BR
     _rectangle = rect;
     _content = content;
     _frameRec = std::make_shared<BRectangle>(*rect);
-    _frameRec->setRectPosition(Vector<float>(0, 0));
     _state = NORMAL;
     _nbFrames = 1;
     _buttonPressed = false;
@@ -59,12 +58,16 @@ Button &Button::operator=(const Button &ref)
 //GETTERS
 Vector<float> Button::getPos() const
 {
-    return _rectangle->getRectPosition();
+    Vector3T<float> pos(_rectangle->getTransform().getPosition());
+
+    return Vector<float>(pos._x, pos._y);
 }
 
 Vector<float> Button::getSize() const
 {
-    return _rectangle->getRectSize();
+    Vector3T<float> scale(_rectangle->getTransform().getScale());
+
+    return Vector<float>(scale._x, scale._y);
 }
 
 BText Button::getContent() const
@@ -105,17 +108,19 @@ int Button::getNbFrames() const
 //SETTERS
 void Button::setPos(const Vector<float> &pos)
 {
-    _rectangle->setRectPosition(pos);
+    _rectangle->setTransform()._position._x = pos._x;
+    _rectangle->setTransform()._position._y = pos._y;
 }
 
 void Button::setRotation(const float &rotation)
 {
-    _rectangle->setRotation(rotation);
+    _rectangle->setTransform()._rotation._x = rotation;
 }
 
 void Button::setSize(const Vector<float> &size)
 {
-    _rectangle->setRectSize(size);
+    _rectangle->setTransform()._scale._x = size._x;
+    _rectangle->setTransform()._scale._y = size._y;
 }
 
 void Button::setColor(const BColor &color)
@@ -140,7 +145,8 @@ void Button::setFrameRect(const BRectangle &rect)
 
 void Button::setFrameRectSize(const Vector<float> &size)
 {
-    _frameRec->setRectSize(size);
+    _frameRec->setTransform()._scale._x = size._x;
+    _frameRec->setTransform()._scale._y = size._y;
 }
 
 //CHECKERS
@@ -184,9 +190,12 @@ void Button::update()
 //DRAW
 void Button::drawButton()
 {
+    Vector<float> pos(
+        _rectangle->getTransform().getPosition()._x,
+        _rectangle->getTransform().getPosition()._y);
 
     if (_texture->isLoad()) {
-       _texture->drawRect(*_frameRec, _rectangle->getRectPosition());
+       _texture->drawRect(*_frameRec, pos);
     } else {
         _rectangle->draw();
         _content->draw();

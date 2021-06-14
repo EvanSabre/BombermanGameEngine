@@ -13,7 +13,6 @@
 #include <cstring>
 #include "raylib.h"
 #include "BTexture2D.hpp"
-
 #include "ADrawable.hpp"
 
 namespace gameEngine
@@ -24,9 +23,9 @@ namespace gameEngine
         {
         public:
             BModel(const std::string &filepath,
-                    const Vector3T<float> &pos = {0, 0, 0},
-                    const BColor &color = BColor{WHITE},
-                    const Vector3T<float> &scale = {1, 1, 1}
+                   const Vector3T<float> &pos = {0, 0, 0},
+                   const BColor &color = BColor{WHITE},
+                   const Vector3T<float> &scale = {1, 1, 1}
             );
             //BModel(const std::string &filepath, const BMesh &mesh);
             BModel(const BModel &ref);
@@ -51,7 +50,7 @@ namespace gameEngine
                                     const BTexture2D &texture) noexcept;
 
             //draw
-                void draw() const noexcept final;
+                void draw() const noexcept;
 
         private:
             std::string _filePath;
@@ -63,7 +62,5 @@ namespace gameEngine
     } // namespace encapsulation
 
 } // namespace gameEngine
-
-
 
 #endif /* !MODEL_HPP_ */

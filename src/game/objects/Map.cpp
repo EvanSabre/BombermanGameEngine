@@ -75,10 +75,10 @@ void Map::dump()
 
 void Map::generateMapTiles()
 {
-    _brickMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, 0.5);
-    _wallMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, 0.5);
-    _pathMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, 0.5);
-    _borderMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, 0.5);
+    _brickMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _wallMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _pathMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _borderMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     _brickTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(BRICKTILEPNG);
     _wallTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(WALLTILEPNG);
     _pathTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(PATHTILEPNG);

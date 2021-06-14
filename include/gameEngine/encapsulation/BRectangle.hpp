@@ -38,25 +38,15 @@ namespace gameEngine
                 [[nodiscard]] float getHeight() const noexcept;
                 [[nodiscard]] float getX() const noexcept;
                 [[nodiscard]] float getY() const noexcept;
-                [[nodiscard]] float getRotation() const noexcept;
-
-                //specializer of Abstract class Functions
-                [[nodiscard]] Vector<float> getRectSize() const noexcept;
-                [[nodiscard]] Vector<float> getRectPosition() const noexcept;
 
             //setter
                 void setX(const float &x) noexcept;
                 void setY(const float &y) noexcept;
-                void setWidth(const float &width) noexcept;
-                void setHeight(const float &height) noexcept;
-                void setRotation(const float &rotation) noexcept;
-
-                //specializer of abstract class methods
-                void setRectPosition(const Vector<float> &pos) noexcept;
-                void setRectSize(const Vector<float> &size) noexcept;
+                void setWidth(const float &) noexcept;
+                void setHeight(const float &) noexcept;
 
             //draw
-                void draw() const noexcept override;
+                void draw() const noexcept;
 
             //collision
                 bool checkCollision(const BRectangle &other) const noexcept;

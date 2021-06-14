@@ -37,7 +37,6 @@ namespace gameEngine
                         bool colliderEnabled = true);
             ~AGameObject();
 
-            Vector3T<float> getPosition() const noexcept;
             const std::string getId() const noexcept;
             component::BoxCollider getCollider() const noexcept;
             Quadrants getQuadrant() const noexcept;
@@ -47,8 +46,8 @@ namespace gameEngine
             virtual void OnCollisionExit(const AGameObject &collision) = 0;
             virtual void Update() = 0;
 
-            void setPostion(const Vector3T<float> &pos) noexcept;
             void setQuadrant(Quadrants quad);
+            component::Transform &setTransform();
         protected:
             component::Transform _transform;
             component::BoxCollider _collider;

@@ -31,7 +31,6 @@ void MainMenuScene::start()
 
     std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, middle);
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> text = std::make_shared<gameEngine::encapsulation::BTexture2D>();
-
     text->loadFromImgRelRect(PLAY_BUTTON, size);
     text->setPos(Vector<int>(middle._x, middle._y));
 

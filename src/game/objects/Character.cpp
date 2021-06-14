@@ -16,7 +16,7 @@ objects::Character::Character(
                         ) : gameEngine::objects::Moveable(id)
 {
     this->_name = name;
-    this->setPostion(pos);
+    this->setTransform().setPosition(pos);
 }
 
 objects::Character::~Character()
@@ -55,8 +55,9 @@ void objects::Character::draw() const noexcept
 {
     if (!this->_model)
         return;
-    _model->setPosition(this->_transform.getPosition());
-    _model->setRotation(this->_transform.getRotation());
+    _model->setTransform().setPosition(this->_transform.getPosition());
+    _model->setTransform().setRotation(this->_transform.getRotation());
+    _model->setTransform().setScale(this->_transform.getScale());
     _model->draw();
 }
 

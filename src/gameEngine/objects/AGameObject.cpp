@@ -48,9 +48,9 @@ component::Transform objects::AGameObject::getTransform() const noexcept
 
 //SETTER
 
-void objects::AGameObject::setPostion(const Vector3T<float> &pos) noexcept
+component::Transform &objects::AGameObject::setTransform()
 {
-    this->_transform.setPosition(pos);
+    return this->_transform;
 }
 
 //----------------
