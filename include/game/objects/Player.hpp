@@ -42,10 +42,10 @@ namespace game
         private:
             typedef int my_key;
             std::unordered_map<my_key, playerKeyEvt> _key_event = {
-                {KEY_LEFT, &Player::moveLeft},
-                {KEY_RIGHT, &Player::moveRight},
-                {KEY_UP, &Player::moveForward},
-                {KEY_DOWN, &Player::moveBackward}
+                {KEY_DOWN, &Player::moveLeft},
+                {KEY_UP, &Player::moveRight},
+                {KEY_RIGHT, &Player::moveForward},
+                {KEY_LEFT, &Player::moveBackward}
             };
         };
     } // namespace objects
