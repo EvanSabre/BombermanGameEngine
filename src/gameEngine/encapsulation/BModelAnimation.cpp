@@ -13,7 +13,7 @@ using namespace encapsulation;
 BModelAnimation::BModelAnimation(const std::string &filePath)
 {
     _filePath = filePath;
-    _anims = LoadModelAnimations(filePath.c_str(), &_animsCount);   
+    _anims = LoadModelAnimations(filePath.c_str(), &_animsCount);
 }
 
 BModelAnimation::BModelAnimation(const BModelAnimation &ref)

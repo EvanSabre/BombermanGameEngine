@@ -30,7 +30,7 @@ void systems::Move::moveRight(gameEngine::component::Transform &tr, const float 
 {
     Vector3T<float> speed = {velocity, 0, 0};
     Move::move(tr, speed, tick);
-    tr._rotation._y = 90;
+    tr._rotation._y = -90;
 }
 
 void systems::Move::moveLeft(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept
@@ -56,14 +56,14 @@ void systems::Move::moveForward(gameEngine::component::Transform &tr, const floa
 {
     Vector3T<float> speed = {0, 0, velocity};
     Move::move(tr, speed, tick);
-    tr._rotation._y = 90;
+    tr._rotation._y = 0;
 }
 
 void systems::Move::moveBackward(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, 0, -velocity};
     Move::move(tr, speed, tick);
-    tr._rotation._y = 90;
+    tr._rotation._y = 180;
 }
 
 void systems::Move::moveDirection(gameEngine::component::Transform &tr, const float velocity,

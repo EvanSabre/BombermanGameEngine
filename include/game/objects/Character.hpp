@@ -13,6 +13,7 @@
 #include "BModel.hpp"
 #include "IEffect.hpp"
 #include "EffectFactory.hpp"
+#include "Animation.hpp"
 
 namespace game
 {
@@ -26,6 +27,8 @@ namespace game
                         const std::string &name,
                         const std::string &texturePath,
                         const std::string &model,
+                        const std::string &animWalk,
+                        const std::string &animIdle,
                         const Vector3T<float> &pos = {0, 0, 0}
                         );
             ~Character();
@@ -46,6 +49,7 @@ namespace game
                 void onCollisionEnter(const AGameObject &collision);
                 void onCollisionExit(const AGameObject &collision);
                 void update();
+                void updateAnim();
                game::Tag_e getTag() const noexcept override;
 
         protected:
@@ -59,6 +63,7 @@ namespace game
             std::string _name;
             std::shared_ptr<gameEngine::encapsulation::BModel> _model = nullptr;
             std::shared_ptr<gameEngine::encapsulation::BTexture2D> _texture = nullptr;
+            std::shared_ptr<gameEngine::Animation> _animation = nullptr;
         private:
             void addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept;
         };

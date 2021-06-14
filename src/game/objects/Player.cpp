@@ -10,8 +10,8 @@
 using namespace game::objects;
 
 Player::Player(const std::string &id, const std::string &name, const std::string &text,
-                const std::string &model)
-                : Character(id, name, text, model)
+                const std::string &model, const std::string &animWalk, const std::string &animIdle)
+                : Character(id, name, text, model, animWalk, animIdle)
 {
 }
 
@@ -43,4 +43,5 @@ void Player::handleKeyEvent() noexcept
 void Player::update()
 {
     handleKeyEvent();
+    updateAnim();
 }

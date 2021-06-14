@@ -14,11 +14,14 @@ Character::Character(
                     const std::string &name,
                     const std::string &texturePath,
                     const std::string &model,
+                    const std::string &animWalk,
+                    const std::string &animIdle,
                     const Vector3T<float> &pos
                     ) : gameEngine::objects::Moveable(id)
 {
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
     _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
+    _animation = std::make_shared<gameEngine::Animation>(model, animWalk, animIdle, texturePath);
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
     _model->setTransform().setScale({0.01, 0.01, 0.01});
     this->_name = name;
@@ -64,7 +67,10 @@ void Character::draw() const noexcept
     _model->setTransform().setPosition(this->_transform.getPosition());
     _model->setTransform().setRotation(this->_transform.getRotation());
     _model->setTransform().setScale(this->_transform.getScale());
+    _model->rotate();
     _model->draw();
+    _animation->getModel() = *_model;
+    _animation->refresh();
 }
 
 void Character::onCollisionEnter(const AGameObject &collision)
@@ -82,7 +88,15 @@ void Character::onCollisionEnter(const AGameObject &collision)
 }
 
 void Character::onCollisionExit(const AGameObject &collision) {}
-void Character::update() {}
+void Character::update()
+{
+    updateAnim();
+}
+
+void Character::updateAnim()
+{
+    _animation->updateModelAnimation();
+}
 
 void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 {
