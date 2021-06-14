@@ -60,10 +60,23 @@ void Character::draw() const noexcept
     _model->draw();
 }
 
-void objects::Character::OnCollisionEnter(const AGameObject &collision) {}
-void objects::Character::OnCollisionExit(const AGameObject &collision) {}
-void objects::Character::Update() {}
-game::Tag_e objects::Character::getTag() const noexcept
+void Character::OnCollisionEnter(const AGameObject &collision)
+{
+}
+
+void Character::OnCollisionExit(const AGameObject &collision) {}
+void Character::Update() {}
+
+void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
+{
+    _lives += efx->getLife();
+    _health += efx->getHealth();
+    _nbBomb += efx->getNbBomb();
+    _bombRange += efx->getBlastPower();
+    _speed = _speed + efx->getSpeed();
+}
+
+game::Tag_e Character::getTag() const noexcept
 {
     return  _tag;
 }

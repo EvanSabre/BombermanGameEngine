@@ -15,7 +15,7 @@ namespace game
 {
     namespace objects
     {
-        class TimedObject : public Clock, public Tile
+        class TimedObject : public gameEngine::component::Clock, public Tile
         {
         public:
             //handle timle in seconds
