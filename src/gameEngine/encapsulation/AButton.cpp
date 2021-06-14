@@ -105,7 +105,7 @@ bool AButton::isButtonReleased()
     return false;
 }
 
-void AButton::update()
+void AButton::updateState()
 {
     Vector2 tmp = GetMousePosition();
     Vector<float> vec(tmp.x, tmp.y);
@@ -113,6 +113,11 @@ void AButton::update()
     isButtonPressed(vec);
     isInsideButton(vec);
     isButtonReleased();
+}
+
+void AButton::update()
+{
+    updateState();
 }
 
 void AButton::drawButtonRect()

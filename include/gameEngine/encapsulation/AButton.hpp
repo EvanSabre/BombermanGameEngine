@@ -38,8 +38,9 @@ namespace gameEngine {
                 bool isButtonReleased();
                 void drawButtonRect();
                 void drawOutline();
-                void update();
                 void draw();
+                void updateState();
+                void update();
 
             protected:
                 State _state;

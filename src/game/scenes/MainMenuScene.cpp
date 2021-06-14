@@ -45,7 +45,7 @@ void MainMenuScene::start()
     // std::make_shared<gameEngine::encapsulation::Button>(text, rect, std::make_shared<gameEngine::encapsulation::BText>("PLAY"));
 
     _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
-    _buttonManager.pushButton(button);
+//    _buttonManager.pushButton(button);
     _buttonManager.pushButton(input);
 }
 

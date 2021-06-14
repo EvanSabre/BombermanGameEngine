@@ -99,6 +99,7 @@ void Button::setFrameRectSize(const Vector<float> &size)
 //CHECKERS
 void Button::update()
 {
+    updateState();
 }
 
 //DRAW
