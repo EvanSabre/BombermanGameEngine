@@ -78,18 +78,18 @@ bool Transform::operator!=(const Transform &ref)
     return false;
 }
 
-Transform &Transform::operator<<(const Transform &ref)
-{
-    std::cout << "Pos {" << _position._x << ", " << _position._y << ", " << _position._z << "}" << std::endl;
-    std::cout << "Rotation {" << _rotation._x << ", " << _rotation._y << ", " << _rotation._z << "}" << std::endl;
-    std::cout << "Scale {" << _scale._x << ", " << _scale._y << ", " << _scale._z << "}" << std::endl;
-    return *this;
-}
-
 Transform &Transform::operator=(const Transform &ref)
 {
     _position = ref._position;
     _rotation = ref._rotation;
     _scale = ref._scale;
     return *this;
+}
+
+std::ostream &operator<<(std::ostream &os, const gameEngine::component::Transform &ref)
+{
+    os << "Pos {" << ref._position._x << ", " << ref._position._y << ", " << ref._position._z << "}" << std::endl;
+    os << "Rotation {" << ref._rotation._x << ", " << ref._rotation._y << ", " << ref._rotation._z << "}" << std::endl;
+    os << "Scale {" << ref._scale._x << ", " << ref._scale._y << ", " << ref._scale._z << "}" << std::endl;
+    return os;
 }

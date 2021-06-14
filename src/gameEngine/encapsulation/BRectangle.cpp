@@ -61,10 +61,10 @@ Rectangle encapsulation::BRectangle::getObj() const noexcept
 {
     Rectangle rec;
 
-    rec.height = getHeight() * getTransform().getScale()._y;
-    rec.width = getWidth() * getTransform().getScale()._x;
-    rec.x = getX();
-    rec.y = getY();
+    rec.width = this->getTransform().getScale()._x;
+    rec.height = this->getTransform().getScale()._y;
+    rec.x = this->getTransform().getPosition()._x;
+    rec.y = this->getTransform().getPosition()._y;
     return rec;
 }
 

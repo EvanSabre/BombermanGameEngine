@@ -35,7 +35,6 @@ namespace gameEngine {
                 bool operator==(const Transform &ref);
                 bool operator!=(const Transform &ref);
 
-                Transform &operator<<(const Transform &ref);
                 Transform &operator=(const Transform &ref);
 
                 Vector3T<float> _position;
@@ -46,4 +45,7 @@ namespace gameEngine {
         };
     }
 }
+
+std::ostream &operator<<(std::ostream &os, const gameEngine::component::Transform &ref);
+
 #endif /* !TRANSFORM_HPP_ */
