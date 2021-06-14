@@ -46,5 +46,5 @@ void CheckBox::draw() noexcept
         (*_content).setColor(GREEN);
     else
         (*_content).setColor(RED);
-    this->Button::drawButton();
+    this->Button::draw();
 }
