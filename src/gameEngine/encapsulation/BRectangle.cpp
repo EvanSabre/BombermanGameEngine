@@ -151,6 +151,11 @@ void encapsulation::BRectangle::draw() const noexcept
     DrawRectangleRec(this->getObj(), this->_color.getObj());
 }
 
+void encapsulation::BRectangle::drawLines(const BColor &color) const noexcept
+{
+    DrawRectangleLines((int)_position._x, (int)_position._y, (int)_size._x, (int)_size._y, color.getObj());
+}
+
 //--------------------------
 
 //COLLISION
