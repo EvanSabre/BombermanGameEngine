@@ -32,7 +32,7 @@ void Dropable::onOverTime()
 {
 }
 
-int Dropable::BombEffect() const noexcept
+int Dropable::getBombEffect() const noexcept
 {
     return this->_bomb;
 }

@@ -27,7 +27,7 @@ namespace game {
             void draw() const noexcept;
             void onOverTime();
 
-            int BombEffect() const noexcept;
+            int getBombEffect() const noexcept;
 
         protected:
         private:
