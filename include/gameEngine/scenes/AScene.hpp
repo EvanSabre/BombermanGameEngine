@@ -19,7 +19,7 @@
 namespace gameEngine {
     class AScene : public gameEngine::interfaces::IScene {
         public:
-            AScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info);
+            AScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
             ~AScene();
 
             std::shared_ptr<gameEngine::managers::WindowManager> getWindowManager() const;

@@ -14,7 +14,7 @@ using namespace gameEngine::object;
 
 InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, const encapsulation::BText &content,
                 const encapsulation::BColor &color, const encapsulation::BColor &selectColor) :
-            AButton(size, pos, content, color), _currentChar(0)
+            AButton(size, pos, content, color, selectColor), _currentChar(0)
 {
     _content.setTextPosition(pos);
     _content.setTextSize(size._x / MAX_INPUT);
@@ -44,7 +44,7 @@ void InputButton::updateInput()
         }
         _currentChar = GetCharPressed();
     }
-    if (IsKeyPressed(KEY_BACKSPACE))
+    if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
         _input.pop_back();
     _content.setStr(_input);
 }
