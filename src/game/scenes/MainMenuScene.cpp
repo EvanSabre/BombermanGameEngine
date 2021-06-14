@@ -6,6 +6,7 @@
 */
 
 #include "MainMenuScene.hpp"
+#include "InputButton.hpp"
 #include "Vector.hpp"
 
 using namespace game::scenes;
@@ -35,6 +36,8 @@ void MainMenuScene::start()
     // text->loadFromImgRelRect(PLAY_BUTTON, size);
     // text->setPos(Vector<int>(middle._x, middle._y));
 
+    std::shared_ptr<gameEngine::object::InputButton> input =
+    std::make_shared<gameEngine::object::InputButton>(size, middle, gameEngine::encapsulation::BText("Input Name"), LIGHTGRAY, RED);
 
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(size, middle, gameEngine::encapsulation::BText("PLAY"), LIGHTGRAY);
@@ -42,7 +45,8 @@ void MainMenuScene::start()
     // std::make_shared<gameEngine::encapsulation::Button>(text, rect, std::make_shared<gameEngine::encapsulation::BText>("PLAY"));
 
     _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
-    _buttonManager.pushButton(button);
+//    _buttonManager.pushButton(button);
+    _buttonManager.pushButton(input);
 }
 
 std::string MainMenuScene::update()
