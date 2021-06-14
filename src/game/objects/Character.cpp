@@ -17,7 +17,6 @@ Character::Character(
 {
     this->_name = name;
     this->setTransform().setPosition(pos);
-    _tag = game::Tag::CHARACTER;
 }
 
 Character::~Character()
@@ -90,5 +89,5 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 
 game::Tag_e Character::getTag() const noexcept
 {
-    return  _tag;
+    return  game::Tag::CHARACTER;
 }

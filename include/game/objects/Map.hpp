@@ -12,7 +12,7 @@
 #define MAPWALL  1
 #define MAPBRICK 2
 #define MAPBORDR 3
-#define TILESIZE 320
+#define TILESIZE 10
 
 #define MINSIZE 5
 #define SIZE_X  (_size)

@@ -86,13 +86,25 @@ void Map::generateMapTiles()
 
     for (std::size_t i = 0; i < SIZE_X; i++) {
         for (std::size_t j = 0; j < SIZE_Y; j++) {
-            _tiledMap.push_back(Tile(_pathMod, _pathTex, PATH, Vector3T<float>((float)i, 0, (float)j), Vector3T<float>(0, 0, 0), Vector3T<float>(0.5, 0.5, 0.5)));
+            _tiledMap.push_back(Tile(_pathMod, _pathTex, PATH,
+                Vector3T<float>((float)i * TILESIZE, 0 * TILESIZE, (float)j * TILESIZE),
+                Vector3T<float>(0, 0, 0),
+                Vector3T<float>(0.5 * TILESIZE, 0.5 * TILESIZE, 0.5 * TILESIZE)));
             if (_map[i][j] == MAPBRICK)
-                _tiledMap.push_back(Tile(_brickMod, _brickTex, BRICK, Vector3T<float>((float)i, 1, (float)j), Vector3T<float>(0, 0, 0), Vector3T<float>(0.5, 0.5, 0.5)));
+                _tiledMap.push_back(Tile(_brickMod, _brickTex, BRICK,
+                Vector3T<float>((float)i * TILESIZE, 1 * TILESIZE, (float)j * TILESIZE),
+                Vector3T<float>(0, 0, 0),
+                Vector3T<float>(0.5 * TILESIZE, 0.5 * TILESIZE, 0.5 * TILESIZE)));
             else if (_map[i][j] == MAPWALL)
-                _tiledMap.push_back(Tile(_wallMod, _wallTex, WALL, Vector3T<float>((float)i, 1, (float)j), Vector3T<float>(0, 0, 0), Vector3T<float>(0.5, 0.5, 0.5)));
+                _tiledMap.push_back(Tile(_wallMod, _wallTex, WALL,
+                Vector3T<float>((float)i * TILESIZE, 1 * TILESIZE, (float)j * TILESIZE),
+                Vector3T<float>(0, 0, 0),
+                Vector3T<float>(0.5 * TILESIZE, 0.5 * TILESIZE, 0.5 * TILESIZE)));
             else if (_map[i][j] == MAPBORDR)
-                _tiledMap.push_back(Tile(_borderMod, _borderTex, BORDER, Vector3T<float>((float)i, 1, (float)j), Vector3T<float>(0, 0, 0), Vector3T<float>(0.5, 0.5, 0.5)));
+                _tiledMap.push_back(Tile(_borderMod, _borderTex, BORDER,
+                Vector3T<float>((float)i * TILESIZE, 1 * TILESIZE, (float)j * TILESIZE),
+                Vector3T<float>(0, 0, 0),
+                Vector3T<float>(0.5 * TILESIZE, 0.5 * TILESIZE, 0.5 * TILESIZE)));
         }
     }
 }

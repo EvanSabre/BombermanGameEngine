@@ -27,7 +27,7 @@ void Player::handleKeyEvent() noexcept
 
     for (const auto evt : _key_event) {
         try {
-            if (kb.isKeyPressed(evt.first)) {
+            if (kb.isKeyDown(evt.first)) {
                 std::cout << "key was pressed" << std::endl;
                 playerKeyEvt my_action = _key_event.at(evt.first);
                 CALL_MEMBER_FN((*this), my_action)(1);
