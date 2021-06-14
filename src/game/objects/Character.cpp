@@ -62,6 +62,16 @@ void Character::draw() const noexcept
 
 void Character::OnCollisionEnter(const AGameObject &collision)
 {
+    try
+    {
+        std::unique_ptr<game::interfaces::IEffect> efx = game::objects::EffectFactory::makeEffect(collision.getTag());
+        addPowerUpEffec(efx.get());
+        return;
+    }
+    catch(const std::exception& e)
+    {
+    }
+
 }
 
 void Character::OnCollisionExit(const AGameObject &collision) {}
