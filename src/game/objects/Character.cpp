@@ -17,6 +17,7 @@ objects::Character::Character(
 {
     this->_name = name;
     this->setPostion(pos);
+    _tag = game::Tag::CHARACTER;
 }
 
 objects::Character::~Character()
@@ -62,3 +63,7 @@ void objects::Character::draw() const noexcept
 void objects::Character::OnCollisionEnter(const AGameObject &collision) {}
 void objects::Character::OnCollisionExit(const AGameObject &collision) {}
 void objects::Character::Update() {}
+game::Tag_e objects::Character::getTag() const noexcept
+{
+    return  _tag;
+}
