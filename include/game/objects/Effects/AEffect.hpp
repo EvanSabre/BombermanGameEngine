@@ -26,6 +26,7 @@ namespace game
             int getHealth() const noexcept final;
             int getNbBomb() const noexcept final;
             int getBlastPower() const noexcept final;
+            int getBombPass() const noexcept final;
             Vector3T<float> getSpeed() const noexcept final;
 
         protected:
