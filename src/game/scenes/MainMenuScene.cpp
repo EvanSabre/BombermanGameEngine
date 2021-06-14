@@ -16,7 +16,7 @@ using namespace game::scenes;
 #define FOREGROUND "./resources/backgrounds/cyberpunk_street_foreground.png"
 #define PLAY_BUTTON "./resources/UI-Elements/PlayButton.png"
 
-MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
+MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
 : AScene(windowManager, info)
 {
 }

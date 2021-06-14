@@ -16,6 +16,7 @@
 #include <iostream>
 #include "IScene.hpp"
 #include "SceneInfo.hpp"
+#include "Errors.hpp"
 
 namespace game {
     namespace managers {
@@ -23,10 +24,10 @@ namespace game {
         public:
             SceneManager();
             ~SceneManager();
-            static std::shared_ptr<gameEngine::interfaces::IScene> loadScene(const std::string &type, std::shared_ptr<gameEngine::managers::WindowManager> window, gameEngine::scenes::SceneInfo info);
+            static std::shared_ptr<gameEngine::interfaces::IScene> loadScene(const std::string &type, std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<gameEngine::scenes::SceneInfo> info);
 
         private:
-            static const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::interfaces::IScene>(std::shared_ptr<gameEngine::managers::WindowManager> window, gameEngine::scenes::SceneInfo info)>>_scene;
+            static const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::interfaces::IScene>(std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<gameEngine::scenes::SceneInfo> info)>>_scene;
         };
     }
     }
