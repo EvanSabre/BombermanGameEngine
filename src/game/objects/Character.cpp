@@ -12,9 +12,15 @@ using namespace game::objects;
 Character::Character(
                     const std::string &id,
                     const std::string &name,
+                    const std::string &texturePath,
+                    const std::string &model,
                     const Vector3T<float> &pos
                     ) : gameEngine::objects::Moveable(id)
 {
+    _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
+    _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
+    _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
+    _model->setTransform().setScale({0.01, 0.01, 0.01});
     this->_name = name;
     this->setTransform().setPosition(pos);
 }
@@ -46,7 +52,7 @@ void Character::subScore(const size_t value) noexcept
     this->_score -= value;
 }
 
-void Character::setModel(gameEngine::encapsulation::BModel *model) noexcept
+void Character::setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept
 {
     this->_model = model;
 }

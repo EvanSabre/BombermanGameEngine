@@ -9,7 +9,6 @@
 #define AGAMEOBJECT_HPP_
 
 #include "Tags.hpp"
-
 #include <string>
 #include "Vector3T.hpp"
 #include "Move.hpp"

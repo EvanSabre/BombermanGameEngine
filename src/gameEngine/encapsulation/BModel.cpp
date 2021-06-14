@@ -135,7 +135,7 @@ void BModel::rotate()
 
 void BModel::draw() const noexcept
 {
-    Vector3T pos(this->_transform.getPosition());
+    Vector3T<float> pos(this->_transform.getPosition());
     Vector3 vecPos = {pos._x, pos._y, pos._z};
     Vector3T scale(this->_transform.getScale());
     Vector3 vecScale = {scale._x, scale._y, scale._z};

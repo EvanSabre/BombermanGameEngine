@@ -9,12 +9,15 @@
 
 using namespace game::objects;
 
-Player::Player(const std::string &id, const std::string &name) : Character(id, name)
+Player::Player(const std::string &id, const std::string &name, const std::string &text,
+                const std::string &model)
+                : Character(id, name, text, model)
 {
 }
 
 Player::~Player()
 {
+    std::cout << "Player dctor\n";
 }
 
 //------------------
@@ -35,4 +38,9 @@ void Player::handleKeyEvent() noexcept
         } catch (std::out_of_range &my_exception) {
         }
     }
+}
+
+void Player::update()
+{
+    handleKeyEvent();
 }

@@ -21,7 +21,6 @@
 
 //typedef void (game::nibbler::*eventFct)(void);
 
-
 namespace game
 {
     namespace objects
@@ -33,11 +32,12 @@ namespace game
         class Player : public Character
         {
         public:
-            Player(const std::string &id, const std::string &name);
+            Player(const std::string &id, const std::string &name, const std::string &text,
+            const std::string &model);
             ~Player();
 
             void handleKeyEvent() noexcept;
-
+            void update() override;
 
         private:
             typedef int my_key;

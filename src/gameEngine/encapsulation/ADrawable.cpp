@@ -43,6 +43,7 @@ gameEngine::encapsulation::BColor encapsulation::ADrawable::getColor() const noe
 
 game::Tag_e encapsulation::ADrawable::getTag() const noexcept
 {
+    return game::Tag_e::NONE;
 }
 
 //---------------------
