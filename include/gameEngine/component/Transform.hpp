@@ -11,6 +11,8 @@
 #include "Vector3T.hpp"
 #include <cmath>
 
+# define M_PI		3.14159265358979323846	/* pi */
+
 namespace gameEngine {
     namespace component {
         class Transform {
