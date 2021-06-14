@@ -40,10 +40,8 @@ int main()
     audio->setMusicVolume(1.0); //1.0 is max level
     while (win->isRunning()) {
         if (nextScene == "play") {
-            audio->setMusicVolume(0);
-            audio->playSound();
-            audio->playSound();
             audio->stopMusic();
+            audio->playSound();
             audio->loadMusicStreamFromFile("assets/music/game_music.mp3");
             audio->playMusic();
             audio->setMusicVolume(1.0);

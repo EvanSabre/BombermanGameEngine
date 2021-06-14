@@ -30,31 +30,31 @@ void AudioManager::loadSoundFromFile(const char *filepath)
 void AudioManager::playSound()
 {
     if (_sound->isLoad())
-        PlaySound(_sound->getObj());
+        _sound->play();
 }
 
 void AudioManager::pauseSound()
 {
     if (_sound->isLoad())
-        PauseSound(_sound->getObj());
+        _sound->pause();
 }
 
 void AudioManager::resumeSound()
 {
     if (_sound->isLoad())
-        ResumeSound(_sound->getObj());
+        _sound->resume();
 }
 
 void AudioManager::stopSound()
 {
     if (_sound->isLoad())
-        StopSound(_sound->getObj());
+        _sound->stop();
 }
 
 void AudioManager::setSoundVolume(float volume)
 {
     _soundVolume = volume;
-    SetSoundVolume(_sound->getObj(), volume);
+    _sound->setVolume(volume);
 }
 
 void AudioManager::loadMusicStreamFromFile(const char *filepath)
@@ -64,37 +64,37 @@ void AudioManager::loadMusicStreamFromFile(const char *filepath)
 
 void AudioManager::updateMusicStream()
 {
-    UpdateMusicStream(_music->getObj());
+    _music->updateStream();
 }
 
 void AudioManager::playMusic()
 {
     if (_music->isLoad())
-        PlayMusicStream(_music->getObj());
+        _music->play();
 }
 
 void AudioManager::pauseMusic()
 {
     if (_music->isLoad())
-        PauseMusicStream(_music->getObj());
+        _music->pause();
 }
 
 void AudioManager::resumeMusic()
 {
     if (_music->isLoad())
-        ResumeMusicStream(_music->getObj());
+        _music->resume();
 }
 
 void AudioManager::stopMusic()
 {
     if (_music->isLoad())
-        StopMusicStream(_music->getObj());
+        _music->stop();
 }
 
 void AudioManager::setMusicVolume(float volume)
 {
     _musicVolume = volume;
-    SetMusicVolume(_music->getObj(), volume);
+    _music->setVolume(volume);
 }
 
 float AudioManager::getCurrentSoundVolume() const
