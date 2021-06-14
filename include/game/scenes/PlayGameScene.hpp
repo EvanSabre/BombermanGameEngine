@@ -29,10 +29,8 @@ namespace game {
             protected:
             private:
                 Map _map{15};
-                gameEngine::encapsulation::BTexture2D _playerTexture{""};
-                gameEngine::encapsulation::BModel _playerModel{""};
-                game::objects::Player _player{"p1", "test_name"};
                 gameEngine::encapsulation::BCamera _cam;
+                std::vector<std::shared_ptr<game::objects::Character>> _players;
 
             private:
                 void setupCamera() noexcept;

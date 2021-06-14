@@ -24,6 +24,8 @@ namespace game
             Character(
                         const std::string &id,
                         const std::string &name,
+                        const std::string &texturePath,
+                        const std::string &model,
                         const Vector3T<float> &pos = {0, 0, 0}
                         );
             ~Character();
@@ -35,12 +37,10 @@ namespace game
             //setter
                 void addScore(const size_t value) noexcept;
                 void subScore(const size_t value) noexcept;
-                void setModel(gameEngine::encapsulation::BModel *model) noexcept;
+                void setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept;
 
             //action
             //vo dropBomb() const noexcept;
-
-
             void draw() const noexcept;
             //tmp for test : to delete
                 void onCollisionEnter(const AGameObject &collision);
@@ -57,8 +57,8 @@ namespace game
 
         private:
             std::string _name;
-            gameEngine::encapsulation::BModel *_model = nullptr;
-
+            std::shared_ptr<gameEngine::encapsulation::BModel> _model = nullptr;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _texture = nullptr;
         private:
             void addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept;
         };
