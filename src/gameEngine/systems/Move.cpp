@@ -18,51 +18,55 @@ const std::unordered_map<systems::Move::direction_e, systems::moveFct> systems::
     {systems::Move::direction_e::DOWN, &systems::Move::moveDown}
 };
 
-void systems::Move::move(Vector3T<float> &pos, const Vector3T<float> velocity, std::size_t tick) noexcept
+void systems::Move::move(gameEngine::component::Transform &tr, const Vector3T<float> velocity, std::size_t tick) noexcept
 {
     Vector3T<float> distance = velocity;
 
     distance = distance * tick;
-    pos = pos + distance;
+    tr._position = tr._position + distance;
 }
 
-void systems::Move::moveRight(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveRight(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {velocity, 0, 0};
-    Move::move(pos, speed, tick);
+    Move::move(tr, speed, tick);
+    tr._rotation._y = 90;
 }
 
-void systems::Move::moveLeft(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveLeft(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {-velocity, 0, 0};
-    Move::move(pos, speed, tick);
+    Move::move(tr, speed, tick);
+    tr._rotation._y = 90;
 }
 
-void systems::Move::moveUp(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveUp(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, velocity, 0};
-    Move::move(pos, speed, tick);
+    Move::move(tr, speed, tick);
 }
 
-void systems::Move::moveDown(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveDown(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, -velocity, 0};
-    Move::move(pos, speed, tick);
+    Move::move(tr, speed, tick);
 }
 
-void systems::Move::moveForward(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveForward(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, 0, velocity};
-    Move::move(pos, speed, tick);
+    Move::move(tr, speed, tick);
+    tr._rotation._y = 90;
 }
 
-void systems::Move::moveBackward(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept
+void systems::Move::moveBackward(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept
 {
     Vector3T<float> speed = {0, 0, -velocity};
-    Move::move(pos, speed, tick);
+    Move::move(tr, speed, tick);
+    tr._rotation._y = 90;
 }
 
-void systems::Move::moveDirection(Vector3T<float> &pos, const float velocity,
+void systems::Move::moveDirection(gameEngine::component::Transform &tr, const float velocity,
                                      std::size_t tick, const direction_e direction)
 {
     systems::moveFct action = nullptr;
@@ -70,7 +74,7 @@ void systems::Move::moveDirection(Vector3T<float> &pos, const float velocity,
     try
     {
         action = _movement.at(direction);
-        action(pos, velocity, tick);
+        action(tr, velocity, tick);
     }
     catch(const std::exception& e)
     {

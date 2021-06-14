@@ -14,6 +14,7 @@
 #include "raylib.h"
 #include "BTexture2D.hpp"
 #include "Errors.hpp"
+#include "raymath.h"
 
 #include "ADrawable.hpp"
 
@@ -52,6 +53,7 @@ namespace gameEngine
                                     const BTexture2D &texture) noexcept;
 
             //draw
+                void rotate();
                 void draw() const noexcept;
 
         private:

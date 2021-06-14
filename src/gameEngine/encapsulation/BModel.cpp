@@ -123,16 +123,25 @@ void BModel::setTexture(int material_idx, int maps_idx,
 
 //DRAW
 
+void BModel::rotate()
+{
+    Vector3T rota(this->_transform.getRotation());
+
+    _model.transform = MatrixRotateXYZ((Vector3){
+    DEG2RAD * rota._x,
+    DEG2RAD * rota._y,
+    DEG2RAD * rota._z});
+}
+
 void BModel::draw() const noexcept
 {
     Vector3T pos(this->_transform.getPosition());
     Vector3 vecPos = {pos._x, pos._y, pos._z};
-    Vector3T rota(this->_transform.getRotation());
     Vector3T scale(this->_transform.getScale());
     Vector3 vecScale = {scale._x, scale._y, scale._z};
 
-    DrawModelEx(this->_model, vecPos, {-1, 0, 0}, rota._y, vecScale, _color.getObj());
-    // DrawModel(this->_model, vecPos, scale._x, _color.getObj());
+    // rotate();
+    DrawModel(this->_model, vecPos, scale._x, _color.getObj());
 }
 
 //---------------------

@@ -18,7 +18,7 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     _playerModel.setTransform().setScale({0.1, 0.1, 0.1});
     _player.setTransform().setScale({0.1, 0.1, 0.1});
     _player.setTransform().setPosition({10, 10, 10});
-    _player.setTransform().setRotation({0, 90, 0});
+    _player.setTransform().setRotation({90, 90, 0});
     this->setupCamera();
     this->_player.setModel(&_playerModel);
 }
