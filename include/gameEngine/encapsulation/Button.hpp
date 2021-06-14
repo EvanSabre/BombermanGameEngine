@@ -61,6 +61,10 @@ namespace gameEngine {
                 bool isButtonReleased();
                 void update();
                 void drawButton();
+
+            protected:
+                std::shared_ptr<BText> _content;
+
             private:
                 State _state;
                 int _nbFrames;
@@ -69,7 +73,6 @@ namespace gameEngine {
                 std::shared_ptr<BTexture2D> _texture;
                 std::shared_ptr<BRectangle> _rectangle;
                 std::shared_ptr<BRectangle> _frameRec;
-                std::shared_ptr<BText> _content;
         };
     } //encapsulation
 } //gameEngine
