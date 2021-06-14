@@ -16,7 +16,7 @@ Character::Character(
                     ) : gameEngine::objects::Moveable(id)
 {
     this->_name = name;
-    this->setPostion(pos);
+    this->setTransform().setPosition(pos);
     _tag = game::Tag::CHARACTER;
 }
 
@@ -56,11 +56,13 @@ void Character::draw() const noexcept
 {
     if (!this->_model)
         return;
-    _model->setPosition(this->getPosition());
+    _model->setTransform().setPosition(this->_transform.getPosition());
+    _model->setTransform().setRotation(this->_transform.getRotation());
+    _model->setTransform().setScale(this->_transform.getScale());
     _model->draw();
 }
 
-void Character::OnCollisionEnter(const AGameObject &collision)
+void Character::onCollisionEnter(const AGameObject &collision)
 {
     try
     {
@@ -74,8 +76,8 @@ void Character::OnCollisionEnter(const AGameObject &collision)
 
 }
 
-void Character::OnCollisionExit(const AGameObject &collision) {}
-void Character::Update() {}
+void Character::onCollisionExit(const AGameObject &collision) {}
+void Character::update() {}
 
 void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 {

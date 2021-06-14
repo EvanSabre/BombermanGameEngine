@@ -43,9 +43,9 @@ namespace game
 
             void draw() const noexcept;
             //tmp for test : to delete
-                void OnCollisionEnter(const AGameObject &collision);
-                void OnCollisionExit(const AGameObject &collision);
-                void Update();
+                void onCollisionEnter(const AGameObject &collision);
+                void onCollisionExit(const AGameObject &collision);
+                void update();
                game::Tag_e getTag() const noexcept override;
 
         protected:

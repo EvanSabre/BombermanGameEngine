@@ -10,8 +10,8 @@
 using namespace gameEngine::encapsulation;
 
 BModel::BModel(const std::string &filepath, const Vector3T<float> &pos,
-                                const BColor &color, float scale)
-                                : ADrawable()
+               const BColor &color, const Vector3T<float> &scale)
+    : ADrawable()
 {
     this->resetObj();
     try
@@ -23,8 +23,8 @@ BModel::BModel(const std::string &filepath, const Vector3T<float> &pos,
         throw e;
     }
     this->_color = color;
-    this->_position = pos;
-    this->_scale = scale;
+    this->_transform.setPosition(pos);
+    this->_transform.setScale(scale);
     this->_filePath = filepath;
 }
 
@@ -43,8 +43,9 @@ BModel::BModel(const encapsulation::BModel &ref)
         throw e;
     }
     this->_color = ref.getColor();
-    this->_position = ref.getPosition();
-    this->_scale = ref.getScale();
+    this->_transform.setPosition(ref._transform.getPosition());
+    this->_transform.setRotation(ref._transform.getRotation());
+    this->_transform.setScale(ref._transform.getScale());
 }
 
 BModel &BModel::BModel::operator=(const encapsulation::BModel &ref)
@@ -59,8 +60,9 @@ BModel &BModel::BModel::operator=(const encapsulation::BModel &ref)
         throw e;
     }
     this->_color = ref.getColor();
-    this->_position = ref.getPosition();
-    this->_scale = ref.getScale();
+    this->_transform.setPosition(ref._transform.getPosition());
+    this->_transform.setRotation(ref._transform.getRotation());
+    this->_transform.setScale(ref._transform.getScale());
     return *this;
 }
 
@@ -123,9 +125,14 @@ void BModel::setTexture(int material_idx, int maps_idx,
 
 void BModel::draw() const noexcept
 {
-    Vector3 vec = {_position._x , _position._y, _position._z};
+    Vector3T pos(this->_transform.getPosition());
+    Vector3 vecPos = {pos._x, pos._y, pos._z};
+    Vector3T rota(this->_transform.getRotation());
+    Vector3T scale(this->_transform.getScale());
+    Vector3 vecScale = {scale._x, scale._y, scale._z};
 
-    DrawModel(this->_model, vec, _scale, _color.getObj());
+    DrawModelEx(this->_model, vecPos, {-1, 0, 0}, rota._y, vecScale, _color.getObj());
+    // DrawModel(this->_model, vecPos, scale._x, _color.getObj());
 }
 
 //---------------------

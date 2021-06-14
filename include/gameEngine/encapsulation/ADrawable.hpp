@@ -8,44 +8,41 @@
 #ifndef ADRAWABLE_HPP_
 #define ADRAWABLE_HPP_
 
-#include "IDrawable.hpp"
+#include "AGameObject.hpp"
+#include "Vector3T.hpp"
+#include "BColor.hpp"
 
 namespace gameEngine
 {
     namespace encapsulation
     {
-        class ADrawable : public gameEngine::interfaces::IDrawable
+        class ADrawable : public gameEngine::objects::AGameObject
         {
         public:
             ADrawable();
             ~ADrawable();
 
+            // member functions
+            void onCollisionEnter(const AGameObject &collision);
+            void onCollisionExit(const AGameObject &collision);
+            void update();
+            game::Tag_e getTag() const noexcept;
+
             //getter
-                gameEngine::encapsulation::BColor getColor() const noexcept final;
-                Vector3T<float> getPosition() const noexcept final;
-                Vector3T<float> getSize() const noexcept final;
-                float getScale() const noexcept final;
-                Vector3T<float> getScaledSize() const noexcept final;
+            gameEngine::encapsulation::BColor getColor() const noexcept;
 
             //setter
-                void setColor(const gameEngine::encapsulation::BColor &color) noexcept override;
-                void setPosition(const Vector3T<float> &pos) noexcept override;
-                void setSize(const Vector3T<float> &size) noexcept override;
-                void setScale(float scale) noexcept override;
+            void setColor(const gameEngine::encapsulation::BColor &color) noexcept;
 
             //draw
-                void draw() const noexcept override;
+            void draw() const noexcept;
 
         protected:
-            Vector3T<float> _size{1, 1, 1};
-            Vector3T<float> _position{0, 0, 0};
             gameEngine::encapsulation::BColor _color = WHITE;
-            float _scale = 1;
 
         private:
         };
     } // namespace encpasulation
-
 } // namespace gameEngine
 
 #endif /* !ADRAWABLE_HPP_ */

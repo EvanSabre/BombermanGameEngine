@@ -37,20 +37,21 @@ namespace gameEngine
                         const Vector3T<float> &colliderMin = {0, 0, 0},
                         const Vector3T<float> &colliderMax = {0, 0, 0},
                         bool colliderEnabled = true);
+            AGameObject(const AGameObject &obj);
             ~AGameObject();
 
-            Vector3T<float> getPosition() const noexcept;
             const std::string getId() const noexcept;
             component::BoxCollider getCollider() const noexcept;
             Quadrants getQuadrant() const noexcept;
+            component::Transform getTransform() const noexcept;
 
-            virtual void OnCollisionEnter(const AGameObject &collision) = 0;
-            virtual void OnCollisionExit(const AGameObject &collision) = 0;
-            virtual void Update() = 0;
+            virtual void onCollisionEnter(const AGameObject &collision) = 0;
+            virtual void onCollisionExit(const AGameObject &collision) = 0;
+            virtual void update() = 0;
             virtual game::Tag_e getTag() const noexcept = 0;
 
-            void setPostion(const Vector3T<float> &pos) noexcept;
             void setQuadrant(Quadrants quad);
+            component::Transform &setTransform();
         protected:
             component::Transform _transform;
             component::BoxCollider _collider;

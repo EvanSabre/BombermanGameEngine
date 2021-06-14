@@ -33,12 +33,20 @@ AButton::~AButton()
 //GETTERS
 Vector<float> AButton::getPos() const noexcept
 {
-    return _rectangle->getRectPosition();
+    Vector<float> pos(
+        _rectangle->getTransform()._position._x,
+        _rectangle->getTransform()._position._y);
+
+    return pos;
 }
 
 Vector<float> AButton::getSize() const noexcept
 {
-    return _rectangle->getRectSize();
+    Vector<float> scale(
+        _rectangle->getTransform()._scale._x,
+        _rectangle->getTransform()._scale._y);
+
+    return scale;
 }
 
 BText AButton::getContent() const noexcept
@@ -54,17 +62,19 @@ AButton::State AButton::getState() const noexcept
 //SETTERS
 void AButton::setPos(const Vector<float> &pos)
 {
-    _rectangle->setRectPosition(pos);
+    _rectangle->setTransform()._position._x = pos._x;
+    _rectangle->setTransform()._position._y = pos._y;
 }
 
 void AButton::setRotation(const float &rotation)
 {
-    _rectangle->setRotation(rotation);
+    _rectangle->setTransform()._rotation._x = rotation;
 }
 
 void AButton::setSize(const Vector<float> &size)
 {
-    _rectangle->setRectSize(size);
+    _rectangle->setTransform()._scale._x = size._x;
+    _rectangle->setTransform()._scale._y = size._y;
 }
 
 void AButton::setColor(const BColor &color)
