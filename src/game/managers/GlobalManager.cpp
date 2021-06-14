@@ -18,7 +18,7 @@ GlobalManager::GlobalManager()
     _windowManager->createWindow("Bomberman", {WIN_WIDTH, WIN_HEIGHT});
     _sceneInfo = std::make_shared<gameEngine::scenes::SceneInfo>();
     //@TODO init sceneInfo
-    _currentScene = game::managers::SceneManager::loadScene("splash", _windowManager, _sceneInfo);
+    _currentScene = game::managers::SceneManager::loadScene("menu", _windowManager, _sceneInfo);
 }
 
 GlobalManager::~GlobalManager()
