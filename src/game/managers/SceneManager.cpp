@@ -9,6 +9,7 @@
 #include "MainMenuScene.hpp"
 #include "PlayGameScene.hpp"
 #include "SplashScreenScene.hpp"
+#include "gameEngine/exceptions/NoSceneException.hpp"
 
 using namespace game::managers;
 
@@ -38,5 +39,10 @@ SceneManager::~SceneManager()
 
 std::shared_ptr<gameEngine::interfaces::IScene> SceneManager::loadScene(const std::string &type, std::shared_ptr<gameEngine::managers::WindowManager> window, gameEngine::scenes::SceneInfo info)
 {
-    return _scene.at(type)(window, info);
+    try {
+        return _scene.at(type)(window, info);
+    } catch(std::exception &e) {
+        std::cerr << "Scene with name not found" << std::endl;
+        throw NoSceneException();
+    }
 }
