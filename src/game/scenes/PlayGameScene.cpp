@@ -38,7 +38,7 @@ void PlayGameScene::start()
 
 void PlayGameScene::setupCamera() noexcept
 {
-    _cam.setPosition({7, 20, -7});
+    _cam.setPosition({-7, 20, 7});
     _cam.setTarget({7, 0, 7});
     _cam.setUp({0, 1, 0});
     _cam.setFovy(55);
