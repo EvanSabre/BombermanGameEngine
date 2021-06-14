@@ -40,8 +40,10 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::object::InputButton> input =
     std::make_shared<gameEngine::object::InputButton>(size, middle1, gameEngine::encapsulation::BText("Input Name"), LIGHTGRAY, RED);
 
+    gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x + size._x / 2, middle2._y), WHITE, 30);
+    strText.setTextPosition(Vector<float>(middle2._x + size._x / 2 - strText.getTextSize(), middle2._y));
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(size, middle2, gameEngine::encapsulation::BText("PLAY"), LIGHTGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(size, middle2, strText, LIGHTGRAY);
 
     _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
     _buttonManager.pushButton(button);
