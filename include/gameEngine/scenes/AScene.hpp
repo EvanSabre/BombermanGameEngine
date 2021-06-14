@@ -14,7 +14,7 @@
 #include "InputManager.hpp"
 #include "SceneInfo.hpp"
 #include "ButtonManager.hpp"
-
+#include "CheckBoxManager.hpp"
 
 namespace gameEngine {
     class AScene : public gameEngine::interfaces::IScene {
@@ -32,6 +32,7 @@ namespace gameEngine {
 //            std::shared_ptr<gameEngine::managers::InputManager> _inputManager;
             std::vector<std::shared_ptr<gameEngine::encapsulation::BTexture2D>> _textures;
             gameEngine::managers::ButtonManager _buttonManager;
+            gameEngine::managers::CheckBoxManager _checkboxManager;
 
         private:
     };

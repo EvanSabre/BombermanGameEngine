@@ -41,12 +41,13 @@ void MainMenuScene::start()
 
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(size, middle, gameEngine::encapsulation::BText("PLAY"), LIGHTGRAY);
-    // std::shared_ptr<gameEngine::encapsulation::Button> button =
-    // std::make_shared<gameEngine::encapsulation::Button>(text, rect, std::make_shared<gameEngine::encapsulation::BText>("PLAY"));
+    std::shared_ptr<gameEngine::encapsulation::CheckBox> box =
+    std::make_shared<gameEngine::encapsulation::CheckBox>(size, (Vector<float>){0, 0}, gameEngine::encapsulation::BText("checkBox"));
 
     _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
-//    _buttonManager.pushButton(button);
+    _buttonManager.pushButton(button);
     _buttonManager.pushButton(input);
+    _buttonManager.pushButton(box);
 }
 
 std::string MainMenuScene::update()
@@ -55,8 +56,11 @@ std::string MainMenuScene::update()
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("PLAY")) {
         std::cout << "Clicked play button\n";
-        return "play";
+        return "";
     }
+    // if (_checkboxManager.isClicked("checkBox")) {
+    //     std::cout << "Swithch" << std::endl;
+    // }
     return "";
 }
 
@@ -64,4 +68,5 @@ void MainMenuScene::draw()
 {
     _parallax.drawParallax();
     _buttonManager.drawButtons();
+    _checkboxManager.draw();
 }

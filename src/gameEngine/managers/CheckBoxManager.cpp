@@ -58,33 +58,33 @@ std::shared_ptr<gameEngine::encapsulation::CheckBox> CheckBoxManager::getClicked
 
 void CheckBoxManager::createCheckBown(const std::shared_ptr<BTexture2D> &texture, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content)
 {
-    std::shared_ptr<CheckBox> CheckBox = std::make_shared<CheckBox>(texture, rect, content);
+    std::shared_ptr<CheckBox> CheckBox = std::make_shared<gameEngine::encapsulation::CheckBox>(texture, rect, content);
 
     _currentElts.push_back(CheckBox);
     return;
     //return true;
 }
 
-void CheckBoxManager::pushCheckBox(std::shared_ptr<gameEngine::encapsulation::CheckBox> CheckBox)
+void CheckBoxManager::pushElt(std::shared_ptr<gameEngine::encapsulation::CheckBox> CheckBox)
 {
-    _currentCheckBoxs.push_back(CheckBox);
+    _currentElts.push_back(CheckBox);
 }
 
-std::vector<std::shared_ptr<gameEngine::encapsulation::CheckBox>> CheckBoxManager::getCurrentCheckBoxs() const
+std::vector<std::shared_ptr<gameEngine::encapsulation::CheckBox>> CheckBoxManager::getCurrentElts() const
 {
-    return _currentCheckBoxs;
+    return _currentElts;
 }
 
-void CheckBoxManager::drawCheckBoxs()
+void CheckBoxManager::draw()
 {
-    for (auto it : _currentCheckBoxs) {
-        it->drawCheckBox();
+    for (auto it : _currentElts) {
+        it->draw();
     }
 }
 
-void CheckBoxManager::updateCheckBoxs()
+void CheckBoxManager::update()
 {
-    for (auto it : _currentCheckBoxs) {
+    for (auto it : _currentElts) {
         it->update();
     }
 }
