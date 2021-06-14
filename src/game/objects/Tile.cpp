@@ -85,6 +85,11 @@ gameEngine::encapsulation::BModel &game::objects::Tile::getModel()
     return *_model;
 }
 
+game::Tag game::objects::Tile::getTag() const noexcept
+{
+    return _type;
+}
+
 game::Tag game::objects::Tile::getType() const
 {
     return _type;

@@ -41,6 +41,8 @@ namespace game::objects {
             void OnCollisionEnter(const gameEngine::objects::AGameObject &collision);
             void OnCollisionExit(const gameEngine::objects::AGameObject &collision);
             void Update();
+            game::Tag_e getTag() const noexcept override;
+
             void draw();
 
             // getters

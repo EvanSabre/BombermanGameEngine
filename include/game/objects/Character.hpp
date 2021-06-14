@@ -45,7 +45,7 @@ namespace game
                 void OnCollisionEnter(const AGameObject &collision);
                 void OnCollisionExit(const AGameObject &collision);
                 void Update();
-
+               game::Tag_e getTag() const noexcept override;
 
         protected:
             size_t _score = 0;

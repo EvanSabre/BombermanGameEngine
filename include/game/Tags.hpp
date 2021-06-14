@@ -10,7 +10,7 @@
 
 namespace game
 {
-    enum Tag
+    typedef enum Tag
     {
         NONE,
         WALL,
@@ -25,7 +25,7 @@ namespace game
         SPEEDUP,
         BOMBPASS,
         CHARACTER,
-    };
+    }Tag_e;
 }
 
 #endif /* !TAGS_HPP_ */
