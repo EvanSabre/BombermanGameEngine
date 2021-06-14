@@ -29,14 +29,17 @@ void MainMenuScene::start()
     Vector<float> size(300, 200);
     Vector<float> middle(_windowManager->getWindowSize()._x/3 - size._x / 2, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
-    std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, middle);
-    std::shared_ptr<gameEngine::encapsulation::BTexture2D> text = std::make_shared<gameEngine::encapsulation::BTexture2D>();
+    // std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, middle);
+    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> text = std::make_shared<gameEngine::encapsulation::BTexture2D>();
 
-    text->loadFromImgRelRect(PLAY_BUTTON, size);
-    text->setPos(Vector<int>(middle._x, middle._y));
+    // text->loadFromImgRelRect(PLAY_BUTTON, size);
+    // text->setPos(Vector<int>(middle._x, middle._y));
+
 
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(text, rect, std::make_shared<gameEngine::encapsulation::BText>("PLAY"));
+    std::make_shared<gameEngine::encapsulation::Button>(size, middle, gameEngine::encapsulation::BText("PLAY"), LIGHTGRAY);
+    // std::shared_ptr<gameEngine::encapsulation::Button> button =
+    // std::make_shared<gameEngine::encapsulation::Button>(text, rect, std::make_shared<gameEngine::encapsulation::BText>("PLAY"));
 
     _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
     _buttonManager.pushButton(button);

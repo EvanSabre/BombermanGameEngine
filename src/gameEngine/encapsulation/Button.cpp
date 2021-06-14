@@ -11,13 +11,14 @@ using namespace gameEngine::encapsulation;
 using namespace gameEngine;
 
 Button::Button(const Vector<float> &size, const Vector<float> &pos,
-                const BText &content, const BColor &color, const std::string &textureFile,
+                const BText &content, const BColor &color, const BColor &selectColor, const std::string &textureFile,
                 float rotation, int nbFrames)
 {
     _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
     _frameRec = std::make_shared<BRectangle>(size, Vector<float>(0, 0), color, rotation);
     _content = std::make_shared<BText>(content);
     _texture = std::make_shared<BTexture2D>();
+    _selectColor = std::make_shared<BColor>(selectColor);
     if (textureFile != "" && content.getStr() != "") {
         _texture->addTextToTexture(content, textureFile);
     } else if (textureFile != "")
@@ -178,17 +179,19 @@ void Button::update()
     Vector<float> vec(tmp.x, tmp.y);
 
     isButtonPressed(vec);
+    isInsideButton(vec);
     isButtonReleased();
 }
 
 //DRAW
 void Button::drawButton()
 {
-
     if (_texture->isLoad()) {
        _texture->drawRect(*_frameRec, _rectangle->getRectPosition());
     } else {
         _rectangle->draw();
         _content->draw();
     }
+    if (_state == MOUSE_HOVER)
+        _rectangle->drawLines(*_selectColor);
 }

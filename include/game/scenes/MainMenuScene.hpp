@@ -10,6 +10,7 @@
 
 #include "AScene.hpp"
 #include "Parallax.hpp"
+#include "Errors.hpp"
 
 namespace game {
     namespace scenes {

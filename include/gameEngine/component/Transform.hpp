@@ -19,7 +19,6 @@ namespace gameEngine {
 
                 //Rotate the transform so that it faces the destination;
                 void LookAt(const Transform &destination);
-
                 void Rotate(float xAngle, float yAngle, float zAngle);
 
                 Vector3T<float> getPosition() const;
@@ -32,6 +31,7 @@ namespace gameEngine {
                 bool operator!=(const Transform &ref);
                 Transform &operator<<(const Transform &ref);
                 Transform &operator=(const Transform &ref);
+
                 Vector3T<float> _position;
                 Vector3T<float> _rotation;
             protected:

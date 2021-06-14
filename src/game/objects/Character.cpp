@@ -17,6 +17,7 @@ Character::Character(
 {
     this->_name = name;
     this->setPostion(pos);
+    _tag = game::Tag::CHARACTER;
 }
 
 Character::~Character()
@@ -73,4 +74,9 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
     _nbBomb += efx->getNbBomb();
     _bombRange += efx->getBlastPower();
     _speed = _speed + efx->getSpeed();
+}
+
+game::Tag_e Character::getTag() const noexcept
+{
+    return  _tag;
 }

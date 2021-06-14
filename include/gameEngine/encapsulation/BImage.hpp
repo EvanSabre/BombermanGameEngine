@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <string>
-#include <stdexcept>
+#include "Errors.hpp"
 #include "Vector.hpp"
 #include "BRectangle.hpp"
 #include "BText.hpp"
