@@ -17,17 +17,39 @@
 class IndeeError : public std::exception
 {
 public:
-    IndeeError(std::string const &message, std::string const &component = "Unknown");
+    IndeeError(std::string const &message,
+    std::string const &component = "Unknown",
+    const std::string &side = "UNKNOWN"
+    );
 
     const std::string &getComponent() const noexcept;
+    const std::string &getSide() const noexcept;
     const char *what() const noexcept override;
 
 private:
     std::string _message;
     std::string _componnent;
+    std::string _side;
 };
 
-class LoadingError : public IndeeError
+class gameError : public IndeeError
+{
+public:
+    gameError(std::string const &message,
+            std::string const &component = "Unknown"
+            );
+};
+
+class engineError : public IndeeError
+{
+public:
+    engineError(std::string const &message,
+            std::string const &component = "Unknown"
+            );
+};
+
+
+class LoadingError : public engineError
 {
 public:
     LoadingError(const std::string &filepath,

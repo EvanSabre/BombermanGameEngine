@@ -13,6 +13,7 @@
 #include <cstring>
 #include "raylib.h"
 #include "BTexture2D.hpp"
+#include "Errors.hpp"
 
 #include "ADrawable.hpp"
 
