@@ -25,6 +25,7 @@ namespace gameEngine {
                 };
                 Button(const Vector<float> &size, const Vector<float> &pos,
                         const BText &content, const BColor &color = BLACK,
+                        const BColor &selectColor = RED,
                         const std::string &textureFile = "",
                         float rotation = 0, int nbFrames = 1);
                 Button(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content);
@@ -64,6 +65,7 @@ namespace gameEngine {
                 State _state;
                 int _nbFrames;
                 bool _buttonPressed;
+                std::shared_ptr<BColor> _selectColor;
                 std::shared_ptr<BTexture2D> _texture;
                 std::shared_ptr<BRectangle> _rectangle;
                 std::shared_ptr<BRectangle> _frameRec;
