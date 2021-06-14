@@ -91,11 +91,6 @@ game::Tag game::objects::Tile::getType() const
 }
 
 // setters
-void game::objects::Tile::setTexture(const gameEngine::encapsulation::BTexture2D &texture)
-{
-    *_texture = texture;
-}
-
 void game::objects::Tile::setModel(const gameEngine::encapsulation::BModel &model)
 {
     *_model = model;

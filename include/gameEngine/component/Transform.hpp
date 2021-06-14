@@ -18,6 +18,7 @@ namespace gameEngine {
                 Transform(const Vector3T<float> &pos = {0, 0, 0},
                           const Vector3T<float> &rot = {0, 0, 0},
                           const Vector3T<float> &sca = {1, 1, 1});
+                Transform(const Transform &t);
                 ~Transform();
 
                 //Rotate the transform so that it faces the destination;

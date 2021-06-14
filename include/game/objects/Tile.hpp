@@ -49,7 +49,6 @@ namespace game::objects {
             game::Tag getType() const;
 
             // setters
-            void setTexture(const gameEngine::encapsulation::BTexture2D &);
             void setModel(const gameEngine::encapsulation::BModel &);
             void setType(const game::Tag &);
 
