@@ -11,26 +11,34 @@ using namespace gameEngine;
 
 std::ostream& operator<<(std::ostream& out, const encapsulation::BText &text)
 {
-    const int x = text.getPosition()._x;
-    const int y = text.getPosition()._y;
+    const int x = text.getTransform().getPosition()._x;
+    const int y = text.getTransform().getPosition()._y;
 
     out << "Text : " << text.getStr()  << "\n\t";
     out << text.getColor() << " Position : (" << x << ", " << y << ")";
-    out << " Size : " << text.getSize();
+    out << " Size : " << text.getTransform().getScale()._x;
     return out;
 }
 
-encapsulation::BText::BText(const std::string &str, const Vector<int> &pos,
+encapsulation::BText::BText(const std::string &str, const Vector<float> &pos,
                 const BColor &color, const int &size,
                 gameEngine::encapsulation::ADrawable *relativeObj)
     : ADrawable()
 {
     this->_color = color;
     if (relativeObj != nullptr) {
-        this->_position = {(float)(relativeObj->getPosition()._x + pos._x), (float)(relativeObj->getPosition()._y + pos._y), (float)(relativeObj->getPosition()._z + _position._z)};
-    } else
-        this->_position = {(float)pos._x, (float)pos._y, _position._z};
-    TEXT_SIZE = size;
+        this->setTransform().setPosition({
+            relativeObj->getTransform().getPosition()._x + pos._x,
+            relativeObj->getTransform().getPosition()._y + pos._y,
+            relativeObj->getTransform().getPosition()._z + this->getTransform().getPosition()._z});
+    } else {
+        this->setTransform().setPosition({
+            pos._x,
+            pos._y,
+            this->getTransform().getPosition()._z});
+            std::cout << "setting position\n";
+    }
+    this->setTransform()._scale._x = (float)size;
     this->_str.assign(str);
 }
 
@@ -38,10 +46,12 @@ encapsulation::BText::BText(const BText &ref)
 {
     this->setStr(ref.getStr());
     this->setColor(ref.getColor());
-    this->setPosition(ref.getPosition());
-    this->setSize(ref.getSize());
+    //std::cout << "Postion before = " << this->getTransform() << std::endl;
+    this->setTransform().setPosition(ref.getTransform().getPosition());
+    //std::cout << "Postion after = " << this->getTransform() << std::endl;
+    this->setTransform().setRotation(ref.getTransform().getRotation());
+    this->setTransform().setScale(ref.getTransform().getScale());
     this->setSpacing(ref.getSpacing());
-    this->setScale(ref.getScale());
 }
 
 encapsulation::BText &encapsulation::BText::operator=(const BText &ref)
@@ -50,10 +60,10 @@ encapsulation::BText &encapsulation::BText::operator=(const BText &ref)
         return *this;
     this->setStr(ref.getStr());
     this->setColor(ref.getColor());
-    this->setPosition(ref.getPosition());
-    this->setSize(ref.getSize());
+    this->setTransform().setPosition(ref.getTransform().getPosition());
+    this->setTransform().setRotation(ref.getTransform().getRotation());
+    this->setTransform().setScale(ref.getTransform().getScale());
     this->setSpacing(ref.getSpacing());
-    this->setScale(ref.getScale());
     return *this;
 }
 
@@ -72,14 +82,16 @@ std::string encapsulation::BText::getStr() const noexcept
 
 Vector<float> encapsulation::BText::getTextPosition() const noexcept
 {
-    Vector<float> pos = {_position._x, _position._y};
+    Vector<float> pos(
+        this->getTransform().getPosition()._x,
+        this->getTransform().getPosition()._y);
 
     return pos;
 }
 
 float encapsulation::BText::getTextSize() const noexcept
 {
-    return TEXT_SIZE;
+    return this->getTransform().getScale()._x;
 }
 
 encapsulation::BFont encapsulation::BText::getFont() const noexcept
@@ -89,7 +101,7 @@ encapsulation::BFont encapsulation::BText::getFont() const noexcept
 
 float encapsulation::BText::getSpacing() const noexcept
 {
-    return TEXT_SPACING;
+    return this->getTransform().getScale()._y;
 }
 
 //--------------------------
@@ -103,12 +115,13 @@ void encapsulation::BText::setStr(const std::string &str) noexcept
 
 void encapsulation::BText::setTextSize(const float &size) noexcept
 {
-    TEXT_SIZE = size;
+    this->setTransform()._scale._x = size;
 }
 
 void encapsulation::BText::setTextPosition(const Vector<float> &position) noexcept
 {
-    this->_position = {position._x, position._y, _position._z};
+    this->setTransform()._position._x = position._x;
+    this->setTransform()._position._y = position._y;
 }
 
 void encapsulation::BText::setFont(const BFont &font) noexcept
@@ -123,7 +136,7 @@ void encapsulation::BText::unloadFont() noexcept
 
 void encapsulation::BText::setSpacing(const float &spacing) noexcept
 {
-    TEXT_SPACING = spacing;
+    this->setTransform()._scale._y = spacing;
 }
 
 //--------------------
@@ -133,11 +146,23 @@ void encapsulation::BText::setSpacing(const float &spacing) noexcept
 void encapsulation::BText::draw() const noexcept
 {
     if (this->_font.isLoad()) {
-        Vector2 pos = {_position._x, _position._y};
+        Vector2 pos = {
+            this->getTransform().getPosition()._x,
+            this->getTransform().getPosition()._y};
 
-        DrawTextEx(_font.getObj(), _str.c_str(), pos, SCALE_SIZE, TEXT_SPACING,
+        DrawTextEx(
+            _font.getObj(),
+            _str.c_str(),
+            pos,
+            this->getTransform().getScale()._x,
+            this->getTransform().getScale()._y,
             _color.getObj());
     } else {
-        DrawText(_str.c_str(), (int)_position._x, (int)_position._y, SCALE_SIZE, _color.getObj());
+        DrawText(
+            _str.c_str(),
+            (int)this->getTransform().getPosition()._x,
+            (int)this->getTransform().getPosition()._y,
+            this->getTransform().getScale()._x,
+            _color.getObj());
     }
 }

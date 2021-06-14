@@ -21,7 +21,7 @@ namespace game {
                 DONE
             };
             public:
-                SplashScreenScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info);
+                SplashScreenScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
                 ~SplashScreenScene();
 
                 void start() override;

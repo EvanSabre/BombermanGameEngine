@@ -24,6 +24,7 @@ namespace game
             virtual int getHealth() const noexcept = 0;
             virtual int getBlastPower() const noexcept = 0;
             virtual int getNbBomb() const noexcept = 0;
+            virtual int getBombPass() const noexcept = 0;
             virtual Vector3T<float> getSpeed() const noexcept = 0;
         };
     } // namespace interfaces

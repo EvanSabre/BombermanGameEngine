@@ -7,20 +7,18 @@
 
 #include "CheckBox.hpp"
 
-using namespace gameEngine::encapsulation;
+using namespace gameEngine::object;
 
 CheckBox::CheckBox(const Vector<float> &size,
                     const Vector<float> &pos,
-                    const BText &content,
-                    const BColor &color,
+                    const gameEngine::encapsulation::BText &content,
+                    const gameEngine::encapsulation::BColor &color,
                     bool initState,
-                    const BColor &trueColor,
-                    const BColor &falseColor,
-                    const BColor &selectColor,
-                    const std::string &textureFile,
-                    float rotation, int nbFrames
+                    const gameEngine::encapsulation::BColor &trueColor,
+                    const gameEngine::encapsulation::BColor &falseColor,
+                    const gameEngine::encapsulation::BColor &selectColor
                 )
-    : AButton(size, pos, content, color)
+    : AButton{size, pos, content, color}
 {
     _checkState = initState;
     _trueColor = trueColor;
@@ -42,7 +40,8 @@ void CheckBox::initCheckRect() noexcept
     size._y = (size._y * 90) / 100;
     size._x = (size._x * 20) / 100;
     setCheckRectColor();
-    _checkRect.setSize({size._x, size._y, 0});
+    _checkRect.setTransform().setPosition({0, 0, 0});
+    _checkRect.setTransform().setScale({100, 100, 100});
 }
 
 
@@ -55,7 +54,7 @@ void CheckBox::setCheckRectColor() noexcept
 }
 
 
-CheckBox::CheckBox(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content)
+CheckBox::CheckBox(const std::shared_ptr<gameEngine::encapsulation::BRectangle> &rect, const std::shared_ptr<gameEngine::encapsulation::BText> &content)
     : AButton(rect, content)
 {
 }
@@ -70,10 +69,11 @@ bool CheckBox::getState() const noexcept
 
 void CheckBox::draw()
 {
-    // if (_checkState)
-    //     this->gameEngine::encapsulation::Button::setColor(_trueColor);
-    // else
-    //     this->gameEngine::encapsulation::Button::setColor(_falseColor);
-    this->AButton::draw();
+   // this->AButton::draw();
     _checkRect.draw();
+   // (*_content).setColor(BLACK);
+    (*_content).setTextSize(100);
+    (*_content).draw();
+    std::cout << (*(_content.get())) << std::endl;
+    _content.get()->draw();
 }

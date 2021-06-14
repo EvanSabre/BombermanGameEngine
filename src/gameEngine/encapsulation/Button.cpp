@@ -31,7 +31,6 @@ Button::Button(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BR
     _rectangle = rect;
     _content = content;
     _frameRec = std::make_shared<BRectangle>(*rect);
-    _frameRec->setRectPosition(Vector<float>(0, 0));
     _state = NORMAL;
     _nbFrames = 1;
     _buttonPressed = false;
@@ -49,7 +48,7 @@ Button &Button::operator=(const Button &ref)
     _nbFrames = ref.getNbFrames();
     _state = ref.getState();
     _buttonPressed = ref.getButtonPressed();
-    *_rectangle = ref.getRect();
+    *_rectangle = *ref._rectangle;
     *_frameRec = ref.getFrameRect();
     return *this;
 }
@@ -63,11 +62,6 @@ bool Button::getButtonPressed() const
 BTexture2D Button::getTexture() const
 {
     return *_texture;
-}
-
-BRectangle Button::getRect() const
-{
-    return *_rectangle;
 }
 
 BRectangle Button::getFrameRect() const
@@ -93,7 +87,8 @@ void Button::setFrameRect(const BRectangle &rect)
 
 void Button::setFrameRectSize(const Vector<float> &size)
 {
-    _frameRec->setRectSize(size);
+    _frameRec->setTransform()._scale._x = size._x;
+    _frameRec->setTransform()._scale._y = size._y;
 }
 
 //CHECKERS
@@ -105,8 +100,12 @@ void Button::update()
 //DRAW
 void Button::draw()
 {
+    Vector<float> pos(
+        _rectangle->getTransform().getPosition()._x,
+        _rectangle->getTransform().getPosition()._y);
+
     if (_texture->isLoad()) {
-       _texture->drawRect(*_frameRec, _rectangle->getRectPosition());
+       _texture->drawRect(*_frameRec, pos);
     } else {
         drawButtonRect();
     }

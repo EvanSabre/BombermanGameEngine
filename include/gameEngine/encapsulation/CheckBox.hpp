@@ -9,24 +9,24 @@
 #define CHECKBOX_HPP_
 
 #include "AButton.hpp"
-#include "Button.hpp"
+
 namespace gameEngine
 {
-    namespace encapsulation
+    namespace object
     {
-        class CheckBox : public AButton
+        class CheckBox : public gameEngine::encapsulation::AButton
         {
         public:
-            CheckBox(const Vector<float> &size, const Vector<float> &pos,
-                    const BText &content,
-                    const BColor &color = BLACK,
+            CheckBox(const Vector<float> &size,
+                    const Vector<float> &pos,
+                    const gameEngine::encapsulation::BText &content,
+                    const gameEngine::encapsulation::BColor &color = BLACK,
                     bool initState = true,
-                    const BColor &tueColor = GREEN,
-                    const BColor &falseColor = RED,
-                    const BColor &selectColor = RED,
-                    const std::string &textureFile = "",
-                    float rotation = 0, int nbFrames = 1);
-            CheckBox(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content);
+                    const gameEngine::encapsulation::BColor &tueColor = GREEN,
+                    const gameEngine::encapsulation::BColor &falseColor = RED,
+                    const gameEngine::encapsulation::BColor &selectColor = RED
+                    );
+            CheckBox(const std::shared_ptr<gameEngine::encapsulation::BRectangle> &rect, const std::shared_ptr<gameEngine::encapsulation::BText> &content);
             ~CheckBox();
 
             bool getState() const noexcept;

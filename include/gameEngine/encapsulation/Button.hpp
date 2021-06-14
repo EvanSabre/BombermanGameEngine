@@ -27,7 +27,6 @@ namespace gameEngine {
 
                 //getter
                 BTexture2D getTexture() const;
-                BRectangle getRect() const;
                 BRectangle getFrameRect() const;
                 bool getButtonPressed() const;
                 int getNbFrames() const;

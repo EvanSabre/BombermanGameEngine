@@ -58,4 +58,10 @@ public:
                 );
 };
 
+class NoSceneException : public IndeeError {
+    public:
+        NoSceneException(std::string const &message = "NoScene Error") : IndeeError(message) {}
+};
+
+
 #endif /* !ERRORS_HPP_ */
