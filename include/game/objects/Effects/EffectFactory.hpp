@@ -9,6 +9,7 @@
 #define EFFECTFACTORY_HPP_
 
 #include <string>
+#include "Tags.hpp"
 
 #include "IEffect.hpp"
 #include "HealthUp.hpp"
@@ -32,17 +33,10 @@ namespace game
         class EffectFactory {
         public:
             using IEffect_unq = std::unique_ptr<game::interfaces::IEffect>;
-            static IEffect_unq makeEffect(const std::string &type);
-
-            static IEffect_unq makeHealthUP() noexcept;
-            static IEffect_unq makeBombUP() noexcept;
-            static IEffect_unq makeFireUP() noexcept;
-            static IEffect_unq makeSpeedUP() noexcept;
-            static IEffect_unq makeOneUP() noexcept;
+            static IEffect_unq makeEffect(game::Tag_e type);
 
         private:
-            static const std::unordered_map<std::string, BuildEffectFct> _producer;
-            static const std::unordered_map<std::string, std::function<std::unique_ptr<game::interfaces::IEffect>()>> _efxProducer;
+            static const std::unordered_map<game::Tag_e, std::function<std::unique_ptr<game::interfaces::IEffect>()>> _efxProducer;
 
         };
     } // namespace objects

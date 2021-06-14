@@ -12,6 +12,7 @@
 #include "Moveable.hpp"
 #include "BModel.hpp"
 #include "IEffect.hpp"
+#include "EffectFactory.hpp"
 
 namespace game
 {
