@@ -102,8 +102,20 @@ void SplashScreenScene::animAttack()
         _logo.setPos(Vector<int>(_attackText.getPos()._x - _logo.getSize()._x, (playerPos._y - (_logo.getSize()._y / 2) + _attackText.getSize()._y / 2)));
         _logo.setEnabled(true);
     }
+    if (_nbReset > 0) {
+        _state = DONE;
+        _attackText.setEnabled(false);
+        _idleText.setEnabled(true);
+        _clock.restart();
+    }
 }
 
+std::string SplashScreenScene::done()
+{
+    if (_clock.getElapsedTime() > 2)
+        return "menu";
+    return "";
+}
 
 std::string SplashScreenScene::update()
 {
@@ -116,10 +128,14 @@ std::string SplashScreenScene::update()
             break;
         case ATTACK:
             animAttack();
+            break;
+        case DONE:
+            return done();
+            break;
         default:
             break;
     }
-    return "";
+    return "menu";
 }
 
 void SplashScreenScene::draw()

@@ -17,7 +17,8 @@ namespace game {
             enum STATE {
                 IDLE,
                 JUMP,
-                ATTACK
+                ATTACK,
+                DONE
             };
             public:
                 SplashScreenScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info);
@@ -30,6 +31,7 @@ namespace game {
                 void animIdle();
                 void animJump();
                 void animAttack();
+                std::string done();
 
             protected:
                 gameEngine::encapsulation::BRectangle _attackRect;
