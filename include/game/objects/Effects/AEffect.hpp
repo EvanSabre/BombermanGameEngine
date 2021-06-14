@@ -33,6 +33,7 @@ namespace game
             int _health = 0;
             int _nbBomb = 0;
             int _blastPower = 0;
+            int _bombPass = 0;
             Vector3T<float> _speed{0, 0, 0};
 
         private:
