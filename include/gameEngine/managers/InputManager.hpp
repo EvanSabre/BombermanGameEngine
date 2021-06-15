@@ -10,7 +10,7 @@
 
 #include "IInput.hpp"
 #include "raylib.h"
-//#include <bits/stdc++.h>
+#include <queue>
 
 namespace gameEngine
 {
@@ -19,39 +19,26 @@ namespace gameEngine
 
     //TODO: Every scene should contain an InputManager and an associated Keymap
     //TODO: every scene enum Actions; // c'est ce qui est templatisé sous E dans inputManager
-    //* for example see below:
-    // Keymap_t default_Keymap=
-    // {
-    //     {Key::KEY_UP, INGAME_MOVE_UP},
-    //     {Key::KEY_DOWN, INGAME_MOVE_DOWN},
-    //     {Key::KEY_RIGHT, INGAME_MOVE_RIGHT},
-    //     {Key::KEY_LEFT, INGAME_MOVE_LEFT},
-
-    // std::unordered_map<Event, InputFunc> ExampleMap =
-    // {
-    //     {MOVE_UP_IN_MENU, {&gameEngine::interfaces::IInput::isKeyPressed, KEY_UP}}
-    //     {MOVE_UP_IN_MENU, {&gameEngine::interfaces::IInput::isKeyPressed, GAMEPAD_LEFT_UP}}
-    // };
 
     namespace managers
     {
         template <typename E>
         class InputManager
         {
-
             public:
-                InputManager(const UserInputs &inputList, std::unordered_map<E, InputFunc> keymap)
+                InputManager(const UserInputs &inputList, std::unordered_map<E, Controller> keymap)
                 {
                     _inputList = inputList;
                     _keymap = keymap;
                 }
+
                 ~InputManager() = default;
                 bool isUserKeyPressed(int userID, Key key)
                 {
                     auto search = _inputList.find(userID);
 
                     if (search != _inputList.end())
-                        return search->second.get()->isKeyPressed(key);
+                        return search->second->isKeyPressed(key);
                     return false;
                 }
 
@@ -60,7 +47,7 @@ namespace gameEngine
                     auto search = _inputList.find(key);
 
                     if (search != _inputList.end())
-                        return search->second.get()->isKeyReleased(key);
+                        return search->second->isKeyReleased(key);
                     return false;
 
                 }
@@ -70,7 +57,7 @@ namespace gameEngine
                     auto search = _inputList.find(key);
 
                     if (search != _inputList.end())
-                        return search->second.get()->isKeyDown(key);
+                        return search->second->isKeyDown(key);
                     return false;
 
                 }
@@ -80,7 +67,7 @@ namespace gameEngine
                     auto search = _inputList.find(key);
 
                     if (search != _inputList.end())
-                        return search->second.get()->isKeyUp(key);
+                        return search->second->isKeyUp(key);
                     return false;
 
                 }
@@ -90,7 +77,7 @@ namespace gameEngine
                     std::unordered_map<int, bool> results;
 
                     for (auto &input : _inputList)
-                        results.emplace(std::make_pair(input.first, input.second.get()->isKeyPressed(key)));
+                        results.emplace(std::make_pair(input.first, input.second->isKeyPressed(key)));
                     return results;
                 }
 
@@ -99,7 +86,7 @@ namespace gameEngine
                     std::unordered_map<int, bool> results;
 
                     for (auto &input : _inputList)
-                        results.emplace(std::make_pair(input.first, input.second.get()->isKeyReleased(key)));
+                        results.emplace(std::make_pair(input.first, input.second->isKeyReleased(key)));
                     return results;
                 }
 
@@ -108,7 +95,7 @@ namespace gameEngine
                     std::unordered_map<int, bool> results;
 
                     for (auto &input : _inputList)
-                        results.emplace(std::make_pair(input.first, input.second.get()->isKeyDown(key)));
+                        results.emplace(std::make_pair(input.first, input.second->isKeyDown(key)));
                     return results;
                 }
 
@@ -117,7 +104,7 @@ namespace gameEngine
                     std::unordered_map<int, bool> results;
 
                     for (auto &input : _inputList)
-                        results.emplace(std::make_pair(input.first, input.second.get()->isKeyUp(key)));
+                        results.emplace(std::make_pair(input.first, input.second->isKeyUp(key)));
                     return results;
                 }
 
@@ -129,7 +116,8 @@ namespace gameEngine
                     if (searchUser != _inputList.end())
                     {
                         if (searchEvent != _keymap.end())
-                            return searchUser->second.get()->*searchEvent->second.first(searchEvent->second.second);
+                            return (searchUser->second.get()->*searchEvent->second.first)(searchEvent->second.second.first) ||
+                            (searchUser->second.get()->*searchEvent->second.first)(searchEvent->second.second.second);
                     }
                     return false;
                 }
@@ -139,11 +127,13 @@ namespace gameEngine
                     std::unordered_map<int, bool> results;
                     auto searchEvent = _keymap.find(event);
 
-                    for (auto &input : _inputList) {
+                    for (auto &[id ,input] : _inputList) {
                         if (searchEvent != _keymap.end())
-                            results.emplace(std::make_pair(input.first, false));
+                            results.emplace(std::make_pair(id, false));
                         else
-                            results.emplace(std::make_pair(input.first, input.second.get()->*searchEvent->second.first(searchEvent->second.second)));
+                            results.emplace(std::make_pair(id, ((input.get()->*searchEvent->second.first)(searchEvent->second.second.first)) ||
+                            ((input.get()->*searchEvent->second.first)(searchEvent->second.second.second))
+                            ));
                     }
                     return results;
                 }
@@ -151,23 +141,23 @@ namespace gameEngine
                 Key getLastKeyPressedByAUser()
                 {
                     if (_inputList.empty())
-                        return -1;
-                    Key key = _inputList[0].get()->getKeyPressed();
-
-                    if (_keymap.find(key))
-                        return _keymap[key];
-                    return -1;
+                        return KEY_NULL;
+                    for(auto &input : _inputList) {
+                        if (input.second->isDeviceAvailable())
+                            return (Key) input.second->getKeyPressed();
+                    }
+                    return KEY_NULL;
                 }
 
-                //TODO: fix by queue
-                std::vector<std::pair<int, E>> pollEvents()
+                std::queue<std::pair<int, E>> pollEvents()
                 {
-                    std::vector<std::pair<int, E>> results;
+                    std::queue<std::pair<int, E>> results;
 
-                    for (auto &input : _inputList) {
-                        for (auto &event : _keymap) {
-                            if (input.second.get()->*event->second.first(event->second.second))
-                                results.push_back(std::make_pair(input.first, event->first));
+                    for (auto &[id, input] : _inputList) {
+                        for (auto &[event, pairFunc] : _keymap) {
+                            if((input.get()->*pairFunc.first)(pairFunc.second.first) || (input.get()->*pairFunc.first)(pairFunc.second.second)) {
+                                results.push(std::make_pair(id, event));
+                            }
                         }
                     }
                     return results;
@@ -177,15 +167,49 @@ namespace gameEngine
                 {
                     if (_inputList.empty())
                         return -1;
-                    Key key = _inputList[0].get()->getKeyPressed();
+                    Key key = _inputList[0]->getKeyPressed();
 
                     if (_keymap.find(key))
                         return _keymap[key];
                     return -1;
-                };
+                }
+
+                void removeMapKey(E event, Controller func)
+                {
+                    for(auto it = _keymap.begin(); it != _keymap.end();)
+                    {
+                        if(it->first == event && it->second == func)
+                            it = _keymap.erase(it);
+                        else
+                            ++it;
+                    }
+                }
+
+                void mapKey(E event, gameEngine::Key key, bool gamepadOrSecond)
+                {
+                    for (auto &i : _keymap)
+                    {
+                        if (i->first == event && gamepadOrSecond)
+                            i->second->second->second = key;
+                        else if (i->first == event && !gamepadOrSecond)
+                            i->second->second->first = key;
+                    }
+                }
+
+                void mapKey(E event, Controller func)
+                {
+                    for(auto it = _keymap.begin(); it != _keymap.end();)
+                    {
+                        if(it->second == func)
+                            it = _keymap.erase(it);
+                        else
+                            ++it;
+                    }
+                    _keymap.emplace(event, func);
+                }
 
             private:
-                std::unordered_map<Key, E> _keymap;
+                std::unordered_map<E, Controller> _keymap;
                 UserInputs _inputList;
         };
     }

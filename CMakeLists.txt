@@ -63,9 +63,11 @@ set(GAME_SRC
 
 set(UTILS_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
-        "${PROJECT_SOURCE_DIR}/src/utils/User.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/Utilitaries.cpp"
+        "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/UserManager.cpp"
         )
 
 set(MY_INCLUDE
@@ -98,7 +100,7 @@ set(MY_DEPENDENCIES
 
 
 add_executable(bomberman
-        ${PROJECT_SOURCE_DIR}/my_test/main_user.cpp
+        ${PROJECT_SOURCE_DIR}/my_test/main_input_manager.cpp
         ${GAMEENGINE_SRC}
         ${GAME_SRC}
         ${UTILS_SRC}

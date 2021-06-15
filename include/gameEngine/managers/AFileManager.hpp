@@ -27,7 +27,7 @@ namespace gameEngine
                 std::string readFile(const std::string &);
                 std::string getFileName(const File &);
                 std::string getFilePath(const File &);
-                std::vector<std::shared_ptr<File>> getDirectoryFiles(const std::string &);
+                std::vector<std::shared_ptr<File>> getDirectoryFiles(Directory &);
                 bool writeFile(File &, const std::string &text, bool rewrite=false);
         };
     };

@@ -161,6 +161,7 @@ namespace gameEngine
         GAMEPAD_BUTTON_RIGHT_THUMB = 416
     };
 
+
     namespace interfaces
     {
         class IInput
@@ -175,15 +176,15 @@ namespace gameEngine
                 virtual bool isDeviceAvailable(void) = 0;
                 virtual bool isDeviceName(const char *name) = 0;
                 virtual int getKeyPressed(void) = 0;
-                virtual int getCharPressed(void) = 0;
                 virtual int getDeviceID(void) = 0;
 
         };
     }
-    //typedef std::pair<int, const std::shared_ptr<gameEngine::interfaces::IInput>&> UserInput;
     typedef std::unordered_map<int, std::shared_ptr<gameEngine::interfaces::IInput>> UserInputs; // <id, Keyboard or Gamepad>
-    typedef bool (gameEngine::interfaces::IInput::*InputFunc)(int, int);
-    typedef std::pair<InputFunc, Key> keyEvent;
+    typedef bool (gameEngine::interfaces::IInput::*InputFunc)(int);
+
+    typedef std::pair<gameEngine::Key, gameEngine::Key> AttachedKeys;
+    typedef std::pair<gameEngine::InputFunc, AttachedKeys> Controller;
 }
 
 #endif /* !IINPUT_HPP_ */

@@ -12,6 +12,7 @@ using namespace gameEngine::managers;
 File AFileManager::loadFile(const std::string &path, bool force_creation)
 {
     File file(path, force_creation);
+
     return file;
 }
 
@@ -43,8 +44,16 @@ std::string AFileManager::getFilePath(const File &file)
 
 Directory AFileManager::loadDir(const std::string &dirpath, bool force_creation)
 {
-    Directory directory(dirpath, force_creation);
-    return directory;
+    try
+    {
+        Directory directory(dirpath, force_creation);
+        return directory;
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "AFileManager.cpp:53 -> " << e.what() << '\n';
+        throw e;
+    }
 }
 
 bool AFileManager::writeFile(File &file, const std::string &text, bool rewrite)
@@ -61,9 +70,7 @@ bool AFileManager::writeFile(File &file, const std::string &text, bool rewrite)
     }
 }
 
-std::vector<std::shared_ptr<File>> getDirectoryFiles(const std::string &directoryName)
+std::vector<std::shared_ptr<File>> AFileManager::getDirectoryFiles(Directory &directory)
 {
-    Directory directory(directoryName);
-
     return directory.getAllDirFiles();
 }

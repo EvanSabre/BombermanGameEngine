@@ -7,24 +7,20 @@
 
 #include "Errors.hpp"
 
-IndeeError::IndeeError(std::string const &message, std::string const &component)
+IndieError::IndieError(std::string const &message, std::string const &component)
 {
     this->_message = message;
-    this->_componnent = component;
+    this->_component = component;
 }
 
-const std::string &IndeeError::getComponent() const noexcept
+const std::string &IndieError::getComponent() const noexcept
 {
-    return this->_componnent;
+    return this->_component;
 }
 
-const char *IndeeError::what() const noexcept
+const char *IndieError::what() const noexcept
 {
-    return (_componnent + ": " + _message).c_str();
+    std::string msg(_component + ": " + _message);
+    printf("MYERROR %s\n", msg.c_str());
+    return msg.c_str();
 }
-
-LoadingError::LoadingError(std::string const &message,
-                         std::string const &component) : IndeeError(message, component)
-{
-}
-

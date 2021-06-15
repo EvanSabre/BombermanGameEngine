@@ -24,21 +24,14 @@
 class Directory
 {
   public:
-    Directory(const std::string &dirpath, bool force_creation=false);
+    Directory(const std::string &dirpath, bool force_creation=true);
     ~Directory();
 
-    // false -> end of reading
-    bool nextEntry();
-
-    // getter
-    const std::string getEntryName() const;
-    const std::string getEntryPath() const;
     std::vector<std::shared_ptr<File>> getAllDirFiles() noexcept;
-
     std::shared_ptr<File> &loadFile(const std::string &filename, bool force_creation=false);
-    std::shared_ptr<File> getEntryAsFile() const noexcept;
 
   private:
+    bool nextEntry();
     std::string _dirPath;
     DIR *_directory = nullptr;
     struct dirent *_entry = nullptr;

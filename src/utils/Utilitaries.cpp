@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-std::vector<std::string> splitString(std::string & s, const char *splitter)
+std::vector<std::string> splitString(std::string s, const char *splitter)
 {
    size_t pos = 0;
    std::string delimiter (splitter);

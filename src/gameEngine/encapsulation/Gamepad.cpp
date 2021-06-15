@@ -7,25 +7,34 @@
 
 #include "Gamepad.hpp"
 
-
 bool gameEngine::encapsulation::Gamepad::isKeyPressed(int key)
 {
-    return IsGamepadButtonPressed(_deviceID, key);
+    int axis = getAxisMovement();
+    printf("Key %d\n", key);
+    if (axis == key)
+        return true;
+    return IsGamepadButtonPressed(_deviceID, key - 400);
 }
 
 bool gameEngine::encapsulation::Gamepad::isKeyDown(int key)
 {
-    return IsGamepadButtonDown(_deviceID, key);
+    int axis = getAxisMovement();
+
+    if (axis != gameEngine::KEY_NULL)
+        return true;
+    if (GetGamepadButtonPressed() == gameEngine::KEY_NULL)
+        return getAxisMovement();
+    return IsGamepadButtonDown(_deviceID, key - 400);
 }
 
 bool gameEngine::encapsulation::Gamepad::isKeyUp(int key)
 {
-    return IsGamepadButtonUp(_deviceID, key);
+    return IsGamepadButtonUp(_deviceID, key - 400);
 }
 
 bool gameEngine::encapsulation::Gamepad::isKeyReleased(int key)
 {
-    return IsGamepadButtonReleased(_deviceID, key);
+    return IsGamepadButtonReleased(_deviceID, key - 400);
 }
 
 const std::string gameEngine::encapsulation::Gamepad::getDeviceName()
@@ -46,12 +55,30 @@ bool gameEngine::encapsulation::Gamepad::isDeviceName(const char *name)
     return IsGamepadName(_deviceID, name);
 }
 
-int gameEngine::encapsulation::Gamepad::getKeyPressed(void)
+int gameEngine::encapsulation::Gamepad::getAxisMovement(void)
 {
-    return GetGamepadButtonPressed();
+    if (GetGamepadAxisCount(_deviceID) < 0)
+        return gameEngine::KEY_NULL;
+    int axis0 = GetGamepadAxisMovement(_deviceID, 0);
+    int axis1 = GetGamepadAxisMovement(_deviceID, 1);
+
+    std::array<std::pair<bool, gameEngine::Key>, 4> directions =
+    {
+        std::make_pair<bool, gameEngine::Key>((-1 <= axis1 && axis1 < 1) && axis0 == -1, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_LEFT),
+        std::make_pair<bool, gameEngine::Key>((-1 <= axis1 && axis1 < 1) && axis0 == 1, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_RIGHT),
+        std::make_pair<bool, gameEngine::Key>((-1 <= axis0 && axis0 < 1) && axis1 == -1, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_UP),
+        std::make_pair<bool, gameEngine::Key>((-1 <= axis0 && axis0 < 1) && axis1 == 1, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_DOWN)
+    };
+    for (auto &i : directions) {
+        if (i.first)
+            return i.second;
+    }
+    return gameEngine::KEY_NULL;
 }
 
-int gameEngine::encapsulation::Gamepad::getCharPressed(void)
+int gameEngine::encapsulation::Gamepad::getKeyPressed(void)
 {
-    return -1;
+    if (GetGamepadButtonPressed() == gameEngine::KEY_NULL)
+        return getAxisMovement();
+    return GetGamepadButtonPressed() + 400;
 }

@@ -28,10 +28,10 @@ namespace gameEngine
                 bool isDeviceAvailable(void) override;
                 bool isDeviceName(const char *name) override;
                 int getKeyPressed(void) override;
-                int getCharPressed(void) override;
                 int getDeviceID(void) override {return _deviceID;}
 
             private:
+                int getAxisMovement(void);
                 int _deviceID;
         };
     };

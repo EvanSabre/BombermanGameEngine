@@ -12,33 +12,31 @@
 #include <exception>
 #include <stdexcept>
 
-
-
-class IndeeError : public std::exception
+class IndieError : public std::exception
 {
 public:
-    IndeeError(std::string const &message, std::string const &component = "Unknown");
+    IndieError(std::string const &message, std::string const &component = "Unknown");
 
     const std::string &getComponent() const noexcept;
     const char *what() const noexcept override;
 
 private:
     std::string _message;
-    std::string _componnent;
+    std::string _component;
 };
 
-class LoadingError : public IndeeError
+class LoadingError : public IndieError
 {
 public:
     LoadingError(std::string const &message,
-                         std::string const &component = "Unknown");
+                         std::string const &component = "Unknown") : IndieError(message, component) {}
 };
 
-class UserManagmentError : public IndeeError
+class UserManagmentError : public IndieError
 {
 public:
     UserManagmentError(std::string const &message,
-                         std::string const &component = "UserManager.cpp");
+                         std::string const &component = "UserManager.cpp") : IndieError(message, component) {}
 };
 
 #endif /* !ERRORS_HPP_ */
