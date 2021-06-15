@@ -12,7 +12,7 @@ using namespace game::scenes;
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
 : AScene(windowManager, info)
 {
-    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "./resources/models/kaya/kayaTexture.png", "./resources/models/kaya/kaya.iqm", "./resources/models/kaya/walkingKayaAnim.iqm", "./resources/models/kaya/IdleKaya.iqm");
+    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/Vikings/Textures/Character.png", "assets/Vikings/Model/Character.iqm", "assets/Vikings/Animation/CharacterWalk.iqm", "assets/Vikings/Animation/CharacterIdle.iqm");
     player->setTransform().setScale({0.1, 0.1, 0.1});
     player->setTransform().setPosition({10, 10, 10});
     player->setTransform().setRotation({90, 90, 0});

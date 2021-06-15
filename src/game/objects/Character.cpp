@@ -17,15 +17,16 @@ Character::Character(
                     const std::string &animWalk,
                     const std::string &animIdle,
                     const Vector3T<float> &pos
-                    ) : gameEngine::objects::Moveable(id)
+                    ) : gameEngine::objects::Moveable(id), _animWalk(animWalk), _animIdle(animIdle), _anim(animIdle), _frameCounter(0)
 {
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
     _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
-    _animation = std::make_shared<gameEngine::Animation>(model, animWalk, animIdle, texturePath);
+    // _animation = std::make_shared<gameEngine::Animation>(model, animWalk, animIdle, texturePath);
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
     _model->setTransform().setScale({0.01, 0.01, 0.01});
     this->_name = name;
     this->setTransform().setPosition(pos);
+    _state = ANIMIDLE;
 }
 
 Character::~Character()
@@ -44,7 +45,19 @@ size_t Character::getScore() const noexcept
     return this->_score;
 }
 
+int Character::getState() const noexcept
+{
+    return _state;
+}
+
+
 //setter
+
+void Character::setState(const int &state) noexcept
+{
+    _state = state;
+}
+
 void Character::addScore(const size_t value) noexcept
 {
     this->_score += value;
@@ -69,8 +82,6 @@ void Character::draw() const noexcept
     _model->setTransform().setScale(this->_transform.getScale());
     _model->rotate();
     _model->draw();
-    _animation->getModel() = *_model;
-    _animation->refresh();
 }
 
 void Character::onCollisionEnter(const AGameObject &collision)
@@ -90,12 +101,19 @@ void Character::onCollisionEnter(const AGameObject &collision)
 void Character::onCollisionExit(const AGameObject &collision) {}
 void Character::update()
 {
-    updateAnim();
+    updateModelAnimation();
 }
 
-void Character::updateAnim()
+void Character::updateModelAnimation()
 {
-    _animation->updateModelAnimation();
+    _anim = _state ? _animWalk : _animIdle;
+    if (_model->isLoad() && _anim.isLoad()) {
+        _frameCounter++;
+        UpdateModelAnimation(_model->getObj(), _anim.getModelAnimation()[0], _frameCounter);
+    }
+    if (_frameCounter >= _anim.getAnimFrameCount()) {
+        _frameCounter = 0;
+    }
 }
 
 void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
