@@ -42,7 +42,6 @@ game::objects::Tile::Tile(
     _transform.setRotation(rotation);
     _transform.setScale(scale);
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
-    std::cout << "model ctor\n" << _transform << std::endl;
 }
 
 game::objects::Tile::Tile(const Tile &tile)

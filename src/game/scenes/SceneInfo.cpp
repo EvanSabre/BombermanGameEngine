@@ -5,7 +5,7 @@
 ** SceneInfo
 */
 
-#include "SceneInfo.hpp"
+#include "GameManager.hpp"
 
 using namespace gameEngine::scenes;
 
