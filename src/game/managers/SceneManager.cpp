@@ -9,6 +9,7 @@
 #include "MainMenuScene.hpp"
 #include "PlayGameScene.hpp"
 #include "SplashScreenScene.hpp"
+#include "ChoosePlayersScene.hpp"
 
 using namespace game::managers;
 
@@ -24,6 +25,10 @@ const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::
         {"splash",
             [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<gameEngine::scenes::SceneInfo> info) {
                 return std::make_shared<game::scenes::SplashScreenScene>(window, info);
+            }},
+        {"choosePlayers",
+            [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<gameEngine::scenes::SceneInfo> info) {
+                return std::make_shared<game::scenes::ChoosePlayersScene>(window, info);
             }}
     };
 

@@ -42,7 +42,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
-        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Selector.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/WindowManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/ButtonManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
@@ -58,6 +58,7 @@ set(GAMEENGINE_SRC
 set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SplashScreenScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/ChoosePlayersScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
