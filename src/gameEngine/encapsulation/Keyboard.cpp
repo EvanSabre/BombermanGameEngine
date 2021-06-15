@@ -7,6 +7,7 @@
 
 #include "Keyboard.hpp"
 #include <stdlib.h>
+#include <iostream>
 
 
 bool gameEngine::encapsulation::Keyboard::isKeyPressed(int key)
@@ -21,6 +22,7 @@ bool gameEngine::encapsulation::Keyboard::isKeyDown(int key)
 
 bool gameEngine::encapsulation::Keyboard::isKeyUp(int key)
 {
+    std::cout << "Idling" << std::endl;
     return IsKeyUp(key);
 }
 

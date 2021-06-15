@@ -71,9 +71,9 @@ namespace game
             std::shared_ptr<gameEngine::encapsulation::BModel> _model = nullptr;
             std::shared_ptr<gameEngine::encapsulation::BTexture2D> _texture = nullptr;
             // std::shared_ptr<gameEngine::Animation> _animation = nullptr;
-            gameEngine::encapsulation::BModelAnimation _animWalk;
-            gameEngine::encapsulation::BModelAnimation _animIdle;
-            gameEngine::encapsulation::BModelAnimation _anim;
+            std::shared_ptr<gameEngine::encapsulation::BModelAnimation> _animWalk;
+            std::shared_ptr<gameEngine::encapsulation::BModelAnimation> _animIdle;
+            std::shared_ptr<gameEngine::encapsulation::BModelAnimation> _anim;
             int _frameCounter;
             int _state;
 

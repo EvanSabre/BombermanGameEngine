@@ -17,10 +17,13 @@ Character::Character(
                     const std::string &animWalk,
                     const std::string &animIdle,
                     const Vector3T<float> &pos
-                    ) : gameEngine::objects::Moveable(id), _animWalk(animWalk), _animIdle(animIdle), _anim(animIdle), _frameCounter(0)
+                    ) : gameEngine::objects::Moveable(id), _frameCounter(0)
 {
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
     _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
+    _animWalk = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animWalk);
+    _animIdle = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animIdle);
+    _anim = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animIdle);
     // _animation = std::make_shared<gameEngine::Animation>(model, animWalk, animIdle, texturePath);
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
     _model->setTransform().setScale({0.01, 0.01, 0.01});
@@ -107,11 +110,11 @@ void Character::update()
 void Character::updateModelAnimation()
 {
     _anim = _state ? _animWalk : _animIdle;
-    if (_model->isLoad() && _anim.isLoad()) {
+    if (_model->isLoad() && _anim->isLoad()) {
         _frameCounter++;
-        UpdateModelAnimation(_model->getObj(), _anim.getModelAnimation()[0], _frameCounter);
+        UpdateModelAnimation(_model->getObj(), _anim->getModelAnimation()[0], _frameCounter);
     }
-    if (_frameCounter >= _anim.getAnimFrameCount()) {
+    if (_frameCounter >= _anim->getAnimFrameCount()) {
         _frameCounter = 0;
     }
 }
