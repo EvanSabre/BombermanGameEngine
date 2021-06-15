@@ -23,7 +23,7 @@ using namespace game::scenes;
 
 static size_t FRAME_SPEED = 8;
 
-SplashScreenScene::SplashScreenScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
+SplashScreenScene::SplashScreenScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info),
 _attackRect(Vector<float>(140, 130)), _jumpRect(Vector<float>(95, 147)), _idleRect(Vector<float>(93, 115)),
 _state(SplashScreenScene::JUMP), _attackFrame(0), _jumpFrame(0), _idleFrame(0), _currentFrame(0), _nbReset(0)

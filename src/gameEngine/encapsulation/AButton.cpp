@@ -86,6 +86,11 @@ void AButton::setContentStr(const std::string &str)
     _content->setStr(str);
 }
 
+void AButton::setCallback(std::function<void(std::shared_ptr<game::managers::GameManager> info)> func)
+{
+    _callback = func;
+}
+
 bool AButton::isInsideButton(const Vector<float> &point)
 {
     if (_rectangle->checkPointInside(point)) {

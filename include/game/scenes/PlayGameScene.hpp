@@ -21,7 +21,7 @@ namespace game {
     namespace scenes {
         class PlayGameScene : public gameEngine::AScene {
             public:
-                PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
+                PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info);
                 ~PlayGameScene();
 
                 void start() override;

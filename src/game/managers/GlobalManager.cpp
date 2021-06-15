@@ -10,22 +10,20 @@
 #define WIN_HEIGHT 1080
 #define WIN_WIDTH 1920
 
-using namespace game::managers;
-
-GlobalManager::GlobalManager()
+game::managers::GlobalManager::GlobalManager()
 {
     _windowManager = std::make_shared<gameEngine::managers::WindowManager>();
-    _windowManager->createWindow("Bomberman", {WIN_WIDTH, WIN_HEIGHT});
-    _sceneInfo = std::make_shared<gameEngine::scenes::SceneInfo>();
-    //@TODO init sceneInfo
-    _currentScene = game::managers::SceneManager::loadScene("menu", _windowManager, _sceneInfo);
+    _windowManager->createWindow("Bomberverse", {WIN_WIDTH, WIN_HEIGHT});
+    _gameManager = std::make_shared<game::managers::GameManager>("menu");
+    //@TODO init gameManager
+    _currentScene = game::managers::SceneManager::loadScene("menu", _windowManager, _gameManager);
 }
 
-GlobalManager::~GlobalManager()
+game::managers::GlobalManager::~GlobalManager()
 {
 }
 
-void GlobalManager::run()
+void game::managers::GlobalManager::run()
 {
     _currentScene->start();
     while (_windowManager->isRunning()) {
@@ -37,13 +35,13 @@ void GlobalManager::run()
     }
 }
 
-void GlobalManager::loadNewScene(const std::string &sceneName)
+void game::managers::GlobalManager::loadNewScene(const std::string &sceneName)
 {
     if (sceneName == "")
         return;
     _currentScene.reset();
     try {
-        _currentScene = game::managers::SceneManager::loadScene(sceneName, _windowManager, _sceneInfo);
+        _currentScene = game::managers::SceneManager::loadScene(sceneName, _windowManager, _gameManager);
     } catch (NoSceneException &e) {
         throw LoadingError("Could not load scene");
     }
