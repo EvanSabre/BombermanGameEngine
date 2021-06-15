@@ -76,6 +76,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/systems/SettingConf.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
 
@@ -108,6 +109,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
         "${PROJECT_SOURCE_DIR}/include/game/objects/Effects"
         "${PROJECT_SOURCE_DIR}/include/WindowsEquivalent"
+        "${PROJECT_SOURCE_DIR}/include/game/systems/"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
