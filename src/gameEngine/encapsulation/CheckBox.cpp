@@ -24,8 +24,7 @@ CheckBox::CheckBox(const Vector<float> &size,
     _trueColor = trueColor;
     _falseColor = falseColor;
 
-    setCheckRectColor();
-
+    initCheckRect();
 }
 
 CheckBox::~CheckBox()
@@ -47,16 +46,21 @@ void CheckBox::initCheckRect() noexcept
 
 void CheckBox::setCheckRectColor() noexcept
 {
-    if (_checkState)
+    if (_checkState) {
         _checkRect.setColor(_trueColor);
-    else
+        this->AButton::setColor(_trueColor);
+        _rectangle.get()->setColor(_trueColor);
+    } else {
         _checkRect.setColor(_falseColor);
+        this->AButton::setColor(_trueColor);
+    }
 }
 
 
 CheckBox::CheckBox(const std::shared_ptr<gameEngine::encapsulation::BRectangle> &rect, const std::shared_ptr<gameEngine::encapsulation::BText> &content)
     : AButton(rect, content)
 {
+    initCheckRect();
 }
 
 
@@ -69,11 +73,12 @@ bool CheckBox::getState() const noexcept
 
 void CheckBox::draw()
 {
-   // this->AButton::draw();
+    (*_rectangle).setColor(GREEN);
+    this->AButton::draw();
     _checkRect.draw();
    // (*_content).setColor(BLACK);
     (*_content).setTextSize(100);
     (*_content).draw();
-    std::cout << (*(_content.get())) << std::endl;
+    std::cout << _checkRect << std::endl;
     _content.get()->draw();
 }
