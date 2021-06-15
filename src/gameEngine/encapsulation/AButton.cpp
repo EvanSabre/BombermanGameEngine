@@ -16,7 +16,6 @@ const BColor &color, const BColor &selectColor, float rotation)
     _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
     _content = std::make_shared<BText>(content);
     _state = gameEngine::interfaces::IButton::NORMAL;
-
 }
 
 AButton::AButton(const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &text)
@@ -108,7 +107,7 @@ bool AButton::isButtonPressed(const Vector<float> &mousePos)
 
 bool AButton::isButtonReleased()
 {
-    if (_state == PRESSED && IsMouseButtonReleased(MOUSE_BUTTON_RIGHT)) {
+    if (_state == MOUSE_HOVER && IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
         _state = NORMAL;
         return true;
     }
@@ -120,8 +119,8 @@ void AButton::updateState()
     Vector2 tmp = GetMousePosition();
     Vector<float> vec(tmp.x, tmp.y);
 
-    isButtonPressed(vec);
     isInsideButton(vec);
+    isButtonPressed(vec);
     isButtonReleased();
 }
 

@@ -11,6 +11,7 @@
 #include "AScene.hpp"
 #include "Parallax.hpp"
 #include "Errors.hpp"
+#include "CheckBox.hpp"
 
 namespace game {
     namespace scenes {

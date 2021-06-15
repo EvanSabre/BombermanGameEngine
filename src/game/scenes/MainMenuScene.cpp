@@ -31,8 +31,8 @@ void MainMenuScene::start()
     Vector<float> middle1(_windowManager->getWindowSize()._x/3 - size._x / 2, _windowManager->getWindowSize()._y/3 - size._y / 2);
     Vector<float> middle2(_windowManager->getWindowSize()._x/3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
-    // std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, middle);
-    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> text = std::make_shared<gameEngine::encapsulation::BTexture2D>();
+    // std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, zero);
+    // std::shared_ptr<gameEngine::encapsulation::BText> text = std::make_shared<gameEngine::encapsulation::BText>("hello");
 
     // text->loadFromImgRelRect(PLAY_BUTTON, size);
     // text->setPos(Vector<int>(middle._x, middle._y));
@@ -45,9 +45,13 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(size, middle2, strText, LIGHTGRAY);
 
+    std::shared_ptr<gameEngine::object::CheckBox> box =
+    std::make_shared<gameEngine::object::CheckBox>(size, middle1, gameEngine::encapsulation::BText("box"));
+
     _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
     _buttonManager.pushButton(button);
     _buttonManager.pushButton(input);
+    _buttonManager.pushButton(box);
 }
 
 std::string MainMenuScene::update()
@@ -56,8 +60,11 @@ std::string MainMenuScene::update()
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("PLAY")) {
         std::cout << "Clicked play button\n";
-        return "play";
+        return "";
     }
+    // if (_checkboxManager.isClicked("checkBox")) {
+    //     std::cout << "Swithch" << std::endl;
+    // }
     return "";
 }
 

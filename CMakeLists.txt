@@ -24,6 +24,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Keyboard.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Gamepad.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/CheckBox.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/AButton.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BAudio.cpp"
