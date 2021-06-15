@@ -42,7 +42,6 @@ void MainMenuScene::start()
     gameEngine::encapsulation::BFont fontPlay;
     fontPlay.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
     strText.setFont(fontPlay);
-    strText.setSpacing(0);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, LIGHTGRAY);
 
@@ -51,7 +50,6 @@ void MainMenuScene::start()
     gameEngine::encapsulation::BFont fontSetting;
     fontSetting.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
     settingText.setFont(fontSetting);
-    settingText.setSpacing(0);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, LIGHTGRAY);
 
@@ -60,7 +58,6 @@ void MainMenuScene::start()
     gameEngine::encapsulation::BFont fontQuit;
     fontQuit.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
     quitText.setFont(fontQuit);
-    quitText.setSpacing(0);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, LIGHTGRAY);
 
