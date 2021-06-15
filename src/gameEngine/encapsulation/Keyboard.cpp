@@ -51,8 +51,3 @@ int gameEngine::encapsulation::Keyboard::getKeyPressed(void)
 {
     return GetKeyPressed();
 }
-
-int gameEngine::encapsulation::Keyboard::getCharPressed(void)
-{
-    return GetCharPressed();
-}

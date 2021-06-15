@@ -6,6 +6,7 @@
 */
 
 #include "MainMenuScene.hpp"
+#include "InputButton.hpp"
 #include "Vector.hpp"
 
 using namespace game::scenes;
@@ -15,48 +16,53 @@ using namespace game::scenes;
 #define FOREGROUND "./resources/backgrounds/cyberpunk_street_foreground.png"
 #define PLAY_BUTTON "./resources/UI-Elements/PlayButton.png"
 
-MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
+MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
 : AScene(windowManager, info)
 {
-    std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
     _audio.loadMusicStreamFromFile("assets/music/menu_music.mp3");
     _audio.loadSoundFromFile("assets/music/play_sound.wav");
 }
 
 MainMenuScene::~MainMenuScene()
 {
-    std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB" << std::endl;
-    // _audio.unloadMusicStream();
-    // _audio.unloadSoundStream();
 }
 
 void MainMenuScene::start()
 {
     Vector<float> size(300, 200);
-    Vector<float> middle(_windowManager->getWindowSize()._x/3 - size._x / 2, _windowManager->getWindowSize()._y/3 - size._y / 2);
+    Vector<float> middle1(_windowManager->getWindowSize()._x/3 - size._x / 2, _windowManager->getWindowSize()._y/3 - size._y / 2);
+    Vector<float> middle2(_windowManager->getWindowSize()._x/3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
     _audio.setMusicVolume(1.0); //1.0 is max level
     _audio.playMusic();
 
-    // std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, middle);
-    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> text = std::make_shared<gameEngine::encapsulation::BTexture2D>();
-
-    // text->loadFromImgRelRect(PLAY_BUTTON, size);
-    // text->setPos(Vector<int>(middle._x, middle._y));
-
-
+    _background.loadFromFile("./assets/Backgrounds/SupernovaBG.png");
+    _title = std::make_shared<gameEngine::encapsulation::BText>("BomberVerse", Vector<float>(middle1._x - 60, 60), WHITE, 120);
+    gameEngine::encapsulation::BFont font;
+    font.loadFromFile("./assets/Fonts/TarrgetLaserRegular-4OE9.otf");
+    _title->setFont(font);
+    _title->setSpacing(0);
+    gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x, middle2._y), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(size, middle, gameEngine::encapsulation::BText("PLAY"), LIGHTGRAY);
-    // std::shared_ptr<gameEngine::encapsulation::Button> button =
-    // std::make_shared<gameEngine::encapsulation::Button>(text, rect, std::make_shared<gameEngine::encapsulation::BText>("PLAY"));
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, LIGHTGRAY);
 
-    _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
+    middle2._y += middle2._y / 2;
+    gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, LIGHTGRAY);
+
+    middle2._y += middle2._y / 2;
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, LIGHTGRAY);
+
     _buttonManager.pushButton(button);
+    _buttonManager.pushButton(buttonSettings);
+    _buttonManager.pushButton(buttonQuit);
 }
 
 std::string MainMenuScene::update()
 {
-    _parallax.calculateParallax(0.1f, 0.5f, 1.0f);
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
     if (_buttonManager.isButtonClicked("PLAY")) {
@@ -69,6 +75,7 @@ std::string MainMenuScene::update()
 
 void MainMenuScene::draw()
 {
-    _parallax.drawParallax();
+    _background.draw();
     _buttonManager.drawButtons();
+    _title->draw();
 }

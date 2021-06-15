@@ -20,14 +20,14 @@ _transform(pos, rot), _collider(colliderMin, colliderMax, colliderEnabled)
 objects::AGameObject::~AGameObject()
 {}
 
+objects::AGameObject::AGameObject(const objects::AGameObject &obj) :
+_transform(obj._transform), _collider(obj._collider), _quadrant(obj._quadrant)
+{
+
+}
 //---------------
 
 //GETTER
-
-Vector3T<float> objects::AGameObject::getPosition() const noexcept
-{
-    return this->_transform.getPosition();
-}
 
 const std::string objects::AGameObject::getId() const noexcept
 {
@@ -44,13 +44,18 @@ component::BoxCollider objects::AGameObject::getCollider() const noexcept
     return this->_collider;
 }
 
+component::Transform objects::AGameObject::getTransform() const noexcept
+{
+    return this->_transform;
+}
+
 //----------------
 
 //SETTER
 
-void objects::AGameObject::setPostion(const Vector3T<float> &pos) noexcept
+component::Transform &objects::AGameObject::setTransform()
 {
-    this->_transform.setPosition(pos);
+    return this->_transform;
 }
 
 //----------------

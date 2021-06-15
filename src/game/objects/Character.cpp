@@ -12,11 +12,17 @@ using namespace game::objects;
 Character::Character(
                     const std::string &id,
                     const std::string &name,
+                    const std::string &texturePath,
+                    const std::string &model,
                     const Vector3T<float> &pos
                     ) : gameEngine::objects::Moveable(id)
 {
+    _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
+    _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
+    _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
+    _model->setTransform().setScale({0.01, 0.01, 0.01});
     this->_name = name;
-    this->setPostion(pos);
+    this->setTransform().setPosition(pos);
     _tag = game::Tag::CHARACTER;
 }
 
@@ -47,7 +53,7 @@ void Character::subScore(const size_t value) noexcept
     this->_score -= value;
 }
 
-void Character::setModel(gameEngine::encapsulation::BModel *model) noexcept
+void Character::setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept
 {
     this->_model = model;
 }
@@ -56,11 +62,13 @@ void Character::draw() const noexcept
 {
     if (!this->_model)
         return;
-    _model->setPosition(this->getPosition());
+    _model->setTransform().setPosition(this->_transform.getPosition());
+    _model->setTransform().setRotation(this->_transform.getRotation());
+    _model->setTransform().setScale(this->_transform.getScale());
     _model->draw();
 }
 
-void Character::OnCollisionEnter(const AGameObject &collision)
+void Character::onCollisionEnter(const AGameObject &collision)
 {
     try
     {
@@ -74,8 +82,8 @@ void Character::OnCollisionEnter(const AGameObject &collision)
 
 }
 
-void Character::OnCollisionExit(const AGameObject &collision) {}
-void Character::Update() {}
+void Character::onCollisionExit(const AGameObject &collision) {}
+void Character::update() {}
 
 void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 {

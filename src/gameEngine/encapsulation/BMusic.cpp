@@ -41,8 +41,8 @@ bool BMusic::isPlaying() const noexcept
 {
     if (!this->isLoad())
         return false;
-
-    return IsMusicStreamPlaying(this->_music);
+    return true;
+    //return IsMusicStreamPlaying(this->_music);
 }
 
 float BMusic::getTimeLength() const noexcept

@@ -91,7 +91,37 @@ namespace game {
     }
 
     namespace Systems {
+    }
 
+    namespace managers {
+        class UserManager
+        {
+                +UserManager(const std::string &pathDatabase);
+                +~UserManager() = default;
+                +std::shared_ptr<User> loadUserFromDB(const std::string &name);
+                +bool findUserInDB(const std::string &name); // ? throw Exception if User already exists
+                +User &getUser(const std::string &name);
+                +User &getUser(size_t & id);
+                +void saveUser(const std::shared_ptr<User> &user);
+                +bool assignInputToUser(int IdUser, const std::string &name); // ? throw Exception if IIinput not accessible
+                +void removeInputToUser(const std::string &name);
+                +std::shared_ptr<gameEngine::interfaces::IInput> createInput(InputType_e type);
+                +const gameEngine::UserInputs &getUserInputs(void) const noexcept {return _IdInputMap;}
+
+                #std::vector<std::shared_ptr<User>> _users;
+                #std::unordered_map<int, User&> _IdUserMap;
+                #const gameEngine::UserInputs _IdInputMap =
+                #{
+                #    {1, std::make_shared<gameEngine::encapsulation::Keyboard>()},
+                #    {2, std::make_shared<gameEngine::encapsulation::Gamepad>(0)},
+                #    {3, std::make_shared<gameEngine::encapsulation::Gamepad>(1)},
+                #    {4, std::make_shared<gameEngine::encapsulation::Gamepad>(2)},
+                #};
+                #int _nb_gamepad = 0;
+                #int _nb_usersInGame = 0;
+                #std::string _pathDatabase{0};
+                #bool _keyboardAttributed = false;
+        }
     }
 
     namespace Objects {
@@ -137,6 +167,35 @@ namespace game {
 
         class Mine {}
         class HealthPack {}
+    }
+
+    class User
+    {
+        +User(const std::string &name, const std::string &pathToSave, int gamesPlayed, int gamesWon, time_t created, std::vector<std::string> trophies, int kills, int beKilled);
+        +~User();
+
+        +void setId(int Id) {_Id = Id;}
+        +int &getId(void);
+        +std::string &getName(void) {return _name;}
+        +std::string &getPathToSave(void) {return _pathToSave;}
+        +int &getGamesPlayed(void) {return _gamesPlayed;}
+        +int &getGamesWon(void) {return _gamesWon;}
+        +time_t &getCreated(void) {return _created;}
+        +std::vector<std::string> &getTrophies() {return _trophies;}
+        +int &getKills(void) {return _kills;}
+        +int &getBeKilled(void) {return _beKilled;}
+        +int &getRatio(void) { return _ratio;}
+
+        #int _Id = -1;
+        #std::string _name{0};
+        #std::string _pathToSave{0};
+        #int _gamesPlayed = 0;
+        #int _gamesWon = 0;
+        #time_t _created;
+        #std::vector<std::string> _trophies;
+        #int _kills = 0;
+        #int _beKilled = 0;
+        #int _ratio = 0;
     }
 }
 
@@ -512,12 +571,14 @@ namespace Encapsulation {
         +bool isDeviceName(int device, const char *name) override;
         +int getKeyPressed(void) override;
         +int getCharPressed(void) override;
+        +int getDeviceID(void);
     }
 
     class Keyboard
     {
         +Keyboard();
         +~Keyboard() = default;
+        +int getDeviceID(void);
         +bool isKeyPressed(int key, int device = -1) override;
         +bool isKeyDown(int key, int device = -1) override;
         +bool isKeyUp(int key, int device = -1) override;
@@ -608,6 +669,7 @@ namespace interfaces {
         +virtual bool mapKey(int, int);
         +virtual bool mapDefaultKeys(int, int);
         +bool isConnected();
+        +int getDeviceID(void);
     }
     'Voir pour les collisions si interface necessaires
 }

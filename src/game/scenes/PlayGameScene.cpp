@@ -9,24 +9,20 @@
 
 using namespace game::scenes;
 
-PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
+PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
 : AScene(windowManager, info)
 {
-    std::cout << "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCc" << std::endl;
-    _playerTexture.loadFromFile("./resources/models/kaya/kayaTexture.png");
-    _playerModel.load("./resources/models/kaya/kaya.iqm");
-    _playerModel.setTexture(0, MATERIAL_MAP_DIFFUSE, _playerTexture);
-    _playerModel.setScale(0.02);
-    _player.setPostion({0, 3, 0});
+    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "./resources/models/kaya/kayaTexture.png", "./resources/models/kaya/kaya.iqm");
+    player->setTransform().setScale({0.01, 0.01, 0.01});
+    player->setTransform().setPosition({1, 1, 1});
+    player->setTransform().setRotation({0, 90, 0});
+    _players.push_back(player);
     this->setupCamera();
-    this->_player.setModel(&_playerModel);
     _audio.loadMusicStreamFromFile("assets/music/game_music.mp3");
 }
 
 PlayGameScene::~PlayGameScene()
 {
-    std::cout << "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD" << std::endl;
-    // _audio.unloadMusicStream();
 }
 
 void PlayGameScene::start()
@@ -43,7 +39,7 @@ void PlayGameScene::start()
 
 void PlayGameScene::setupCamera() noexcept
 {
-    _cam.setPosition({7, 20, -7});
+    _cam.setPosition({-7, 20, 7});
     _cam.setTarget({7, 0, 7});
     _cam.setUp({0, 1, 0});
     _cam.setFovy(55);
@@ -59,7 +55,9 @@ std::string PlayGameScene::update()
         // _audio.pauseMusic();
         //return "play";
     }
-    _player.handleKeyEvent();
+    for (auto it : _players) {
+        it->update();
+    }
     return "";
 }
 
@@ -68,6 +66,8 @@ void PlayGameScene::draw()
     _buttonManager.drawButtons();
     this->_windowManager->set3DMode(_cam);
     _map.draw();
-    _player.draw();
+    for (auto it : _players) {
+        it->draw();
+    }
     _cam.endMode();
 }

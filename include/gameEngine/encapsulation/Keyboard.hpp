@@ -8,7 +8,6 @@
 #ifndef KEYBOARD_HPP_
 #define KEYBOARD_HPP_
 
-#include <raylib.h>
 #include "gameEngine/interfaces/IInput.hpp"
 
 namespace gameEngine
@@ -28,7 +27,6 @@ namespace gameEngine
                 bool isDeviceAvailable(void) override;
                 bool isDeviceName(const char *name) override;
                 int getKeyPressed(void) override;
-                int getCharPressed(void) override;
                 int getDeviceID(void) override {return _deviceID;}
             private:
                 int _deviceID = 0;

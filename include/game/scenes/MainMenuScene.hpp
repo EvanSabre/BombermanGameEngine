@@ -12,12 +12,13 @@
 #include "Parallax.hpp"
 #include "Errors.hpp"
 #include "AudioManager.hpp"
+#include "CheckBox.hpp"
 
 namespace game {
     namespace scenes {
         class MainMenuScene : public gameEngine::AScene {
             public:
-                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info);
+                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
                 ~MainMenuScene();
 
                 void start() override;
@@ -27,6 +28,8 @@ namespace game {
             protected:
                 gameEngine::scenes::Parallax _parallax;
                 gameEngine::managers::AudioManager _audio;
+                std::shared_ptr<gameEngine::encapsulation::BText> _title = nullptr;
+                gameEngine::encapsulation::BTexture2D _background;
             private:
 
         };

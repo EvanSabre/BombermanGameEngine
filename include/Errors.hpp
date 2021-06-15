@@ -14,10 +14,10 @@
 #include <iostream>
 
 
-class IndeeError : public std::exception
+class IndieError : public std::exception
 {
 public:
-    IndeeError(std::string const &message,
+    IndieError(std::string const &message,
     std::string const &component = "Unknown",
     const std::string &side = "UNKNOWN"
     );
@@ -28,11 +28,18 @@ public:
 
 private:
     std::string _message;
-    std::string _componnent;
+    std::string _component;
     std::string _side;
 };
 
-class gameError : public IndeeError
+class UserManagmentError : public IndieError
+{
+public:
+    UserManagmentError(std::string const &message,
+                         std::string const &component = "UserManager.cpp") : IndieError(message, component) {}
+};
+
+class gameError : public IndieError
 {
 public:
     gameError(std::string const &message,
@@ -40,7 +47,7 @@ public:
             );
 };
 
-class engineError : public IndeeError
+class engineError : public IndieError
 {
 public:
     engineError(std::string const &message,
@@ -57,5 +64,11 @@ public:
                 std::string const &component = "Unknown"
                 );
 };
+
+class NoSceneException : public IndieError {
+    public:
+        NoSceneException(std::string const &message = "NoScene Error") : IndieError(message) {}
+};
+
 
 #endif /* !ERRORS_HPP_ */

@@ -18,6 +18,7 @@
 #include <string>
 #include <stdexcept>
 #include <iostream>
+#include <vector>
 
 class File
 {
@@ -39,6 +40,7 @@ class File
 
         //throw exception if file is not accessible
         std::string read() const;
+        std::vector<std::string> readLines() const;
         void clear() const;
         void write(const std::string &to_append, bool rewrite=false) const;
         struct stat getStat() const;

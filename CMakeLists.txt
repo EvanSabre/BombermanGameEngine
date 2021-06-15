@@ -24,6 +24,8 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Keyboard.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Gamepad.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/Button.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/CheckBox.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/AButton.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BFont.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BAudio.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BMusic.cpp"
@@ -35,6 +37,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/AAudioObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/objects/AGameObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/objects/Moveable.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/objects/InputButton.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Transform.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/Collider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
@@ -47,7 +50,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
-        "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/SceneInfo.cpp"
+        "src/game/scenes/SceneInfo.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/exceptions/Exception.cpp"
         "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
@@ -73,13 +76,17 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/SpeedUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
 
 set(UTILS_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/Utilitaries.cpp"
+        "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/UserManager.cpp"
         )
 
 set(MY_INCLUDE
