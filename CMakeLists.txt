@@ -49,7 +49,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
-        "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/SceneInfo.cpp"
+        "src/game/scenes/SceneInfo.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/exceptions/Exception.cpp"
         "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
@@ -81,8 +81,11 @@ set(GAME_SRC
 
 set(UTILS_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/Utilitaries.cpp"
+        "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/UserManager.cpp"
         )
 
 set(MY_INCLUDE

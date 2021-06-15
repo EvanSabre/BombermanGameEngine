@@ -7,44 +7,45 @@
 
 #include "Errors.hpp"
 
-IndeeError::IndeeError(std::string const &message,
+IndieError::IndieError(std::string const &message,
     std::string const &component,
     const std::string &side
     )
 {
     this->_message = message;
-    this->_componnent = component;
-    _message.append(" [").append(_componnent).append("]");
+    this->_component = component;
+    _message.append(" [").append(_component).append("]");
     _side = side;
 }
 
-const std::string &IndeeError::getComponent() const noexcept
+const std::string &IndieError::getComponent() const noexcept
 {
-    return this->_componnent;
+    return this->_component;
 }
 
-const std::string &IndeeError::getSide() const noexcept
+const char *IndieError::what() const noexcept
+{
+    std::string msg(_component + ": " + _message);
+
+    return msg.c_str();
+}
+
+const std::string &IndieError::getSide() const noexcept
 {
     return _side;
 }
 
-const char *IndeeError::what() const noexcept
-{
-    return _message.c_str();
-}
-
-
 gameError::gameError(std::string const &message,
             std::string const &component
             )
-    : IndeeError(message, component, "GAME")
+    : IndieError(message, component, "GAME")
 {
 }
 
 engineError::engineError(std::string const &message,
             std::string const &component
             )
-    : IndeeError(message, component)
+    : IndieError(message, component)
 {
 }
 

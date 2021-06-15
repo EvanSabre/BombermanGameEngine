@@ -11,39 +11,32 @@
 #include <sys/stat.h>
 #include <string>
 #ifdef _WIN64
-  #include "Bdirent.h"
+  #include <direct.h>
 #else
   #include <dirent.h>
 #endif
 #include <vector>
 #include <stdexcept>
-
+#include <memory>
 #include "File.hpp"
+#include <filesystem>
+
+//std::filesystem::directory_iterator
 
 
 class Directory
 {
   public:
-    Directory(const std::string &dirpath, bool force_creation=false);
+    Directory(const std::string &dirpath, bool force_creation=true);
     ~Directory();
 
-    // false -> end of reading
-    bool nextEntry();
-
-    // getter
-    const std::string getEntryName() const;
-    const std::string getEntryPath() const;
-    std::vector<File> getAllDirFiles() noexcept;
-
-    File &loadFile(const std::string &filename, bool force_creation=false);
-    File getEntryAsFile() const noexcept;
+    std::vector<std::shared_ptr<File>> getAllDirFiles() noexcept;
+    std::shared_ptr<File> &loadFile(const std::string &filename, bool force_creation=false);
 
   private:
     std::string _dirPath;
-    DIR *_directory = nullptr;
-    struct dirent *_entry = nullptr;
-    struct stat _entryInfo;
-    std::vector<File> _dir_content;
+    bool _directory = false;
+    std::vector<std::shared_ptr<File>> _dir_content;
 };
 
 #endif /* !READDIR_HPP_ */

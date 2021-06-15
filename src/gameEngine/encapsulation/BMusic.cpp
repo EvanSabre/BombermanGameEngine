@@ -41,7 +41,7 @@ bool BMusic::isPlaying() const noexcept
 {
     if (!this->isLoad())
         return false;
-
+    return true;
     //return IsMusicStreamPlaying(this->_music);
 }
 

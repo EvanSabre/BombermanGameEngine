@@ -8,7 +8,7 @@
 #ifndef GAMEPAD_HPP_
 #define GAMEPAD_HPP_
 
-#include <raylib.h>
+#include <array>
 #include "gameEngine/interfaces/IInput.hpp"
 
 namespace gameEngine
@@ -28,10 +28,10 @@ namespace gameEngine
                 bool isDeviceAvailable(void) override;
                 bool isDeviceName(const char *name) override;
                 int getKeyPressed(void) override;
-                int getCharPressed(void) override;
                 int getDeviceID(void) override {return _deviceID;}
 
             private:
+                int getAxisMovement(void);
                 int _deviceID;
         };
     };
