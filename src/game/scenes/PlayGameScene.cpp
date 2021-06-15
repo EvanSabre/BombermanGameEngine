@@ -9,7 +9,7 @@
 
 using namespace game::scenes;
 
-PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
+PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15)
 {
     _map.dump();
@@ -59,7 +59,7 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
     }
 }
 
-std::string PlayGameScene::update()
+void PlayGameScene::update()
 {
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("PAUSE")) {
@@ -71,7 +71,6 @@ std::string PlayGameScene::update()
         it->update();
         collisionChecker(it, prev);
     }
-    return "";
 }
 
 void PlayGameScene::draw()

@@ -33,7 +33,7 @@ namespace gameEngine
             BText &operator=(const BText &ref);
             ~BText();
 
-            //getter
+            //getterT
                 [[nodiscard]] std::string getStr() const noexcept;
                 [[nodiscard]] BFont getFont() const noexcept;
                 [[nodiscard]] float getSpacing() const noexcept;
