@@ -10,35 +10,20 @@
 using namespace game::scenes;
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
-: AScene(windowManager, info), _map(15)
+: AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15)
 {
-    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/Vikings/Textures/Character.png", "assets/Vikings/Model/Character.iqm", "assets/Vikings/Animation/CharacterWalk.iqm", "assets/Vikings/Animation/CharacterIdle.iqm");
+    _map.dump();
+    std::srand(_map.getSeed());
+    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm");
+
     player->setTransform().setScale({0.1, 0.1, 0.1});
     player->setTransform().setPosition({10, 10, 10});
     player->setTransform().setRotation({90, 90, 0});
     player->setCollider();
-    // std::cout << "player :" << std::endl;
-    // std::cout <<
-    //     "\tbox_min = {" << player->getCollider().getBoundingBox().getMin()._x << ", "
-    //                   << player->getCollider().getBoundingBox().getMin()._y << ", "
-    //                   << player->getCollider().getBoundingBox().getMin()._z << "}" << std::endl;
-    // std::cout <<
-    //     "\tbox_max = {" << player->getCollider().getBoundingBox().getMax()._x << ", "
-    //                   << player->getCollider().getBoundingBox().getMax()._y << ", "
-    //                   << player->getCollider().getBoundingBox().getMax()._z << "}" << std::endl;
     _players.push_back(player);
     this->setupCamera();
     for (auto &tile : _map.getTiledMap()) {
         _tiles.push_back(tile);
-        // std::cout << "tile :" << std::endl;
-        // std::cout <<
-        //     "\tbox_min = {" << tile.getCollider().getBoundingBox().getMin()._x << ", "
-        //                 << tile.getCollider().getBoundingBox().getMin()._y << ", "
-        //                 << tile.getCollider().getBoundingBox().getMin()._z << "}" << std::endl;
-        // std::cout <<
-        //     "\tbox_max = {" << tile.getCollider().getBoundingBox().getMax()._x << ", "
-        //                 << tile.getCollider().getBoundingBox().getMax()._y << ", "
-        //                 << tile.getCollider().getBoundingBox().getMax()._z << "}" << std::endl;
     }
 }
 
@@ -57,7 +42,7 @@ void PlayGameScene::start()
 
 void PlayGameScene::setupCamera() noexcept
 {
-    _cam.setPosition({-70, 200, 70});
+    _cam.setPosition({-20, 180, 70});
     _cam.setTarget({70, 0, 70});
     _cam.setUp({0, 1, 0});
     _cam.setFovy(55);
@@ -66,7 +51,6 @@ void PlayGameScene::setupCamera() noexcept
 
 void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &player, const Vector3T<float> &prev)
 {
-    DrawBoundingBox(player->getCollider().getBoundingBox()._box, RED);
     for (auto &tile : _tiles) {
         if (player->getCollider().isColliding(tile.getCollider().getBoundingBox())) {
             player->onCollisionEnter(tile);

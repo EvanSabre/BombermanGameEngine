@@ -14,7 +14,8 @@
 #include "Vector3T.hpp"
 #include "Tags.hpp"
 
-#define TILESIZE 10
+#define TILESIZE  10
+#define TILESCALE 0.15f
 
 namespace game::objects {
     class Tile : public gameEngine::objects::AGameObject {

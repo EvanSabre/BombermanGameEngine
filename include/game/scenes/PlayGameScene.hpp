@@ -17,6 +17,8 @@
 #include "BTexture2D.hpp"
 #include "CheckBox.hpp"
 
+#define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
+
 namespace game {
     namespace scenes {
         class PlayGameScene : public gameEngine::AScene {
@@ -30,6 +32,7 @@ namespace game {
                 void draw() override;
             protected:
             private:
+                std::string _universe;
                 Map _map;
                 gameEngine::encapsulation::BCamera _cam;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;

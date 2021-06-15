@@ -7,9 +7,23 @@
 
 #include "Map.hpp"
 
-Map::Map(const std::size_t &size, const std::size_t &seed)
-    : _seed(seed)
+Map::Map(const std::string &universe,
+         const std::size_t &size,
+         const std::size_t &seed)
+    : _seed(seed), _universe(universe)
 {
+    std::cout << "UNIVERSE = " << _universe << std::endl;
+    _BORDERPATHMOD = "assets/Vikings/Models/Border.obj";
+    _BORDERTILEPNG = "assets/Vikings/Textures/Texture_01.png";
+    _BRICKPATHMOD = "assets/Vikings/Models/Brick.obj";
+    _BRICKTILEPNG = "assets/Vikings/Textures/Texture_01.png";
+    _WALLPATHMOD = "assets/Vikings/Models/Wall.obj";
+    _WALLTILEPNG = "assets/Vikings/Textures/Texture_01.png";
+    _PATHPATHMOD = "assets/Vikings/Models/Ground.obj";
+    _PATHTILEPNG = "assets/Vikings/Textures/TextureVariation_04.png";
+    // _PATHTILEPNG = "./resources/models/minecraft/blocks/Grass.png";
+    // _PATHPATHMOD = "./resources/models/minecraft/blocks/cube.obj";
+
     setSize(size);
     if (!_seed)
         generateSeed();
@@ -47,9 +61,9 @@ void Map::generateMap()
     for (std::size_t i = 0; i < SIZE_X; i++) {
         for (std::size_t j = 0; j < SIZE_Y; j++) {
             if (!i || !j || i == SIZE_X - 1 || j == SIZE_Y - 1)
-                _map[i][j] = MAPWALL; // border_blocks + middle_walls
+                _map[i][j] = MAPBORDR; // border_blocks + middle_walls
             else if (EVEN(i) && EVEN(j))
-                _map[i][j] = MAPBORDR; // walls_block + middle_walls
+                _map[i][j] = MAPWALL; // walls_block + middle_walls
             else if (!(std::rand() % (int)((float)_size / 3.5)) ||
                 SPAWN1 || SPAWN2 || SPAWN3 || SPAWN4 || SPAWN5 || SPAWN6)
                 _map[i][j] = MAPPATH; // random_path + spawners_path
@@ -75,21 +89,19 @@ void Map::dump()
 
 void Map::generateMapTiles()
 {
-    _brickMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    _wallMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    _pathMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    _borderMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    _brickTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(BRICKTILEPNG);
-    _wallTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(WALLTILEPNG);
-    _pathTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(PATHTILEPNG);
-    _borderTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(BORDERTILEPNG);
+    _brickMod = std::make_shared<gameEngine::encapsulation::BModel>(_BRICKPATHMOD, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _wallMod = std::make_shared<gameEngine::encapsulation::BModel>(_WALLPATHMOD, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _pathMod = std::make_shared<gameEngine::encapsulation::BModel>(_PATHPATHMOD, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _borderMod = std::make_shared<gameEngine::encapsulation::BModel>(_BORDERPATHMOD, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _brickTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(_BRICKTILEPNG);
+    _wallTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(_WALLTILEPNG);
+    _pathTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(_PATHTILEPNG);
+    _borderTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(_BORDERTILEPNG);
 
+    _tiledMap.push_back(Tile(_pathMod, _pathTex, PATH,
+        Vector3T<float>(TILESIZE * SIZE_X / 2, (-1.5) * TILESIZE, TILESIZE * SIZE_Y / 2)));
     for (std::size_t i = 0; i < SIZE_X; i++) {
         for (std::size_t j = 0; j < SIZE_Y; j++) {
-            _tiledMap.push_back(Tile(_pathMod, _pathTex, PATH,
-                Vector3T<float>((float)i * TILESIZE, 0 * TILESIZE, (float)j * TILESIZE),
-                Vector3T<float>(0, 0, 0),
-                Vector3T<float>(0.5 * TILESIZE, 0.5 * TILESIZE, 0.5 * TILESIZE)));
             if (_map[i][j] == MAPBRICK)
                 _tiledMap.push_back(Tile(_brickMod, _brickTex, BRICK,
                 Vector3T<float>((float)i * TILESIZE, 1 * TILESIZE, (float)j * TILESIZE),
