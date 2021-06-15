@@ -15,6 +15,7 @@
 #include "Player.hpp"
 #include "BModel.hpp"
 #include "BTexture2D.hpp"
+#include "CheckBox.hpp"
 
 namespace game {
     namespace scenes {

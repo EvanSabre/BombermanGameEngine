@@ -31,28 +31,33 @@ void MainMenuScene::start()
     Vector<float> middle1(_windowManager->getWindowSize()._x/3 - size._x / 2, _windowManager->getWindowSize()._y/3 - size._y / 2);
     Vector<float> middle2(_windowManager->getWindowSize()._x/3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
-    // std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, middle);
-    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> text = std::make_shared<gameEngine::encapsulation::BTexture2D>();
-
-    // text->loadFromImgRelRect(PLAY_BUTTON, size);
-    // text->setPos(Vector<int>(middle._x, middle._y));
-
-    std::shared_ptr<gameEngine::object::InputButton> input =
-    std::make_shared<gameEngine::object::InputButton>(size, middle1, gameEngine::encapsulation::BText("Input Name"), LIGHTGRAY, RED);
-
-    gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x + size._x / 2, middle2._y), WHITE, 30);
-    strText.setTextPosition(Vector<float>(middle2._x + size._x / 2 - strText.getTextSize(), middle2._y));
+    _background.loadFromFile("./assets/Backgrounds/SupernovaBG.png");
+    _title = std::make_shared<gameEngine::encapsulation::BText>("BomberVerse", Vector<float>(middle1._x - 60, 60), WHITE, 120);
+    gameEngine::encapsulation::BFont font;
+    font.loadFromFile("./assets/Fonts/TarrgetLaserRegular-4OE9.otf");
+    _title->setFont(font);
+    _title->setSpacing(0);
+    gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x, middle2._y), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(size, middle2, strText, LIGHTGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, LIGHTGRAY);
 
-    _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
+    middle2._y += middle2._y / 2;
+    gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, LIGHTGRAY);
+
+    middle2._y += middle2._y / 2;
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, LIGHTGRAY);
+
     _buttonManager.pushButton(button);
-    _buttonManager.pushButton(input);
+    _buttonManager.pushButton(buttonSettings);
+    _buttonManager.pushButton(buttonQuit);
 }
 
 std::string MainMenuScene::update()
 {
-    _parallax.calculateParallax(0.1f, 0.5f, 1.0f);
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("PLAY")) {
         std::cout << "Clicked play button\n";
@@ -63,6 +68,7 @@ std::string MainMenuScene::update()
 
 void MainMenuScene::draw()
 {
-    _parallax.drawParallax();
+    _background.draw();
     _buttonManager.drawButtons();
+    _title->draw();
 }

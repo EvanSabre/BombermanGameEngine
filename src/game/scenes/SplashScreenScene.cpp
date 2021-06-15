@@ -112,7 +112,7 @@ void SplashScreenScene::animAttack()
 
 std::string SplashScreenScene::done()
 {
-    if (_clock.getElapsedTime() > 2)
+    if (_clock.getElapsedTime() > 1)
         return "menu";
     return "";
 }

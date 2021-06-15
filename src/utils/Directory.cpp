@@ -12,34 +12,20 @@
 Directory::Directory(const std::string &dirpath, bool force_creation)
 {
     this->_dirPath = dirpath;
-    this->_directory = opendir(dirpath.c_str());
+    this->_directory = std::filesystem::is_directory(_dirPath);
+    std::filesystem::create_directory(_dirPath);
+
+    for (const auto & file : std::filesystem::directory_iterator(_dirPath.c_str()))
+        std::cout << file.path() << std::endl;
     if (!this->_directory && !force_creation)
         throw std::invalid_argument(
-            std::string("Read Dir: fail to open directory ") + dirpath);
+            std::string("Read Dir: fail to open directory ") + _dirPath);
     else if (!this->_directory && force_creation)
-    {
-        mkdir(dirpath.c_str(), 0777);
-    }
+        std::filesystem::create_directory(_dirPath);
 }
 
 Directory::~Directory()
 {
-}
-
-bool Directory::nextEntry()
-{
-    std::string path;
-
-    if (!this->_directory)
-        return false;
-    this->_entry = readdir(this->_directory);
-    if (!this->_entry)
-        return false;
-    if (this->_entry->d_type != 8)
-        return true;
-    path = this->_dirPath + std::string(this->_entry->d_name);
-    this->_dir_content.push_back(std::make_shared<File>(path));
-    return true;
 }
 
 std::shared_ptr<File> &Directory::loadFile(const std::string &filename, bool force_creation)
@@ -57,8 +43,11 @@ std::shared_ptr<File> &Directory::loadFile(const std::string &filename, bool for
 
 std::vector<std::shared_ptr<File>> Directory::getAllDirFiles() noexcept
 {
-    this->_directory = opendir(_dirPath.c_str());
-    while(this->nextEntry());
-    closedir(this->_directory);
+    std::string path;
+
+    for (const auto &file : std::filesystem::directory_iterator(_dirPath)) {
+        path = std::string(file.path().string());
+        this->_dir_content.push_back(std::make_shared<File>(path));
+    }
     return this->_dir_content;
 }

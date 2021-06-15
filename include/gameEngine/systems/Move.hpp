@@ -12,6 +12,7 @@
 #include <cstddef>
 #include <unordered_map>
 #include <stdexcept>
+#include "Transform.hpp"
 
 namespace gameEngine
 {
@@ -19,7 +20,7 @@ namespace gameEngine
     {
         class Move;
 
-        typedef void (*moveFct)(Vector3T<float> &pos, const float velocity, std::size_t tick);
+        typedef void (*moveFct)(gameEngine::component::Transform &tr, const float velocity, std::size_t tick);
 
         class Move
         {
@@ -33,17 +34,17 @@ namespace gameEngine
                 DOWN        //z-
             } direction_e;
 
-            static void move(Vector3T<float> &pos, const Vector3T<float> velocity, std::size_t tick) noexcept;
+            static void move(gameEngine::component::Transform &tr, const Vector3T<float> velocity, std::size_t tick) noexcept;
 
-            static void moveDirection(Vector3T<float> &pos, const float velocity,
+            static void moveDirection(gameEngine::component::Transform &tr, const float velocity,
                                      std::size_t tick, const direction_e direction);
 
-            static void moveRight(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept;
-            static void moveLeft(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept;
-            static void moveForward(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept;
-            static void moveBackward(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept;
-            static void moveUp(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept;
-            static void moveDown(Vector3T<float> &pos, const float velocity, std::size_t tick) noexcept;
+            static void moveRight(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept;
+            static void moveLeft(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept;
+            static void moveForward(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept;
+            static void moveBackward(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept;
+            static void moveUp(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept;
+            static void moveDown(gameEngine::component::Transform &tr, const float velocity, std::size_t tick) noexcept;
         private:
             static const std::unordered_map<direction_e, moveFct> _movement;
 

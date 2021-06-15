@@ -9,6 +9,7 @@
 #define IINPUT_HPP_
 
 #include <stdlib.h>
+#include <raylib.h>
 #include <string>
 #include <vector>
 #include <unordered_map>

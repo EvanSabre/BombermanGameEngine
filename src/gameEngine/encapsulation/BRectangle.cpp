@@ -57,7 +57,7 @@ encapsulation::BRectangle::~BRectangle()
 
 //GETTER
 
-Rectangle encapsulation::BRectangle::getObj() const noexcept
+Rectangle encapsulation::BRectangle::getObj() const
 {
     Rectangle rec;
 

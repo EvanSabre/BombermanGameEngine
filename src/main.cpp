@@ -17,7 +17,7 @@ int main()
 
     try {
         manager.run();
-    } catch (LoadingError &e) {
+    } catch (IndieError &e) {
         std::cerr << "Failed to load a scene" << std::endl;
         return 84;
     }

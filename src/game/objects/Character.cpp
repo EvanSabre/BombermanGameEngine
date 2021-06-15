@@ -14,16 +14,22 @@ Character::Character(
                     const std::string &name,
                     const std::string &texturePath,
                     const std::string &model,
+                    const std::string &animWalk,
+                    const std::string &animIdle,
                     const Vector3T<float> &pos
-                    ) : gameEngine::objects::Moveable(id)
+                    ) : gameEngine::objects::Moveable(id), _frameCounter(0)
 {
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
     _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
+    _animWalk = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animWalk);
+    _animIdle = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animIdle);
+    _anim = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animIdle);
+    // _animation = std::make_shared<gameEngine::Animation>(model, animWalk, animIdle, texturePath);
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
     _model->setTransform().setScale({0.01, 0.01, 0.01});
     this->_name = name;
     this->setTransform().setPosition(pos);
-    _tag = game::Tag::CHARACTER;
+    _state = ANIMIDLE;
 }
 
 Character::~Character()
@@ -42,7 +48,19 @@ size_t Character::getScore() const noexcept
     return this->_score;
 }
 
+int Character::getState() const noexcept
+{
+    return _state;
+}
+
+
 //setter
+
+void Character::setState(const int &state) noexcept
+{
+    _state = state;
+}
+
 void Character::addScore(const size_t value) noexcept
 {
     this->_score += value;
@@ -65,6 +83,7 @@ void Character::draw() const noexcept
     _model->setTransform().setPosition(this->_transform.getPosition());
     _model->setTransform().setRotation(this->_transform.getRotation());
     _model->setTransform().setScale(this->_transform.getScale());
+    _model->rotate();
     _model->draw();
 }
 
@@ -83,7 +102,22 @@ void Character::onCollisionEnter(const AGameObject &collision)
 }
 
 void Character::onCollisionExit(const AGameObject &collision) {}
-void Character::update() {}
+void Character::update()
+{
+    updateModelAnimation();
+}
+
+void Character::updateModelAnimation()
+{
+    _anim = _state ? _animWalk : _animIdle;
+    if (_model->isLoad() && _anim->isLoad()) {
+        _frameCounter++;
+        UpdateModelAnimation(_model->getObj(), _anim->getModelAnimation()[0], _frameCounter);
+    }
+    if (_frameCounter >= _anim->getAnimFrameCount()) {
+        _frameCounter = 0;
+    }
+}
 
 void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 {
@@ -96,5 +130,5 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 
 game::Tag_e Character::getTag() const noexcept
 {
-    return  _tag;
+    return  game::Tag::CHARACTER;
 }

@@ -8,7 +8,6 @@
 #ifndef KEYBOARD_HPP_
 #define KEYBOARD_HPP_
 
-#include <raylib.h>
 #include "gameEngine/interfaces/IInput.hpp"
 
 namespace gameEngine

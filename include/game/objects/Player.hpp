@@ -33,7 +33,7 @@ namespace game
         {
         public:
             Player(const std::string &id, const std::string &name, const std::string &text,
-            const std::string &model);
+            const std::string &model, const std::string &animWalk, const std::string &animIdl);
             ~Player();
 
             void handleKeyEvent() noexcept;
