@@ -18,7 +18,7 @@ Directory::Directory(const std::string &dirpath, bool force_creation)
             std::string("Read Dir: fail to open directory ") + dirpath);
     else if (!this->_directory && force_creation)
     {
-        mkdir(dirpath.c_str(), 0777);
+        mkdir(dirpath.c_str());
     }
 }
 
