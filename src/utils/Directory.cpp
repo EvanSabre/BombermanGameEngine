@@ -46,7 +46,7 @@ std::vector<std::shared_ptr<File>> Directory::getAllDirFiles() noexcept
     std::string path;
 
     for (const auto &file : std::filesystem::directory_iterator(_dirPath)) {
-        path = std::string(file.path());
+        path = std::string(file.path().string());
         this->_dir_content.push_back(std::make_shared<File>(path));
     }
     return this->_dir_content;
