@@ -13,14 +13,14 @@ Map::Map(const std::string &universe,
     : _seed(seed), _universe(universe)
 {
     std::cout << "UNIVERSE = " << _universe << std::endl;
-    _BORDERPATHMOD = "assets/Vikings/Models/Border.obj";
-    _BORDERTILEPNG = "assets/Vikings/Textures/Texture_01.png";
-    _BRICKPATHMOD = "assets/Vikings/Models/Brick.obj";
-    _BRICKTILEPNG = "assets/Vikings/Textures/Texture_01.png";
-    _WALLPATHMOD = "assets/Vikings/Models/Wall.obj";
-    _WALLTILEPNG = "assets/Vikings/Textures/Texture_01.png";
-    _PATHPATHMOD = "assets/Vikings/Models/Ground.obj";
-    _PATHTILEPNG = "assets/Vikings/Textures/TextureVariation_04.png";
+    _BORDERPATHMOD = "assets/" + _universe + "/Models/Border.obj";
+    _BORDERTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
+    _BRICKPATHMOD = "assets/" + _universe + "/Models/Brick.obj";
+    _BRICKTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
+    _WALLPATHMOD = "assets/" + _universe + "/Models/Wall.obj";
+    _WALLTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
+    _PATHPATHMOD = "assets/" + _universe + "/Models/Ground.obj";
+    _PATHTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     // _PATHTILEPNG = "./resources/models/minecraft/blocks/Grass.png";
     // _PATHPATHMOD = "./resources/models/minecraft/blocks/cube.obj";
 
