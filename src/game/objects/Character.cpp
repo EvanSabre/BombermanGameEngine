@@ -26,7 +26,7 @@ Character::Character(
     _anim = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animIdle);
     // _animation = std::make_shared<gameEngine::Animation>(model, animWalk, animIdle, texturePath);
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
-    _model->setTransform().setScale({0.01, 0.01, 0.01});
+    _model->setTransform().setScale({0.1, 0.1, 0.1});
     this->_name = name;
     this->setTransform().setPosition(pos);
     _state = ANIMIDLE;
@@ -55,6 +55,20 @@ int Character::getState() const noexcept
 
 
 //setter
+
+void Character::setCollider() noexcept
+{
+    Vector3T<float> pos(this->getTransform().getPosition());
+    Vector3T<float> sca(this->getTransform().getScale());
+
+    _collider.getBoundingBox().setBoundingBox(
+        {pos._x - sca._x * TILESIZE * 0.5,
+        pos._y,
+        pos._z - sca._z * TILESIZE * 0.5},
+        {pos._x + sca._x * TILESIZE * 0.5,
+        pos._y,
+        pos._z + sca._z * TILESIZE * 0.5});
+}
 
 void Character::setState(const int &state) noexcept
 {
@@ -98,10 +112,12 @@ void Character::onCollisionEnter(const AGameObject &collision)
     catch(const std::exception& e)
     {
     }
-
 }
 
-void Character::onCollisionExit(const AGameObject &collision) {}
+void Character::onCollisionExit(const AGameObject &collision)
+{
+}
+
 void Character::update()
 {
     updateModelAnimation();
@@ -109,6 +125,7 @@ void Character::update()
 
 void Character::updateModelAnimation()
 {
+    setCollider();
     _anim = _state ? _animWalk : _animIdle;
     if (_model->isLoad() && _anim->isLoad()) {
         _frameCounter++;

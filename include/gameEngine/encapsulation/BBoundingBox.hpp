@@ -20,8 +20,12 @@ namespace gameEngine {
 
                 bool checkCollision(const BBoundingBox &ref);
                 void setBoundingBox(const Vector3T<float> &min, const Vector3T<float> &max);
-            private:
+                Vector3T<float> getMin() const;
+                Vector3T<float> getMax() const;
                 BoundingBox _box;
+            private:
+                Vector3T<float> _min;
+                Vector3T<float> _max;
         };
     }
 }

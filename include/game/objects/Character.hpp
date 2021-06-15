@@ -18,6 +18,7 @@
 
 #define ANIMIDLE 0
 #define ANIMWALK 1
+#define TILESIZE 10
 
 namespace game
 {
@@ -43,6 +44,7 @@ namespace game
                 int getState() const noexcept;
 
             //setter
+                void setCollider() noexcept;
                 void setState(const int &) noexcept;
                 void addScore(const size_t value) noexcept;
                 void subScore(const size_t value) noexcept;

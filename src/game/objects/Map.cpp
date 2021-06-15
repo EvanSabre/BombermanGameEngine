@@ -132,6 +132,11 @@ std::vector<std::vector<int>> Map::getMap() const
     return _map;
 }
 
+std::vector<Tile> Map::getTiledMap() const
+{
+    return _tiledMap;
+}
+
 // setters
 void Map::setSize(const std::size_t &size)
 {

@@ -24,6 +24,13 @@ game::objects::Tile::Tile(
     _transform.setRotation(rotation);
     _transform.setScale(scale);
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
+    _collider.getBoundingBox().setBoundingBox(
+        {position._x - scale._x * TILESIZE * 0.5 * 0.02,
+        position._y,
+        position._z - scale._z * TILESIZE * 0.5 * 0.02},
+        {position._x + scale._x * TILESIZE * 0.5 * 0.02,
+        position._y,
+        position._z + scale._z * TILESIZE * 0.5 * 0.02});
 }
 
 game::objects::Tile::Tile(
@@ -42,6 +49,13 @@ game::objects::Tile::Tile(
     _transform.setRotation(rotation);
     _transform.setScale(scale);
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
+    _collider.getBoundingBox().setBoundingBox(
+        {position._x - scale._x * TILESIZE * 0.5 * 0.02,
+        position._y,
+        position._z - scale._z * TILESIZE * 0.5 * 0.02},
+        {position._x + scale._x * TILESIZE * 0.5 * 0.02,
+        position._y,
+        position._z + scale._z * TILESIZE * 0.5 * 0.02});
 }
 
 game::objects::Tile::Tile(const Tile &tile)

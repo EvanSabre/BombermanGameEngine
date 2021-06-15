@@ -24,14 +24,16 @@ namespace game {
                 PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
                 ~PlayGameScene();
 
+                void collisionChecker(std::shared_ptr<game::objects::Character> &, const Vector3T<float> &);
                 void start() override;
                 std::string update() override;
                 void draw() override;
             protected:
             private:
-                Map _map{15};
+                Map _map;
                 gameEngine::encapsulation::BCamera _cam;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
+                std::vector<Tile> _tiles;
 
             private:
                 void setupCamera() noexcept;
