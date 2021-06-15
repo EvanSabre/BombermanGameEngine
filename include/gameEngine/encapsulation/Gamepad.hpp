@@ -8,7 +8,7 @@
 #ifndef GAMEPAD_HPP_
 #define GAMEPAD_HPP_
 
-#include <raylib.h>
+#include <array>
 #include "gameEngine/interfaces/IInput.hpp"
 
 namespace gameEngine

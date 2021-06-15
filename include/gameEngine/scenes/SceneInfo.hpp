@@ -8,7 +8,7 @@
 #ifndef SCENEINFO_HPP_
 #define SCENEINFO_HPP_
 
-#include "game/managers/UserManager.hpp"
+//#include "game/managers/UserManager.hpp"
 
 namespace gameEngine {
     namespace scenes {
