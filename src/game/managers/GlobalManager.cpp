@@ -27,7 +27,9 @@ void game::managers::GlobalManager::run()
 {
     _currentScene->start();
     while (_windowManager->isRunning()) {
-        loadNewScene(_currentScene->update());
+        _currentScene->update();
+        if (_gameManager->haveToChange())
+            loadNewScene(_gameManager->getCurrentScene());
         _windowManager->BeginDraw();
         _windowManager->clear();
         _currentScene->draw();

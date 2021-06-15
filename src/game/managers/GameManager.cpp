@@ -7,7 +7,7 @@
 
 #include "GameManager.hpp"
 
-game::managers::GameManager::GameManager(const std::string &str) : _currentScene(str)
+game::managers::GameManager::GameManager(const std::string &str) : _currentScene(str), _change(false)
 {
 }
 
@@ -20,7 +20,17 @@ std::string game::managers::GameManager::getCurrentScene() const noexcept
     return _currentScene;
 }
 
+bool game::managers::GameManager::haveToChange()
+{
+    if (_change) {
+        _change = false;
+        return true;
+    }
+    return false;
+}
+
 void game::managers::GameManager::setCurrentScene(const std::string &str)
 {
     _currentScene = str;
+    _change = true;
 }

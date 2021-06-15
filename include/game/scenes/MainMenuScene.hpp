@@ -22,7 +22,7 @@ namespace game {
 
                 void switchScene(std::shared_ptr<game::managers::GameManager> info);
                 void start() override;
-                std::string update() override;
+                void update() override;
                 void draw() override;
                 //Unique to this scene
             protected:

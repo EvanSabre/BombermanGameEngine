@@ -25,7 +25,7 @@ namespace game {
                 ~PlayGameScene();
 
                 void start() override;
-                std::string update() override;
+                void update() override;
                 void draw() override;
             protected:
             private:

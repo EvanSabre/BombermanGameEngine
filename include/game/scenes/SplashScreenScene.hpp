@@ -25,7 +25,7 @@ namespace game {
                 ~SplashScreenScene();
 
                 void start() override;
-                std::string update() override;
+                void update() override;
                 void draw() override;
                 void updateAnim(size_t &frame, size_t max, int multipler, gameEngine::encapsulation::BRectangle &rect);
                 void animIdle();

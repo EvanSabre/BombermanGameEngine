@@ -117,7 +117,7 @@ std::string SplashScreenScene::done()
     return "";
 }
 
-std::string SplashScreenScene::update()
+void SplashScreenScene::update()
 {
     switch(_state) {
         case IDLE:
@@ -130,12 +130,11 @@ std::string SplashScreenScene::update()
             animAttack();
             break;
         case DONE:
-            return done();
+            _info->setCurrentScene("menu");
             break;
         default:
             break;
     }
-    return "";
 }
 
 void SplashScreenScene::draw()

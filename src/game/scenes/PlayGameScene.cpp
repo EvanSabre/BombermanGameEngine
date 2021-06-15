@@ -42,7 +42,7 @@ void PlayGameScene::setupCamera() noexcept
     _cam.setProjection(CAMERA_PERSPECTIVE);
 }
 
-std::string PlayGameScene::update()
+void PlayGameScene::update()
 {
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("PAUSE")) {
@@ -52,7 +52,6 @@ std::string PlayGameScene::update()
     for (auto it : _players) {
         it->update();
     }
-    return "";
 }
 
 void PlayGameScene::draw()
