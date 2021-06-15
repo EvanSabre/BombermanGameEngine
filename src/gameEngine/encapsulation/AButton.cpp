@@ -86,8 +86,10 @@ void AButton::setContentStr(const std::string &str)
     _content->setStr(str);
 }
 
-void AButton::setCallback(std::function<void(std::shared_ptr<game::managers::GameManager> info)> func)
+void AButton::setCallback(std::function<void(std::shared_ptr<game::managers::GameManager> info)> func,
+std::shared_ptr<game::managers::GameManager> infoPtr)
 {
+    _infoPtr = infoPtr;
     _callback = func;
 }
 
@@ -126,7 +128,8 @@ void AButton::updateState()
 
     isInsideButton(vec);
     isButtonPressed(vec);
-    isButtonReleased();
+    if (isButtonReleased())
+        _callback(_infoPtr);
 }
 
 void AButton::update()

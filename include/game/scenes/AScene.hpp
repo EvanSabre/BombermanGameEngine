@@ -28,6 +28,7 @@ namespace gameEngine {
             void drawTextures();
         protected:
             std::shared_ptr<gameEngine::managers::WindowManager> _windowManager;
+            std::shared_ptr<game::managers::GameManager> _info;
 //            std::shared_ptr<gameEngine::managers::InputManager> _inputManager;
             std::vector<std::shared_ptr<gameEngine::encapsulation::BTexture2D>> _textures;
             gameEngine::managers::ButtonManager _buttonManager;

@@ -20,6 +20,7 @@ namespace game {
                 MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info);
                 ~MainMenuScene();
 
+                void switchScene(std::shared_ptr<game::managers::GameManager> info);
                 void start() override;
                 std::string update() override;
                 void draw() override;

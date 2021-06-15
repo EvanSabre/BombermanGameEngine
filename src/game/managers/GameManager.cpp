@@ -7,9 +7,8 @@
 
 #include "GameManager.hpp"
 
-game::managers::GameManager::GameManager(const std::string &str = "")
+game::managers::GameManager::GameManager(const std::string &str) : _currentScene(str)
 {
-
 }
 
 game::managers::GameManager::~GameManager()

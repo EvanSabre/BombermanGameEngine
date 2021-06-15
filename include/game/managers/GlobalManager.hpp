@@ -9,6 +9,7 @@
 #define GLOBALMANAGER_HPP_
 
 #include "GameManager.hpp"
+#include "SceneManager.hpp"
 #include "Errors.hpp"
 #include <memory>
 

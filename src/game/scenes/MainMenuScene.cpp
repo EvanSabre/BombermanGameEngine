@@ -25,6 +25,11 @@ MainMenuScene::~MainMenuScene()
 {
 }
 
+void MainMenuScene::switchScene(std::shared_ptr<game::managers::GameManager> info)
+{
+    info->setCurrentScene("play");
+}
+
 void MainMenuScene::start()
 {
     Vector<float> size(300, 200);
@@ -40,6 +45,8 @@ void MainMenuScene::start()
     gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x, middle2._y), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, LIGHTGRAY);
+
+    button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play"); }, _info);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x, middle2._y), WHITE, 30);
@@ -59,10 +66,6 @@ void MainMenuScene::start()
 std::string MainMenuScene::update()
 {
     _buttonManager.updateButtons();
-    if (_buttonManager.isButtonClicked("PLAY")) {
-        std::cout << "Clicked play button\n";
-        return "play";
-    }
     return "";
 }
 
