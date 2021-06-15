@@ -33,7 +33,7 @@ namespace gameEngine
             ~BRectangle();
 
             //getter
-                [[nodiscard]] Rectangle getObj() const noexcept;
+                [[nodiscard]] Rectangle getObj() const;
                 [[nodiscard]] float getWidth() const noexcept;
                 [[nodiscard]] float getHeight() const noexcept;
                 [[nodiscard]] float getX() const noexcept;

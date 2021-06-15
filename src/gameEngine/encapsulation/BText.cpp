@@ -20,7 +20,7 @@ std::ostream& operator<<(std::ostream& out, const encapsulation::BText &text)
     return out;
 }
 
-encapsulation::BText::BText(const std::string &str, const Vector<int> &pos,
+encapsulation::BText::BText(const std::string &str, const Vector<float> &pos,
                 const BColor &color, const int &size,
                 gameEngine::encapsulation::ADrawable *relativeObj)
     : ADrawable()
@@ -31,11 +31,13 @@ encapsulation::BText::BText(const std::string &str, const Vector<int> &pos,
             relativeObj->getTransform().getPosition()._x + pos._x,
             relativeObj->getTransform().getPosition()._y + pos._y,
             relativeObj->getTransform().getPosition()._z + this->getTransform().getPosition()._z});
-    } else
+    } else {
         this->setTransform().setPosition({
-            (float)pos._x,
-            (float)pos._y,
+            pos._x,
+            pos._y,
             this->getTransform().getPosition()._z});
+            std::cout << "setting position\n";
+    }
     this->setTransform()._scale._x = (float)size;
     this->_str.assign(str);
 }
@@ -44,7 +46,9 @@ encapsulation::BText::BText(const BText &ref)
 {
     this->setStr(ref.getStr());
     this->setColor(ref.getColor());
+    //std::cout << "Postion before = " << this->getTransform() << std::endl;
     this->setTransform().setPosition(ref.getTransform().getPosition());
+    //std::cout << "Postion after = " << this->getTransform() << std::endl;
     this->setTransform().setRotation(ref.getTransform().getRotation());
     this->setTransform().setScale(ref.getTransform().getScale());
     this->setSpacing(ref.getSpacing());

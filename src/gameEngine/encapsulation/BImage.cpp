@@ -22,7 +22,7 @@ BImage::BImage(const BImage &ref)
     if (ref.isLoad()) {
         this->_img = ImageCopy(ref.getObj());
         if (!this->_img.data)
-            throw IndeeError("Copy failed", "IMAGE");
+            throw IndieError("Copy failed", "IMAGE");
     }
     this->_pos = ref._pos;
 }
@@ -35,7 +35,7 @@ BImage &BImage::operator=(const BImage &ref)
         this->unload();
     this->_img = ImageCopy(ref.getObj());
     if (!this->_img.data)
-        throw IndeeError("Copy Failed", "IMAGE");
+        throw IndieError("Copy Failed", "IMAGE");
     return *this;
 }
 

@@ -9,7 +9,7 @@
 
 using namespace game::scenes;
 
-PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
+PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
 : AScene(windowManager, info)
 {
     std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/Vikings/Textures/Character.png", "assets/Vikings/Model/Character.iqm", "assets/Vikings/Animation/CharacterWalk.iqm", "assets/Vikings/Animation/CharacterIdle.iqm");

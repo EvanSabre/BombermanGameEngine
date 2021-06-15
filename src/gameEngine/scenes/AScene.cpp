@@ -9,7 +9,7 @@
 
 using namespace gameEngine;
 
-AScene::AScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
+AScene::AScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
 {
     _windowManager = windowManager;
 }
