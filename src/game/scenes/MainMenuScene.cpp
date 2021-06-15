@@ -37,17 +37,30 @@ void MainMenuScene::start()
     font.loadFromFile("./assets/Fonts/TarrgetLaserRegular-4OE9.otf");
     _title->setFont(font);
     _title->setSpacing(0);
-    gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+
+    gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 30);
+    gameEngine::encapsulation::BFont fontPlay;
+    fontPlay.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
+    strText.setFont(fontPlay);
+    strText.setSpacing(0);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, LIGHTGRAY);
 
     middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+    gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 70, middle2._y + 10), WHITE, 30);
+    gameEngine::encapsulation::BFont fontSetting;
+    fontSetting.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
+    settingText.setFont(fontSetting);
+    settingText.setSpacing(0);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, LIGHTGRAY);
 
     middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
+    gameEngine::encapsulation::BFont fontQuit;
+    fontQuit.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
+    quitText.setFont(fontQuit);
+    quitText.setSpacing(0);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, LIGHTGRAY);
 
