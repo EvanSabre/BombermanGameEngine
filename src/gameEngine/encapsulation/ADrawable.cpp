@@ -10,6 +10,7 @@
 using namespace gameEngine;
 
 encapsulation::ADrawable::ADrawable()
+    : gameEngine::objects::AGameObject("")
 {
 }
 
@@ -18,6 +19,21 @@ encapsulation::ADrawable::~ADrawable()
 }
 
 //-----------------------
+
+//MEMBER FUNCTIONS
+
+void gameEngine::encapsulation::ADrawable::onCollisionEnter(const AGameObject &collision)
+{
+}
+
+void gameEngine::encapsulation::ADrawable::onCollisionExit(const AGameObject &collision)
+{
+}
+
+void gameEngine::encapsulation::ADrawable::update()
+{
+}
+
 //GETTER
 
 gameEngine::encapsulation::BColor encapsulation::ADrawable::getColor() const noexcept
@@ -25,26 +41,9 @@ gameEngine::encapsulation::BColor encapsulation::ADrawable::getColor() const noe
     return this->_color;
 }
 
-Vector3T<float> encapsulation::ADrawable::getPosition() const noexcept
+game::Tag_e encapsulation::ADrawable::getTag() const noexcept
 {
-    return this->_position;
-}
-
-Vector3T<float> encapsulation::ADrawable::getSize() const noexcept
-{
-    return this->_size;
-}
-
-float encapsulation::ADrawable::getScale() const noexcept
-{
-    return this->_scale;
-}
-
-Vector3T<float> encapsulation::ADrawable::getScaledSize() const noexcept
-{
-    Vector3T<float> new_vec = this->_size;
-    new_vec = new_vec * this->_scale;
-    return new_vec;
+    return game::Tag_e::NONE;
 }
 
 //---------------------
@@ -53,21 +52,6 @@ Vector3T<float> encapsulation::ADrawable::getScaledSize() const noexcept
 void encapsulation::ADrawable::setColor(const gameEngine::encapsulation::BColor &color) noexcept
 {
     this->_color = color;
-}
-
-void encapsulation::ADrawable::setPosition(const Vector3T<float> &pos) noexcept
-{
-    this->_position = pos;
-}
-
-void encapsulation::ADrawable::setSize(const Vector3T<float> &size) noexcept
-{
-    this->_size = size;
-}
-
-void encapsulation::ADrawable::setScale(float scale) noexcept
-{
-    this->_scale = scale;
 }
 
 //-----------------------

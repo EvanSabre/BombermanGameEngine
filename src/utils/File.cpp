@@ -66,9 +66,25 @@ std::string File::read() const
     if (file.is_open()) {
         while (getline (file, buf))
             content.append(buf + "\n");
-    } else {
+    } else
         throw std::runtime_error("Fiel : Is not accessible");
-    }
+    file.close();
+    return content;
+}
+
+std::vector<std::string> File::readLines() const
+{
+    if (!isAccessible())
+        throw std::runtime_error("File : Is not accessible");
+    std::ifstream file{this->_path};
+    std::vector<std::string> content{};
+    std::string buf{};
+
+    if (file.is_open()) {
+        while (getline (file, buf))
+            content.push_back(buf + "\n");
+    } else
+        throw std::runtime_error("File : Is not accessible");
     file.close();
     return content;
 }

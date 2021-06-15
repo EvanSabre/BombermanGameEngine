@@ -24,7 +24,7 @@ namespace gameEngine
         {
         public:
             BText(const std::string &str = "",
-                const Vector<int> &pos = {0, 0},
+                const Vector<float> &pos = {0, 0},
                 const BColor &color = BColor{},
                 const int &size = 10,
                 gameEngine::encapsulation::ADrawable *relativeObj = nullptr
@@ -63,7 +63,7 @@ namespace gameEngine
             #define TEXT_SPACING (this->_size._y)
 
             std::string _str{};
-            BFont _font{};
+            BFont _font;
         };
     }
 }

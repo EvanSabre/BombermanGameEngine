@@ -11,6 +11,7 @@
 #include "Vector.hpp"
 #include "BColor.hpp"
 #include "raylib.h"
+#include "Errors.hpp"
 #include <memory>
 
 namespace gameEngine

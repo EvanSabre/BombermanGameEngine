@@ -50,8 +50,8 @@ void Map::generateMap()
                 _map[i][j] = MAPWALL; // border_blocks + middle_walls
             else if (EVEN(i) && EVEN(j))
                 _map[i][j] = MAPBORDR; // walls_block + middle_walls
-            else if (!(std::rand() % (_size / 4)) ||
-                SPAWN1 || SPAWN2 || SPAWN3 || SPAWN4)
+            else if (!(std::rand() % (int)((float)_size / 3.5)) ||
+                SPAWN1 || SPAWN2 || SPAWN3 || SPAWN4 || SPAWN5 || SPAWN6)
                 _map[i][j] = MAPPATH; // random_path + spawners_path
         }
     }
@@ -75,37 +75,32 @@ void Map::dump()
 
 void Map::generateMapTiles()
 {
-   
-    _path = std::make_unique<Tile>(BLOCKPATHOBJ, PATHTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::PATH);
-    _wall = std::make_unique<Tile>(BLOCKPATHOBJ, WALLTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::WALL);
-    _brick = std::make_unique<Tile>(BLOCKPATHOBJ, BRICKTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::BRICK);
-    _border = std::make_unique<Tile>(BLOCKPATHOBJ, BORDERTILEPNG, Vector3T<float>(0, 0, 0), WHITE, 0.5, Tile::TileType::BORDER);
+    _brickMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _wallMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _pathMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _borderMod = std::make_shared<gameEngine::encapsulation::BModel>(BLOCKPATHOBJ, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _brickTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(BRICKTILEPNG);
+    _wallTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(WALLTILEPNG);
+    _pathTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(PATHTILEPNG);
+    _borderTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(BORDERTILEPNG);
+
+    for (std::size_t i = 0; i < SIZE_X; i++) {
+        for (std::size_t j = 0; j < SIZE_Y; j++) {
+            _tiledMap.push_back(Tile(_pathMod, _pathTex, PATH, Vector3T<float>((float)i, 0, (float)j), Vector3T<float>(0, 0, 0), Vector3T<float>(0.5, 0.5, 0.5)));
+            if (_map[i][j] == MAPBRICK)
+                _tiledMap.push_back(Tile(_brickMod, _brickTex, BRICK, Vector3T<float>((float)i, 1, (float)j), Vector3T<float>(0, 0, 0), Vector3T<float>(0.5, 0.5, 0.5)));
+            else if (_map[i][j] == MAPWALL)
+                _tiledMap.push_back(Tile(_wallMod, _wallTex, WALL, Vector3T<float>((float)i, 1, (float)j), Vector3T<float>(0, 0, 0), Vector3T<float>(0.5, 0.5, 0.5)));
+            else if (_map[i][j] == MAPBORDR)
+                _tiledMap.push_back(Tile(_borderMod, _borderTex, BORDER, Vector3T<float>((float)i, 1, (float)j), Vector3T<float>(0, 0, 0), Vector3T<float>(0.5, 0.5, 0.5)));
+        }
+    }
 }
 
 void Map::draw()
 {
-    for (std::size_t i = 0; i < SIZE_X; i++) {
-        for (std::size_t j = 0; j < SIZE_Y; j++) {
-            if (_map[i][j] == MAPPATH) {
-                _path->getModel().setPosition({(float)i, 0, (float)j});
-                _path->getModel().draw();
-            } else if (_map[i][j] == MAPWALL) {
-                _wall->getModel().setPosition({(float)i, 1, (float)j});
-                _path->getModel().setPosition({(float)i, 0, (float)j});
-                _wall->getModel().draw();
-                _path->getModel().draw();
-            } else if (_map[i][j] == MAPBRICK) {
-                _brick->getModel().setPosition({(float)i, 1, (float)j});
-                _path->getModel().setPosition({(float)i, 0, (float)j});
-                _brick->getModel().draw();
-                _path->getModel().draw();
-            } else if (_map[i][j] == MAPBORDR) {
-                _border->getModel().setPosition({(float)i, 1, (float)j});
-                _path->getModel().setPosition({(float)i, 0, (float)j});
-                _border->getModel().draw();
-                _path->getModel().draw();
-            }
-        }
+    for (auto &it : _tiledMap) {
+        it.draw();
     }
 }
 
@@ -128,7 +123,7 @@ std::vector<std::vector<int>> Map::getMap() const
 // setters
 void Map::setSize(const std::size_t &size)
 {
-    _size = (size < 5) ? 5 : size + 1 - size % 2;
+    _size = (size < 9) ? 9 : size + 1 - size % 2;
 }
 
 void Map::setSeed(const std::size_t &seed)

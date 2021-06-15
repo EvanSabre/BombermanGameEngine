@@ -27,14 +27,13 @@ namespace gameEngine {
                 bool isButtonClicked(const std::string &buttonContent, const Vector<float> &pos);
 
                 void createButton(const std::shared_ptr<BTexture2D> &texture, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content);
-                void pushButton(std::shared_ptr<encapsulation::Button> button);
+                void pushButton(std::shared_ptr<encapsulation::AButton> button);
 
-                std::shared_ptr<gameEngine::encapsulation::Button> getClickedButton(const Vector<float> &pos);
-                std::vector<std::shared_ptr<gameEngine::encapsulation::Button>> getCurrentButtons() const;
+                std::vector<std::shared_ptr<gameEngine::encapsulation::AButton>> getCurrentButtons() const;
                 void drawButtons();
                 void updateButtons();
             private:
-                std::vector<std::shared_ptr<gameEngine::encapsulation::Button>> _currentButtons;
+                std::vector<std::shared_ptr<gameEngine::encapsulation::AButton>> _currentButtons;
         };
     }
 }
