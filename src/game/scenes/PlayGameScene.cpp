@@ -12,6 +12,7 @@ using namespace game::scenes;
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
 : AScene(windowManager, info)
 {
+    std::cout << "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCc" << std::endl;
     _playerTexture.loadFromFile("./resources/models/kaya/kayaTexture.png");
     _playerModel.load("./resources/models/kaya/kaya.iqm");
     _playerModel.setTexture(0, MATERIAL_MAP_DIFFUSE, _playerTexture);
@@ -19,10 +20,13 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     _player.setPostion({0, 3, 0});
     this->setupCamera();
     this->_player.setModel(&_playerModel);
+    _audio.loadMusicStreamFromFile("assets/music/game_music.mp3");
 }
 
 PlayGameScene::~PlayGameScene()
 {
+    std::cout << "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD" << std::endl;
+    // _audio.unloadMusicStream();
 }
 
 void PlayGameScene::start()
@@ -32,6 +36,9 @@ void PlayGameScene::start()
 
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
+
+    _audio.setMusicVolume(1.0); //1.0 is max level
+    _audio.playMusic();
 }
 
 void PlayGameScene::setupCamera() noexcept
@@ -46,8 +53,10 @@ void PlayGameScene::setupCamera() noexcept
 std::string PlayGameScene::update()
 {
     _buttonManager.updateButtons();
+    _audio.updateMusicStream();
     if (_buttonManager.isButtonClicked("PAUSE")) {
         std::cout << "Clicked pause button" << std::endl;
+        // _audio.pauseMusic();
         //return "play";
     }
     _player.handleKeyEvent();

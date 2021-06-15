@@ -7,51 +7,52 @@
 
 #include "Character.hpp"
 
-using namespace game;
+using namespace game::objects;
 
-objects::Character::Character(
-                        const std::string &id,
-                        const std::string &name,
-                        const Vector3T<float> &pos
-                        ) : gameEngine::objects::Moveable(id)
+Character::Character(
+                    const std::string &id,
+                    const std::string &name,
+                    const Vector3T<float> &pos
+                    ) : gameEngine::objects::Moveable(id)
 {
     this->_name = name;
     this->setPostion(pos);
+    _tag = game::Tag::CHARACTER;
 }
 
-objects::Character::~Character()
+Character::~Character()
 {
 }
 
 //getter
 
-std::string objects::Character::getName() const noexcept
+std::string Character::getName() const noexcept
 {
     return this->_name;
 }
 
-size_t objects::Character::getScore() const noexcept
+size_t Character::getScore() const noexcept
 {
     return this->_score;
 }
 
 //setter
-void objects::Character::addScore(const size_t value) noexcept
+void Character::addScore(const size_t value) noexcept
 {
     this->_score += value;
 }
 
-void objects::Character::subScore(const size_t value) noexcept
+void Character::subScore(const size_t value) noexcept
 {
     this->_score -= value;
 }
 
-void objects::Character::setModel(gameEngine::encapsulation::BModel *model) noexcept
+void Character::setModel(gameEngine::encapsulation::BModel *model) noexcept
 {
     this->_model = model;
 }
 
-void objects::Character::draw() const noexcept
+void Character::draw() const noexcept
 {
     if (!this->_model)
         return;
@@ -59,6 +60,33 @@ void objects::Character::draw() const noexcept
     _model->draw();
 }
 
-void objects::Character::OnCollisionEnter(const AGameObject &collision) {}
-void objects::Character::OnCollisionExit(const AGameObject &collision) {}
-void objects::Character::Update() {}
+void Character::OnCollisionEnter(const AGameObject &collision)
+{
+    try
+    {
+        std::unique_ptr<game::interfaces::IEffect> efx = game::objects::EffectFactory::makeEffect(collision.getTag());
+        addPowerUpEffec(efx.get());
+        return;
+    }
+    catch(const std::exception& e)
+    {
+    }
+
+}
+
+void Character::OnCollisionExit(const AGameObject &collision) {}
+void Character::Update() {}
+
+void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
+{
+    _lives += efx->getLife();
+    _health += efx->getHealth();
+    _nbBomb += efx->getNbBomb();
+    _bombRange += efx->getBlastPower();
+    _speed = _speed + efx->getSpeed();
+}
+
+game::Tag_e Character::getTag() const noexcept
+{
+    return  _tag;
+}

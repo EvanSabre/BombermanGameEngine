@@ -10,16 +10,20 @@
 
 #include <chrono>
 
-class Clock {
-    public:
-        Clock();
-        ~Clock();
+namespace gameEngine {
+    namespace component {
+        class Clock {
+            public:
+                Clock();
+                ~Clock();
 
-        double getElapsedTime() const;
-        void restart();
-    protected:
-        std::chrono::high_resolution_clock::time_point _begin;
-    private:
-};
+                double getElapsedTime() const;
+                void restart();
+            protected:
+                std::chrono::high_resolution_clock::time_point _begin;
+            private:
+        };
+    }
+}
 
 #endif /* !CLOCK_HPP_ */

@@ -10,6 +10,8 @@
 
 #include "AScene.hpp"
 #include "Parallax.hpp"
+#include "Errors.hpp"
+#include "AudioManager.hpp"
 
 namespace game {
     namespace scenes {
@@ -24,6 +26,7 @@ namespace game {
                 //Unique to this scene
             protected:
                 gameEngine::scenes::Parallax _parallax;
+                gameEngine::managers::AudioManager _audio;
             private:
 
         };

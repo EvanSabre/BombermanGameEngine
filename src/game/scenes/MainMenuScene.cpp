@@ -18,10 +18,16 @@ using namespace game::scenes;
 MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info)
 : AScene(windowManager, info)
 {
+    std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
+    _audio.loadMusicStreamFromFile("assets/music/menu_music.mp3");
+    _audio.loadSoundFromFile("assets/music/play_sound.wav");
 }
 
 MainMenuScene::~MainMenuScene()
 {
+    std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB" << std::endl;
+    // _audio.unloadMusicStream();
+    // _audio.unloadSoundStream();
 }
 
 void MainMenuScene::start()
@@ -29,14 +35,20 @@ void MainMenuScene::start()
     Vector<float> size(300, 200);
     Vector<float> middle(_windowManager->getWindowSize()._x/3 - size._x / 2, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
-    std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, middle);
-    std::shared_ptr<gameEngine::encapsulation::BTexture2D> text = std::make_shared<gameEngine::encapsulation::BTexture2D>();
+    _audio.setMusicVolume(1.0); //1.0 is max level
+    _audio.playMusic();
 
-    text->loadFromImgRelRect(PLAY_BUTTON, size);
-    text->setPos(Vector<int>(middle._x, middle._y));
+    // std::shared_ptr<gameEngine::encapsulation::BRectangle> rect = std::make_shared<gameEngine::encapsulation::BRectangle>(size, middle);
+    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> text = std::make_shared<gameEngine::encapsulation::BTexture2D>();
+
+    // text->loadFromImgRelRect(PLAY_BUTTON, size);
+    // text->setPos(Vector<int>(middle._x, middle._y));
+
 
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(text, rect, std::make_shared<gameEngine::encapsulation::BText>("PLAY"));
+    std::make_shared<gameEngine::encapsulation::Button>(size, middle, gameEngine::encapsulation::BText("PLAY"), LIGHTGRAY);
+    // std::shared_ptr<gameEngine::encapsulation::Button> button =
+    // std::make_shared<gameEngine::encapsulation::Button>(text, rect, std::make_shared<gameEngine::encapsulation::BText>("PLAY"));
 
     _parallax.initParallax(BACKGROUND, MIDGROUND, FOREGROUND);
     _buttonManager.pushButton(button);
@@ -46,8 +58,10 @@ std::string MainMenuScene::update()
 {
     _parallax.calculateParallax(0.1f, 0.5f, 1.0f);
     _buttonManager.updateButtons();
+    _audio.updateMusicStream();
     if (_buttonManager.isButtonClicked("PLAY")) {
         std::cout << "Clicked play button\n";
+        _audio.playSound();
         return "play";
     }
     return "";

@@ -7,35 +7,35 @@
 
 #include "BSound.hpp"
 
-using namespace gameEngine;
+using namespace gameEngine::encapsulation;
 
-encapsulation::BSound::BSound(const std::string &filepath)
+BSound::BSound(const std::string &filepath)
 {
     try {
         this->load(filepath);
-    } catch(const std::exception& e) {
+    } catch(const LoadingError &e) {
         throw e;
     }
 }
 
-encapsulation::BSound::~BSound()
+BSound::~BSound()
 {
     if (this->isLoad())
         this->unload();
 }
 
 //GETTER
-Sound encapsulation::BSound::getObj() const noexcept
+Sound BSound::getObj() const noexcept
 {
     return this->_sound;
 }
 
-bool encapsulation::BSound::isLoad() const noexcept
+bool BSound::isLoad() const noexcept
 {
     return this->_load;
 }
 
-bool encapsulation::BSound::isPlaying() const noexcept
+bool BSound::isPlaying() const noexcept
 {
     if (!this->isLoad())
         return false;
@@ -43,17 +43,17 @@ bool encapsulation::BSound::isPlaying() const noexcept
 }
 
 //SETTTER
-void encapsulation::BSound::load(const std::string &filepath)
+void BSound::load(const std::string &filepath)
 {
     if (this->isLoad())
         this->unload();
     this->_sound = LoadSound(filepath.c_str());
     if (!this->_sound.stream.buffer)
-        throw std::runtime_error("Sound : Loading failed");
+        throw LoadingError(filepath, "Loading Failed : ", "SOUND");
     this->_load = true;
 }
 
-void encapsulation::BSound::unload() noexcept
+void BSound::unload() noexcept
 {
     Sound buf;
     buf.stream.buffer = nullptr;
@@ -66,38 +66,38 @@ void encapsulation::BSound::unload() noexcept
 }
 
 //Transform
-void encapsulation::BSound::play()
+void BSound::play()
 {
     if (!isLoad())
-        throw std::runtime_error("Sound [PLAY]: no Sound load");
+        throw engineError("Play unload Sound", "SOUND");
     PlaySound(this->_sound);
 }
 
-void encapsulation::BSound::stop()
+void BSound::stop()
 {
     if (!isLoad())
-        throw std::runtime_error("Sound [STOP]: no Sound load");
+        throw engineError("Stop unload Sound", "SOUND");
     StopSound(this->_sound);
 }
 
-void encapsulation::BSound::pause()
+void BSound::pause()
 {
     if (!isLoad())
-        throw std::runtime_error("Sound [PAUSE]: no Sound load");
+        throw engineError("Pause unload Sound", "SOUND");
     PauseSound(this->_sound);
 }
 
-void encapsulation::BSound::resume()
+void BSound::resume()
 {
     if (!isLoad())
-        throw std::runtime_error("Sound [RESUME]: no Sound load");
+        throw engineError("Resume unload Sound", "SOUND");
     ResumeSound(this->_sound);
 }
 
-void encapsulation::BSound::setVolume(float volume)
+void BSound::setVolume(float volume)
 {
     if (!isLoad())
-        throw std::runtime_error("Sound [SET_VOLUME]: no Sound load");
+        throw engineError("Volume set on unload Sound", "SOUND");
     if (volume > 1.0f)
         volume = 1.0f;
     else if (volume < 0.0f)
@@ -106,10 +106,10 @@ void encapsulation::BSound::setVolume(float volume)
 }
 
 //base is 1.à
-void encapsulation::BSound::setPitch(float pitch)
+void BSound::setPitch(float pitch)
 {
     if (!isLoad())
-        throw std::runtime_error("Sound [SET_PITCH]: no Sound load");
+        throw engineError("Pitch set on unload Sound", "SOUND");
     if (pitch < 0)
         pitch = 0;
     SetSoundPitch(this->_sound, pitch);

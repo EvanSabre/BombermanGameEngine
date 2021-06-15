@@ -26,6 +26,7 @@ namespace gameEngine
                 virtual ~IAudioManager() = default;
 
                 virtual void loadSoundFromFile(const char *filepath) = 0;
+                virtual void unloadSoundStream() = 0;
 
                 virtual void playSound() = 0;
                 virtual void pauseSound() = 0;
@@ -34,6 +35,7 @@ namespace gameEngine
                 virtual void setSoundVolume(float volume) = 0;
 
                 virtual void loadMusicStreamFromFile(const char *filepath) = 0;
+                virtual void unloadMusicStream() = 0;
                 virtual void updateMusicStream() = 0;
 
                 virtual void playMusic() = 0;

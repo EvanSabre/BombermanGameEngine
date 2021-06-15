@@ -12,19 +12,27 @@ using namespace gameEngine::managers;
 
 AudioManager::AudioManager()
 {
-    InitAudioDevice();
+    if (!IsAudioDeviceReady())
+        InitAudioDevice();
     SetMasterVolume(100);
+    std::cout << "test open audio AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
 }
 
 AudioManager::~AudioManager()
 {
     if (IsAudioDeviceReady())
         CloseAudioDevice();
+    std::cout << "test close audio AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
 }
 
 void AudioManager::loadSoundFromFile(const char *filepath)
 {
     _sound = std::make_unique<BSound>(filepath);
+}
+
+void AudioManager::unloadSoundStream()
+{
+    _sound->unload();
 }
 
 void AudioManager::playSound()
@@ -62,9 +70,15 @@ void AudioManager::loadMusicStreamFromFile(const char *filepath)
     _music = std::make_unique<BMusic>(filepath);
 }
 
+void AudioManager::unloadMusicStream()
+{
+    _music->unload();
+}
+
 void AudioManager::updateMusicStream()
 {
-    _music->updateStream();
+    if (_music->isLoad())
+        _music->updateStream();
 }
 
 void AudioManager::playMusic()

@@ -21,6 +21,7 @@ namespace gameEngine {
                 ~AudioManager();
 
                 void loadSoundFromFile(const char *filepath);
+                void unloadSoundStream();
 
                 void playSound();
                 void pauseSound();
@@ -29,6 +30,7 @@ namespace gameEngine {
                 void setSoundVolume(float volume);
 
                 void loadMusicStreamFromFile(const char *filepath);
+                void unloadMusicStream();
                 void updateMusicStream();
 
                 void playMusic();

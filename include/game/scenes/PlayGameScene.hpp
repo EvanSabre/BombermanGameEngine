@@ -10,6 +10,7 @@
 
 #include "AScene.hpp"
 #include "ButtonManager.hpp"
+#include "AudioManager.hpp"
 #include "Map.hpp"
 #include "BCamera.hpp"
 #include "Player.hpp"
@@ -33,7 +34,7 @@ namespace game {
                 gameEngine::encapsulation::BModel _playerModel{""};
                 game::objects::Player _player{"p1", "test_name"};
                 gameEngine::encapsulation::BCamera _cam;
-
+                gameEngine::managers::AudioManager _audio;
             private:
                 void setupCamera() noexcept;
         };
