@@ -7,58 +7,94 @@
 
 #include "Character.hpp"
 
-using namespace game;
+using namespace game::objects;
 
-objects::Character::Character(
-                        const std::string &id,
-                        const std::string &name,
-                        const Vector3T<float> &pos
-                        ) : gameEngine::objects::Moveable(id)
+Character::Character(
+                    const std::string &id,
+                    const std::string &name,
+                    const std::string &texturePath,
+                    const std::string &model,
+                    const Vector3T<float> &pos
+                    ) : gameEngine::objects::Moveable(id)
 {
+    _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
+    _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
+    _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
+    _model->setTransform().setScale({0.01, 0.01, 0.01});
     this->_name = name;
-    this->setPostion(pos);
+    this->setTransform().setPosition(pos);
+    _tag = game::Tag::CHARACTER;
 }
 
-objects::Character::~Character()
+Character::~Character()
 {
 }
 
 //getter
 
-std::string objects::Character::getName() const noexcept
+std::string Character::getName() const noexcept
 {
     return this->_name;
 }
 
-size_t objects::Character::getScore() const noexcept
+size_t Character::getScore() const noexcept
 {
     return this->_score;
 }
 
 //setter
-void objects::Character::addScore(const size_t value) noexcept
+void Character::addScore(const size_t value) noexcept
 {
     this->_score += value;
 }
 
-void objects::Character::subScore(const size_t value) noexcept
+void Character::subScore(const size_t value) noexcept
 {
     this->_score -= value;
 }
 
-void objects::Character::setModel(gameEngine::encapsulation::BModel *model) noexcept
+void Character::setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept
 {
     this->_model = model;
 }
 
-void objects::Character::draw() const noexcept
+void Character::draw() const noexcept
 {
     if (!this->_model)
         return;
-    _model->setPosition(this->getPosition());
+    _model->setTransform().setPosition(this->_transform.getPosition());
+    _model->setTransform().setRotation(this->_transform.getRotation());
+    _model->setTransform().setScale(this->_transform.getScale());
     _model->draw();
 }
 
-void objects::Character::OnCollisionEnter(const AGameObject &collision) {}
-void objects::Character::OnCollisionExit(const AGameObject &collision) {}
-void objects::Character::Update() {}
+void Character::onCollisionEnter(const AGameObject &collision)
+{
+    try
+    {
+        std::unique_ptr<game::interfaces::IEffect> efx = game::objects::EffectFactory::makeEffect(collision.getTag());
+        addPowerUpEffec(efx.get());
+        return;
+    }
+    catch(const std::exception& e)
+    {
+    }
+
+}
+
+void Character::onCollisionExit(const AGameObject &collision) {}
+void Character::update() {}
+
+void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
+{
+    _lives += efx->getLife();
+    _health += efx->getHealth();
+    _nbBomb += efx->getNbBomb();
+    _bombRange += efx->getBlastPower();
+    _speed = _speed + efx->getSpeed();
+}
+
+game::Tag_e Character::getTag() const noexcept
+{
+    return  _tag;
+}

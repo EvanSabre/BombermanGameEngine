@@ -20,7 +20,7 @@ namespace game {
     namespace scenes {
         class PlayGameScene : public gameEngine::AScene {
             public:
-                PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info);
+                PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
                 ~PlayGameScene();
 
                 void start() override;
@@ -28,11 +28,9 @@ namespace game {
                 void draw() override;
             protected:
             private:
-                Map _map{15, 637520213};
-                gameEngine::encapsulation::BTexture2D _playerTexture{""};
-                gameEngine::encapsulation::BModel _playerModel{""};
-                game::objects::Player _player{"p1", "test_name"};
+                Map _map{15};
                 gameEngine::encapsulation::BCamera _cam;
+                std::vector<std::shared_ptr<game::objects::Character>> _players;
 
             private:
                 void setupCamera() noexcept;

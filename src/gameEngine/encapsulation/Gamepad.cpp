@@ -10,7 +10,7 @@
 bool gameEngine::encapsulation::Gamepad::isKeyPressed(int key)
 {
     int axis = getAxisMovement();
-    printf("Key %d\n", key);
+
     if (axis == key)
         return true;
     return IsGamepadButtonPressed(_deviceID, key - 400);

@@ -22,7 +22,7 @@ void Collision::calculateCollisions(std::vector<gameEngine::objects::AGameObject
 
             if (it->getId() != jt->getId() && it->getQuadrant() == jt->getQuadrant()
             && it->getCollider().isColliding(jt->getCollider().getBoundingBox())) {
-                it->OnCollisionEnter(*jt);
+                it->onCollisionEnter(*jt);
             }
         }
     }

@@ -17,33 +17,34 @@ std::ostream& operator<<(std::ostream& out, const gameEngine::encapsulation::BRe
     return out;
 }
 
-
 encapsulation::BRectangle::BRectangle(const Vector<float> &size, const Vector<float> &pos,
                         const BColor &color, float rotation)
     : ADrawable()
 {
-    this->setRectPosition(pos);
-    this->setRectSize(size);
+    this->setTransform()._position._x = pos._x;
+    this->setTransform()._position._y = pos._y;
+    this->setTransform()._scale._x = size._x;
+    this->setTransform()._scale._y = size._y;
+    this->setTransform()._rotation._x = rotation;
     this->_color = color;
-    this->_rotation = rotation;
 }
 
 encapsulation::BRectangle::BRectangle(const BRectangle &ref)
 {
-    this->setRectPosition(ref.getRectPosition());
-    this->setRectSize(ref.getRectSize());
-    this->_rotation = ref.getRotation();
-    this->_color = ref.getColor();
+    this->setTransform().setPosition(ref.getTransform().getPosition());
+    this->setTransform().setScale(ref.getTransform().getScale());
+    this->setTransform().setRotation(ref.getTransform().getRotation());
+    this->_color = ref._color;
 }
 
 encapsulation::BRectangle &encapsulation::BRectangle::operator=(const BRectangle &ref)
 {
-    if (this ==  &ref)
+    if (this == &ref)
         return *this;
-    this->setRectPosition(ref.getRectPosition());
-    this->setRectSize(ref.getRectSize());
-    this->_rotation = ref.getRotation();
-    this->_color = ref.getColor();
+    this->setTransform().setPosition(ref.getTransform().getPosition());
+    this->setTransform().setScale(ref.getTransform().getScale());
+    this->setTransform().setRotation(ref.getTransform().getRotation());
+    this->_color = ref._color;
     return *this;
 }
 
@@ -60,46 +61,31 @@ Rectangle encapsulation::BRectangle::getObj() const noexcept
 {
     Rectangle rec;
 
-    rec.height = getHeight() * _scale;
-    rec.width = getWidth() * _scale;
-    rec.x = getX();
-    rec.y = getY();
+    rec.width = this->getTransform().getScale()._x;
+    rec.height = this->getTransform().getScale()._y;
+    rec.x = this->getTransform().getPosition()._x;
+    rec.y = this->getTransform().getPosition()._y;
     return rec;
 }
 
 float encapsulation::BRectangle::getWidth() const noexcept
 {
-    return this->_size._x;
+    return this->getTransform().getScale()._x;
 }
 
 float encapsulation::BRectangle::getHeight() const noexcept
 {
-    return this->_size._y;
+    return this->getTransform().getScale()._y;
 }
 
 float encapsulation::BRectangle::getX() const noexcept
 {
-    return _position._x;
+    return this->getTransform().getPosition()._x;
 }
 
 float encapsulation::BRectangle::getY() const noexcept
 {
-    return _position._y;
-}
-
-float encapsulation::BRectangle::getRotation() const noexcept
-{
-    return this->_rotation;
-}
-
-Vector<float> encapsulation::BRectangle::getRectSize() const noexcept
-{
-    return {_size._x, _size._y};
-}
-
-Vector<float> encapsulation::BRectangle::getRectPosition() const noexcept
-{
-    return {_position._x, _position._y};
+    return this->getTransform().getPosition()._y;
 }
 
 //-----------------------------------------
@@ -108,39 +94,23 @@ Vector<float> encapsulation::BRectangle::getRectPosition() const noexcept
 
 void encapsulation::BRectangle::setX(const float &x) noexcept
 {
-    this->_position._x = x;
+    this->setTransform()._position._x = x;
 }
 
 void encapsulation::BRectangle::setY(const float &y) noexcept
 {
-    this->_position._y = y;
+    this->setTransform()._position._y = y;
 }
 
 void encapsulation::BRectangle::setWidth(const float &width) noexcept
 {
-    this->_size._x = width;
-}
-
-void encapsulation::BRectangle::setRectSize(const Vector<float> &size) noexcept
-{
-    _size = {size._x, size._y, _size._z};
-}
-
-void encapsulation::BRectangle::setRectPosition(const Vector<float> &pos) noexcept
-{
-    _position = {pos._x, pos._y, _position._z};
+    this->setTransform()._scale._x = width;
 }
 
 void encapsulation::BRectangle::setHeight(const float &height) noexcept
 {
-    this->_size._y = height;
+    this->setTransform()._scale._y = height;
 }
-
-void encapsulation::BRectangle::setRotation(const float &rotation) noexcept
-{
-    this->_rotation = rotation;
-}
-
 
 //-------------------------------------
 
@@ -149,6 +119,16 @@ void encapsulation::BRectangle::setRotation(const float &rotation) noexcept
 void encapsulation::BRectangle::draw() const noexcept
 {
     DrawRectangleRec(this->getObj(), this->_color.getObj());
+}
+
+void encapsulation::BRectangle::drawLines(const BColor &color) const noexcept
+{
+    DrawRectangleLines(
+        (int)this->getTransform()._position._x,
+        (int)this->getTransform()._position._y,
+        (int)this->getTransform()._scale._x,
+        (int)this->getTransform()._scale._y,
+        color.getObj());
 }
 
 //--------------------------

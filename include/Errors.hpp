@@ -11,25 +11,25 @@
 #include <string>
 #include <exception>
 #include <stdexcept>
+#include <iostream>
+
 
 class IndieError : public std::exception
 {
 public:
-    IndieError(std::string const &message, std::string const &component = "Unknown");
+    IndieError(std::string const &message,
+    std::string const &component = "Unknown",
+    const std::string &side = "UNKNOWN"
+    );
 
     const std::string &getComponent() const noexcept;
+    const std::string &getSide() const noexcept;
     const char *what() const noexcept override;
 
 private:
     std::string _message;
     std::string _component;
-};
-
-class LoadingError : public IndieError
-{
-public:
-    LoadingError(std::string const &message,
-                         std::string const &component = "Unknown") : IndieError(message, component) {}
+    std::string _side;
 };
 
 class UserManagmentError : public IndieError
@@ -38,5 +38,37 @@ public:
     UserManagmentError(std::string const &message,
                          std::string const &component = "UserManager.cpp") : IndieError(message, component) {}
 };
+
+class gameError : public IndieError
+{
+public:
+    gameError(std::string const &message,
+            std::string const &component = "Unknown"
+            );
+};
+
+class engineError : public IndieError
+{
+public:
+    engineError(std::string const &message,
+            std::string const &component = "Unknown"
+            );
+};
+
+
+class LoadingError : public engineError
+{
+public:
+    LoadingError(const std::string &filepath,
+                std::string const &message = "Loading Failed : ",
+                std::string const &component = "Unknown"
+                );
+};
+
+class NoSceneException : public IndieError {
+    public:
+        NoSceneException(std::string const &message = "NoScene Error") : IndieError(message) {}
+};
+
 
 #endif /* !ERRORS_HPP_ */

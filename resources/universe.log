@@ -1,0 +1,52 @@
+ressources/
+    {Name}/
+        Model/
+            Ground.obj          - "ressources/"{Name}"/Model/Ground.obj"
+            Wall.obj            - "ressources/"{Name}"/Model/Wall.obj"
+            Brick.obj           - "ressources/"{Name}"/Model/Brick.obj"
+            Border.obj          - "ressources/"{Name}"/Model/Border.obj"
+            Character.iqm       - "ressources/"{Name}"/Model/Character.iqm"
+        Texture/
+            Ground.png          - "ressources/"{Name}"/Texture/Ground.png"
+            Wall.png            - "ressources/"{Name}"/Texture/Wall.png"
+            Brick.png           - "ressources/"{Name}"/Texture/Brick.png"
+            Border.png          - "ressources/"{Name}"/Texture/Border.png"
+            Character1.png      - "ressources/"{Name}"/Texture/Character1.png"
+            Character2.png      - "ressources/"{Name}"/Texture/Character2.png"
+            Character3.png      - "ressources/"{Name}"/Texture/Character3.png"
+            Character4.png      - "ressources/"{Name}"/Texture/Character4.png"
+        Animation/
+            CharacterIdle.iqm   - "ressources/"{Name}"/Animation/CharacterIdle.iqm"
+            CharacterWalk.iqm   - "ressources/"{Name}"/Animation/CharacterWalk.iqm"
+        Sound/
+            Button.wav          - "ressources/"{Name}"/Sound/Button.wav"
+            SceneSwitch.wav     - "ressources/"{Name}"/Sound/SceneSwitch.wav"
+            BombDrop.wav        - "ressources/"{Name}"/Sound/BombDrop.wav"
+            BombExplode.wav     - "ressources/"{Name}"/Sound/BombExplode.wav"
+            CollectibleDrop.wav - "ressources/"{Name}"/Sound/CollectibleDrop.wav"
+            CollectiblePick.wav - "ressources/"{Name}"/Sound/CollectiblePick.wav"
+            CharacterDeath.wav  - "ressources/"{Name}"/Sound/CharacterDeath.wav"
+            CharacterDamage.wav - "ressources/"{Name}"/Sound/CharacterDamage.wav"
+        Music/
+            Menu.mp3            - "ressources/"{Name}"/Music/Menu.mp3"
+            Game.mp3            - "ressources/"{Name}"/Music/Game.mp3"
+    All/
+        Model/
+            Bomb.obj            - "ressources/All/Model/Bomb.obj"
+            BombUp.obj          - "ressources/All/Model/BombUp.obj"
+            HealthUp.obj        - "ressources/All/Model/HealthUp.obj"
+            FireUp.obj          - "ressources/All/Model/FireUp.obj"
+            OneUp.obj           - "ressources/All/Model/OneUp.obj"
+            SpeedUp.obj         - "ressources/All/Model/SpeedUp.obj"
+            BombPass.obj        - "ressources/All/Model/BombPass.obj"
+        Texture/
+            Bomb.png            - "ressources/All/Model/Bomb.png"
+            BombUp.png          - "ressources/All/Model/BombUp.png"
+            HealthUp.png        - "ressources/All/Model/HealthUp.png"
+            FireUp.png          - "ressources/All/Model/FireUp.png"
+            OneUp.png           - "ressources/All/Model/OneUp.png"
+            SpeedUp.png         - "ressources/All/Model/SpeedUp.png"
+            BombPass.png        - "ressources/All/Model/BombPass.png"
+        Animation/
+        Sound/
+        Music/

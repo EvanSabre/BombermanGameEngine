@@ -1,0 +1,54 @@
+Universe/
+    {Name}/
+        Model/
+            Ground.obj          - "Universe/"{Name}"/Model/Ground.obj"
+            Wall.obj            - "Universe/"{Name}"/Model/Wall.obj"
+            Brick.obj           - "Universe/"{Name}"/Model/Brick.obj"
+            Border.obj          - "Universe/"{Name}"/Model/Border.obj"
+            Player.iqm          - "Universe/"{Name}"/Model/Player.iqm"
+        Texture/
+            Ground.png          - "Universe/"{Name}"/Texture/Ground.png"
+            Wall.png            - "Universe/"{Name}"/Texture/Wall.png"
+            Brick.png           - "Universe/"{Name}"/Texture/Brick.png"
+            Border.png          - "Universe/"{Name}"/Texture/Border.png"
+            Player1.png         - "Universe/"{Name}"/Texture/Player1.png"
+            Player2.png         - "Universe/"{Name}"/Texture/Player2.png"
+            Player3.png         - "Universe/"{Name}"/Texture/Player3.png"
+            Player4.png         - "Universe/"{Name}"/Texture/Player4.png"
+        Animation/
+            PlayerIdle.iqm      - "Universe/"{Name}"/Animation/PlayerIdle.iqm"
+            PlayerWalk.iqm      - "Universe/"{Name}"/Animation/PlayerWalk.iqm"
+        Sound/
+            Button.wav          - "Universe/"{Name}"/Sound/Button.wav"
+            SceneSwitch.wav     - "Universe/"{Name}"/Sound/SceneSwitch.wav"
+            BombDrop.wav        - "Universe/"{Name}"/Sound/BombDrop.wav"
+            BombExplode.wav     - "Universe/"{Name}"/Sound/BombExplode.wav"
+            CollectibleDrop.wav - "Universe/"{Name}"/Sound/CollectibleDrop.wav"
+            CollectiblePick.wav - "Universe/"{Name}"/Sound/CollectiblePick.wav"
+            PlayerDeath.wav     - "Universe/"{Name}"/Sound/PlayerDeath.wav"
+            PlayerDamage.wav    - "Universe/"{Name}"/Sound/PlayerDamage.wav"
+        Music/
+            Menu.mp3            - "Universe/"{Name}"/Music/Menu.mp3"
+            Game.mp3            - "Universe/"{Name}"/Music/Game.mp3"
+INFO
+ERROR
+    All/
+        Model/
+            Bomb.obj            - "Universe/All/Model/Bomb.obj"
+            BombUp.obj          - "Universe/All/Model/BombUp.obj"
+            HealthUp.obj        - "Universe/All/Model/HealthUp.obj"
+            FireUp.obj          - "Universe/All/Model/FireUp.obj"
+            OneUp.obj           - "Universe/All/Model/OneUp.obj"
+            SpeedUp.obj         - "Universe/All/Model/SpeedUp.obj"
+            BombPass.obj        - "Universe/All/Model/BombPass.obj"
+        Texture/
+            Bomb.png            - "Universe/All/Model/Bomb.png"
+            BombUp.png          - "Universe/All/Model/BombUp.png"
+            HealthUp.png        - "Universe/All/Model/HealthUp.png"
+            FireUp.png          - "Universe/All/Model/FireUp.png"
+            OneUp.png           - "Universe/All/Model/OneUp.png"
+            SpeedUp.png         - "Universe/All/Model/SpeedUp.png"
+            BombPass.png        - "Universe/All/Model/BombPass.png"
+        Animation/
+        Sound/
+        Music/

@@ -10,12 +10,13 @@
 
 #include "AScene.hpp"
 #include "Parallax.hpp"
+#include "Errors.hpp"
 
 namespace game {
     namespace scenes {
         class MainMenuScene : public gameEngine::AScene {
             public:
-                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const gameEngine::scenes::SceneInfo &info);
+                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
                 ~MainMenuScene();
 
                 void start() override;

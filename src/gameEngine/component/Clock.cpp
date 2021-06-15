@@ -7,6 +7,8 @@
 
 #include "Clock.hpp"
 
+using namespace gameEngine::component;
+
 Clock::Clock()
 {
     this->restart();
