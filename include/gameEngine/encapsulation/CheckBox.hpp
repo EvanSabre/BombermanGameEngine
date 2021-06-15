@@ -19,18 +19,18 @@ namespace gameEngine
         public:
             CheckBox(const Vector<float> &size,
                     const Vector<float> &pos,
-                    const gameEngine::encapsulation::BText &content,
-                    const gameEngine::encapsulation::BColor &color = BLACK,
+                    const encapsulation::BText &content,
+                    const encapsulation::BColor &color = WHITE,
+                    const encapsulation::BColor &selectColor = RED,
                     bool initState = true,
-                    const gameEngine::encapsulation::BColor &tueColor = GREEN,
-                    const gameEngine::encapsulation::BColor &falseColor = RED,
-                    const gameEngine::encapsulation::BColor &selectColor = RED
-                    );
-            CheckBox(const std::shared_ptr<gameEngine::encapsulation::BRectangle> &rect, const std::shared_ptr<gameEngine::encapsulation::BText> &content);
+                    const encapsulation::BColor &trueColor = GREEN,
+                    const encapsulation::BColor &falseColor = RED
+                );
             ~CheckBox();
 
             bool getState() const noexcept;
             void draw() override;
+            bool isButtonReleased() override;
 
         private:
             bool _checkState;
@@ -40,7 +40,10 @@ namespace gameEngine
 
         private:
             void initCheckRect() noexcept;
+            void initText() noexcept;
             void setCheckRectColor() noexcept;
+
+            void toggleState() noexcept;
         };
     } // namespace encapsulation
 } // namespace gameEngine

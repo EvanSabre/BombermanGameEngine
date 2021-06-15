@@ -11,20 +11,21 @@ using namespace gameEngine::object;
 
 CheckBox::CheckBox(const Vector<float> &size,
                     const Vector<float> &pos,
-                    const gameEngine::encapsulation::BText &content,
-                    const gameEngine::encapsulation::BColor &color,
+                    const encapsulation::BText &content,
+                    const encapsulation::BColor &color,
+                    const encapsulation::BColor &selectColor,
                     bool initState,
-                    const gameEngine::encapsulation::BColor &trueColor,
-                    const gameEngine::encapsulation::BColor &falseColor,
-                    const gameEngine::encapsulation::BColor &selectColor
+                    const encapsulation::BColor &trueColor,
+                    const encapsulation::BColor &falseColor
                 )
-    : AButton{size, pos, content, color}
+    : AButton(size, pos, content, color, selectColor)
 {
     _checkState = initState;
     _trueColor = trueColor;
     _falseColor = falseColor;
 
     initCheckRect();
+    initText();
 }
 
 CheckBox::~CheckBox()
@@ -33,14 +34,41 @@ CheckBox::~CheckBox()
 
 //-----------------
 
+void CheckBox::initText() noexcept
+{
+    Vector<float> pos = (*_content).getTextPosition();
+    pos._x += _rectangle.get()->setTransform()._position._x;
+    pos._y += _rectangle.get()->setTransform()._position._y;
+
+    float rect_height = _rectangle.get()->setTransform()._scale._y;
+    float rect_width = _rectangle.get()->setTransform()._scale._x;
+    float size = (rect_height * 20) / 100;
+    pos._y += ((rect_height / 2 ) - (size / 2));
+    pos._x += (rect_width * 10) / 100;
+    (*_content).setTextSize(size);
+    (*_content).setTextPosition(pos);
+}
+
+
 void CheckBox::initCheckRect() noexcept
 {
-    Vector<float> size = this->getSize();
+    Vector3T<float> size{_rectangle.get()->setTransform()._scale};
+    Vector3T<float> pos{_rectangle.get()->setTransform()._position};
+
+    pos._x += size._x;
+    pos._y += size._y;
+
+
     size._y = (size._y * 90) / 100;
     size._x = (size._x * 20) / 100;
+    float padding = (_rectangle.get()->setTransform()._scale._y - size._y) / 2;
+    pos._x -= (size._x + padding);
+    pos._y -= (size._y + padding);
+
+
+    _checkRect.setTransform().setPosition(pos);
+    _checkRect.setTransform().setScale(size);
     setCheckRectColor();
-    _checkRect.setTransform().setPosition({0, 0, 0});
-    _checkRect.setTransform().setScale({100, 100, 100});
 }
 
 
@@ -48,21 +76,10 @@ void CheckBox::setCheckRectColor() noexcept
 {
     if (_checkState) {
         _checkRect.setColor(_trueColor);
-        this->AButton::setColor(_trueColor);
-        _rectangle.get()->setColor(_trueColor);
     } else {
         _checkRect.setColor(_falseColor);
-        this->AButton::setColor(_trueColor);
     }
 }
-
-
-CheckBox::CheckBox(const std::shared_ptr<gameEngine::encapsulation::BRectangle> &rect, const std::shared_ptr<gameEngine::encapsulation::BText> &content)
-    : AButton(rect, content)
-{
-    initCheckRect();
-}
-
 
 //getter
 
@@ -73,12 +90,26 @@ bool CheckBox::getState() const noexcept
 
 void CheckBox::draw()
 {
-    (*_rectangle).setColor(GREEN);
     this->AButton::draw();
+    this->AButton::drawOutline();
     _checkRect.draw();
-   // (*_content).setColor(BLACK);
-    (*_content).setTextSize(100);
-    (*_content).draw();
-    std::cout << _checkRect << std::endl;
-    _content.get()->draw();
+
+}
+
+void CheckBox::toggleState() noexcept
+{
+    if (_checkState)
+        _checkState = false;
+    else
+        _checkState = true;
+}
+
+bool CheckBox::isButtonReleased()
+{
+    bool ret = this->AButton::isButtonReleased();
+
+    if (ret)
+        toggleState();
+    setCheckRectColor();
+    return ret;
 }
