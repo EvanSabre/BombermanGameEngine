@@ -11,7 +11,7 @@
 #include <sys/stat.h>
 #include <string>
 #ifdef _WIN64
-  #include "Bdirent.h"
+  #include <direct.h>
 #else
   #include <dirent.h>
 #endif
@@ -19,6 +19,9 @@
 #include <stdexcept>
 #include <memory>
 #include "File.hpp"
+#include <filesystem>
+
+//std::filesystem::directory_iterator
 
 
 class Directory
@@ -31,11 +34,8 @@ class Directory
     std::shared_ptr<File> &loadFile(const std::string &filename, bool force_creation=false);
 
   private:
-    bool nextEntry();
     std::string _dirPath;
-    DIR *_directory = nullptr;
-    struct dirent *_entry = nullptr;
-    struct stat _entryInfo;
+    bool _directory = false;
     std::vector<std::shared_ptr<File>> _dir_content;
 };
 
