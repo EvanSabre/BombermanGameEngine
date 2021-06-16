@@ -41,11 +41,7 @@ void MainMenuScene::start()
     _audio.playMusic();
 
     _background.loadFromFile("./assets/Backgrounds/SupernovaBG.png");
-    _title = std::make_shared<gameEngine::encapsulation::BText>("BomberVerse", Vector<float>(middle1._x - 60, 60), WHITE, 120);
-    gameEngine::encapsulation::BFont font;
-    font.loadFromFile("./assets/Fonts/TarrgetLaserRegular-4OE9.otf");
-    _title->setFont(font);
-    _title->setSpacing(0);
+    _title = std::make_shared<gameEngine::encapsulation::BSdf>("BomberVerse", 120, RED, Vector3T<float>(middle1._x + 120, 60, 0));
 
     gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 30);
     gameEngine::encapsulation::BFont fontPlay;

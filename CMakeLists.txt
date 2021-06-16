@@ -12,6 +12,7 @@ project(project_bomberman
 
 set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/Animation.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BRectangle.cpp"
@@ -31,6 +32,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BMusic.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BSound.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BBoundingBox.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BSdf.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Collision.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
@@ -65,7 +67,6 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
-        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/GameObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp"

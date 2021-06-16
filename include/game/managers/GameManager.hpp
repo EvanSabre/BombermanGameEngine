@@ -39,8 +39,8 @@ namespace game {
 
             protected:
                 std::string _currentScene;
-                bool _change;
-                bool _quit;
+                bool _change = false;
+                bool _quit = false;
                 game::systems::setting_t _settings;
             private:
         };

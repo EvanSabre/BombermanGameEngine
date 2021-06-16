@@ -13,6 +13,7 @@
 #include "Errors.hpp"
 #include "AudioManager.hpp"
 #include "CheckBox.hpp"
+#include "BSdf.hpp"
 
 namespace game {
     namespace scenes {
@@ -29,7 +30,7 @@ namespace game {
             protected:
                 gameEngine::scenes::Parallax _parallax;
                 gameEngine::managers::AudioManager _audio;
-                std::shared_ptr<gameEngine::encapsulation::BText> _title = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BSdf> _title = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BText> _settings = nullptr;
                 gameEngine::encapsulation::BTexture2D _background;
             private:
