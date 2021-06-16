@@ -10,6 +10,7 @@
 
 #include "AScene.hpp"
 #include "Timer.hpp"
+#include "BSdf.hpp"
 
 namespace game {
     namespace scenes {
@@ -22,6 +23,7 @@ namespace game {
                 void update() override;
                 void draw() override;
             protected:
+                gameEngine::encapsulation::BSdf _text;
                 gameEngine::component::Timer _timer;
             private:
         };

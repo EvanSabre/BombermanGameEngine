@@ -27,8 +27,8 @@ namespace game {
                 bool haveToQuit();
             protected:
                 std::string _currentScene;
-                bool _change;
-                bool _quit;
+                bool _change = false;
+                bool _quit = false;
                 //std::unique_ptr<game::managers::UserManager> _userManager;
                 //PlayerInfo {Inputs, Names, Map Seed choosen}
                 //AudioLevels

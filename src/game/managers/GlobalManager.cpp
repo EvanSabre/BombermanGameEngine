@@ -9,14 +9,16 @@
 
 #define WIN_HEIGHT 1080
 #define WIN_WIDTH 1920
+#define ICON_PATH "./assets/BomberVerseIcon-1.png"
 
 game::managers::GlobalManager::GlobalManager()
 {
     _windowManager = std::make_shared<gameEngine::managers::WindowManager>();
     _windowManager->createWindow("Bomberverse", {WIN_WIDTH, WIN_HEIGHT});
-    _gameManager = std::make_shared<game::managers::GameManager>("choosePlayers");
+    _windowManager->setWindowIcon(ICON_PATH);
+    _gameManager = std::make_shared<game::managers::GameManager>("menu");
     //@TODO init gameManager
-    _currentScene = game::managers::SceneManager::loadScene("choosePlayers", _windowManager, _gameManager);
+    _currentScene = game::managers::SceneManager::loadScene(_gameManager->getCurrentScene(), _windowManager, _gameManager);
 }
 
 game::managers::GlobalManager::~GlobalManager()
