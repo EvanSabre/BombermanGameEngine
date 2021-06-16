@@ -58,6 +58,7 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, LIGHTGRAY);
 
+    buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setQuit(true); }, _info);
     _buttonManager.pushButton(button);
     _buttonManager.pushButton(buttonSettings);
     _buttonManager.pushButton(buttonQuit);
