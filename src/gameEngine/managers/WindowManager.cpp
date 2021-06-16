@@ -113,3 +113,12 @@ Vector<int> WindowManager::getWindowSize() const
 {
     return _size;
 }
+
+
+void WindowManager::setWindowIcon(std::string &path)
+{
+    Image img = LoadImage(path.c_str());
+
+    SetWindowIcon(img);
+    UnloadImage(img);
+}
