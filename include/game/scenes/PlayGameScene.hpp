@@ -41,6 +41,8 @@ namespace game {
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
                 std::vector<Tile> _tiles;
                 gameEngine::component::Timer _timer;
+
+                std::shared_ptr<game::objects::Tile> _healtTile;
             private:
                 void setupCamera() noexcept;
         };

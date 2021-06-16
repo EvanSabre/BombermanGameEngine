@@ -27,6 +27,10 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     for (auto &tile : _map.getTiledMap()) {
         _tiles.push_back(tile);
     }
+
+    std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
+    _healtTile = std::make_shared<game::objects::Tile>(healthModel, healthTex, game::HEALTHUP, Vector3T<float>{0, 0, 0});
 }
 
 PlayGameScene::~PlayGameScene()
@@ -98,10 +102,11 @@ void PlayGameScene::draw()
 {
     _buttonManager.drawButtons();
     this->_windowManager->set3DMode(_cam);
-    _map.draw();
-    for (auto it : _players) {
-        it->draw();
-    }
+    _healtTile.get()->draw();
+   // _map.draw();
+    // for (auto it : _players) {
+    //     it->draw();
+    // }
     _cam.endMode();
     _timer.getCurrentTime().draw();
 }
