@@ -20,12 +20,17 @@ EmptyScene::~EmptyScene()
 
 void EmptyScene::start()
 {
-    _timer.startThread();
+    _timer.getCurrentTime().setTextPosition(Vector<float>(100, 100));
+    _timer.getCurrentTime().setTextSize(100);
 }
 
 void EmptyScene::update()
 {
-
+    if (!_windowManager->isRunning()) {
+        _timer.setIsDone(true);
+        _timer.wait();
+        _info->setQuit(true);
+    }
 }
 
 void EmptyScene::draw()

@@ -11,7 +11,6 @@ using namespace gameEngine::component;
 
 Timer::Timer(const double &duration) : _format("")
 {
-    _currentTime = std::make_shared<gameEngine::encapsulation::BText>();
 }
 
 Timer::~Timer()
@@ -27,9 +26,9 @@ void Timer::timerExecute()
 
     _clock.restart();
     while (_duration > 0 && _isDone == false) {
-        if (_clock.getElapsedTime() > 1) {
-            mtx.lock();
+        if (_clock.getElapsedTime() >= 1) {
             _clock.restart();
+            mtx.lock();
             min = _duration / 60;
             if ((int)_duration % 60 == 0) {
                 sec = 0;
@@ -39,7 +38,7 @@ void Timer::timerExecute()
                 snprintf(cFormat, 100, "%i:%i", min, sec);
             }
             _format = cFormat;
-            _currentTime->setStr(_format);
+            _currentTime.setStr(_format);
             _duration--;
             std::memset(cFormat, 0, sizeof(cFormat));
             mtx.unlock();
@@ -62,9 +61,9 @@ void Timer::startThread()
     _timerThread = std::make_unique<std::thread>(&Timer::timerExecute, this);
 }
 
-gameEngine::encapsulation::BText Timer::getCurrentTime() const noexcept
+gameEngine::encapsulation::BText &Timer::getCurrentTime()
 {
-    return *_currentTime;
+    return _currentTime;
 }
 
 void Timer::setDuration(const double &duration)
@@ -79,7 +78,7 @@ void Timer::setIsDone(bool isDone)
 
 void Timer::setTimePos(const Vector<float> &pos)
 {
-    _currentTime->setTextPosition(pos);
+    _currentTime.setTextPosition(pos);
 }
 
 void Timer::addToDuration(const double &add)

@@ -33,10 +33,14 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
-    _timer.setTimePos(Vector<float>(_windowManager->getWindowSize()._x / 2, 100));
+    _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
+    _timer.startThread();
+    _timer.getCurrentTime().setColor(RED);
+    _timer.getCurrentTime().setTextSize(100);
 
+    gameEngine::encapsulation::BText pauseText("PAUSE", Vector<float>(10, 10), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), pauseText, BLUE);
 
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
@@ -70,6 +74,7 @@ void PlayGameScene::update()
         _info->setQuit(true);
     }
     if (_buttonManager.isButtonClicked("PAUSE")) {
+        _timer.addToDuration(10);
         std::cout << "Clicked pause button" << std::endl;
         //return "play";
     }
@@ -88,6 +93,6 @@ void PlayGameScene::draw()
     for (auto it : _players) {
         it->draw();
     }
-    _timer.getCurrentTime().draw();
     _cam.endMode();
+    _timer.getCurrentTime().draw();
 }

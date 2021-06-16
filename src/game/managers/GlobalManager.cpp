@@ -16,7 +16,7 @@ game::managers::GlobalManager::GlobalManager()
     _windowManager->createWindow("Bomberverse", {WIN_WIDTH, WIN_HEIGHT});
     _gameManager = std::make_shared<game::managers::GameManager>("menu");
     //@TODO init gameManager
-    _currentScene = game::managers::SceneManager::loadScene("empty", _windowManager, _gameManager);
+    _currentScene = game::managers::SceneManager::loadScene("menu", _windowManager, _gameManager);
 }
 
 game::managers::GlobalManager::~GlobalManager()
