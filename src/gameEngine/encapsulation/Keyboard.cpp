@@ -33,7 +33,7 @@ bool gameEngine::encapsulation::Keyboard::isKeyReleased(int key)
 
 const std::string gameEngine::encapsulation::Keyboard::getDeviceName()
 {
-    std::string name{"Keyboard"};
+    std::string name = "Keyboard";
 
     return name;
 }

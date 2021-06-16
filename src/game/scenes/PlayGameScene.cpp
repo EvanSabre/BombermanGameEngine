@@ -9,12 +9,24 @@
 
 using namespace game::scenes;
 
+
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15)
 {
+    //TODO: déplacer cette partie Input dans les scènes choix de profils
+
+    for (int i = 0; i < info->nbPlayers; i++) {
+        //info->_userManager->createUser("Joueur" + std::to_string(i + 1));
+        info->_userManager->assignInputToUser(i, "Joueur" + std::to_string(i + 1));
+        //TODO:AJouter au vecteur de joueur
+    }
+
+    // ! END TODO
+    std::cout << "\n\nHELLO\n\n" << std::endl;
     _map.dump();
     std::srand(_map.getSeed());
-    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm");
+
+    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", info->_userManager->getUser("Joueur" + std::to_string(1)));
 
     player->setTransform().setScale({0.1, 0.1, 0.1});
     player->setTransform().setPosition({10, 10, 10});
@@ -86,6 +98,12 @@ void PlayGameScene::update()
         std::cout << "Clicked pause button" << std::endl;
         // _audio.pauseMusic();
         //return "play";
+    }
+    std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
+    for (auto &[id, evt]: events)
+    {
+        if (id <= _players.size())
+            _players[id - 1]->setCurrentEvent(evt);
     }
     for (auto &it : _players) {
         Vector3T<float> prev(it->getTransform().getPosition());

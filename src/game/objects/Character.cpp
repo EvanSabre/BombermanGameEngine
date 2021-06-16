@@ -38,6 +38,17 @@ Character::~Character()
 
 //getter
 
+void Character::setCurrentEvent(game::Event event) noexcept
+{
+    _currentEvent = event;
+}
+
+game::Event Character::getCurrentEvent() const noexcept
+{
+    return _currentEvent;
+}
+
+
 std::string Character::getName() const noexcept
 {
     return this->_name;
