@@ -39,14 +39,14 @@ ressources/
             BombPass.png        - "ressources/All/Model/BombPass.png"
         Animation/
         Sound/
-            Button.wav          - "ressources/All/Sound/Button.wav"
-            SceneSwitch.wav     - "ressources/All/Sound/SceneSwitch.wav"
-            BombDrop.wav        - "ressources/All/Sound/BombDrop.wav"
-            BombExplode.wav     - "ressources/All/Sound/BombExplode.wav"
-            CollectibleDrop.wav - "ressources/All/Sound/CollectibleDrop.wav"
-            CollectiblePick.wav - "ressources/All/Sound/CollectiblePick.wav"
-            CharacterDeath.wav  - "ressources/All/Sound/CharacterDeath.wav"
-            CharacterDamage.wav - "ressources/All/Sound/CharacterDamage.wav"
+            Button.wav          - "ressources/All/Sound/Button.wav"                         done
+            SceneSwitch.wav     - "ressources/All/Sound/SceneSwitch.wav"                    needed ?
+            BombDrop.wav        - "ressources/All/Sound/BombDrop.wav"                       done
+            BombExplode.mp3     - "ressources/All/Sound/BombExplode.mp3"                    done
+            CollectibleDrop.wav - "ressources/All/Sound/CollectibleDrop.wav"                done
+            CollectiblePick.wav - "ressources/All/Sound/CollectiblePick.wav"                done
+            CharacterDeath.wav  - "ressources/All/Sound/CharacterDeath.wav"                 done
+            CharacterDamage.wav - "ressources/All/Sound/CharacterDamage.wav"                done
         Music/
-            Menu.mp3            - "ressources/All/Music/Menu.mp3"
-            Game.mp3            - "ressources/All/Music/Game.mp3"
+            Menu.mp3            - "ressources/All/Music/Menu.mp3"                           done
+            Game.wav            - "ressources/All/Music/Game.wav"                           done

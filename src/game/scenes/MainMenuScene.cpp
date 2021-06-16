@@ -19,8 +19,7 @@ using namespace game::scenes;
 MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
 : AScene(windowManager, info)
 {
-    _audio.loadMusicStreamFromFile("assets/music/menu_music.mp3");
-    _audio.loadSoundFromFile("assets/music/play_sound.wav");
+    _audio.loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
 }
 
 MainMenuScene::~MainMenuScene()
@@ -67,7 +66,6 @@ std::string MainMenuScene::update()
     _audio.updateMusicStream();
     if (_buttonManager.isButtonClicked("PLAY")) {
         std::cout << "Clicked play button\n";
-        _audio.playSound();
         return "play";
     }
     return "";

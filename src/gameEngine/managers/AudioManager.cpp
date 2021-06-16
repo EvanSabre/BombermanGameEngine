@@ -15,14 +15,12 @@ AudioManager::AudioManager()
     if (!IsAudioDeviceReady())
         InitAudioDevice();
     SetMasterVolume(100);
-    std::cout << "test open audio AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
 }
 
 AudioManager::~AudioManager()
 {
     if (IsAudioDeviceReady())
         CloseAudioDevice();
-    std::cout << "test close audio AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
 }
 
 void AudioManager::loadSoundFromFile(const char *filepath)

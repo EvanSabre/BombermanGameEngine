@@ -18,7 +18,8 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     player->setTransform().setRotation({0, 90, 0});
     _players.push_back(player);
     this->setupCamera();
-    _audio.loadMusicStreamFromFile("assets/music/game_music.mp3");
+    _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
+    _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
 }
 
 PlayGameScene::~PlayGameScene()
@@ -30,6 +31,8 @@ void PlayGameScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
 
+    _audio.setSoundVolume(15.0);
+    _audio.playSound();
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
 
