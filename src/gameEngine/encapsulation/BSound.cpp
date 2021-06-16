@@ -10,6 +10,7 @@
 using namespace gameEngine::encapsulation;
 
 BSound::BSound(const std::string &filepath)
+    : _load(false)
 {
     try {
         this->load(filepath);
