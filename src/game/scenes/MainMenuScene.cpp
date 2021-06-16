@@ -43,7 +43,7 @@ void MainMenuScene::start()
     fontPlay.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
     strText.setFont(fontPlay);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, LIGHTGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, DARKGRAY);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 70, middle2._y + 10), WHITE, 30);
@@ -51,7 +51,7 @@ void MainMenuScene::start()
     fontSetting.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
     settingText.setFont(fontSetting);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, LIGHTGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, DARKGRAY);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
@@ -59,7 +59,7 @@ void MainMenuScene::start()
     fontQuit.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
     quitText.setFont(fontQuit);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, LIGHTGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, DARKGRAY);
 
     _buttonManager.pushButton(button);
     _buttonManager.pushButton(buttonSettings);
