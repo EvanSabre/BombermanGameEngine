@@ -54,8 +54,10 @@ void encapsulation::ADrawable::setColor(const gameEngine::encapsulation::BColor 
     this->_color = color;
 }
 
+std::string encapsulation::ADrawable::getContent() const noexcept
+{
+    return "";
+}
+
 //-----------------------
 //DRAW
-void encapsulation::ADrawable::draw() const noexcept
-{
-}

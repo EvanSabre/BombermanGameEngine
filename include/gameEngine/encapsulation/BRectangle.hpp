@@ -38,6 +38,7 @@ namespace gameEngine
                 [[nodiscard]] float getHeight() const noexcept;
                 [[nodiscard]] float getX() const noexcept;
                 [[nodiscard]] float getY() const noexcept;
+                std::string getContent() const noexcept override;
 
             //setter
                 void setX(const float &x) noexcept;
@@ -46,7 +47,7 @@ namespace gameEngine
                 void setHeight(const float &) noexcept;
 
             //draw
-                void draw() const noexcept;
+                void draw() const noexcept override;
                 void drawLines(const BColor &color) const noexcept;
 
             //collision

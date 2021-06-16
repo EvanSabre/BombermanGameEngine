@@ -70,6 +70,11 @@ BModel &BModel::BModel::operator=(const encapsulation::BModel &ref)
 
 //GETTER
 
+std::string BModel::getContent() const noexcept
+{
+    return "";
+}
+
 Model BModel::getObj() const noexcept
 {
     return this->_model;

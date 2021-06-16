@@ -43,7 +43,9 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Selector.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Timer.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/WindowManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AudioManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/ButtonManager.cpp"
@@ -59,6 +61,8 @@ set(GAMEENGINE_SRC
 set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SplashScreenScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/ChoosePlayersScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
@@ -115,7 +119,6 @@ set(MY_INCLUDE
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
 find_package(raylib REQUIRED)
-
 
 set(MY_DEPENDENCIES
         raylib

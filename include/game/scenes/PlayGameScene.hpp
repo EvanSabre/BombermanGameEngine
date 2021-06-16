@@ -17,6 +17,7 @@
 #include "BModel.hpp"
 #include "BTexture2D.hpp"
 #include "CheckBox.hpp"
+#include "Timer.hpp"
 
 #define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
 
@@ -24,7 +25,7 @@ namespace game {
     namespace scenes {
         class PlayGameScene : public gameEngine::AScene {
             public:
-                PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info);
+                PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info);
                 ~PlayGameScene();
 
                 void collisionChecker(std::shared_ptr<game::objects::Character> &, const Vector3T<float> &);
@@ -39,7 +40,7 @@ namespace game {
                 gameEngine::managers::AudioManager _audio;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
                 std::vector<Tile> _tiles;
-
+                gameEngine::component::Timer _timer;
             private:
                 void setupCamera() noexcept;
         };
