@@ -16,6 +16,7 @@
 #include "BModel.hpp"
 #include "BTexture2D.hpp"
 #include "CheckBox.hpp"
+#include "Timer.hpp"
 
 #define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
 
@@ -37,7 +38,7 @@ namespace game {
                 gameEngine::encapsulation::BCamera _cam;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
                 std::vector<Tile> _tiles;
-
+                gameEngine::component::Timer _timer;
             private:
                 void setupCamera() noexcept;
         };

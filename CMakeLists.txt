@@ -44,6 +44,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Timer.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/WindowManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/ButtonManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
@@ -112,7 +113,6 @@ set(MY_INCLUDE
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
 find_package(raylib REQUIRED)
-
 
 set(MY_DEPENDENCIES
         raylib

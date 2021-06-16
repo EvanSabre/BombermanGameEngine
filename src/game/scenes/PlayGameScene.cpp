@@ -33,6 +33,9 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
+    _timer.getCurrentTime().setTransform().setPosition(Vector3T<float>(_windowManager->getWindowSize()._x / 2, 100, 0));
+    _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x / 2, 100));
+
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
 
@@ -62,6 +65,11 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
 void PlayGameScene::update()
 {
     _buttonManager.updateButtons();
+    if (!_windowManager->isRunning()) {
+        _timer.setIsDone(true);
+        _timer.wait();
+        _info->setQuit(true);
+    }
     if (_buttonManager.isButtonClicked("PAUSE")) {
         std::cout << "Clicked pause button" << std::endl;
         //return "play";
@@ -81,5 +89,6 @@ void PlayGameScene::draw()
     for (auto it : _players) {
         it->draw();
     }
+    std::cout << _timer.getCurrentTime() << std::endl;
     _cam.endMode();
 }
