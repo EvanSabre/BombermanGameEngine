@@ -10,18 +10,17 @@
 
 using namespace gameEngine::component;
 
-#define NEXT_BUTTON_PATH Path::getOSPath("./arrow_next.png")
-#define PREV_BUTTON_PATH Path::getOSPath("./arrow_next.png")
+#define NEXT_BUTTON_PATH Path::getOSPath("./assets/Backgrounds/arrow_next.png")
+#define PREV_BUTTON_PATH Path::getOSPath("./assets/Backgrounds/arrow_previous.png")
 
 Selector::Selector(
     const std::string &name,
-    const std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &contents,
+    std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &contents,
     Vector<float> pos,
     Vector<float> size,
     int sizeText,
     gameEngine::encapsulation::BColor color,
     gameEngine::encapsulation::BColor colorText
-
     )
 {
     Vector<float> sizeButton(size._x * 0.1, size._x * 0.1);
@@ -34,33 +33,27 @@ Selector::Selector(
                                             Vector<float>(pos._x + size._x * 0.8, pos._y + size._y * 0.25),
                                             TEXT("Next"),
                                             BLUE,
-                                            colorText);
+                                            colorText,
+                                            NEXT_BUTTON_PATH);
     _buttonPrev = std::make_shared<BUTTON>(sizeButton,
                                             Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.25),
                                             TEXT("Prev"),
                                             BLUE,
-                                            colorText);
+                                            colorText,
+                                            PREV_BUTTON_PATH);
     _mainRect = std::make_unique<RECTANGLE>(size, pos, color);
     _contents = contents;
-    _contentPos = Vector<float>(pos._x + size._x * 0.35, pos._y + size._y * 0.1);
+    _contentPos = Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.4);
     _contentSize = sizeButton;
     _buttonManager.pushButton(_buttonNext);
     _buttonManager.pushButton(_buttonPrev);
+
+    for (auto &i : _contents)
+        i->setTransform().setPosition(Vector3T<float>(_contentPos._x, _contentPos._y, 0));
 }
 
 Selector::~Selector()
 {
-    
-}
-
-Vector<float> Selector::getContentEmplacementSize(void)
-{
-    return _contentSize;
-}
-
-Vector<float> Selector::getContentEmplacementPos(void)
-{
-    return _contentPos;
 }
 
 std::shared_ptr<gameEngine::encapsulation::ADrawable> &Selector::getCurrentContent()
@@ -84,14 +77,14 @@ void Selector::update()
         case NEXT:
             _iCurrent += 1;
             std::cout << "NEXT currentElem = "<< std::to_string(_iCurrent) <<std::endl;
-            if (_iCurrent > (int)_contents.size())
+            if (_iCurrent > (int)_contents.size() - 1)
                 _iCurrent = 0;
             break;
         case PREV:
             _iCurrent -= 1;
             std::cout << "PREV currentElem = "<< std::to_string(_iCurrent) <<std::endl;
             if (_iCurrent < 0)
-                _iCurrent = _contents.size();
+                _iCurrent = _contents.size() - 1;
             break;
         default:
             break;

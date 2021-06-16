@@ -35,13 +35,14 @@ namespace gameEngine
             public:
                 Selector(
                     const std::string &name,
-                    const std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &contents,
+                    std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &contents,
                     Vector<float> pos,
                     Vector<float> size,
                     int sizeText,
                     gameEngine::encapsulation::BColor color = WHITE,
                     gameEngine::encapsulation::BColor colorText = BLACK);
                 ~Selector();
+
                 Vector<float> getContentEmplacementSize(void);
                 Vector<float> getContentEmplacementPos(void);
                 std::shared_ptr<gameEngine::encapsulation::ADrawable> &getCurrentContent();
@@ -55,7 +56,7 @@ namespace gameEngine
                 std::shared_ptr<BUTTON> _buttonNext = nullptr;
                 std::shared_ptr<BUTTON> _buttonPrev = nullptr;
                 std::unique_ptr<TEXT> _title = nullptr;
-                std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> _contents{0};
+                std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> _contents;
                 int _iCurrent = 0;
                 Vector<float> _contentSize = {0, 0};
                 Vector<float> _contentPos = {0, 0};

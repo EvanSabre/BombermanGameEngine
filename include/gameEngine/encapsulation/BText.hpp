@@ -53,7 +53,8 @@ namespace gameEngine
                 void setTextSize(const float &size) noexcept;
 
             //draw
-                void draw() const noexcept;
+                void draw() const noexcept override;
+                std::string getContent() const noexcept override;
         private:
             //ADrawable protected vaiable
             //_position: use only x and y

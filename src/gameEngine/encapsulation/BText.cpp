@@ -142,6 +142,10 @@ void encapsulation::BText::setSpacing(const float &spacing) noexcept
 //--------------------
 
 //DRAW
+std::string encapsulation::BText::getContent() const noexcept
+{
+    return getStr();
+}
 
 void encapsulation::BText::draw() const noexcept
 {
