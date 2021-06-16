@@ -30,8 +30,16 @@ Selector::Selector(
                                     colorText,
                                     sizeText,
                                     nullptr);
-    _buttonNext = std::make_shared<BUTTON>(sizeButton, Vector<float>(pos._x + size._x * 0.8, pos._y + size._y * 0.25), TEXT("Next"), BLUE, colorText);
-    _buttonPrev = std::make_shared<BUTTON>(sizeButton, Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.25), TEXT("Prev"), BLUE, colorText);
+    _buttonNext = std::make_shared<BUTTON>(sizeButton,
+                                            Vector<float>(pos._x + size._x * 0.8, pos._y + size._y * 0.25),
+                                            TEXT("Next"),
+                                            BLUE,
+                                            colorText);
+    _buttonPrev = std::make_shared<BUTTON>(sizeButton,
+                                            Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.25),
+                                            TEXT("Prev"),
+                                            BLUE,
+                                            colorText);
     _mainRect = std::make_unique<RECTANGLE>(size, pos, color);
     _contents = contents;
     _contentPos = Vector<float>(pos._x + size._x * 0.35, pos._y + size._y * 0.1);
@@ -75,13 +83,13 @@ void Selector::update()
     {
         case NEXT:
             _iCurrent += 1;
-            std::cout << "NEXT" << std::endl;
+            std::cout << "NEXT currentElem = "<< std::to_string(_iCurrent) <<std::endl;
             if (_iCurrent > (int)_contents.size())
                 _iCurrent = 0;
             break;
         case PREV:
             _iCurrent -= 1;
-            std::cout << "PREV" << std::endl;
+            std::cout << "PREV currentElem = "<< std::to_string(_iCurrent) <<std::endl;
             if (_iCurrent < 0)
                 _iCurrent = _contents.size();
             break;
@@ -92,9 +100,9 @@ void Selector::update()
 
 SelectorEvent Selector::getEvent(void)
 {
-    if (_buttonNext->getButtonPressed())
+    if (_buttonManager.isButtonClicked("Next"))
         return SelectorEvent::NEXT;
-    else if (_buttonPrev->getButtonPressed())
+    else if (_buttonManager.isButtonClicked("Prev"))
         return SelectorEvent::PREV;
     return SelectorEvent::NONE;
 }
