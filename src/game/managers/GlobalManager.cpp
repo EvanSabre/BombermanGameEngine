@@ -9,7 +9,7 @@
 
 #define WIN_HEIGHT 1080
 #define WIN_WIDTH 1920
-#define ICON_PATH "./assets/BomberVerseIcon-1.png"
+#define ICON_PATH "./assets/Icon/BomberVerseIcon-1.png"
 
 game::managers::GlobalManager::GlobalManager()
 {

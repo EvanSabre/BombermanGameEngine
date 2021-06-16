@@ -9,10 +9,10 @@
 
 using namespace game::scenes;
 
-#define ATTACK_PATH "./resources/spriteSheets/SpriteSheet_Splash.png"
-#define JUMP_PATH "./resources/spriteSheets/jump_in_Splash.png"
-#define IDLE_PATH "./resources/spriteSheets/idle_splash.png"
-#define LOGO "./resources/Logo/studio_logo.png"
+#define ATTACK_PATH "./assets/spriteSheets/SpriteSheet_Splash.png"
+#define JUMP_PATH "./assets/spriteSheets/jump_in_Splash.png"
+#define IDLE_PATH "./assets/spriteSheets/idle_splash.png"
+#define LOGO "./assets/Logo/studio_logo.png"
 #define ATTACK_FRAMES 11
 #define JUMP_FRAMES 10
 #define IDLE_FRAMES 9
