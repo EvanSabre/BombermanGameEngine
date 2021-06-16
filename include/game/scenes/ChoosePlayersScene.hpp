@@ -12,8 +12,10 @@
 #include "Button.hpp"
 #include "InputButton.hpp"
 #include "Selector.hpp"
+#include "ButtonManager.hpp"
 
 #define RECTANGLE gameEngine::encapsulation::BRectangle
+#define IMAGE gameEngine::encapsulation::BTexture2D
 #define SELECTOR gameEngine::component::Selector
 #define WINDOW_X _windowManager->getWindowSize()._x
 #define WINDOW_Y _windowManager->getWindowSize()._y
@@ -25,15 +27,17 @@ namespace game
         class ChoosePlayersScene : public gameEngine::AScene
         {
             public:
-                ChoosePlayersScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info);
+                ChoosePlayersScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info);
                 ~ChoosePlayersScene();
                 void start() override;
                 void update() override;
                 void draw() override;
             private:
-                std::shared_ptr<RECTANGLE> _Mainrect;
-                std::shared_ptr<SELECTOR> _playerSelector;
-                std::shared_ptr<SELECTOR> _botSelector;
+                std::unique_ptr<IMAGE> _background = nullptr;
+                std::unique_ptr<SELECTOR> _playerSelector = nullptr;
+                std::unique_ptr<SELECTOR> _botSelector = nullptr;
+                TEXT _PlayersIndication;
+                gameEngine::managers::ButtonManager _buttonManager;
         };
     };
 };

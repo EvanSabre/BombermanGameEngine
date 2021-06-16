@@ -17,7 +17,7 @@ namespace game {
     namespace scenes {
         class MainMenuScene : public gameEngine::AScene {
             public:
-                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info);
+                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info);
                 ~MainMenuScene();
 
                 void switchScene(std::shared_ptr<game::managers::GameManager> info);
