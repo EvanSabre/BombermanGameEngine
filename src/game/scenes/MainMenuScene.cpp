@@ -53,7 +53,6 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, LIGHTGRAY);
 
-
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x, middle2._y), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
