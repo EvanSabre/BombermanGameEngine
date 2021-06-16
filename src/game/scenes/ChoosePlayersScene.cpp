@@ -34,8 +34,10 @@ void ChoosePlayersScene::start()
         std::make_shared<TEXT>("3", size, BLACK, 40),
         std::make_shared<TEXT>("4", size, BLACK, 40),
     };
+
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> botContent =
     {
+        std::make_shared<TEXT>("0", size, BLACK, 40),
         std::make_shared<TEXT>("1", size, BLACK, 40),
         std::make_shared<TEXT>("2", size, BLACK, 40),
         std::make_shared<TEXT>("3", size, BLACK, 40),
@@ -75,14 +77,16 @@ void ChoosePlayersScene::update()
     _playerSelector->update();
 
     if (_buttonManager.isButtonClicked("Play")) {
-        std::cout << "Clicked play button\n";
         return;
     }
     std::string nb_entity = std::to_string(
         std::atoi(_botSelector->getCurrentContent()->getContent().c_str()) +
         std::atoi(_playerSelector->getCurrentContent()->getContent().c_str()));
+    if (std::atoi(nb_entity.c_str()) > 4 || std::atoi(nb_entity.c_str()) < 1)
+        _PlayersIndication.setColor(RED);
+    else
+        _PlayersIndication.setColor(WHITE);
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
-    //TODO::activate if Enabled
     return;
 }
 

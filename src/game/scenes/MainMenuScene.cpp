@@ -50,7 +50,7 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, DARKGRAY);
 
-    button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play"); }, _info);
+    button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("choosePlayers"); }, _info);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 70, middle2._y + 10), WHITE, 30);
