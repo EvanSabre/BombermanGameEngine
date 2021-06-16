@@ -49,10 +49,11 @@ setting_t SettingConf::loadSetting(const std::string &filepath)
         File file(filepath);
         file_content = file.readLines();
     } catch(const std::exception &e) {
-        // std::string msg = e.what();
+        std::string msg = e.what();
+        throw ConfigError("Configuration File : " + msg);
         //throw ConfigError("Configuration File : ");
-        std::cerr << e.what() << std::endl;
-        throw e;
+        // std::cerr << e.what() << std::endl;
+        // throw e;
     }
 
     try {
