@@ -29,8 +29,20 @@ bool game::managers::GameManager::haveToChange()
     return false;
 }
 
+void game::managers::GameManager::setQuit(bool q)
+{
+    _quit = q;
+}
+
 void game::managers::GameManager::setCurrentScene(const std::string &str)
 {
     _currentScene = str;
     _change = true;
+}
+
+bool game::managers::GameManager::haveToQuit()
+{
+    if (_quit)
+        return true;
+    return false;
 }

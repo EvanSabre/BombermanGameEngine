@@ -16,6 +16,7 @@ const BColor &color, const BColor &selectColor, float rotation)
     _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
     _content = std::make_shared<BText>(content);
     _state = gameEngine::interfaces::IButton::NORMAL;
+    _callback = nullptr;
 }
 
 AButton::AButton(const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &text)
@@ -105,7 +106,7 @@ bool AButton::isInsideButton(const Vector<float> &point)
 
 bool AButton::isButtonPressed(const Vector<float> &mousePos)
 {
-    if (isInsideButton(mousePos) && IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+    if (_state == MOUSE_HOVER && IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
         _state = PRESSED;
         return true;
     }
@@ -128,7 +129,7 @@ void AButton::updateState()
 
     isInsideButton(vec);
     isButtonPressed(vec);
-    if (isButtonReleased())
+    if (isButtonReleased() && _callback != nullptr)
         _callback(_infoPtr);
 }
 
