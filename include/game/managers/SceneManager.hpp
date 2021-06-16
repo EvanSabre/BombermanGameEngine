@@ -24,10 +24,10 @@ namespace game {
             public:
                 SceneManager();
                 ~SceneManager();
-                static std::shared_ptr<gameEngine::interfaces::IScene> loadScene(const std::string &type, std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> info);
+                static std::shared_ptr<gameEngine::interfaces::IScene> loadScene(const std::string &type, std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info);
 
             private:
-                static const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::interfaces::IScene>(std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> info)>>_scene;
+                static const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::interfaces::IScene>(std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info)>>_scene;
         };
     }
 }

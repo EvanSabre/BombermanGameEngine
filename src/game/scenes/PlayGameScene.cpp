@@ -35,8 +35,14 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
+    _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
+    _timer.startThread();
+    _timer.getCurrentTime().setColor(RED);
+    _timer.getCurrentTime().setTextSize(100);
+
+    gameEngine::encapsulation::BText pauseText("PAUSE", Vector<float>(10, 10), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), pauseText, BLUE);
 
     _audio.setSoundVolume(15.0);
     _audio.playSound();
@@ -70,7 +76,13 @@ void PlayGameScene::update()
 {
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
+    if (!_windowManager->isRunning()) {
+        _timer.setIsDone(true);
+        _timer.wait();
+        _info->setQuit(true);
+    }
     if (_buttonManager.isButtonClicked("PAUSE")) {
+        _timer.addToDuration(10);
         std::cout << "Clicked pause button" << std::endl;
         // _audio.pauseMusic();
         //return "play";
@@ -91,4 +103,5 @@ void PlayGameScene::draw()
         it->draw();
     }
     _cam.endMode();
+    _timer.getCurrentTime().draw();
 }

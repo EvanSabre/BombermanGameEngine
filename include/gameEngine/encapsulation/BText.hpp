@@ -10,6 +10,7 @@
 
 #include <string>
 #include <stdexcept>
+#include <cstdio>
 #include "BFont.hpp"
 #include "Vector.hpp"
 #include "raylib.h"
