@@ -22,6 +22,8 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     player->setCollider();
     _players.push_back(player);
     this->setupCamera();
+    _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
+    _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
     for (auto &tile : _map.getTiledMap()) {
         _tiles.push_back(tile);
     }
@@ -36,8 +38,13 @@ void PlayGameScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), gameEngine::encapsulation::BText("PAUSE"), BLUE);
 
+    _audio.setSoundVolume(15.0);
+    _audio.playSound();
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
+
+    _audio.setMusicVolume(1.0); //1.0 is max level
+    _audio.playMusic();
 }
 
 void PlayGameScene::setupCamera() noexcept
@@ -62,8 +69,10 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
 void PlayGameScene::update()
 {
     _buttonManager.updateButtons();
+    _audio.updateMusicStream();
     if (_buttonManager.isButtonClicked("PAUSE")) {
         std::cout << "Clicked pause button" << std::endl;
+        // _audio.pauseMusic();
         //return "play";
     }
     for (auto &it : _players) {

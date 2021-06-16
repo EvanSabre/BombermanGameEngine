@@ -19,17 +19,7 @@ ressources/
             CharacterIdle.iqm   - "ressources/"{Name}"/Animation/CharacterIdle.iqm"
             CharacterWalk.iqm   - "ressources/"{Name}"/Animation/CharacterWalk.iqm"
         Sound/
-            Button.wav          - "ressources/"{Name}"/Sound/Button.wav"
-            SceneSwitch.wav     - "ressources/"{Name}"/Sound/SceneSwitch.wav"
-            BombDrop.wav        - "ressources/"{Name}"/Sound/BombDrop.wav"
-            BombExplode.wav     - "ressources/"{Name}"/Sound/BombExplode.wav"
-            CollectibleDrop.wav - "ressources/"{Name}"/Sound/CollectibleDrop.wav"
-            CollectiblePick.wav - "ressources/"{Name}"/Sound/CollectiblePick.wav"
-            CharacterDeath.wav  - "ressources/"{Name}"/Sound/CharacterDeath.wav"
-            CharacterDamage.wav - "ressources/"{Name}"/Sound/CharacterDamage.wav"
         Music/
-            Menu.mp3            - "ressources/"{Name}"/Music/Menu.mp3"
-            Game.mp3            - "ressources/"{Name}"/Music/Game.mp3"
     All/
         Model/
             Bomb.obj            - "ressources/All/Model/Bomb.obj"
@@ -49,4 +39,14 @@ ressources/
             BombPass.png        - "ressources/All/Model/BombPass.png"
         Animation/
         Sound/
+            Button.wav          - "ressources/All/Sound/Button.wav"                         done
+            SceneSwitch.wav     - "ressources/All/Sound/SceneSwitch.wav"                    needed ?
+            BombDrop.wav        - "ressources/All/Sound/BombDrop.wav"                       done
+            BombExplode.mp3     - "ressources/All/Sound/BombExplode.mp3"                    done
+            CollectibleDrop.wav - "ressources/All/Sound/CollectibleDrop.wav"                done
+            CollectiblePick.wav - "ressources/All/Sound/CollectiblePick.wav"                done
+            CharacterDeath.wav  - "ressources/All/Sound/CharacterDeath.wav"                 done
+            CharacterDamage.wav - "ressources/All/Sound/CharacterDamage.wav"                done
         Music/
+            Menu.mp3            - "ressources/All/Music/Menu.mp3"                           done
+            Game.wav            - "ressources/All/Music/Game.wav"                           done

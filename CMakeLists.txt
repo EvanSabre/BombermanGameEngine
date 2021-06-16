@@ -45,6 +45,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Selector.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/WindowManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AudioManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/ButtonManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"

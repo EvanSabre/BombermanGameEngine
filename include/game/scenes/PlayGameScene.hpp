@@ -10,6 +10,7 @@
 
 #include "AScene.hpp"
 #include "ButtonManager.hpp"
+#include "AudioManager.hpp"
 #include "Map.hpp"
 #include "BCamera.hpp"
 #include "Player.hpp"
@@ -35,6 +36,7 @@ namespace game {
                 std::string _universe;
                 Map _map;
                 gameEngine::encapsulation::BCamera _cam;
+                gameEngine::managers::AudioManager _audio;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
                 std::vector<Tile> _tiles;
 

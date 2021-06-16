@@ -11,6 +11,7 @@
 #include "AScene.hpp"
 #include "Parallax.hpp"
 #include "Errors.hpp"
+#include "AudioManager.hpp"
 #include "CheckBox.hpp"
 
 namespace game {
@@ -27,6 +28,7 @@ namespace game {
                 //Unique to this scene
             protected:
                 gameEngine::scenes::Parallax _parallax;
+                gameEngine::managers::AudioManager _audio;
                 std::shared_ptr<gameEngine::encapsulation::BText> _title = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BText> _settings = nullptr;
                 gameEngine::encapsulation::BTexture2D _background;
