@@ -27,10 +27,12 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     for (auto &tile : _map.getTiledMap()) {
         _tiles.push_back(tile);
     }
-
-    std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+// "assets/Pirates/Models/Border.obj"
+// "assets/All/Models/HealthUp.obj"
+    std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/Pirates/Models/Border.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
-    _healtTile = std::make_shared<game::objects::Tile>(healthModel, healthTex, game::HEALTHUP, Vector3T<float>{0, 0, 0});
+    _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::HEALTHUP, Vector3T<float>{2, 0, 2},
+    Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
 }
 
 PlayGameScene::~PlayGameScene()
@@ -78,6 +80,7 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
 
 void PlayGameScene::update()
 {
+    _healtTile.get()->update();
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
     if (!_windowManager->isRunning()) {
@@ -102,7 +105,7 @@ void PlayGameScene::draw()
 {
     _buttonManager.drawButtons();
     this->_windowManager->set3DMode(_cam);
-    _healtTile.get()->draw();
+    (*_healtTile).draw();
    // _map.draw();
     // for (auto it : _players) {
     //     it->draw();

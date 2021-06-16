@@ -18,6 +18,7 @@
 #include "BTexture2D.hpp"
 #include "CheckBox.hpp"
 #include "Timer.hpp"
+#include "PowerUpTile.hpp"
 
 #define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
 
@@ -42,7 +43,7 @@ namespace game {
                 std::vector<Tile> _tiles;
                 gameEngine::component::Timer _timer;
 
-                std::shared_ptr<game::objects::Tile> _healtTile;
+                std::shared_ptr<game::objects::PowerUpTile> _healtTile;
             private:
                 void setupCamera() noexcept;
         };
