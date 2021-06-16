@@ -21,11 +21,14 @@ namespace game {
 
                 void setCurrentScene(const std::string &str);
                 std::string getCurrentScene() const noexcept;
+                void setQuit(bool q);
 
                 bool haveToChange();
+                bool haveToQuit();
             protected:
                 std::string _currentScene;
                 bool _change;
+                bool _quit;
                 //std::unique_ptr<game::managers::UserManager> _userManager;
                 //PlayerInfo {Inputs, Names, Map Seed choosen}
                 //AudioLevels
