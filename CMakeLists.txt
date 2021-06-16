@@ -59,6 +59,7 @@ set(GAMEENGINE_SRC
 set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SplashScreenScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"

@@ -26,7 +26,7 @@ namespace gameEngine {
                 void setDuration(const double &duration);
                 void setTimePos(const Vector<float> &pos);
                 void setIsDone(bool isDone);
-
+                void startThread();
                 gameEngine::encapsulation::BText getCurrentTime() const noexcept;
                 void wait();
                 void timerExecute();
@@ -37,7 +37,7 @@ namespace gameEngine {
                 std::unique_ptr<std::thread> _timerThread;
                 gameEngine::component::Clock _clock;
                 std::string _format;
-                gameEngine::encapsulation::BText _currentTime;
+                std::shared_ptr<gameEngine::encapsulation::BText> _currentTime;
             private:
         };
     }

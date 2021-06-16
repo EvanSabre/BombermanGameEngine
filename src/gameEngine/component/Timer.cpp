@@ -11,7 +11,7 @@ using namespace gameEngine::component;
 
 Timer::Timer(const double &duration) : _format("")
 {
-    _timerThread = std::make_unique<std::thread>(&Timer::timerExecute, this);
+    _currentTime = std::make_shared<gameEngine::encapsulation::BText>();
 }
 
 Timer::~Timer()
@@ -39,7 +39,7 @@ void Timer::timerExecute()
                 snprintf(cFormat, 100, "%i:%i", min, sec);
             }
             _format = cFormat;
-            _currentTime.setStr(_format);
+            _currentTime->setStr(_format);
             _duration--;
             std::memset(cFormat, 0, sizeof(cFormat));
             mtx.unlock();
@@ -57,9 +57,14 @@ void Timer::wait()
     _timerThread->join();
 }
 
+void Timer::startThread()
+{
+    _timerThread = std::make_unique<std::thread>(&Timer::timerExecute, this);
+}
+
 gameEngine::encapsulation::BText Timer::getCurrentTime() const noexcept
 {
-    return _currentTime;
+    return *_currentTime;
 }
 
 void Timer::setDuration(const double &duration)
@@ -70,6 +75,11 @@ void Timer::setDuration(const double &duration)
 void Timer::setIsDone(bool isDone)
 {
     _isDone = isDone;
+}
+
+void Timer::setTimePos(const Vector<float> &pos)
+{
+    _currentTime->setTextPosition(pos);
 }
 
 void Timer::addToDuration(const double &add)
