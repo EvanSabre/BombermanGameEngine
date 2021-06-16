@@ -105,7 +105,10 @@ void Button::draw()
         _rectangle->getTransform().getPosition()._y);
 
     if (_texture->isLoad()) {
-       _texture->drawRect(*_frameRec, pos);
+        if (_texture->getSize()._x > _rectangle->getWidth() && _texture->getSize()._y > _rectangle->getHeight()) {
+            _texture->drawEx(_rectangle->getWidth() / _texture->getSize()._x);
+        } else
+            _texture->drawRect(*_frameRec, pos);
     } else {
         drawButtonRect();
     }

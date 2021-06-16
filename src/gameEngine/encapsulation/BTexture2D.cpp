@@ -155,7 +155,7 @@ void BTexture2D::draw() const noexcept
         DrawTexture(this->_texture, _pos._x, _pos._y, _color.getObj());
 }
 
-void BTexture2D::drawEx(int scale) const noexcept
+void BTexture2D::drawEx(float scale) const noexcept
 {
     Vector2 vec;
 

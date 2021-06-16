@@ -124,6 +124,7 @@ add_executable(bomberman
         ${GAMEENGINE_SRC}
         ${GAME_SRC}
         ${UTILS_SRC}
+        ${PROJECT_SOURCE_DIR}/assets/icon.res
         )
 
 set_target_properties(bomberman
