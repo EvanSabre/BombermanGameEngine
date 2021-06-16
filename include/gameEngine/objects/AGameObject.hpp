@@ -55,7 +55,6 @@ namespace gameEngine
             component::Transform _transform;
             component::BoxCollider _collider;
             Quadrants _quadrant;
-            game::Tag_e _tag;
         private:
             std::string _id;
         };

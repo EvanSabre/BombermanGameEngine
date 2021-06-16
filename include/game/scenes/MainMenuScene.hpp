@@ -17,11 +17,12 @@ namespace game {
     namespace scenes {
         class MainMenuScene : public gameEngine::AScene {
             public:
-                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
+                MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info);
                 ~MainMenuScene();
 
+                void switchScene(std::shared_ptr<game::managers::GameManager> info);
                 void start() override;
-                std::string update() override;
+                void update() override;
                 void draw() override;
                 //Unique to this scene
             protected:

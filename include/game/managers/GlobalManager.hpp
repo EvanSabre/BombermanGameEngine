@@ -8,8 +8,10 @@
 #ifndef GLOBALMANAGER_HPP_
 #define GLOBALMANAGER_HPP_
 
+#include "GameManager.hpp"
 #include "SceneManager.hpp"
 #include "Errors.hpp"
+#include <memory>
 
 namespace game {
     namespace managers {
@@ -23,7 +25,7 @@ namespace game {
             protected:
                 std::shared_ptr<gameEngine::managers::WindowManager> _windowManager;
                 std::shared_ptr<gameEngine::interfaces::IScene> _currentScene;
-                std::shared_ptr<gameEngine::scenes::SceneInfo> _sceneInfo;
+                std::shared_ptr<game::managers::GameManager> _gameManager;
             private:
         };
     }

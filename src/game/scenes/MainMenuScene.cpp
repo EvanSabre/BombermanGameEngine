@@ -16,13 +16,18 @@ using namespace game::scenes;
 #define FOREGROUND "./resources/backgrounds/cyberpunk_street_foreground.png"
 #define PLAY_BUTTON "./resources/UI-Elements/PlayButton.png"
 
-MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
+MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info)
 {
 }
 
 MainMenuScene::~MainMenuScene()
 {
+}
+
+void MainMenuScene::switchScene(std::shared_ptr<game::managers::GameManager> info)
+{
+    info->setCurrentScene("play");
 }
 
 void MainMenuScene::start()
@@ -45,6 +50,8 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, DARKGRAY);
 
+    button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play"); }, _info);
+
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 70, middle2._y + 10), WHITE, 30);
     gameEngine::encapsulation::BFont fontSetting;
@@ -61,19 +68,15 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, DARKGRAY);
 
+    buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setQuit(true); }, _info);
     _buttonManager.pushButton(button);
     _buttonManager.pushButton(buttonSettings);
     _buttonManager.pushButton(buttonQuit);
 }
 
-std::string MainMenuScene::update()
+void MainMenuScene::update()
 {
     _buttonManager.updateButtons();
-    if (_buttonManager.isButtonClicked("PLAY")) {
-        std::cout << "Clicked play button\n";
-        return "play";
-    }
-    return "";
 }
 
 void MainMenuScene::draw()

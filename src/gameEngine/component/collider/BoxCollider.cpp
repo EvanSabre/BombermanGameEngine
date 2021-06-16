@@ -16,7 +16,7 @@ _box(min, max), Collider(enabled)
 BoxCollider::~BoxCollider()
 {}
 
-gameEngine::encapsulation::BBoundingBox BoxCollider::getBoundingBox() const
+gameEngine::encapsulation::BBoundingBox &BoxCollider::getBoundingBox()
 {
     return _box;
 }
