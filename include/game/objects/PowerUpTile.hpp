@@ -28,7 +28,9 @@ namespace game::objects
             );
         ~PowerUpTile();
 
+
         void update() override;
+        void onCollisionEnter(const gameEngine::objects::AGameObject &collision) override;
 
     private:
         float _idleSpeed = 0.1;

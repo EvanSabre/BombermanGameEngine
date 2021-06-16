@@ -51,3 +51,9 @@ void PowerUpTile::checkHeight() noexcept
     else if (_transform._position._y <= _minHeight && _speed._y < 0)
         _speed._y = _idleSpeed;
 }
+
+void PowerUpTile::onCollisionEnter(const gameEngine::objects::AGameObject &collision)
+{
+    //TODO
+    //destroy after player collision
+}
