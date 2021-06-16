@@ -9,10 +9,9 @@
 #define MAP_HPP_
 
 #define MAPPATH  0
-#define MAPWALL  1
+#define MAPBORDR 1
 #define MAPBRICK 2
-#define MAPBORDR 3
-#define TILESIZE 320
+#define MAPWALL  3
 
 #define MINSIZE 5
 #define SIZE_X  (_size)
@@ -34,18 +33,12 @@
 #include <memory>
 #include "Tile.hpp"
 
-#define BLOCKPATHOBJ  (std::string)"./resources/models/minecraft/blocks/cube.obj"
-#define WALLTILEPNG   (std::string)"./resources/models/minecraft/blocks/Stone.png"
-#define BRICKTILEPNG  (std::string)"./resources/models/minecraft/blocks/Wood.png"
-#define PATHTILEPNG   (std::string)"./resources/models/minecraft/blocks/Grass.png"
-#define BORDERTILEPNG (std::string)"./resources/models/minecraft/blocks/Cobble.png"
-
 using namespace game::objects;
 
 namespace game::objects {
     class Map {
         public:
-            Map(const std::size_t &, const std::size_t &seed = 0);
+            Map(const std::string &, const std::size_t &, const std::size_t &seed = 0);
             ~Map();
 
             // memeber functions
@@ -61,6 +54,7 @@ namespace game::objects {
             std::size_t getSize() const;
             std::size_t getSeed() const;
             std::vector<std::vector<int>> getMap() const;
+            std::vector<Tile> getTiledMap() const;
 
             // setters
             void setSize(const std::size_t &);
@@ -72,6 +66,16 @@ namespace game::objects {
             std::size_t _size;
             std::size_t _seed;
             std::vector<Tile> _tiledMap;
+
+            std::string _universe;
+            std::string _WALLPATHMOD;
+            std::string _BRICKPATHMOD;
+            std::string _PATHPATHMOD;
+            std::string _BORDERPATHMOD;
+            std::string _WALLTILEPNG;
+            std::string _BRICKTILEPNG;
+            std::string _PATHTILEPNG;
+            std::string _BORDERTILEPNG;
 
             std::shared_ptr<gameEngine::encapsulation::BModel> _brickMod;
             std::shared_ptr<gameEngine::encapsulation::BModel> _wallMod;

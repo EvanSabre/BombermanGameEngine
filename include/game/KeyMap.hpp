@@ -21,18 +21,18 @@ namespace game
         BACK,
     }Event;
 
-    std::unordered_map<Event, Controller> defaultKeymap =
-    {
-        {MOVE_UP,
-            gameEngine::Controller(&gameEngine::interfaces::IInput::isKeyPressed,
-                gameEngine::AttachedKeys(gameEngine::GAMEPAD_BUTTON_LEFT_FACE_UP, gameEngine::KEY_UP))
-        }
-        //{MOVE_DOWN, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_DOWN)},
-        //{MOVE_RIGHT, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_RIGHT)},
-        //{MOVE_LEFT, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_LEFT)},
-        //{VALIDATE, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_RIGHT_FACE_DOWN)},
-        //{BACK, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_RIGHT_FACE_DOWN)},
-    };
+    // std::unordered_map<Event, gameEngine::Controller> defaultKeymap =
+    // {
+    //     {MOVE_UP,
+    //         gameEngine::Controller(&gameEngine::interfaces::IInput::isKeyPressed,
+    //             gameEngine::AttachedKeys(gameEngine::GAMEPAD_BUTTON_LEFT_FACE_UP, gameEngine::KEY_UP))
+    //     }
+    //     //{MOVE_DOWN, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_DOWN)},
+    //     //{MOVE_RIGHT, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_RIGHT)},
+    //     //{MOVE_LEFT, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_LEFT)},
+    //     //{VALIDATE, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_RIGHT_FACE_DOWN)},
+    //     //{BACK, std::make_pair<gameEngine::InputFunc, gameEngine::Key>(&gameEngine::interfaces::IInput::isKeyPressed, gameEngine::GAMEPAD_BUTTON_RIGHT_FACE_DOWN)},
+    // };
 };
 
 #endif /* !KEYMAP_HPP_ */

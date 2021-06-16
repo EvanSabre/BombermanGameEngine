@@ -19,8 +19,9 @@ namespace gameEngine {
                 BoxCollider(const encapsulation::BBoundingBox &box);
                 ~BoxCollider();
 
-                encapsulation::BBoundingBox getBoundingBox() const;
+                encapsulation::BBoundingBox &getBoundingBox();
                 bool isColliding(const encapsulation::BBoundingBox &ref);
+
             private:
                 encapsulation::BBoundingBox _box;
         };

@@ -49,7 +49,7 @@ namespace gameEngine
 
         //draw
             void draw() const noexcept;
-            void drawEx(int scale) const noexcept;
+            void drawEx(float scale) const noexcept;
             void drawRect(const BRectangle &rect, Vector<float> pos) const noexcept;
 
         //utils

@@ -6,6 +6,7 @@
 */
 
 #include "BModelAnimation.hpp"
+#include <iostream>
 
 using namespace gameEngine;
 using namespace encapsulation;

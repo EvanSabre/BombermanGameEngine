@@ -50,7 +50,6 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
-        "src/game/scenes/SceneInfo.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/exceptions/Exception.cpp"
         "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
@@ -77,6 +76,8 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/systems/SettingConf.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/GameManager.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
 
@@ -109,6 +110,7 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
         "${PROJECT_SOURCE_DIR}/include/game/objects/Effects"
         "${PROJECT_SOURCE_DIR}/include/WindowsEquivalent"
+        "${PROJECT_SOURCE_DIR}/include/game/systems/"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
@@ -125,6 +127,7 @@ add_executable(bomberman
         ${GAMEENGINE_SRC}
         ${GAME_SRC}
         ${UTILS_SRC}
+        ${PROJECT_SOURCE_DIR}/assets/icon.res
         )
 
 set_target_properties(bomberman

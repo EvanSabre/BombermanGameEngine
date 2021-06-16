@@ -16,7 +16,7 @@ using namespace game::scenes;
 #define FOREGROUND "./resources/backgrounds/cyberpunk_street_foreground.png"
 #define PLAY_BUTTON "./resources/UI-Elements/PlayButton.png"
 
-MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
+MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info)
 {
     _audio.loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
@@ -24,6 +24,11 @@ MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager
 
 MainMenuScene::~MainMenuScene()
 {
+}
+
+void MainMenuScene::switchScene(std::shared_ptr<game::managers::GameManager> info)
+{
+    info->setCurrentScene("play");
 }
 
 void MainMenuScene::start()
@@ -41,34 +46,42 @@ void MainMenuScene::start()
     font.loadFromFile("./assets/Fonts/TarrgetLaserRegular-4OE9.otf");
     _title->setFont(font);
     _title->setSpacing(0);
-    gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+
+    gameEngine::encapsulation::BText strText("PLAY", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 30);
+    gameEngine::encapsulation::BFont fontPlay;
+    fontPlay.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
+    strText.setFont(fontPlay);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, LIGHTGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, DARKGRAY);
+
+    button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play"); }, _info);
 
     middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+    gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 70, middle2._y + 10), WHITE, 30);
+    gameEngine::encapsulation::BFont fontSetting;
+    fontSetting.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
+    settingText.setFont(fontSetting);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, LIGHTGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, DARKGRAY);
 
     middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x, middle2._y), WHITE, 30);
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
+    gameEngine::encapsulation::BFont fontQuit;
+    fontQuit.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
+    quitText.setFont(fontQuit);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, LIGHTGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, DARKGRAY);
 
+    buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setQuit(true); }, _info);
     _buttonManager.pushButton(button);
     _buttonManager.pushButton(buttonSettings);
     _buttonManager.pushButton(buttonQuit);
 }
 
-std::string MainMenuScene::update()
+void MainMenuScene::update()
 {
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
-    if (_buttonManager.isButtonClicked("PLAY")) {
-        std::cout << "Clicked play button\n";
-        return "play";
-    }
-    return "";
 }
 
 void MainMenuScene::draw()
