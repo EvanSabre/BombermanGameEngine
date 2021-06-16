@@ -73,11 +73,11 @@ setting_t SettingConf::getDefaultSettings() noexcept
     conf._musicVolume = -1;
     conf._soundVolume = -1;
     conf._keyMap = {
-        {game::MOVE_UP, {gameEngine::KEY_NULL, gameEngine::KEY_NULL}},
-        {game::MOVE_DOWN, {gameEngine::KEY_NULL, gameEngine::KEY_NULL}},
-        {game::MOVE_LEFT, {gameEngine::KEY_NULL, gameEngine::KEY_NULL}},
-        {game::MOVE_RIGHT, {gameEngine::KEY_NULL, gameEngine::KEY_NULL}},
-        {game::VALIDATE, {gameEngine::KEY_NULL, gameEngine::KEY_NULL}},
+        {game::MOVE_UP, {gameEngine::KEY_UP, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_UP}},
+        {game::MOVE_DOWN, {gameEngine::KEY_DOWN, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_DOWN}},
+        {game::MOVE_LEFT, {gameEngine::KEY_LEFT, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_LEFT}},
+        {game::MOVE_RIGHT, {gameEngine::KEY_RIGHT, gameEngine::GAMEPAD_BUTTON_LEFT_FACE_RIGHT}},
+        {game::VALIDATE, {gameEngine::KEY_SPACE, gameEngine::GAMEPAD_BUTTON_RIGHT_FACE_LEFT}},
     };
     return conf;
 }

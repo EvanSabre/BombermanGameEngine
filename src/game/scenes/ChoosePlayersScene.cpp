@@ -9,7 +9,6 @@
 #include "Button.hpp"
 #include "InputButton.hpp"
 
-
 using namespace game::scenes;
 #define BACKGROUND_BUTTON "./assets/Backgrounds/SupernovaBG.png"
 
@@ -68,6 +67,9 @@ void ChoosePlayersScene::start()
 
 void ChoosePlayersScene::update()
 {
+    if (!_windowManager->isRunning()) {
+        _info->setQuit(true);
+    }
     _buttonManager.updateButtons();
     _botSelector->update();
     _playerSelector->update();
@@ -92,6 +94,5 @@ void ChoosePlayersScene::draw()
     _buttonManager.drawButtons();
     _PlayersIndication.draw();
 }
-
 
 // * Callbacks

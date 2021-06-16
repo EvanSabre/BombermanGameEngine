@@ -32,7 +32,7 @@ namespace gameEngine
 
             private:
                 int getAxisMovement(void);
-                int _deviceID;
+                int _deviceID = 0;
         };
     };
 };

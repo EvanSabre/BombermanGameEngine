@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include "raylib.h"
 #include "Character.hpp"
-#include "Keyboard.hpp"
+#include "User.hpp"
 
 #ifndef CALL_MEMBER_FN
     #define CALL_MEMBER_FN(object, ptrToMember) ((object).*(ptrToMember))
@@ -33,20 +33,20 @@ namespace game
         {
         public:
             Player(const std::string &id, const std::string &name, const std::string &text,
-            const std::string &model, const std::string &animWalk, const std::string &animIdl);
+            const std::string &model, const std::string &animWalk, const std::string &animIdl, std::shared_ptr<game::User> &userLinked);
             ~Player();
 
             void handleKeyEvent() noexcept;
             void update() override;
 
         private:
-            typedef int my_key;
-            std::unordered_map<my_key, playerKeyEvt> _key_event = {
-                {KEY_DOWN, &Player::moveLeft},
-                {KEY_UP, &Player::moveRight},
-                {KEY_RIGHT, &Player::moveForward},
-                {KEY_LEFT, &Player::moveBackward}
+            std::unordered_map<game::Event, playerKeyEvt> _key_event = {
+                {MOVE_DOWN, &Player::moveLeft},
+                {MOVE_UP, &Player::moveRight},
+                {MOVE_RIGHT, &Player::moveForward},
+                {MOVE_LEFT, &Player::moveBackward}
             };
+            std::shared_ptr<game::User> &_profil;
         };
     } // namespace objects
 } // namespace game
