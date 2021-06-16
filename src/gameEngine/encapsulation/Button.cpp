@@ -17,6 +17,7 @@ Button::Button(const Vector<float> &size, const Vector<float> &pos,
     _frameRec = std::make_shared<BRectangle>(size, Vector<float>(0, 0), color, rotation);
     _texture = std::make_shared<BTexture2D>();
     if (textureFile != "" && content.getStr() != "") {
+        std::cout << "### adding text to texture" << std::endl;
         _texture->addTextToTexture(content, textureFile);
     } else if (textureFile != "")
         _texture->loadFromFile(textureFile);
@@ -105,11 +106,14 @@ void Button::draw()
         _rectangle->getTransform().getPosition()._y);
 
     if (_texture->isLoad()) {
-        if (_texture->getSize()._x > _rectangle->getWidth() && _texture->getSize()._y > _rectangle->getHeight()) {
-            _texture->setPos(Vector<int>((int)pos._x, (int)pos._y));
+        _texture->setPos(Vector<int>((int)pos._x, (int)pos._y));
+        if (_texture->getSize()._x >= _rectangle->getWidth()) {
             _texture->drawEx(_rectangle->getWidth() / _texture->getSize()._x);
-        } else
+        } else if (_texture->getSize()._y > _rectangle->getHeight()) {
+            _texture->drawEx(_rectangle->getHeight() / _texture->getSize()._y);
+        } else {
             _texture->drawRect(*_frameRec, pos);
+        }
     } else {
         drawButtonRect();
     }

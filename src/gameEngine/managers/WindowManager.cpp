@@ -119,4 +119,5 @@ void WindowManager::setWindowIcon(const std::string &path)
     Image img = LoadImage(path.c_str());
 
     SetWindowIcon(img);
+    UnloadImage(img);
 }

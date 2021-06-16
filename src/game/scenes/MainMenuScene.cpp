@@ -14,7 +14,7 @@ using namespace game::scenes;
 #define BACKGROUND "./resources/backgrounds/cyberpunk_street_background.png"
 #define MIDGROUND "./resources/backgrounds/cyberpunk_street_midground.png"
 #define FOREGROUND "./resources/backgrounds/cyberpunk_street_foreground.png"
-#define PLAY_BUTTON "./resources/UI-Elements/PlayButton.png"
+#define PLAY_BUTTON "./assets/Backgrounds/button_background1.png"
 
 MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info)
@@ -48,7 +48,7 @@ void MainMenuScene::start()
     fontPlay.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
     strText.setFont(fontPlay);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, DARKGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, DARKGRAY, RED, PLAY_BUTTON);
 
     button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("choosePlayers"); }, _info);
 
