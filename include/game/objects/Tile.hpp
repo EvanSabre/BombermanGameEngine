@@ -15,7 +15,7 @@
 #include "Tags.hpp"
 
 #define TILESIZE  10
-#define TILESCALE 0.15f
+#define TILESCALE 0.135f
 
 namespace game::objects {
     class Tile : public gameEngine::objects::AGameObject {

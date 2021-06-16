@@ -47,7 +47,8 @@ void Map::newMap()
     for (std::size_t i = 0; i < SIZE_X; i++) {
         std::vector<int> temp;
         for (std::size_t j = 0; j < SIZE_Y; j++)
-            temp.push_back(MAPBRICK);
+            // temp.push_back(MAPBRICK);
+            temp.push_back(MAPPATH);
         map.push_back(temp);
     }
     _map = map;
