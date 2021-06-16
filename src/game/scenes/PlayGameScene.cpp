@@ -9,7 +9,7 @@
 
 using namespace game::scenes;
 
-PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info)
+PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info)
 {
     std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/Vikings/Textures/Character.png", "assets/Vikings/Model/Character.iqm", "assets/Vikings/Animation/CharacterWalk.iqm", "assets/Vikings/Animation/CharacterIdle.iqm");
@@ -42,7 +42,7 @@ void PlayGameScene::setupCamera() noexcept
     _cam.setProjection(CAMERA_PERSPECTIVE);
 }
 
-std::string PlayGameScene::update()
+void PlayGameScene::update()
 {
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("PAUSE")) {
@@ -52,7 +52,6 @@ std::string PlayGameScene::update()
     for (auto it : _players) {
         it->update();
     }
-    return "";
 }
 
 void PlayGameScene::draw()
