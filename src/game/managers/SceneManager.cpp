@@ -30,11 +30,11 @@ const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::
         {"choosePlayers",
             [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> info) {
                 return std::make_shared<game::scenes::ChoosePlayersScene>(window, info);
+            }},
         {"empty",
             [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info) {
                 return std::make_shared<game::scenes::EmptyScene>(window, info);
             }}
-
     };
 
 

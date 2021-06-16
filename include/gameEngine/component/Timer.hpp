@@ -28,6 +28,8 @@ namespace gameEngine {
                 void setIsDone(bool isDone);
                 void startThread();
                 gameEngine::encapsulation::BText &getCurrentTime();
+                std::string getContent() const noexcept;
+                void draw() const noexcept;
                 void wait();
                 void timerExecute();
                 void addToDuration(const double &add);

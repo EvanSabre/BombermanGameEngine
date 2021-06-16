@@ -56,6 +56,16 @@ void Timer::wait()
     _timerThread->join();
 }
 
+void Timer::draw() const noexcept
+{
+    _currentTime.draw();
+}
+
+std::string Timer::getContent() const noexcept
+{
+    return _currentTime.getStr();
+}
+
 void Timer::startThread()
 {
     _timerThread = std::make_unique<std::thread>(&Timer::timerExecute, this);
