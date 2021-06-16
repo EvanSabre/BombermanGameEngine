@@ -47,6 +47,13 @@ public:
             );
 };
 
+class ConfigError : public gameError
+{
+public:
+    ConfigError(std::string const &message);
+};
+
+
 class engineError : public IndieError
 {
 public:
@@ -64,6 +71,7 @@ public:
                 std::string const &component = "Unknown"
                 );
 };
+
 
 class NoSceneException : public IndieError {
     public:

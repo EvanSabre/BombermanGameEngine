@@ -49,18 +49,19 @@ setting_t SettingConf::loadSetting(const std::string &filepath)
         File file(filepath);
         file_content = file.readLines();
     } catch(const std::exception &e) {
+        // std::string msg = e.what();
+        //throw ConfigError("Configuration File : ");
         std::cerr << e.what() << std::endl;
         throw e;
     }
 
     try {
         parseSetting(setting, file_content);
-    } catch(const IndieError e) {
-        std::cerr << e.what() << std::endl;
+    } catch(const IndieError &e) {
         throw e;
     }
     if (!allSettingIsLoad(setting))
-        throw IndieError("Config missing argument");
+        throw ConfigError("Missing configuration parameter ");
     return setting;
 }
 
@@ -104,17 +105,16 @@ void SettingConf::parseSetting(setting_t &conf, const std::vector<std::string> &
         try {
             splitString(line, key, value, KEY_VALUE_SEP);
         } catch(const std::exception& e) {
-            std::cerr << e.what() << std::endl;
-            throw e;
+            std::string msg = e.what();
+            throw ConfigError("Parsing error " + msg);
         }
         value.erase(std::remove_if(value.begin(), value.end(), ::isspace), value.end());
 
         try {
             conf = _parseFcts.at(key)(conf, key, value);
         } catch(const std::exception &e) {
-            std::cerr << "unknown key " + key << std::endl;
-            std::cerr << e.what() << std::endl;
-            throw e;
+            std::string msg = e.what();
+            throw ConfigError("Parsing Error " + msg);
         }
     }
 }
@@ -172,28 +172,23 @@ setting_t SettingConf::parseKey(setting_t conf, const std::string &key, std::str
 
     try {
         if (!splitString(value, keyboard, gamepad, PARAMS_SEP))
-            throw std::runtime_error("parsing Error");
-    } catch(const std::exception& e) {
-        std::cerr << e.what() << std::endl;
+            throw ConfigError("Key parsing");
+    } catch(const ConfigError &e) {
         throw e;
     }
-    try
-    {
+    try {
         board_key = (gameEngine::key_e)std::stoi(keyboard);
         pad_key = (gameEngine::key_e)std::stoi(gamepad);
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        throw e;
+    } catch(const std::exception& e) {
+        throw ConfigError("Key Parsing: argument not convertible to int");
     }
 
 
     try {
         conf._keyMap.at(_eventMap.at(key)) = std::pair<gameEngine::key_e, gameEngine::key_e>(board_key, pad_key);
     } catch(const std::exception& e) {
-        std::cerr << e.what() << std::endl;
-       throw e;
+        std::string msg = e.what();
+         throw ConfigError("Parsing Key : " + msg);
     }
     return conf;
 }
@@ -203,7 +198,7 @@ bool SettingConf::splitString(const std::string &ref, std::string &left, std::st
     std::size_t idx =  ref.find(sep);
 
     if (idx == std::string::npos)
-        throw std::runtime_error("missing separator " + sep);
+        throw ConfigError("Missing separator " + sep);
     left = ref.substr(0, idx);
     right = ref.substr(idx + 1, ref.length() - idx);
     if (left.empty() || right.empty())

@@ -7,19 +7,30 @@
 
 #include <memory>
 #include "GlobalManager.hpp"
+#include "SettingConf.hpp"
 
 #define WIN_HEIGHT 1080
 #define WIN_WIDTH 1920
 
 int main()
 {
-    game::managers::GlobalManager manager;
+    // game::managers::GlobalManager manager;
 
-    try {
-        manager.run();
-    } catch (IndieError &e) {
-        std::cerr << "Failed to load a scene" << std::endl;
-        return 84;
+    try
+    {
+        game::systems::SettingConf::loadSetting("./params.conf");
     }
+    catch(const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+
+    // try {
+    //     manager.run();
+    // } catch (IndieError &e) {
+    //     std::cerr << "Failed to load a scene" << std::endl;
+    //     return 84;
+    // }
     return 0;
 }

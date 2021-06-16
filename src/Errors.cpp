@@ -42,6 +42,12 @@ gameError::gameError(std::string const &message,
 {
 }
 
+ConfigError::ConfigError(std::string const &message)
+    : gameError(message, "CONFIG")
+{
+}
+
+
 engineError::engineError(std::string const &message,
             std::string const &component
             )
