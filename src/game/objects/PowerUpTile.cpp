@@ -14,10 +14,18 @@ PowerUpTile::PowerUpTile(const std::shared_ptr<gameEngine::encapsulation::BModel
             const game::Tag &type,
             const Vector3T<float> &position,
             const Vector3T<float> &rotation,
-            const Vector3T<float> &scale
+            const Vector3T<float> &scale,
+            float arriveSpeed,
+            float idleSpeed,
+            float minHeight,
+            float maxHeight
         )
     : Tile(model, texture, type, position, rotation, scale)
 {
+    // _idleSpeed = idleSpeed;
+    // _arriveSpeed = arriveSpeed;
+    // _minHeight = minHeight;
+    // _maxHeight =  maxHeight;
     _transform._position._y = 150;
     _speed._y = _arriveSpeed;
 }

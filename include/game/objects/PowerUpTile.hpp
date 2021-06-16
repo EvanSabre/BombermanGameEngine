@@ -17,10 +17,14 @@ namespace game::objects
     public:
         PowerUpTile(const std::shared_ptr<gameEngine::encapsulation::BModel> &model,
             const std::shared_ptr<gameEngine::encapsulation::BTexture2D> &texture,
-            const game::Tag &type = NONE,
+            const game::Tag &type,
             const Vector3T<float> &position = {0, 0, 0},
             const Vector3T<float> &rotation = {0, 0, 0},
-            const Vector3T<float> &scale = {1, 1, 1}
+            const Vector3T<float> &scale = {1, 1, 1},
+            float arriveSpeed = -1,
+            float idleSpeed = 0.1,
+            float minHeight = 1,
+            float maxHeight = 10
             );
         ~PowerUpTile();
 
