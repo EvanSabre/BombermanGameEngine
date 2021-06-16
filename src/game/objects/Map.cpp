@@ -12,7 +12,7 @@ Map::Map(const std::string &universe,
          const std::size_t &seed)
     : _seed(seed), _universe(universe)
 {
-    _universe = "Samurai";
+    // _universe = "Samurai";
     std::cout << "UNIVERSE = " << _universe << std::endl;
     _BORDERPATHMOD = "assets/" + _universe + "/Models/Border.obj";
     _BORDERTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
