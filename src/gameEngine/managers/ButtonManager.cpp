@@ -31,8 +31,7 @@ bool ButtonManager::isButtonClicked(const std::string &content)
 
     for (auto it : _currentButtons) {
         if (it->getContent().getStr() == content) {
-            mouse = GetMousePosition();
-            return it->isButtonPressed(Vector<float>(mouse.x, mouse.y));
+            return it->isButtonReleased();
         }
     }
     return false;
@@ -41,7 +40,7 @@ bool ButtonManager::isButtonClicked(const std::string &content)
 bool ButtonManager::isButtonClicked(const std::string &buttonContent, const Vector<float> &mousePos)
 {
     for (auto it : _currentButtons) {
-        if (it->getContent().getStr() == buttonContent && it->isButtonPressed(mousePos))
+        if (it->getContent().getStr() == buttonContent && it->isButtonReleased())
             return true;
     }
     return false;

@@ -128,7 +128,8 @@ void AButton::updateState()
     Vector<float> vec(tmp.x, tmp.y);
 
     isInsideButton(vec);
-    if (isButtonPressed(vec) && isButtonReleased() && _callback != nullptr)
+    isButtonPressed(vec);
+    if (isButtonReleased() && _callback != nullptr)
         _callback(_infoPtr);
 }
 
