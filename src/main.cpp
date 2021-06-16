@@ -14,23 +14,25 @@
 
 int main()
 {
-    // game::managers::GlobalManager manager;
+    game::managers::GlobalManager manager;
+    game::systems::setting_t conf;
+
 
     try
     {
-        game::systems::SettingConf::loadSetting("./params.conf");
+        conf = game::systems::SettingConf::loadSetting("./setting.conf");
     }
     catch(const std::exception &e)
     {
-        std::cerr << e.what() << '\n';
+        return 84;
     }
 
 
-    // try {
-    //     manager.run();
-    // } catch (IndieError &e) {
-    //     std::cerr << "Failed to load a scene" << std::endl;
-    //     return 84;
-    // }
+    try {
+        manager.run();
+    } catch (IndieError &e) {
+        std::cerr << "Failed to load a scene" << std::endl;
+        return 84;
+    }
     return 0;
 }

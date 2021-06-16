@@ -49,20 +49,21 @@ setting_t SettingConf::loadSetting(const std::string &filepath)
         File file(filepath);
         file_content = file.readLines();
     } catch(const std::exception &e) {
-        std::string msg = e.what();
-        throw ConfigError("Configuration File : " + msg);
-        //throw ConfigError("Configuration File : ");
-        // std::cerr << e.what() << std::endl;
-        // throw e;
+        std::cerr << "Config File Error : " << e.what() << std::endl;
+        throw e;
     }
 
     try {
         parseSetting(setting, file_content);
     } catch(const IndieError &e) {
+        std::cerr << e.what() << std::endl;
         throw e;
     }
-    if (!allSettingIsLoad(setting))
-        throw ConfigError("Missing configuration parameter ");
+    if (!allSettingIsLoad(setting)) {
+        ConfigError err("Missing configuration parameter ");
+        std::cerr << "Config File : Parameter missing" << std::endl;
+        throw err;
+    }
     return setting;
 }
 
@@ -172,24 +173,27 @@ setting_t SettingConf::parseKey(setting_t conf, const std::string &key, std::str
     gameEngine::key_e pad_key = gameEngine::KEY_NULL;
 
     try {
-        if (!splitString(value, keyboard, gamepad, PARAMS_SEP))
+        if (!splitString(value, keyboard, gamepad, PARAMS_SEP)) {
+            std::cerr << "Config File : Key parsing error" << std::endl;
             throw ConfigError("Key parsing");
+        }
     } catch(const ConfigError &e) {
+        std::cerr << e.what() << std::endl;
         throw e;
     }
     try {
         board_key = (gameEngine::key_e)std::stoi(keyboard);
         pad_key = (gameEngine::key_e)std::stoi(gamepad);
     } catch(const std::exception& e) {
+        std::cerr << e.what() << std::endl;
         throw ConfigError("Key Parsing: argument not convertible to int");
     }
-
 
     try {
         conf._keyMap.at(_eventMap.at(key)) = std::pair<gameEngine::key_e, gameEngine::key_e>(board_key, pad_key);
     } catch(const std::exception& e) {
-        std::string msg = e.what();
-         throw ConfigError("Parsing Key : " + msg);
+        std::cerr << e.what() << std::endl;
+        throw ConfigError("Parsing Key");
     }
     return conf;
 }
