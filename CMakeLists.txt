@@ -49,7 +49,6 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/AScene.cpp"
-        "src/game/scenes/SceneInfo.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/exceptions/Exception.cpp"
         "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/File.cpp"
@@ -77,6 +76,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/GameManager.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
 
