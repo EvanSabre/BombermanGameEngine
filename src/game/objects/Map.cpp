@@ -12,6 +12,7 @@ Map::Map(const std::string &universe,
          const std::size_t &seed)
     : _seed(seed), _universe(universe)
 {
+    _universe = "Samurai";
     std::cout << "UNIVERSE = " << _universe << std::endl;
     _BORDERPATHMOD = "assets/" + _universe + "/Models/Border.obj";
     _BORDERTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
@@ -21,8 +22,6 @@ Map::Map(const std::string &universe,
     _WALLTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     _PATHPATHMOD = "assets/" + _universe + "/Models/Ground.obj";
     _PATHTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
-    // _PATHTILEPNG = "./resources/models/minecraft/blocks/Grass.png";
-    // _PATHPATHMOD = "./resources/models/minecraft/blocks/cube.obj";
 
     setSize(size);
     if (!_seed)
@@ -47,8 +46,8 @@ void Map::newMap()
     for (std::size_t i = 0; i < SIZE_X; i++) {
         std::vector<int> temp;
         for (std::size_t j = 0; j < SIZE_Y; j++)
-            // temp.push_back(MAPBRICK);
-            temp.push_back(MAPPATH);
+            temp.push_back(MAPBRICK);
+            // temp.push_back(MAPPATH);
         map.push_back(temp);
     }
     _map = map;

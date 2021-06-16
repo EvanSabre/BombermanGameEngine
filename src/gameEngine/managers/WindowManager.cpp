@@ -68,7 +68,6 @@ bool WindowManager::isRunning() const noexcept
     return false;
 }
 
-
 // void *WindowManager::getWindow(void) const
 // {
 //     return GetWindowHandle();
