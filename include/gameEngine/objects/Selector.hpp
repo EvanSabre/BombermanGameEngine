@@ -9,6 +9,7 @@
 #define SELECTOR_HPP_
 
 #include "Button.hpp"
+#include "ButtonManager.hpp"
 #include <vector>
 
 #define BUTTON gameEngine::encapsulation::Button
@@ -37,6 +38,7 @@ namespace gameEngine
                     const std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &contents,
                     Vector<float> pos,
                     Vector<float> size,
+                    int sizeText,
                     gameEngine::encapsulation::BColor color = WHITE,
                     gameEngine::encapsulation::BColor colorText = BLACK);
                 ~Selector();
@@ -48,9 +50,10 @@ namespace gameEngine
                 void update();
             private:
                 SelectorEvent getEvent(void);
+                gameEngine::managers::ButtonManager _buttonManager;
                 std::unique_ptr<RECTANGLE> _mainRect = nullptr;
-                std::unique_ptr<BUTTON> _buttonNext = nullptr;
-                std::unique_ptr<BUTTON> _buttonPrev = nullptr;
+                std::shared_ptr<BUTTON> _buttonNext = nullptr;
+                std::shared_ptr<BUTTON> _buttonPrev = nullptr;
                 std::unique_ptr<TEXT> _title = nullptr;
                 std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> _contents{0};
                 int _iCurrent = 0;

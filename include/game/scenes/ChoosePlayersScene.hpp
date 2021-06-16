@@ -25,10 +25,10 @@ namespace game
         class ChoosePlayersScene : public gameEngine::AScene
         {
             public:
-                ChoosePlayersScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<gameEngine::scenes::SceneInfo> &info);
+                ChoosePlayersScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info);
                 ~ChoosePlayersScene();
                 void start() override;
-                std::string update() override;
+                void update() override;
                 void draw() override;
             private:
                 std::shared_ptr<RECTANGLE> _Mainrect;

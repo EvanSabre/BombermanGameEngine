@@ -18,22 +18,26 @@ Selector::Selector(
     const std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &contents,
     Vector<float> pos,
     Vector<float> size,
+    int sizeText,
     gameEngine::encapsulation::BColor color,
     gameEngine::encapsulation::BColor colorText
+
     )
 {
     Vector<float> sizeButton(size._x * 0.1, size._x * 0.1);
     _title = std::make_unique<TEXT>(name,
-                                    Vector<float>(pos._x * 0.5, pos._y * 0.1),
+                                    Vector<float>(pos._x + size._x * 0.35, pos._y + size._y * 0.1),
                                     colorText,
-                                    size._x / size._y,
+                                    sizeText,
                                     nullptr);
-    _buttonNext = std::make_unique<BUTTON>(sizeButton, Vector<float>(pos._x * 0.9, pos._y * 0.5), TEXT("Next"), color, colorText, NEXT_BUTTON_PATH);
-    _buttonPrev = std::make_unique<BUTTON>(sizeButton, Vector<float>(pos._x * 0.1, pos._y * 0.5), TEXT("Prev"), color, colorText, PREV_BUTTON_PATH);
+    _buttonNext = std::make_shared<BUTTON>(sizeButton, Vector<float>(pos._x + size._x * 0.8, pos._y + size._y * 0.25), TEXT("Next"), BLUE, colorText);
+    _buttonPrev = std::make_shared<BUTTON>(sizeButton, Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.25), TEXT("Prev"), BLUE, colorText);
     _mainRect = std::make_unique<RECTANGLE>(size, pos, color);
     _contents = contents;
-    _contentPos = Vector<float>(pos._x * 0.5, pos._y * 0.5);
-    _contentSize = Vector<float>(size._x * 0.3, size._y * 0.3);
+    _contentPos = Vector<float>(pos._x + size._x * 0.35, pos._y + size._y * 0.1);
+    _contentSize = sizeButton;
+    _buttonManager.pushButton(_buttonNext);
+    _buttonManager.pushButton(_buttonPrev);
 }
 
 Selector::~Selector()
@@ -59,23 +63,25 @@ std::shared_ptr<gameEngine::encapsulation::ADrawable> &Selector::getCurrentConte
 void Selector::draw()
 {
     _mainRect->draw();
-    _buttonNext->draw();
-    _buttonPrev->draw();
+    _buttonManager.drawButtons();
     _title->draw();
     _contents[_iCurrent]->draw();
 }
 
 void Selector::update()
 {
+    _buttonManager.updateButtons();
     switch (this->getEvent())
     {
         case NEXT:
             _iCurrent += 1;
+            std::cout << "NEXT" << std::endl;
             if (_iCurrent > (int)_contents.size())
                 _iCurrent = 0;
             break;
         case PREV:
             _iCurrent -= 1;
+            std::cout << "PREV" << std::endl;
             if (_iCurrent < 0)
                 _iCurrent = _contents.size();
             break;
