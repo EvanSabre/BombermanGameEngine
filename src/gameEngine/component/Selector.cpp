@@ -6,11 +6,12 @@
 */
 
 #include "Selector.hpp"
+#include "Path.hpp"
 
 using namespace gameEngine::component;
 
-#define NEXT_BUTTON_PATH ""
-#define PREV_BUTTON_PATH ""
+#define NEXT_BUTTON_PATH Path::getOSPath("./arrow_next.png")
+#define PREV_BUTTON_PATH Path::getOSPath("./arrow_next.png")
 
 Selector::Selector(
     const std::string &name,
@@ -27,8 +28,8 @@ Selector::Selector(
                                     colorText,
                                     size._x / size._y,
                                     nullptr);
-    _buttonNext = std::make_unique<BUTTON>(sizeButton, Vector<float>(pos._x * 0.9, pos._y * 0.5), TEXT("Next"), color);
-    _buttonPrev = std::make_unique<BUTTON>(sizeButton, Vector<float>(pos._x * 0.1, pos._y * 0.5), TEXT("Prev"), color);
+    _buttonNext = std::make_unique<BUTTON>(sizeButton, Vector<float>(pos._x * 0.9, pos._y * 0.5), TEXT("Next"), color, colorText, NEXT_BUTTON_PATH);
+    _buttonPrev = std::make_unique<BUTTON>(sizeButton, Vector<float>(pos._x * 0.1, pos._y * 0.5), TEXT("Prev"), color, colorText, PREV_BUTTON_PATH);
     _mainRect = std::make_unique<RECTANGLE>(size, pos, color);
     _contents = contents;
     _contentPos = Vector<float>(pos._x * 0.5, pos._y * 0.5);
