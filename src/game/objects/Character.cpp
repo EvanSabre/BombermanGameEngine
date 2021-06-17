@@ -192,3 +192,26 @@ void Character::dropBomb(std::size_t tick) noexcept
     if (_bombQueue.empty())
         _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
 }
+
+
+void Character::handleEvent() noexcept
+{
+    bool flag = false;
+
+    for (auto &[evt, action] : _key_event) {
+
+        try {
+            if (_currentEvent == evt) {
+                std::cout << "event happened" << std::endl;
+                playerKeyEvt my_action = action;
+                CALL_MEMBER_FN((*this), my_action)(1);
+                _currentEvent = NULL_EVENT;
+                flag = true;
+                _isMoving = true;
+                std::cout << "Player\n" << this->getTransform() << std::endl;
+            }
+        } catch (std::out_of_range &my_exception) {
+        }
+    }
+    setState(!flag ? ANIMIDLE : ANIMWALK);
+}

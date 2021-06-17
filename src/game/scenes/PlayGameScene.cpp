@@ -12,20 +12,6 @@ using namespace game::scenes;
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15)
 {
-    //TODO: déplacer cette partie Input dans les scènes choix de profils
-    std::cout << "Nb player == " << info->nbPlayers << std::endl;
-    info->nbPlayers = 2;
-    for (int i = 0; i < info->nbPlayers; i++) {
-        // try {
-        //     info->_userManager->createUser("Joueur" + std::to_string(i + 1));
-        // } catch (UserManagmentError &e) {
-        //     std::cout << e.what() << " : " << e.getComponent() << std::endl;
-        //     throw IndieError("UserManagement");
-        // }
-        info->_userManager->assignInputToUser(i, "Joueur" + std::to_string(i + 1));
-        //TODO:AJouter au vecteur de joueur
-    }
-
     // ! END TODO
 }
 
@@ -38,21 +24,14 @@ void PlayGameScene::start()
     _map.dump();
     std::srand(_map.getSeed());
 
-    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(1)));
-//    std::shared_ptr<game::objects::Player> player2 = std::make_shared<game::objects::Player>("2", "JOJO", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(2)));
+    std::shared_ptr<game::objects::Bot> bot = std::make_shared<game::objects::Bot>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _tiles, 0, Vector<int>(17, 15));
 
-    player->setTransform().setScale({0.1, 0.1, 0.1});
-    player->setTransform().setPosition({10, 10, 10});
-    player->setTransform().setRotation({90, 90, 0});
-    player->setCollider();
+    bot->setTransform().setScale({0.1, 0.1, 0.1});
+    bot->setTransform().setPosition({10, 10, 10});
+    bot->setTransform().setRotation({90, 90, 0});
+    bot->setCollider();
+    _players.push_back(bot);
 
-    // player2->setTransform().setScale({0.1, 0.1, 0.1});
-    // player2->setTransform().setPosition({20, 10, 10});
-    // player2->setTransform().setRotation({90, 90, 0});
-    // player2->setCollider();
-
-    _players.push_back(player);
-//    _players.push_back(player2);
     this->setupCamera();
     _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
     _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
@@ -109,7 +88,7 @@ void PlayGameScene::updateExplosionManager()
 
 void PlayGameScene::update()
 {
-    updateExplosionManager();
+    //updateExplosionManager();
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
     if (!_windowManager->isRunning()) {
@@ -123,13 +102,6 @@ void PlayGameScene::update()
         // _audio.pauseMusic();
         //return "play";
     }
-    std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
-    for (auto &[id, evt]: events)
-    {
-        if (id <= _players.size()) {
-            _players[id - 1]->setCurrentEvent(evt);
-        }
-    }
     for (auto &it : _players) {
         Vector3T<float> prev(it->getTransform().getPosition());
         it->update();
@@ -139,7 +111,7 @@ void PlayGameScene::update()
 
 void PlayGameScene::draw()
 {
-    _explosion->draw();
+    //_explosion->draw();
     _buttonManager.drawButtons();
     this->_windowManager->set3DMode(_cam);
     _map.draw();

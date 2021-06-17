@@ -18,7 +18,8 @@ namespace game
         {
             public:
                 Bot(const std::string &id, const std::string &name, const std::string &text,
-                    const std::string &model, const std::string &animWalk, const std::string &animIdl);
+                    const std::string &model, const std::string &animWalk, const std::string &animIdl,
+                    std::vector<std::shared_ptr<game::objects::Tile>> &map, int level, Vector<int> sizeMap);
                 ~Bot();
                 void update() override;
             protected:

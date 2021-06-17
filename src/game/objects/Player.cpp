@@ -24,30 +24,8 @@ Player::~Player()
 
 //EVENT
 
-void Player::handleKeyEvent() noexcept
-{
-    bool flag = false;
-
-    for (auto &[evt, action] : _key_event) {
-
-        try {
-            if (_currentEvent == evt) {
-                std::cout << "key was pressed" << std::endl;
-                playerKeyEvt my_action = action;
-                CALL_MEMBER_FN((*this), my_action)(1);
-                _currentEvent = NULL_EVENT;
-                flag = true;
-                _isMoving = true;
-                std::cout << "Player\n" << this->getTransform() << std::endl;
-            }
-        } catch (std::out_of_range &my_exception) {
-        }
-    }
-    setState(!flag ? ANIMIDLE : ANIMWALK);
-}
-
 void Player::update()
 {
-    handleKeyEvent();
+    handleEvent();
     updateModelAnimation();
 }

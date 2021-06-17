@@ -19,6 +19,7 @@
 #include "CheckBox.hpp"
 #include "Timer.hpp"
 #include "ExplosionManager.hpp"
+#include "Bot.hpp"
 
 #define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
 
