@@ -79,6 +79,8 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/SpeedUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/AExplosif.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Bomb.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/systems/SettingConf.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GameManager.cpp"
