@@ -16,10 +16,19 @@
 
 class Gui {
 public:
+    typedef enum e_corner {
+        TOP_LEFT,
+        TOP_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT
+    } corner_e;
+
     Gui();
     ~Gui();
 
-    void draw();
+    void draw(const game::objects::Character &charac);
+    void draw(int charac, const Vector<float> &basePose);
+    void draw(int charac, corner_e corner);
     void drawElt(int nb, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,
         Vector<float> scale, float spacing = 30) noexcept;
 

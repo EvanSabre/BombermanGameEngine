@@ -22,12 +22,42 @@ Gui::~Gui()
 {
 }
 
-void Gui::draw()
+void Gui::draw(int charac, corner_e corner)
 {
-    _heartTexture->setPos({0, 100});
-    _bombTexture->setPos({0, 140});
-    drawElt(2, _heartTexture, Vector<float>(0.05, 0.05), 50);
-    drawElt(2, _bombTexture, Vector<float>(0.1, 0.1));
+    switch (corner)
+    {
+    case Gui::TOP_LEFT:
+        draw(charac, {0, 30});
+        break;
+    case Gui::TOP_RIGHT:
+        draw(charac, {1600, 30});
+        break;
+    case Gui::BOTTOM_LEFT:
+        draw(charac, {0, 1000});
+        break;
+    case Gui::BOTTOM_RIGHT:
+        draw(charac, {100, 1000});
+        break;
+    default:
+        draw(charac, {0, 0});
+        break;
+    }
+}
+
+void Gui::draw(int charac, const Vector<float> &basePose)
+{
+    _heartTexture->setPos({basePose._x, basePose._y});
+    _bombTexture->setPos({basePose._x, basePose._y + 40});
+    drawElt(charac, _heartTexture, Vector<float>(0.05, 0.05), 50);
+    drawElt(charac, _bombTexture, Vector<float>(0.1, 0.1));
+}
+
+void Gui::draw(const game::objects::Character &charac)
+{
+    _heartTexture->setPos({0, 0});
+    _bombTexture->setPos({0, 0});
+    drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
+    drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));
 }
 
 void Gui::drawElt(int nbElt, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,

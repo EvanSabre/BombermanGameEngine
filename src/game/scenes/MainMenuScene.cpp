@@ -82,9 +82,12 @@ void MainMenuScene::update()
     _audio.updateMusicStream();
 }
 
+#include "Character.hpp"
+
 void MainMenuScene::draw()
 {
-    _gui.draw();
+   // game::objects::Character charac{"oui", "hello", "path", "model", "animation", "idle"};
+    _gui.draw(2, Gui::BOTTOM_LEFT);
     // _background.draw();
     // _buttonManager.drawButtons();
     //_title->draw();
