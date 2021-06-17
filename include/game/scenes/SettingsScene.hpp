@@ -14,6 +14,8 @@
 #include "AudioManager.hpp"
 #include "CheckBox.hpp"
 #include "BSdf.hpp"
+#include "Selector.hpp"
+#include "InputButton.hpp"
 
 namespace game {
     namespace scenes {
@@ -30,9 +32,19 @@ namespace game {
 
             protected:
                 gameEngine::managers::AudioManager _audio;
+                gameEngine::encapsulation::BFont _font;
                 std::shared_ptr<gameEngine::encapsulation::BSdf> _title = nullptr;
-                std::shared_ptr<gameEngine::encapsulation::BText> _settings = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BText> _keybindings = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BText> _left = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BText> _right = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BText> _up = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BText> _down = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BText> _pick = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BText> _drop = nullptr;
+                gameEngine::encapsulation::BText _saveButtonText;
                 gameEngine::encapsulation::BTexture2D _background;
+                std::unique_ptr<gameEngine::component::Selector> _soundSelector = nullptr;
+                std::unique_ptr<gameEngine::component::Selector> _musicSelector = nullptr;
             private:
         };
     }
