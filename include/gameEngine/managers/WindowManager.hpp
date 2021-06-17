@@ -35,7 +35,7 @@ namespace gameEngine {
                 void setBackgroundColor(const gameEngine::encapsulation::BColor &color) final;
                 void set3DMode(const gameEngine::encapsulation::BCamera &camera) final;
                 void set2DMode(const gameEngine::encapsulation::BCamera2D &camera) final;
-
+                void setWindowIcon(const std::string &path);
                 Vector<int> getWindowSize() const final;
 
                 // set icon image ??

@@ -39,6 +39,7 @@ namespace gameEngine
                 [[nodiscard]] Model getObj() const noexcept;
                 [[nodiscard]] bool isLoad() const noexcept;
                 [[nodiscard]] std::string getFilePath() const noexcept;
+                std::string getContent() const noexcept override;
 
             //setter
             // Load Model from file into CPU memory (RAM)
@@ -54,7 +55,7 @@ namespace gameEngine
 
             //draw
                 void rotate();
-                void draw() const noexcept;
+                void draw() const noexcept override;
 
         private:
             std::string _filePath;

@@ -68,7 +68,6 @@ bool WindowManager::isRunning() const noexcept
     return false;
 }
 
-
 // void *WindowManager::getWindow(void) const
 // {
 //     return GetWindowHandle();
@@ -112,4 +111,13 @@ void WindowManager::set2DMode(const gameEngine::encapsulation::BCamera2D &camera
 Vector<int> WindowManager::getWindowSize() const
 {
     return _size;
+}
+
+
+void WindowManager::setWindowIcon(const std::string &path)
+{
+    Image img = LoadImage(path.c_str());
+
+    SetWindowIcon(img);
+    UnloadImage(img);
 }

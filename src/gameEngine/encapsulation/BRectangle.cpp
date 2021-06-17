@@ -56,6 +56,10 @@ encapsulation::BRectangle::~BRectangle()
 //----------------------------
 
 //GETTER
+std::string encapsulation::BRectangle::getContent() const noexcept
+{
+    return "";
+}
 
 Rectangle encapsulation::BRectangle::getObj() const
 {

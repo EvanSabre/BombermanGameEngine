@@ -35,7 +35,8 @@ namespace gameEngine
             void setColor(const gameEngine::encapsulation::BColor &color) noexcept;
 
             //draw
-            void draw() const noexcept;
+            virtual void draw() const noexcept = 0;
+            virtual std::string getContent() const noexcept = 0;
 
         protected:
             gameEngine::encapsulation::BColor _color = WHITE;

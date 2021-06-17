@@ -14,10 +14,12 @@
 #include "IEffect.hpp"
 #include "EffectFactory.hpp"
 #include "BModelAnimation.hpp"
+#include "SettingConf.hpp"
 // #include "Animation.hpp"
 
 #define ANIMIDLE 0
 #define ANIMWALK 1
+#define TILESIZE 10
 
 namespace game
 {
@@ -41,8 +43,15 @@ namespace game
                 std::string getName() const noexcept;
                 size_t getScore() const noexcept;
                 int getState() const noexcept;
+                void setCurrentEvent(game::Event Event) noexcept;
+                game::Event getCurrentEvent() const noexcept;
+
+            //EFFECT GETTER
+                int getLives() const noexcept;
+                int getNbBomb() const noexcept;
 
             //setter
+                void setCollider() noexcept;
                 void setState(const int &) noexcept;
                 void addScore(const size_t value) noexcept;
                 void subScore(const size_t value) noexcept;
@@ -65,6 +74,7 @@ namespace game
             int _bombRange = 1;
             int _health = 1;
             int _lives = 1;
+            game::Event _currentEvent;
 
         private:
             std::string _name;

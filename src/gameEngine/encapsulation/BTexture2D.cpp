@@ -24,7 +24,8 @@ BTexture2D::BTexture2D()
 BTexture2D::BTexture2D(const std::string &filePath, const encapsulation::BText &content)
 {
     this->resetObj();
-    this->addTextToTexture(content, filePath);
+    encapsulation::BText t(content);
+    this->addTextToTexture(t, filePath);
     _filepath = filePath;
 }
 
@@ -129,7 +130,7 @@ void BTexture2D::loadFromFile(const std::string &filepath)
         throw LoadingError(filepath, "Loading from : ", "TEXTURE2D");
 }
 
-void BTexture2D::addTextToTexture(const BText &text, const std::string &filePath)
+void BTexture2D::addTextToTexture(BText &text, const std::string &filePath)
 {
     BImage img(filePath);
 
@@ -155,15 +156,14 @@ void BTexture2D::draw() const noexcept
         DrawTexture(this->_texture, _pos._x, _pos._y, _color.getObj());
 }
 
-void BTexture2D::drawEx(int scale) const noexcept
+void BTexture2D::drawEx(const Vector<float> &scale) const noexcept
 {
-    Vector2 vec;
-
-    vec.x = _pos._x;
-    vec.y = _pos._y;
+    Rectangle source = {0.0f, 0.0f, (float)_texture.width, (float)_texture.height};
+    Rectangle dest = {(float)_pos._x, (float)_pos._y, (float)_texture.width * scale._x, (float)_texture.height * scale._y};
+    Vector2 origin = {0.0f, 0.0f};
 
     if (isLoad() && _enabled == true)
-        DrawTextureEx(this->_texture, vec, 0.0f, (float)scale, WHITE);
+        DrawTexturePro(this->_texture, source, dest, origin, 0.0f, _color.getObj());
 }
 
 void BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept

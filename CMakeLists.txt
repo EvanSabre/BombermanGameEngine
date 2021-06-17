@@ -12,6 +12,7 @@ project(project_bomberman
 
 set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/Animation.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BColor.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BText.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BRectangle.cpp"
@@ -31,6 +32,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BMusic.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BSound.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BBoundingBox.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BSdf.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Move.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Collision.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
@@ -43,8 +45,11 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/collider/BoxCollider.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Selector.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Timer.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/WindowManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AudioManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/ButtonManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AFileManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/scenes/components/Parallax.cpp"
@@ -58,11 +63,15 @@ set(GAMEENGINE_SRC
 set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SplashScreenScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/ChoosePlayersScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/SettingsScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
-        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Gui.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/GameObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/PowerUpTile.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Map.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/EffectFactory.cpp"
@@ -70,11 +79,11 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/HealthUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/BombUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/FireUp.cpp"
-        "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/FireUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/SpeedUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/systems/SettingConf.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GameManager.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
@@ -108,11 +117,11 @@ set(MY_INCLUDE
         "${PROJECT_SOURCE_DIR}/include/game/objects/"
         "${PROJECT_SOURCE_DIR}/include/game/objects/Effects"
         "${PROJECT_SOURCE_DIR}/include/WindowsEquivalent"
+        "${PROJECT_SOURCE_DIR}/include/game/systems/"
         )
 
 set(raylib_DIR ${PROJECT_SOURCE_DIR}/cmake_dep)
 find_package(raylib REQUIRED)
-
 
 set(MY_DEPENDENCIES
         raylib
@@ -138,7 +147,7 @@ target_link_libraries(bomberman ${MY_DEPENDENCIES})
 target_include_directories(bomberman BEFORE PUBLIC ${MY_INCLUDE})
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    target_compile_options(bomberman PRIVATE -Wall -Wextra)
+    target_compile_options(bomberman PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Window")
-    target_compile_options(bomberman PRIVATE -Wall -Wextra)
+    target_compile_options(bomberman PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()

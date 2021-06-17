@@ -6,11 +6,14 @@
 */
 
 #include "Gamepad.hpp"
+#include <iostream>
 
 bool gameEngine::encapsulation::Gamepad::isKeyPressed(int key)
 {
     int axis = getAxisMovement();
 
+    if (!this->isDeviceAvailable())
+        return false;
     if (axis == key)
         return true;
     return IsGamepadButtonPressed(_deviceID, key - 400);
@@ -18,6 +21,8 @@ bool gameEngine::encapsulation::Gamepad::isKeyPressed(int key)
 
 bool gameEngine::encapsulation::Gamepad::isKeyDown(int key)
 {
+    if (!this->isDeviceAvailable())
+        return false;
     int axis = getAxisMovement();
 
     if (axis != gameEngine::KEY_NULL)
@@ -29,19 +34,28 @@ bool gameEngine::encapsulation::Gamepad::isKeyDown(int key)
 
 bool gameEngine::encapsulation::Gamepad::isKeyUp(int key)
 {
+    if (!this->isDeviceAvailable())
+        return false;
     return IsGamepadButtonUp(_deviceID, key - 400);
 }
 
 bool gameEngine::encapsulation::Gamepad::isKeyReleased(int key)
 {
+    if (!this->isDeviceAvailable())
+        return false;
     return IsGamepadButtonReleased(_deviceID, key - 400);
 }
 
 const std::string gameEngine::encapsulation::Gamepad::getDeviceName()
 {
-    std::string name{GetGamepadName(_deviceID)};
+    std::string name = "";
 
-    name += "#" + std::to_string(_deviceID);
+    if (GetGamepadName(_deviceID))
+        name = GetGamepadName(_deviceID);
+    else
+        name = std::to_string(_deviceID) + "#NotConnected";
+
+    //name += "#" + std::to_string(_deviceID);
     return name;
 }
 

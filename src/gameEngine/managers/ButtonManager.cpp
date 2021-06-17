@@ -16,23 +16,43 @@ ButtonManager::ButtonManager()
 ButtonManager::~ButtonManager()
 {}
 
+void ButtonManager::setEnabledButton(const std::string &content, bool enabled)
+{
+    for (auto it : _currentButtons) {
+        if (it->getContent().getStr() == content) {
+            it->setEnabled(enabled);
+            break;
+        }
+    }
+}
+
+void ButtonManager::setCallBackForButton(const std::string &content, std::shared_ptr<game::managers::GameManager> info,
+                                        std::function<void(std::shared_ptr<game::managers::GameManager> info)> func)
+{
+    for (auto it : _currentButtons) {
+        if (it->getContent().getStr() == content) {
+            it->setCallback(func, info);
+        }
+    }
+}
+
 bool ButtonManager::isButtonClicked(const Vector<float> &pos)
 {
     for (auto it : _currentButtons) {
-        if (it->isButtonPressed(pos))
-            return true;
+        if (it->getPos() == pos)
+            return it->checkAction();
     }
     return false;
 }
 
 bool ButtonManager::isButtonClicked(const std::string &content)
 {
-    Vector2 mouse;
+    bool ret;
 
     for (auto it : _currentButtons) {
         if (it->getContent().getStr() == content) {
-            mouse = GetMousePosition();
-            return it->isButtonPressed(Vector<float>(mouse.x, mouse.y));
+            ret = it->checkAction();
+            return ret;
         }
     }
     return false;

@@ -113,6 +113,7 @@ bool UserManager::findUser(const std::string &name) const noexcept
 std::shared_ptr<game::User> &UserManager::getUser(const std::string& name)
 {
     for (auto&user : _users) {
+        std::cout << user << std::endl;
         if (user->name == name)
             return user;
     }
@@ -126,6 +127,11 @@ std::shared_ptr<game::User> &UserManager::getUser(int & id)
             return user;
     }
     throw UserManagmentError("getUser(Not found) : " + std::to_string(id));
+}
+
+std::vector<std::shared_ptr<game::User>> &UserManager::getUsers()
+{
+    return _users;
 }
 
 std::shared_ptr<game::User> &UserManager::createUser(const std::string &name)

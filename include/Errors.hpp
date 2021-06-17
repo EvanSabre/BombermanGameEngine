@@ -35,22 +35,29 @@ private:
 class UserManagmentError : public IndieError
 {
 public:
-    UserManagmentError(std::string const &message,
+    UserManagmentError(std::string const &message = "UserManagmentError",
                          std::string const &component = "UserManager.cpp") : IndieError(message, component) {}
 };
 
 class gameError : public IndieError
 {
 public:
-    gameError(std::string const &message,
+    gameError(std::string const &message = "GameError",
             std::string const &component = "Unknown"
             );
 };
 
+class ConfigError : public gameError
+{
+public:
+    ConfigError(std::string const &message = "ConfigError");
+};
+
+
 class engineError : public IndieError
 {
 public:
-    engineError(std::string const &message,
+    engineError(std::string const &message = "EngineError",
             std::string const &component = "Unknown"
             );
 };
@@ -64,6 +71,7 @@ public:
                 std::string const &component = "Unknown"
                 );
 };
+
 
 class NoSceneException : public IndieError {
     public:

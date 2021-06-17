@@ -18,7 +18,7 @@
 
 namespace gameEngine
 {
-    enum Key
+    typedef enum Key
     {
         KEY_NULL            = 0,
         KEY_APOSTROPHE      = 39,
@@ -160,7 +160,7 @@ namespace gameEngine
         // These are the joystick press in buttons
         GAMEPAD_BUTTON_LEFT_THUMB = 415,
         GAMEPAD_BUTTON_RIGHT_THUMB = 416
-    };
+    } key_e;
 
 
     namespace interfaces

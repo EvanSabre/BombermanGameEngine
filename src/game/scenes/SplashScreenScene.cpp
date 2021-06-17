@@ -9,10 +9,10 @@
 
 using namespace game::scenes;
 
-#define ATTACK_PATH "./resources/spriteSheets/SpriteSheet_Splash.png"
-#define JUMP_PATH "./resources/spriteSheets/jump_in_Splash.png"
-#define IDLE_PATH "./resources/spriteSheets/idle_splash.png"
-#define LOGO "./resources/Logo/studio_logo.png"
+#define ATTACK_PATH "./assets/spriteSheets/SpriteSheet_Splash.png"
+#define JUMP_PATH "./assets/spriteSheets/jump_in_Splash.png"
+#define IDLE_PATH "./assets/spriteSheets/idle_splash.png"
+#define LOGO "./assets/Logo/studio_logo.png"
 #define ATTACK_FRAMES 11
 #define JUMP_FRAMES 10
 #define IDLE_FRAMES 9
@@ -23,7 +23,7 @@ using namespace game::scenes;
 
 static size_t FRAME_SPEED = 8;
 
-SplashScreenScene::SplashScreenScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, const std::shared_ptr<game::managers::GameManager> &info)
+SplashScreenScene::SplashScreenScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info),
 _attackRect(Vector<float>(140, 130)), _jumpRect(Vector<float>(95, 147)), _idleRect(Vector<float>(93, 115)),
 _state(SplashScreenScene::JUMP), _attackFrame(0), _jumpFrame(0), _idleFrame(0), _currentFrame(0), _nbReset(0)
