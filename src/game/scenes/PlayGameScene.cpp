@@ -30,7 +30,6 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
-        std::cout << "\n\nHELLO\n\n" << std::endl;
     _map.dump();
     std::srand(_map.getSeed());
 

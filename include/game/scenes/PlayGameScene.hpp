@@ -39,7 +39,7 @@ namespace game {
                 gameEngine::encapsulation::BCamera _cam;
                 gameEngine::managers::AudioManager _audio;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
-                std::vector<Tile> _tiles;
+                std::vector<std::shared_ptr<Tile>> _tiles;
                 gameEngine::component::Timer _timer;
             private:
                 void setupCamera() noexcept;
