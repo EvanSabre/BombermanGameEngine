@@ -65,7 +65,7 @@ void PlayGameScene::start()
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
-    _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::HEALTHUP, Vector3T<float>{10, 10, 20},
+    _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::ONEUP, Vector3T<float>{10, 10, 20},
         Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
     _tiles.push_back((*_healtTile));
 
