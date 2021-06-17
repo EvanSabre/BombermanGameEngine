@@ -18,6 +18,9 @@ Gui::Gui()
     _bombTexture = std::make_shared<gameEngine::encapsulation::BTexture2D>();
     _bombTexture->loadFromFile("./bomb_icon.png");
     _bombTexture->setEnabled(true);
+
+    _text.setTransform()._scale = Vector3T<float>(10, 3, 3);
+
 }
 
 Gui::~Gui()
@@ -50,15 +53,7 @@ void Gui::draw(const game::objects::Character &charac, const Vector<float> &base
 {
     _heartTexture->setPos(Vector<int>(basePose._x - 12, basePose._y));
     _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 40));
-    drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
-    drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));
-}
-
-void Gui::draw(const game::objects::Character &charac)
-{
-    _heartTexture->setPos(Vector<int>(0, 0));
-    _bombTexture->setPos(Vector<int>(0, 0));
-    drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
+    drawEltStr(std::to_string(charac.getLives()), _heartTexture, Vector<float>(0.05, 0.05), 50);
     drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));
 }
 
@@ -74,4 +69,17 @@ void Gui::drawElt(int nbElt, std::shared_ptr<gameEngine::encapsulation::BTexture
         newPos._x += spacing;
     }
     texture->setPos(bufPos);
+}
+
+void Gui::drawEltStr(const std::string &str, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,
+            Vector<float> scale, float spacing) noexcept
+{
+    Vector<int> bufPos = texture->getPos();
+    _text.setTransform()._position._x = bufPos._x + 30;
+    _text.setTransform()._position._y = bufPos._y + 15;
+
+    texture->drawEx(scale);
+    _text.setStr(str);
+    _text.setColor(BLACK);
+    _text.draw();
 }
