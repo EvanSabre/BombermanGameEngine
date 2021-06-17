@@ -78,16 +78,16 @@ void ChoosePlayersScene::update()
     _botSelector->update();
     _playerSelector->update();
 
-    // if (_buttonManager.isButtonClicked("Play")) {
-    //     return;
-    // }
-    std::string nb_entity = std::to_string(
-        std::atoi(_botSelector->getCurrentContent()->getContent().c_str()) +
-        std::atoi(_playerSelector->getCurrentContent()->getContent().c_str()));
+    int nbBots = std::atoi(_botSelector->getCurrentContent()->getContent().c_str());
+    int nbPlayers = std::atoi(_playerSelector->getCurrentContent()->getContent().c_str());
+
+    std::string nb_entity = std::to_string(nbBots + nbPlayers);
     if (std::atoi(nb_entity.c_str()) > 4 || std::atoi(nb_entity.c_str()) < 1) {
         _PlayersIndication.setColor(RED);
         _buttonManager.setEnabledButton("Play", false);
     } else {
+        _info->nbPlayers = nbPlayers;
+        _info->nbBots = nbPlayers;
         _buttonManager.setEnabledButton("Play", true);
         _PlayersIndication.setColor(WHITE);
     }
