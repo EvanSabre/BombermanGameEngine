@@ -22,7 +22,7 @@ ChooseProfileScene::~ChooseProfileScene()
 void ChooseProfileScene::start()
 {
     Vector<float> size(WINDOW_X / 2, WINDOW_Y / 1.5);
-    Vector<float> pos(WINDOW_X / 4, WINDOW_Y / 7);
+    Vector<float> pos(WINDOW_X / 4, WINDOW_Y * 0.30);
 
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
     _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
@@ -40,8 +40,8 @@ void ChooseProfileScene::start()
     }
 
     //_profileKeypad = std::make_unique<TEXT>("Keypad per user", profileKey, Vector<float>(pos._x * 1.0, pos._y * 3.5), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
-    _profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.5), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
-    _profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 3.2));
+    _profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
+    _profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
                                             Vector<float>(WINDOW_X * 0.1, WINDOW_Y * 0.8),
                                             TEXT("Back"),
