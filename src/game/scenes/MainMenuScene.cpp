@@ -48,7 +48,7 @@ void MainMenuScene::start()
     fontPlay.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
     strText.setFont(fontPlay);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, strText, DARKGRAY, RED, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(310, 70), middle2, strText, DARKGRAY, RED, PLAY_BUTTON);
 
     button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("choosePlayers"); }, _info);
 

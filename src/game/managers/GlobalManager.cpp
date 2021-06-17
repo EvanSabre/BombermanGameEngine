@@ -44,10 +44,11 @@ void game::managers::GlobalManager::loadNewScene(const std::string &sceneName)
     if (sceneName == "")
         return;
     _currentScene.reset();
+    std::cout << "LOADING NEW SCENE " << sceneName << std::endl;
     try {
         _currentScene = game::managers::SceneManager::loadScene(sceneName, _windowManager, _gameManager);
     } catch (NoSceneException &e) {
-        throw LoadingError("Could not load scene");
+        throw LoadingError("Could not load scene" + sceneName);
     }
     _windowManager->setBackgroundColor(WHITE);
     _windowManager->clear();

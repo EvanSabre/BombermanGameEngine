@@ -104,15 +104,20 @@ void Button::draw()
     Vector<float> pos(
         _rectangle->getTransform().getPosition()._x,
         _rectangle->getTransform().getPosition()._y);
+    Vector<float> scaling(1, 1);
 
     if (_texture->isLoad()) {
         _texture->setPos(Vector<int>((int)pos._x, (int)pos._y));
         if (_texture->getSize()._x >= _rectangle->getWidth()) {
-            _texture->drawEx(_rectangle->getWidth() / _texture->getSize()._x);
-        } else if (_texture->getSize()._y > _rectangle->getHeight()) {
-            _texture->drawEx(_rectangle->getHeight() / _texture->getSize()._y);
-        } else {
+            scaling._x = _rectangle->getWidth() / _texture->getSize()._x;
+        }
+        if (_texture->getSize()._y >= _rectangle->getHeight()) {
+            scaling._y = _rectangle->getHeight() / _texture->getSize()._y;
+        }
+        if (scaling._x == 1 && scaling._y == 1) {
             _texture->drawRect(*_frameRec, pos);
+        } else {
+            _texture->drawEx(scaling);
         }
     } else {
         drawButtonRect();

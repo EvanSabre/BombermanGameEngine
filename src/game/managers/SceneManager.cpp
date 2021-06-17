@@ -35,7 +35,7 @@ const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::
             [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info) {
                 return std::make_shared<game::scenes::EmptyScene>(window, info);
             }}
-    };
+};
 
 
 SceneManager::SceneManager()
@@ -50,8 +50,8 @@ std::shared_ptr<gameEngine::interfaces::IScene> SceneManager::loadScene(const st
 {
     try {
         return _scene.at(type)(window, info);
-    } catch(std::exception &e) {
-        std::cerr << "Scene with name not found" << std::endl;
+    } catch(IndieError &e) {
+        std::cout << "Scene with name " << type << " not found" << std::endl;
         throw NoSceneException();
     }
 }

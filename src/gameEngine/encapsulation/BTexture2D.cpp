@@ -133,6 +133,7 @@ void BTexture2D::addTextToTexture(const BText &text, const std::string &filePath
 {
     BImage img(filePath);
 
+    std::cout << "##ADDING TEXT TO TEXTURE: " << text.getStr() << std::endl;
     img.drawText(text, text.getTextPosition());
     loadFromImg(img);
 }
@@ -155,15 +156,14 @@ void BTexture2D::draw() const noexcept
         DrawTexture(this->_texture, _pos._x, _pos._y, _color.getObj());
 }
 
-void BTexture2D::drawEx(float scale) const noexcept
+void BTexture2D::drawEx(const Vector<float> &scale) const noexcept
 {
-    Vector2 vec;
-
-    vec.x = _pos._x;
-    vec.y = _pos._y;
+    Rectangle source = {0.0f, 0.0f, (float)_texture.width, (float)_texture.height};
+    Rectangle dest = {(float)_pos._x, (float)_pos._y, (float)_texture.width * scale._x, (float)_texture.height * scale._y};
+    Vector2 origin = {0.0f, 0.0f};
 
     if (isLoad() && _enabled == true)
-        DrawTextureEx(this->_texture, vec, 0.0f, (float)scale, WHITE);
+        DrawTexturePro(this->_texture, source, dest, origin, 0.0f, WHITE);
 }
 
 void BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept

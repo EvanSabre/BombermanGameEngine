@@ -72,9 +72,11 @@ void Selector::draw()
 void Selector::update()
 {
     _buttonManager.updateButtons();
-    switch (this->getEvent())
+    enum SelectorEvent event = getEvent();
+
+    //std::cout << "EVENT : " << event << std::endl;
+    switch (event)
     {
-        printf("GETEvent\n");
         case SelectorEvent::NEXT:
             _iCurrent += 1;
             std::cout << "NEXT currentElem = "<< std::to_string(_iCurrent) <<std::endl;
@@ -97,8 +99,7 @@ SelectorEvent Selector::getEvent(void)
     if (_buttonManager.isButtonClicked("Next")) {
         printf("NEXT\n");
         return SelectorEvent::NEXT;
-    }
-    else if (_buttonManager.isButtonClicked("Prev"))
+    } else if (_buttonManager.isButtonClicked("Prev"))
         return SelectorEvent::PREV;
     return SelectorEvent::NONE;
 }

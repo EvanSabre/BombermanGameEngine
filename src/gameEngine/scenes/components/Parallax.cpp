@@ -9,7 +9,8 @@
 
 using namespace gameEngine::scenes;
 
-#define SCALE 2
+//#define SCALE 2
+static const Vector<float> SCALE(2, 1);
 
 Parallax::Parallax()
 {

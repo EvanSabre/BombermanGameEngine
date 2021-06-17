@@ -97,7 +97,8 @@ std::shared_ptr<game::managers::GameManager> infoPtr)
 bool AButton::isInsideButton(const Vector<float> &point)
 {
     if (_rectangle->checkPointInside(point)) {
-        _state = MOUSE_HOVER;
+        if (_state != PRESSED)
+            _state = MOUSE_HOVER;
         return true;
     }
     _state = NORMAL;
@@ -115,7 +116,7 @@ bool AButton::isButtonPressed(const Vector<float> &mousePos)
 
 bool AButton::isButtonReleased()
 {
-    if (_state == MOUSE_HOVER && IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+    if (_state == PRESSED && IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
         _state = NORMAL;
         return true;
     }
@@ -146,8 +147,10 @@ void AButton::drawButtonRect()
 
 void AButton::drawOutline()
 {
-    if (_state == MOUSE_HOVER || _state == PRESSED)
+    if (_state == MOUSE_HOVER)
         _rectangle->drawLines(*_selectColor);
+    if (_state == PRESSED)
+        _rectangle->drawLines(BLUE);
 }
 
 void AButton::draw()

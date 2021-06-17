@@ -40,6 +40,7 @@ void game::managers::GameManager::setQuit(bool q)
 
 void game::managers::GameManager::setCurrentScene(const std::string &str)
 {
+    std::cout << "SETTING CURRENT SCENE " << str << " changing from " << _currentScene << std::endl;
     _currentScene = str;
     _change = true;
 }
