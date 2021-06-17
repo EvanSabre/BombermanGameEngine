@@ -16,25 +16,33 @@ ButtonManager::ButtonManager()
 ButtonManager::~ButtonManager()
 {}
 
+void ButtonManager::setEnabledButton(const std::string &content, bool enabled)
+{
+    for (auto it : _currentButtons) {
+        if (it->getContent().getStr() == content) {
+            it->setEnabled(enabled);
+            break;
+        }
+    }
+}
+
 bool ButtonManager::isButtonClicked(const Vector<float> &pos)
 {
     for (auto it : _currentButtons) {
-        if (it->isButtonPressed(pos))
-            return true;
+        if (it->getPos() == pos)
+            return it->checkAction();
     }
     return false;
 }
 
 bool ButtonManager::isButtonClicked(const std::string &content)
 {
-    Vector2 mouse;
+    bool ret;
 
     for (auto it : _currentButtons) {
         if (it->getContent().getStr() == content) {
-            if (content == "Next")
-                std::cout << "Checking for button next\n";
-            mouse = GetMousePosition();
-            return it->isButtonPressed(Vector<float>(mouse.x, mouse.y));
+            ret = it->checkAction();
+            return ret;
         }
     }
     return false;

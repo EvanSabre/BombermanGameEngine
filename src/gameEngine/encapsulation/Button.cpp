@@ -11,16 +11,27 @@ using namespace gameEngine::encapsulation;
 using namespace gameEngine;
 
 Button::Button(const Vector<float> &size, const Vector<float> &pos,
+                const std::string &content, const int &textSize, const BColor &color, const BColor &selectColor, const std::string &textureFile,
+                float rotation, int nbFrames) : AButton(size, pos, content, textSize, color, selectColor, rotation)
+{
+    _frameRec = std::make_shared<BRectangle>(size, Vector<float>(0, 0), color, rotation);
+    _texture = std::make_shared<BTexture2D>();
+    if (textureFile != "") {
+        _texture->loadFromFile(textureFile);
+    }
+    _nbFrames = nbFrames;
+    _buttonPressed = false;
+}
+
+Button::Button(const Vector<float> &size, const Vector<float> &pos,
                 const BText &content, const BColor &color, const BColor &selectColor, const std::string &textureFile,
                 float rotation, int nbFrames) : AButton(size, pos, content, color, selectColor, rotation)
 {
     _frameRec = std::make_shared<BRectangle>(size, Vector<float>(0, 0), color, rotation);
     _texture = std::make_shared<BTexture2D>();
-    if (textureFile != "" && content.getStr() != "") {
-        std::cout << "### adding text to texture" << std::endl;
-        _texture->addTextToTexture(content, textureFile);
-    } else if (textureFile != "")
+    if (textureFile != "") {
         _texture->loadFromFile(textureFile);
+    }
     _nbFrames = nbFrames;
     _buttonPressed = false;
 }
@@ -107,18 +118,21 @@ void Button::draw()
     Vector<float> scaling(1, 1);
 
     if (_texture->isLoad()) {
+        if (_enabled == false)
+            _texture->setColor(LIGHTGRAY);
+        else
+            _texture->setColor(WHITE);
         _texture->setPos(Vector<int>((int)pos._x, (int)pos._y));
-        if (_texture->getSize()._x >= _rectangle->getWidth()) {
+        if (_texture->getSize()._x >= _rectangle->getWidth())
             scaling._x = _rectangle->getWidth() / _texture->getSize()._x;
-        }
-        if (_texture->getSize()._y >= _rectangle->getHeight()) {
+        if (_texture->getSize()._y >= _rectangle->getHeight())
             scaling._y = _rectangle->getHeight() / _texture->getSize()._y;
-        }
         if (scaling._x == 1 && scaling._y == 1) {
             _texture->drawRect(*_frameRec, pos);
         } else {
             _texture->drawEx(scaling);
         }
+        _content->draw();
     } else {
         drawButtonRect();
     }

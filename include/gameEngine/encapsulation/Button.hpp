@@ -15,6 +15,11 @@ namespace gameEngine {
         class Button : public AButton {
             public:
                 Button(const Vector<float> &size, const Vector<float> &pos,
+                        const std::string &content, const int &textSize, const BColor &color = BLACK,
+                        const BColor &selectColor = RED,
+                        const std::string &textureFile = "",
+                        float rotation = 0, int nbFrames = 1);
+                Button(const Vector<float> &size, const Vector<float> &pos,
                         const BText &content, const BColor &color = BLACK,
                         const BColor &selectColor = RED,
                         const std::string &textureFile = "",
