@@ -35,7 +35,11 @@ namespace game
             private:
                 std::unique_ptr<IMAGE> _background = nullptr;
                 std::unique_ptr<SELECTOR> _profileSelector = nullptr;
-                TEXT _ProfilesIndication;
+                std::unique_ptr<TEXT> _profileKeypad = nullptr;
+                std::unique_ptr<RECTANGLE> _zoneStat = nullptr;
+                TEXT _ProfilesIndicationGame;
+                TEXT _ProfilesIndicationPlayed;
+                TEXT _ProfilesIndicationKilled;
                 gameEngine::managers::ButtonManager _buttonManager;
         };
     };

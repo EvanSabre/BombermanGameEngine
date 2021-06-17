@@ -25,15 +25,23 @@ void ChooseProfileScene::start()
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y / 7);
 
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
+    _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
+
+    // std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileKey =
+    // {
+    //     std::make_shared<TEXT>("1", size, BLACK, 40)
+    // };
 
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent;
 
     //_info->_userManager->createUser("Evan");
-    for (auto &user : _info->_userManager->getUsers())
-        profileContent.push_back(std::make_shared<TEXT>(user->name));
+    for (auto &user : _info->_userManager->getUsers()) {
+        profileContent.push_back(std::make_shared<TEXT>(user->name, size, BLACK, 40));
+    }
 
+    //_profileKeypad = std::make_unique<TEXT>("Keypad per user", profileKey, Vector<float>(pos._x * 1.0, pos._y * 3.5), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
     _profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.5), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
-
+    _profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 3.2));
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
                                             Vector<float>(WINDOW_X * 0.1, WINDOW_Y * 0.8),
                                             TEXT("Back"),
@@ -50,8 +58,13 @@ void ChooseProfileScene::start()
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
-    _ProfilesIndication = TEXT("",
-                              Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.9),
+    _ProfilesIndicationGame = TEXT("Game Won: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
+                              WHITE,
+                              30);
+    _ProfilesIndicationPlayed = TEXT("Played: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.65),
+                              WHITE,
+                              30);
+    _ProfilesIndicationKilled = TEXT("Killed: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.85),
                               WHITE,
                               30);
 }
@@ -63,15 +76,22 @@ void ChooseProfileScene::update()
     }
     _buttonManager.updateButtons();
     _profileSelector->update();
+    //_profileKeypad->update();
 
     if (_buttonManager.isButtonClicked("Play")) {
         return;
     }
     std::string nb_entity = std::to_string(std::atoi(_profileSelector->getCurrentContent()->getContent().c_str()));
-    if (std::atoi(nb_entity.c_str()) > 4 || std::atoi(nb_entity.c_str()) < 1)
-        _ProfilesIndication.setColor(RED);
-    else
-        _ProfilesIndication.setColor(WHITE);
+    if (std::atoi(nb_entity.c_str()) > 4 || std::atoi(nb_entity.c_str()) < 1) {
+        _ProfilesIndicationGame.setColor(BLACK);
+        _ProfilesIndicationPlayed.setColor(BLACK);
+        _ProfilesIndicationKilled.setColor(BLACK);
+    }
+    else {
+        _ProfilesIndicationGame.setColor(WHITE);
+        _ProfilesIndicationPlayed.setColor(WHITE);
+        _ProfilesIndicationKilled.setColor(WHITE);
+    }
     //_ProfilesIndication.setStr(nb_entity + "/ 4 profiles maximum");
     return;
 }
@@ -79,7 +99,11 @@ void ChooseProfileScene::update()
 void ChooseProfileScene::draw()
 {
     _background->draw();
+    _zoneStat->draw();
     _profileSelector->draw();
+    //_profileKeypad->draw();
     _buttonManager.drawButtons();
-    _ProfilesIndication.draw();
+    _ProfilesIndicationGame.draw();
+    _ProfilesIndicationPlayed.draw();
+    _ProfilesIndicationKilled.draw();
 }
