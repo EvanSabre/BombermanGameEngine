@@ -32,6 +32,7 @@ namespace game
                 bool findUser(const std::string &name) const noexcept;
                 std::shared_ptr<User> &getUser(const std::string &name);
                 std::shared_ptr<User> &getUser(int & id);
+                std::vector<std::shared_ptr<User>> &getUsers();
                 std::shared_ptr<User> &createUser(const std::string &name);
                 void saveUser(const std::shared_ptr<User> &user);
                 bool assignInputToUser(int IdUser, const std::string &name) noexcept;

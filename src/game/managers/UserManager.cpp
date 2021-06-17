@@ -128,6 +128,11 @@ std::shared_ptr<game::User> &UserManager::getUser(int & id)
     throw UserManagmentError("getUser(Not found) : " + std::to_string(id));
 }
 
+std::vector<std::shared_ptr<game::User>> &UserManager::getUsers()
+{
+    return _users;
+}
+
 std::shared_ptr<game::User> &UserManager::createUser(const std::string &name)
 {
     std::string pathUser = Path::getOSPath(this->_pathDatabase + name + FILE_USER_EXT);
