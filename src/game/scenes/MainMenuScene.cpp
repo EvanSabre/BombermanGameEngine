@@ -59,6 +59,7 @@ void MainMenuScene::start()
     settingText.setFont(fontSetting);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, DARKGRAY);
+    buttonSettings->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("settings"); }, _info);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
@@ -76,6 +77,8 @@ void MainMenuScene::start()
 
 void MainMenuScene::update()
 {
+    if (!_windowManager->isRunning())
+        _info->setQuit(true);
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
 }

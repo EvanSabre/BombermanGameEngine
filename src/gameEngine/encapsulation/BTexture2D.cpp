@@ -24,7 +24,8 @@ BTexture2D::BTexture2D()
 BTexture2D::BTexture2D(const std::string &filePath, const encapsulation::BText &content)
 {
     this->resetObj();
-    this->addTextToTexture(content, filePath);
+    encapsulation::BText t(content);
+    this->addTextToTexture(t, filePath);
     _filepath = filePath;
 }
 
@@ -129,11 +130,10 @@ void BTexture2D::loadFromFile(const std::string &filepath)
         throw LoadingError(filepath, "Loading from : ", "TEXTURE2D");
 }
 
-void BTexture2D::addTextToTexture(const BText &text, const std::string &filePath)
+void BTexture2D::addTextToTexture(BText &text, const std::string &filePath)
 {
     BImage img(filePath);
 
-    std::cout << "##ADDING TEXT TO TEXTURE: " << text.getStr() << std::endl;
     img.drawText(text, text.getTextPosition());
     loadFromImg(img);
 }
@@ -163,7 +163,7 @@ void BTexture2D::drawEx(const Vector<float> &scale) const noexcept
     Vector2 origin = {0.0f, 0.0f};
 
     if (isLoad() && _enabled == true)
-        DrawTexturePro(this->_texture, source, dest, origin, 0.0f, WHITE);
+        DrawTexturePro(this->_texture, source, dest, origin, 0.0f, _color.getObj());
 }
 
 void BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept
