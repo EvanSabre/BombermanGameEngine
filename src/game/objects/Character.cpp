@@ -127,6 +127,7 @@ void Character::onCollisionEnter(const AGameObject &collision)
     {
         std::unique_ptr<game::interfaces::IEffect> efx = game::objects::EffectFactory::makeEffect(collision.getTag());
         addPowerUpEffec(efx.get());
+        std::cout << "get Power Up" << std::endl;
         return;
     }
     catch(const std::exception& e)

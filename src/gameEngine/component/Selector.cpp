@@ -74,7 +74,6 @@ void Selector::update()
     _buttonManager.updateButtons();
     enum SelectorEvent event = getEvent();
 
-    //std::cout << "EVENT : " << event << std::endl;
     switch (event)
     {
         case SelectorEvent::NEXT:
