@@ -64,6 +64,15 @@ int Character::getState() const noexcept
     return _state;
 }
 
+int Character::getLives() const noexcept
+{
+    return _lives;
+}
+
+int Character::getNbBomb() const noexcept
+{
+    return  _nbBomb;
+}
 
 //setter
 

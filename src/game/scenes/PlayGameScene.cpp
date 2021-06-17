@@ -65,7 +65,7 @@ void PlayGameScene::start()
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
-    _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::HEALTHUP, Vector3T<float>{10, 10, 20},
+    _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::ONEUP, Vector3T<float>{10, 10, 20},
         Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
     _tiles.push_back((*_healtTile));
 
@@ -188,11 +188,18 @@ void PlayGameScene::update()
 
 void PlayGameScene::draw()
 {
+    int idx_player = 0;
+    for (auto it : _players) {
+        _gui.draw((*it), (game::Gui::corner_e)idx_player);
+        idx_player++;
+    }
     this->_windowManager->set3DMode(_cam);
     (*_healtTile).draw();
     _map.draw();
     for (auto it : _players) {
         it->draw();
+        _gui.draw((*it), (game::Gui::corner_e)idx_player);
+        idx_player++;
     }
     _cam.endMode();
     _timer.getCurrentTime().draw();

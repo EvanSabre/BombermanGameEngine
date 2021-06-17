@@ -46,6 +46,10 @@ namespace game
                 void setCurrentEvent(game::Event Event) noexcept;
                 game::Event getCurrentEvent() const noexcept;
 
+            //EFFECT GETTER
+                int getLives() const noexcept;
+                int getNbBomb() const noexcept;
+
             //setter
                 void setCollider() noexcept;
                 void setState(const int &) noexcept;
