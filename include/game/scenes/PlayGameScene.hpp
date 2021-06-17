@@ -19,6 +19,8 @@
 #include "CheckBox.hpp"
 #include "Timer.hpp"
 #include "PowerUpTile.hpp"
+#include "Gui.hpp"
+
 
 #define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
 
@@ -39,6 +41,7 @@ namespace game {
                 void quit();
             protected:
             private:
+                game::Gui _gui;
                 bool _pause;
                 std::string _universe;
                 Map _map;
