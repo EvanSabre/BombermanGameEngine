@@ -27,12 +27,11 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     for (auto &tile : _map.getTiledMap()) {
         _tiles.push_back(tile);
     }
-// "assets/Pirates/Models/Border.obj"
-// "assets/All/Models/HealthUp.obj"
-    std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/Pirates/Models/Border.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+
+    std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
     _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::HEALTHUP, Vector3T<float>{2, 0, 2},
-    Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
+        Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
 }
 
 PlayGameScene::~PlayGameScene()
