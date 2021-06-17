@@ -29,7 +29,7 @@ void Gui::draw(const game::objects::Character &charac, corner_e corner)
     switch (corner)
     {
     case Gui::TOP_LEFT:
-        draw(charac, {0, 30});
+        draw(charac, {0, 60});
         break;
     case Gui::TOP_RIGHT:
         draw(charac, {1600, 30});
