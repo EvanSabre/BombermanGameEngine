@@ -19,9 +19,9 @@ namespace game::objects
         public:
             // Ctor 1
             Bomb(const std::string &id,
-                const std::string &modelfilepath = "",
-                const std::string &texturefilepath = "",
-                const game::Tag &type = NONE,
+                const std::string &modelfilepath = "assets/All/Models/Bomb.obj",
+                const std::string &texturefilepath = "assets/All/Textures/Tile.png",
+                const game::Tag &type = BOMB,
                 const Vector3T<float> &position = {0, 0, 0},
                 const Vector3T<float> &rotation = {0, 0, 0},
                 const Vector3T<float> &scale = {1, 1, 1},

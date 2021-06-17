@@ -81,6 +81,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/AExplosif.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Bomb.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/ExplosionManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/systems/SettingConf.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GameManager.cpp"
@@ -147,7 +148,7 @@ target_link_libraries(bomberman ${MY_DEPENDENCIES})
 target_include_directories(bomberman BEFORE PUBLIC ${MY_INCLUDE})
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    target_compile_options(bomberman PRIVATE -Wall -Wextra)
+    target_compile_options(bomberman PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Window")
-    target_compile_options(bomberman PRIVATE -Wall -Wextra)
+    target_compile_options(bomberman PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()

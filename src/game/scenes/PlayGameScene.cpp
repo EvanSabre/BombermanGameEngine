@@ -25,8 +25,9 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
     _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
     for (auto &tile : _map.getTiledMap()) {
-        _tiles.push_back(tile);
+        _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
     }
+    _explosion = std::make_shared<game::manager::ExplosionManager>(_players, _tiles);
 }
 
 PlayGameScene::~PlayGameScene()
@@ -65,15 +66,25 @@ void PlayGameScene::setupCamera() noexcept
 void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &player, const Vector3T<float> &prev)
 {
     for (auto &tile : _tiles) {
-        if (player->getCollider().isColliding(tile.getCollider().getBoundingBox())) {
-            player->onCollisionEnter(tile);
+        if (player->getCollider().isColliding(tile->getCollider().getBoundingBox())) {
+            player->onCollisionEnter(*tile);
             player->setTransform().setPosition(prev);
         }
     }
 }
 
+void PlayGameScene::updateExplosionManager()
+{
+    _explosion->setObjects(_players, _tiles);
+    _explosion->update();
+    _tiles = _explosion->getTiles();
+    for (auto &bomb : _explosion->getBombs())
+        _tiles.push_back(bomb);
+}
+
 void PlayGameScene::update()
 {
+    updateExplosionManager();
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
     if (!_windowManager->isRunning()) {
@@ -96,6 +107,7 @@ void PlayGameScene::update()
 
 void PlayGameScene::draw()
 {
+    _explosion->draw();
     _buttonManager.drawButtons();
     this->_windowManager->set3DMode(_cam);
     _map.draw();

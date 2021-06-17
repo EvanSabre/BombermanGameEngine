@@ -10,15 +10,18 @@
 using namespace game::objects;
 
 Character::Character(
-                    const std::string &id,
-                    const std::string &name,
-                    const std::string &texturePath,
-                    const std::string &model,
-                    const std::string &animWalk,
-                    const std::string &animIdle,
-                    const Vector3T<float> &pos
-                    ) : gameEngine::objects::Moveable(id), _frameCounter(0)
+    const std::string &id,
+    const std::string &name,
+    const std::string &texturePath,
+    const std::string &model,
+    const std::string &animWalk,
+    const std::string &animIdle,
+    const Vector3T<float> &pos
+    ) : gameEngine::objects::Moveable(id),
+      _frameCounter(0),
+      _bombRef(id)
 {
+    _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
     _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
     _animWalk = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animWalk);
@@ -148,4 +151,28 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 game::Tag_e Character::getTag() const noexcept
 {
     return  game::Tag::CHARACTER;
+}
+
+// BOMBS
+std::shared_ptr<game::objects::AExplosif> &Character::getNextBomb()
+{
+    std::shared_ptr<game::objects::AExplosif> bomb(_bombQueue.front());
+
+    _bombQueue.pop_front();
+    return bomb;
+}
+
+void Character::dropBomb(std::size_t tick) noexcept
+{
+    (void)tick;
+    if (_nbBomb <= 0)
+        return;
+    _bombQueue.front()->setTransform().setPosition(this->getTransform().getPosition());
+    std::cout << "DROP" << std::endl;
+    _bombQueue.front()->drop();
+    if (_nbBomb > 0)
+        _nbBomb--;
+    std::cout << "DROPPED" << std::endl;
+    if (_bombQueue.empty())
+        _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
 }

@@ -45,7 +45,8 @@ namespace game
                 {KEY_DOWN, &Player::moveLeft},
                 {KEY_UP, &Player::moveRight},
                 {KEY_RIGHT, &Player::moveForward},
-                {KEY_LEFT, &Player::moveBackward}
+                {KEY_LEFT, &Player::moveBackward},
+                {KEY_SPACE, &Player::dropBomb}
             };
         };
     } // namespace objects

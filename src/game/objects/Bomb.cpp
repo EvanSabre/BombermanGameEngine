@@ -53,8 +53,10 @@ Bomb::~Bomb()
 // Member functions
 void Bomb::drop()
 {
-    _dropped = true;
-    _countdown = std::make_unique<std::thread>(&Bomb::countdown, this);
+    if (!_dropped) {
+        _dropped = true;
+        _countdown = std::make_unique<std::thread>(&Bomb::countdown, this);
+    }
 }
 
 void Bomb::countdown()
@@ -66,4 +68,10 @@ void Bomb::countdown()
     mtx.lock();
     _done = true;
     mtx.unlock();
+}
+
+// Getters
+game::Tag_e getTag()
+{
+    return game::Tag_e::BOMB;
 }
