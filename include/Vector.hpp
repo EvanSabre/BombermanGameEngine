@@ -52,6 +52,14 @@ class Vector {
             return *this;
         }
 
+        Vector &operator+=(Vector<T> const &other) {
+            if (this == &other)
+                return *this;
+            _x += other._x;
+            _y += other._y;
+            return *this;
+        }
+
         T _x;
         T _y;
 };

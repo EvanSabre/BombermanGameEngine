@@ -18,6 +18,7 @@
 #include "BTexture2D.hpp"
 #include "CheckBox.hpp"
 #include "Timer.hpp"
+#include "ExplosionManager.hpp"
 
 #define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
 
@@ -32,6 +33,7 @@ namespace game {
                 void start() override;
                 void update() override;
                 void draw() override;
+                void updateExplosionManager();
             protected:
             private:
                 std::string _universe;
@@ -39,8 +41,9 @@ namespace game {
                 gameEngine::encapsulation::BCamera _cam;
                 gameEngine::managers::AudioManager _audio;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
-                std::vector<std::shared_ptr<Tile>> _tiles;
+                std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
                 gameEngine::component::Timer _timer;
+                std::shared_ptr<game::manager::ExplosionManager> _explosion;
             private:
                 void setupCamera() noexcept;
         };

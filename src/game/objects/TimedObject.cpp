@@ -72,7 +72,7 @@ void TimedObject::updateLifeTime() noexcept
 
 //AGAMEOBJECT FUNCTIONS
 
-void TimedObject::Update()
+void TimedObject::update()
 {
     this->updateLifeTime();
 }

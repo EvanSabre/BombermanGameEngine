@@ -9,12 +9,14 @@
 #define CHARACTER_HPP_
 
 #include <string>
+#include <deque>
 #include "Moveable.hpp"
 #include "BModel.hpp"
 #include "IEffect.hpp"
 #include "EffectFactory.hpp"
 #include "BModelAnimation.hpp"
 #include "SettingConf.hpp"
+#include "Bomb.hpp"
 // #include "Animation.hpp"
 
 #define ANIMIDLE 0
@@ -54,7 +56,8 @@ namespace game
                 void setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept;
 
             //action
-            //vo dropBomb() const noexcept;
+            std::shared_ptr<game::objects::AExplosif> &getNextBomb();
+            void dropBomb(std::size_t tick) noexcept;
             void draw() const noexcept;
             //tmp for test : to delete
                 void onCollisionEnter(const AGameObject &collision);
@@ -82,6 +85,8 @@ namespace game
             std::shared_ptr<gameEngine::encapsulation::BModelAnimation> _anim;
             int _frameCounter;
             int _state;
+            game::objects::Bomb _bombRef;
+            std::deque<std::shared_ptr<game::objects::AExplosif>> _bombQueue;
 
         private:
             void addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept;
