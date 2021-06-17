@@ -28,7 +28,7 @@ void Player::handleKeyEvent() noexcept
 {
     bool flag = false;
 
-    for (const auto &[evt, action] : _key_event) {
+    for (auto &[evt, action] : _key_event) {
 
         try {
             if (_currentEvent == evt) {

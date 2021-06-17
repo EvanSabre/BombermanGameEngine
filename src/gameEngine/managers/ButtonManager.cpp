@@ -26,6 +26,16 @@ void ButtonManager::setEnabledButton(const std::string &content, bool enabled)
     }
 }
 
+void ButtonManager::setCallBackForButton(const std::string &content, std::shared_ptr<game::managers::GameManager> info,
+                                        std::function<void(std::shared_ptr<game::managers::GameManager> info)> func)
+{
+    for (auto it : _currentButtons) {
+        if (it->getContent().getStr() == content) {
+            it->setCallback(func, info);
+        }
+    }
+}
+
 bool ButtonManager::isButtonClicked(const Vector<float> &pos)
 {
     for (auto it : _currentButtons) {
