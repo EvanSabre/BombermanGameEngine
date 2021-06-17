@@ -20,10 +20,10 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
         // try {
         //     info->_userManager->createUser("Joueur" + std::to_string(i + 1));
         // } catch (UserManagmentError &e) {
-            // std::cout << e.what() << " : " << e.getComponent() << std::endl;
-            // throw IndieError("UserManagement");
-        //}
-        info->_userManager->assignInputToUser(i + 1, "Joueur" + std::to_string(i + 1));
+        //     std::cout << e.what() << " : " << e.getComponent() << std::endl;
+        //     throw IndieError("UserManagement");
+        // }
+        info->_userManager->assignInputToUser(i, "Joueur" + std::to_string(i + 1));
         //TODO:AJouter au vecteur de joueur
     }
 
@@ -41,20 +41,20 @@ void PlayGameScene::start()
     std::srand(_map.getSeed());
 
     std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(1)));
-    std::shared_ptr<game::objects::Player> player2 = std::make_shared<game::objects::Player>("2", "JOJO", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(2)));
+//    std::shared_ptr<game::objects::Player> player2 = std::make_shared<game::objects::Player>("2", "JOJO", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(2)));
 
     player->setTransform().setScale({0.1, 0.1, 0.1});
     player->setTransform().setPosition({10, 10, 10});
     player->setTransform().setRotation({90, 90, 0});
     player->setCollider();
 
-    player2->setTransform().setScale({0.1, 0.1, 0.1});
-    player2->setTransform().setPosition({20, 10, 10});
-    player2->setTransform().setRotation({90, 90, 0});
-    player2->setCollider();
+    // player2->setTransform().setScale({0.1, 0.1, 0.1});
+    // player2->setTransform().setPosition({20, 10, 10});
+    // player2->setTransform().setRotation({90, 90, 0});
+    // player2->setCollider();
 
     _players.push_back(player);
-    _players.push_back(player2);
+//    _players.push_back(player2);
     this->setupCamera();
     _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
     _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
