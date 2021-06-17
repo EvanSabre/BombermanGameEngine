@@ -113,3 +113,13 @@ void Selector::setContentPos(Vector<float> pos)
     }
     //exit(0);
 }
+
+int Selector::getNbContent()
+{
+    return (int)_contents.size();
+}
+
+int Selector::getIdActualContent()
+{
+    return _iCurrent;
+}

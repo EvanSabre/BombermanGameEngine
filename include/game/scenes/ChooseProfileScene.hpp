@@ -34,10 +34,12 @@ namespace game
                 void update() override;
                 void draw() override;
             private:
+                int _nbContents = 0;
                 std::unique_ptr<IMAGE> _background = nullptr;
                 std::unique_ptr<SELECTOR> _profileSelector = nullptr;
                 std::unique_ptr<RECTANGLE> _profileKeypad = nullptr;
                 std::unique_ptr<RECTANGLE> _zoneStat = nullptr;
+                std::unique_ptr<INPUT_BUTTON> _inputButton = nullptr;
                 TEXT _ProfilesIndicationGame;
                 TEXT _ProfilesIndicationPlayed;
                 TEXT _ProfilesIndicationKilled;

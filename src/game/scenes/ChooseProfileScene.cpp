@@ -23,6 +23,8 @@ void ChooseProfileScene::start()
 {
     Vector<float> size(WINDOW_X / 2, WINDOW_Y / 1.5);
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y * 0.30);
+    Vector<float> posbutton(WINDOW_X / 2.3, WINDOW_Y * 0.42);
+    Vector<float> sizebutton(WINDOW_X / 8, WINDOW_Y / 10);
 
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
     _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
@@ -38,7 +40,8 @@ void ChooseProfileScene::start()
     for (auto &user : _info->_userManager->getUsers()) {
         profileContent.push_back(std::make_shared<TEXT>(user->name, size, BLACK, 40));
     }
-    profileContent.push_back(std::make_shared<INPUT_BUTTON>(size, pos, TEXT("Keypad"), RED, BLACK));
+    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, TEXT("", size, BLACK, 40), RED, BLACK);
+    profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
 
     //_profileKeypad = std::make_unique<TEXT>("Keypad per user", profileKey, Vector<float>(pos._x * 1.0, pos._y * 3.5), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
     _profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
@@ -68,6 +71,8 @@ void ChooseProfileScene::start()
     _ProfilesIndicationKilled = TEXT("Killed: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.85),
                               WHITE,
                               30);
+
+    _nbContents = _profileSelector->getNbContent();
 }
 
 void ChooseProfileScene::update()
@@ -77,6 +82,7 @@ void ChooseProfileScene::update()
     }
     _buttonManager.updateButtons();
     _profileSelector->update();
+    _inputButton->update();
     //_profileKeypad->update();
 
     if (_buttonManager.isButtonClicked("Play")) {
@@ -103,6 +109,8 @@ void ChooseProfileScene::draw()
     _zoneStat->draw();
     //_profileKeypad->draw();
     _profileSelector->draw();
+    if (_nbContents - 1 == _profileSelector->getIdActualContent())
+        _inputButton->draw();
     _buttonManager.drawButtons();
     _ProfilesIndicationGame.draw();
     _ProfilesIndicationPlayed.draw();
