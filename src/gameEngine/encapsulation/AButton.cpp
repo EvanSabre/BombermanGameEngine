@@ -17,6 +17,7 @@ const BColor &color, const BColor &selectColor, float rotation)
     _content = std::make_shared<BText>(content);
     _state = gameEngine::interfaces::IButton::NORMAL;
     _action = false;
+    _enabled = true;
     _callback = nullptr;
 }
 
@@ -60,7 +61,18 @@ AButton::State AButton::getState() const noexcept
     return _state;
 }
 
+bool AButton::getEnabled() const noexcept
+{
+    return _enabled;
+}
+
+
 //SETTERS
+void AButton::setEnabled(bool enabled)
+{
+    _enabled = enabled;
+}
+
 void AButton::setPos(const Vector<float> &pos)
 {
     _rectangle->setTransform()._position._x = pos._x;
@@ -128,12 +140,13 @@ bool AButton::checkAction()
     return false;
 }
 
+
 void AButton::updateState()
 {
     Vector2 tmp = GetMousePosition();
     Vector<float> vec(tmp.x, tmp.y);
 
-    if (isInsideButton(vec)) {
+    if (_enabled && isInsideButton(vec)) {
         if(isButtonPressed(vec)) {
             _state = PRESSED;
         } else {

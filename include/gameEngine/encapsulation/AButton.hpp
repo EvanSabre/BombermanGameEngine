@@ -26,6 +26,7 @@ namespace gameEngine {
                 Vector<float> getSize() const noexcept;
                 State getState() const noexcept;
                 BText getContent() const noexcept;
+                bool getEnabled() const noexcept;
 
                 //setter
                 void setPos(const Vector<float> &pos);
@@ -33,6 +34,7 @@ namespace gameEngine {
                 void setSize(const Vector<float> &size);
                 void setColor(const BColor &color);
                 void setContentStr(const std::string &str);
+                void setEnabled(bool enabled);
 
                 void setCallback(std::function<void(std::shared_ptr<game::managers::GameManager> info)> func,
                 std::shared_ptr<game::managers::GameManager> &infoPtr);
@@ -51,6 +53,7 @@ namespace gameEngine {
                 std::shared_ptr<game::managers::GameManager> _infoPtr;
                 State _state;
                 bool _action;
+                bool _enabled;
                 std::shared_ptr<BText> _content;
                 std::shared_ptr<BRectangle> _rectangle;
                 std::shared_ptr<BColor> _selectColor;

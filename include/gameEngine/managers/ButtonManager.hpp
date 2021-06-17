@@ -26,6 +26,7 @@ namespace gameEngine {
                 bool isButtonClicked(const std::string &content);
                 bool isButtonClicked(const std::string &buttonContent, const Vector<float> &pos);
 
+                void setEnabledButton(const std::string &content, bool enabled);
                 void createButton(const std::shared_ptr<BTexture2D> &texture, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content);
                 void pushButton(std::shared_ptr<encapsulation::AButton> button);
 
