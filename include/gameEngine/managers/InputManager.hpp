@@ -26,10 +26,10 @@ namespace gameEngine
         class InputManager
         {
             public:
-                InputManager(const UserInputs &inputList, std::unordered_map<E, Controller> keymap)
+                InputManager(const UserInputs &inputList, std::unordered_map<E, std::pair<gameEngine::Key, gameEngine::Key>> keymap)
                 {
+                    this->setKeymap(keymap);
                     _inputList = inputList;
-                    _keymap = keymap;
                 }
 
                 ~InputManager() = default;
@@ -149,14 +149,14 @@ namespace gameEngine
                     return KEY_NULL;
                 }
 
-                std::queue<std::pair<int, E>> pollEvents()
+                std::vector<std::pair<int, E>> pollEvents()
                 {
-                    std::queue<std::pair<int, E>> results;
-
+                    std::vector<std::pair<int, E>> results;
                     for (auto &[id, input] : _inputList) {
                         for (auto &[event, pairFunc] : _keymap) {
                             if((input.get()->*pairFunc.first)(pairFunc.second.first) || (input.get()->*pairFunc.first)(pairFunc.second.second)) {
-                                results.push(std::make_pair(id, event));
+                                std::cout << "Joueur "<< id << " Pressed " << event << std::endl;
+                                results.push_back(std::make_pair(id, event));
                             }
                         }
                     }
@@ -185,6 +185,20 @@ namespace gameEngine
                     }
                 }
 
+                void setKeymap(std::unordered_map<E, gameEngine::AttachedKeys> keymap)
+                {
+                    _keymap.clear();
+                    for (auto &[event, keybinding] : keymap)
+                    {
+                        if ((int) event < 5) {
+                            _keymap.insert({event, Controller(&gameEngine::interfaces::IInput::isKeyDown, keybinding)});
+                            std::cout << event << std::endl;
+                        }
+                        else
+                            _keymap.insert({event, Controller(&gameEngine::interfaces::IInput::isKeyPressed, keybinding)});
+                    }
+                }
+
                 void mapKey(E event, gameEngine::Key key, bool gamepadOrSecond)
                 {
                     for (auto &i : _keymap)
@@ -207,6 +221,8 @@ namespace gameEngine
                     }
                     _keymap.emplace(event, func);
                 }
+
+
 
             private:
                 std::unordered_map<E, Controller> _keymap;

@@ -22,8 +22,8 @@ namespace game::objects
             const Vector3T<float> &rotation = {0, 0, 0},
             const Vector3T<float> &scale = {1, 1, 1},
             float idleSpeed = 0.1,
-            float minHeight = 1,
-            float maxHeight = 10
+            float minHeight = 10,
+            float maxHeight = 20
             );
         ~PowerUpTile();
 

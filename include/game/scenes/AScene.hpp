@@ -11,7 +11,6 @@
 #include "IScene.hpp"
 #include "WindowManager.hpp"
 #include "BTexture2D.hpp"
-#include "InputManager.hpp"
 #include "GameManager.hpp"
 #include "ButtonManager.hpp"
 
@@ -29,7 +28,6 @@ namespace gameEngine {
         protected:
             std::shared_ptr<gameEngine::managers::WindowManager> _windowManager;
             std::shared_ptr<game::managers::GameManager> _info;
-//            std::shared_ptr<gameEngine::managers::InputManager> _inputManager;
             std::vector<std::shared_ptr<gameEngine::encapsulation::BTexture2D>> _textures;
             gameEngine::managers::ButtonManager _buttonManager;
             // gameEngine::managers::CheckBoxManager _checkboxManager;

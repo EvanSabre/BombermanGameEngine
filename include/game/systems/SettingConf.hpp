@@ -14,10 +14,21 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
-#include "KeyMap.hpp"
+#include "IInput.hpp"
 
 namespace game
 {
+    typedef enum Event
+    {
+        NULL_EVENT,
+        MOVE_UP,
+        MOVE_DOWN,
+        MOVE_RIGHT,
+        MOVE_LEFT,
+        VALIDATE,
+        PAUSE,
+        BACK
+    }Event;
     namespace systems
     {
 
@@ -35,13 +46,13 @@ namespace game
         {
         public:
             static setting_t loadSetting(const std::string &filepath);
+            static setting_t getDefaultSettings() noexcept;
 
         private:
             static const std::unordered_map<std::string, parseFct_t> _parseFcts;
             static const std::unordered_map<std::string, game::Event> _eventMap;
 
         private:
-            static setting_t getDefaultSettings() noexcept;
             static bool allSettingIsLoad(setting_t conf) noexcept;
             static void parseSetting(setting_t &conf, const std::vector<std::string> &file);
 

@@ -65,6 +65,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SplashScreenScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/ChoosePlayersScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/SettingsScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/GameObject.cpp"
@@ -131,7 +132,6 @@ add_executable(bomberman
         ${GAMEENGINE_SRC}
         ${GAME_SRC}
         ${UTILS_SRC}
-        ${PROJECT_SOURCE_DIR}/assets/icon.res
         )
 
 set_target_properties(bomberman
@@ -146,7 +146,7 @@ target_link_libraries(bomberman ${MY_DEPENDENCIES})
 target_include_directories(bomberman BEFORE PUBLIC ${MY_INCLUDE})
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    target_compile_options(bomberman PRIVATE -Wall -Wextra)
+    target_compile_options(bomberman PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Window")
-    target_compile_options(bomberman PRIVATE -Wall -Wextra)
+    target_compile_options(bomberman PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
