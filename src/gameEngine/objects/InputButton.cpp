@@ -61,3 +61,8 @@ void InputButton::update()
     updateInput();
     updateState();
 }
+
+std::string InputButton::getContent() const noexcept
+{
+    return _content.getStr();
+}

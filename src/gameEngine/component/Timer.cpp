@@ -56,7 +56,7 @@ void Timer::wait()
     _timerThread->join();
 }
 
-void Timer::draw() const noexcept
+void Timer::draw()
 {
     _currentTime.draw();
 }

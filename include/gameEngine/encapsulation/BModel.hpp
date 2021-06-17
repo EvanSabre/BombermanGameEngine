@@ -55,7 +55,7 @@ namespace gameEngine
 
             //draw
                 void rotate();
-                void draw() const noexcept override;
+                void draw() override;
 
         private:
             std::string _filePath;

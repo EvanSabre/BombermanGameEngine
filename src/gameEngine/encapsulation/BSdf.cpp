@@ -35,7 +35,7 @@ BSdf::~BSdf()
     UnloadFont(_font);
 }
 
-void BSdf::draw() const noexcept
+void BSdf::draw()
 {
     Vector2 vec;
 

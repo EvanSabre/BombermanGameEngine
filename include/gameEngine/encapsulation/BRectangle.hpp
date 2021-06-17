@@ -47,7 +47,7 @@ namespace gameEngine
                 void setHeight(const float &) noexcept;
 
             //draw
-                void draw() const noexcept override;
+                void draw() override;
                 void drawLines(const BColor &color) const noexcept;
 
             //collision

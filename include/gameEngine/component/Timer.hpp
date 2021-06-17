@@ -29,7 +29,7 @@ namespace gameEngine {
                 void startThread();
                 gameEngine::encapsulation::BText &getCurrentTime();
                 std::string getContent() const noexcept;
-                void draw() const noexcept;
+                void draw();
                 void wait();
                 void timerExecute();
                 void addToDuration(const double &add);

@@ -30,7 +30,7 @@ namespace gameEngine {
                 ~BSdf();
 
 
-                void draw() const noexcept;
+                void draw();
                 std::string getContent() const noexcept;
             protected:
                 Font _font = { 0 };

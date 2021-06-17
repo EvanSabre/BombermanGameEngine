@@ -12,7 +12,7 @@
 
 namespace gameEngine {
     namespace object {
-        class InputButton : public encapsulation::AButton {
+        class InputButton : public encapsulation::AButton, public encapsulation::ADrawable {
             public:
                 InputButton(const Vector<float> &size, const Vector<float> &pos, const encapsulation::BText &content,
                 const encapsulation::BColor &color, const encapsulation::BColor &selectColor);
@@ -23,6 +23,8 @@ namespace gameEngine {
                 void updateInput();
 
                 void update() override;
+                using encapsulation::ADrawable::draw;
+                std::string getContent() const noexcept;
                 void draw() override;
 
             protected:

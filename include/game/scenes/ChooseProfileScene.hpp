@@ -17,6 +17,7 @@
 #define RECTANGLE gameEngine::encapsulation::BRectangle
 #define IMAGE gameEngine::encapsulation::BTexture2D
 #define SELECTOR gameEngine::component::Selector
+#define INPUT_BUTTON gameEngine::object::InputButton
 #define WINDOW_X _windowManager->getWindowSize()._x
 #define WINDOW_Y _windowManager->getWindowSize()._y
 
@@ -35,7 +36,7 @@ namespace game
             private:
                 std::unique_ptr<IMAGE> _background = nullptr;
                 std::unique_ptr<SELECTOR> _profileSelector = nullptr;
-                std::unique_ptr<TEXT> _profileKeypad = nullptr;
+                std::unique_ptr<RECTANGLE> _profileKeypad = nullptr;
                 std::unique_ptr<RECTANGLE> _zoneStat = nullptr;
                 TEXT _ProfilesIndicationGame;
                 TEXT _ProfilesIndicationPlayed;

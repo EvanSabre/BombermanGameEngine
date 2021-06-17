@@ -33,7 +33,7 @@ namespace gameEngine
             virtual void setScale(const Vector3T<float> &scale) noexcept = 0;
             virtual void setScale(const float &scale) noexcept = 0;
 
-            virtual void draw() const noexcept = 0;
+            virtual void draw() = 0;
         };
     } // namespace interfaces
 } // namespace gameEngine
