@@ -16,11 +16,21 @@ ButtonManager::ButtonManager()
 ButtonManager::~ButtonManager()
 {}
 
+void ButtonManager::setEnabledButton(const std::string &content, bool enabled)
+{
+    for (auto it : _currentButtons) {
+        if (it->getContent().getStr() == content) {
+            it->setEnabled(enabled);
+            break;
+        }
+    }
+}
+
 bool ButtonManager::isButtonClicked(const Vector<float> &pos)
 {
     for (auto it : _currentButtons) {
-        if (it->isButtonPressed(pos))
-            return true;
+        if (it->getPos() == pos)
+            return it->checkAction();
     }
     return false;
 }

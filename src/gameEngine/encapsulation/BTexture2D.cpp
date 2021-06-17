@@ -163,7 +163,7 @@ void BTexture2D::drawEx(const Vector<float> &scale) const noexcept
     Vector2 origin = {0.0f, 0.0f};
 
     if (isLoad() && _enabled == true)
-        DrawTexturePro(this->_texture, source, dest, origin, 0.0f, WHITE);
+        DrawTexturePro(this->_texture, source, dest, origin, 0.0f, _color.getObj());
 }
 
 void BTexture2D::drawRect(const encapsulation::BRectangle &rect, Vector<float> pos) const noexcept
