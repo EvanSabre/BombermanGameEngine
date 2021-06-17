@@ -51,6 +51,11 @@ encapsulation::BText::BText(const BText &ref)
     this->setSpacing(ref.getSpacing());
 }
 
+void encapsulation::BText::update()
+{
+
+}
+
 encapsulation::BText &encapsulation::BText::operator=(const BText &ref)
 {
     if (this == &ref)

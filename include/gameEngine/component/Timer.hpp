@@ -33,6 +33,7 @@ namespace gameEngine {
                 void wait();
                 void timerExecute();
                 void addToDuration(const double &add);
+                void update() override;
             protected:
                 double _duration = 120;
                 bool _isDone = false;

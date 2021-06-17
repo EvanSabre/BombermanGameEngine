@@ -34,6 +34,8 @@ namespace gameEngine
             BText &operator=(const BText &ref);
             ~BText();
 
+            void update() override;
+
             //getterT
                 [[nodiscard]] std::string getStr() const noexcept;
                 [[nodiscard]] BFont getFont() const noexcept;

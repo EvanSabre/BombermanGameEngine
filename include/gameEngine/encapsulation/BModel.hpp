@@ -35,6 +35,8 @@ namespace gameEngine
             BModel &operator=(const BModel &ref);
             ~BModel();
 
+            void update() override;
+
             //getter
                 [[nodiscard]] Model getObj() const noexcept;
                 [[nodiscard]] bool isLoad() const noexcept;

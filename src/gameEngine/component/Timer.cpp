@@ -46,6 +46,10 @@ void Timer::timerExecute()
     }
 }
 
+void Timer::update()
+{
+}
+
 double Timer::getDuration() const noexcept
 {
     return _duration;

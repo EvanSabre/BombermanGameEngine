@@ -53,6 +53,10 @@ encapsulation::BRectangle::~BRectangle()
     std::cout << "Rectangle destory\n";
 }
 
+void encapsulation::BRectangle::update()
+{
+}
+
 //----------------------------
 
 //GETTER

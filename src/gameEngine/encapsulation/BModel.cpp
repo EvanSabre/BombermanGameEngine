@@ -66,6 +66,10 @@ BModel &BModel::BModel::operator=(const encapsulation::BModel &ref)
     return *this;
 }
 
+void BModel::update()
+{
+}
+
 //----------------------------
 
 //GETTER

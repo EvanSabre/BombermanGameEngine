@@ -32,6 +32,8 @@ namespace gameEngine
             BRectangle &operator=(const BRectangle &ref);
             ~BRectangle();
 
+            void update() override;
+
             //getter
                 [[nodiscard]] Rectangle getObj() const;
                 [[nodiscard]] float getWidth() const noexcept;

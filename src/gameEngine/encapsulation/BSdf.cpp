@@ -35,6 +35,10 @@ BSdf::~BSdf()
     UnloadFont(_font);
 }
 
+void BSdf::update()
+{
+}
+
 void BSdf::draw()
 {
     Vector2 vec;

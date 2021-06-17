@@ -25,7 +25,7 @@ namespace gameEngine
             // member functions
             void onCollisionEnter(const AGameObject &collision);
             void onCollisionExit(const AGameObject &collision);
-            void update();
+            virtual void update() = 0;
             game::Tag_e getTag() const noexcept;
 
             //getter

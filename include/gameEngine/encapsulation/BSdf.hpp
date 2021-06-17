@@ -29,6 +29,7 @@ namespace gameEngine {
                 const std::string &filePath = DEFAULT_FONT, const int &fontSize = 16, const int &charsCount = 95);
                 ~BSdf();
 
+                void update() override;
 
                 void draw();
                 std::string getContent() const noexcept;

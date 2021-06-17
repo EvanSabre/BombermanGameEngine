@@ -22,6 +22,7 @@ namespace gameEngine {
                 void getNextChar() noexcept;
                 void updateInput();
 
+                using encapsulation::AButton::update;
                 void update() override;
                 using encapsulation::ADrawable::draw;
                 std::string getContent() const noexcept;
