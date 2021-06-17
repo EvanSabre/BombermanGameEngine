@@ -34,9 +34,8 @@ namespace game
                 void draw() override;
             private:
                 std::unique_ptr<IMAGE> _background = nullptr;
-                std::unique_ptr<SELECTOR> _playerSelector = nullptr;
-                std::unique_ptr<SELECTOR> _botSelector = nullptr;
-                TEXT _PlayersIndication;
+                std::unique_ptr<SELECTOR> _profileSelector = nullptr;
+                TEXT _ProfilesIndication;
                 gameEngine::managers::ButtonManager _buttonManager;
         };
     };
