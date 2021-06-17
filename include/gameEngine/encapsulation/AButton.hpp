@@ -16,6 +16,8 @@ namespace gameEngine {
     namespace encapsulation {
         class AButton : public interfaces::IButton {
             public:
+                AButton(const Vector<float> &size, const Vector<float> &pos, const std::string &content,
+                const int &textSize, const BColor &color = BLACK, const BColor &selectColor = RED, float rotation = 0);
                 AButton(const Vector<float> &size, const Vector<float> &pos, const BText &content,
                 const BColor &color = BLACK, const BColor &selectColor = RED, float rotation = 0);
                 AButton(const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &text);

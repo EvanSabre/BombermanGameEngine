@@ -9,6 +9,20 @@
 
 using namespace gameEngine::encapsulation;
 
+
+AButton::AButton(const Vector<float> &size, const Vector<float> &pos, const std::string &content,
+const int &textSize, const BColor &color, const BColor &selectColor, float rotation)
+{
+    _selectColor = std::make_shared<BColor>(selectColor);
+    _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
+    std::cout << "text constructor\n";
+    _content = std::make_shared<BText>(content, pos, color, textSize);
+    _state = gameEngine::interfaces::IButton::NORMAL;
+    _action = false;
+    _enabled = true;
+    _callback = nullptr;
+}
+
 AButton::AButton(const Vector<float> &size, const Vector<float> &pos, const BText &content,
 const BColor &color, const BColor &selectColor, float rotation)
 {

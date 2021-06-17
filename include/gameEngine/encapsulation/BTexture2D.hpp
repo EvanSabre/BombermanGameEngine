@@ -53,7 +53,7 @@ namespace gameEngine
             void drawRect(const BRectangle &rect, Vector<float> pos) const noexcept;
 
         //utils
-            void addTextToTexture(const BText &text, const std::string &filePath);
+            void addTextToTexture(BText &text, const std::string &filePath);
         private:
             bool _enabled = true;
             Texture2D _texture;
