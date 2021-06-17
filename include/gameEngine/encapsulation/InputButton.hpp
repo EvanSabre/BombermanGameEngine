@@ -14,7 +14,7 @@ namespace gameEngine {
     namespace object {
         class InputButton : public encapsulation::AButton {
             public:
-                InputButton(const Vector<float> &size, const Vector<float> &pos,
+                InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput,
                 const encapsulation::BText &content, const encapsulation::BColor &color,
                 const encapsulation::BColor &selectColor = BLACK);
                 ~InputButton();
@@ -30,6 +30,7 @@ namespace gameEngine {
                 encapsulation::BText _content;
                 std::string _input;
                 int _currentChar;
+                int _maxInput;
             private:
         };
     }
