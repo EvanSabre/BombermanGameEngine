@@ -28,6 +28,7 @@ void ChooseProfileScene::start()
 
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent;
 
+    //_info->_userManager->createUser("Evan");
     for (auto &user : _info->_userManager->getUsers())
         profileContent.push_back(std::make_shared<TEXT>(user->name));
 
