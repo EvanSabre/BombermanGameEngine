@@ -84,7 +84,8 @@ void MainMenuScene::update()
 
 void MainMenuScene::draw()
 {
-    _background.draw();
-    _buttonManager.drawButtons();
-    _title->draw();
+    _gui.draw();
+    // _background.draw();
+    // _buttonManager.drawButtons();
+    //_title->draw();
 }

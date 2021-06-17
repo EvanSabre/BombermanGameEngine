@@ -67,6 +67,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Player.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Gui.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/GameObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Tile.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/ACollectible.cpp"
