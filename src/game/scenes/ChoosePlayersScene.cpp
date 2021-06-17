@@ -47,13 +47,15 @@ void ChoosePlayersScene::start()
     _botSelector = std::make_unique<SELECTOR>("Choose a number of bots", botContent, Vector<float>(pos._x * 1.0, pos._y * 3.5), Vector<float>(size._x, size._y * 0.3), 20, GREEN);
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
                                             Vector<float>(WINDOW_X * 0.1, WINDOW_Y * 0.8),
-                                            TEXT("Back"),
+                                            "Back",
+                                            30,
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
     std::shared_ptr<BUTTON> playButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
                                             Vector<float>(WINDOW_X * 0.8, WINDOW_Y * 0.8),
-                                            TEXT("Play"),
+                                            "Play",
+                                            30,
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
