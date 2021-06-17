@@ -2,16 +2,28 @@
 #include "Map.hpp"
 
 
+#define GET_MAP_POS(vec) Vector<int>(vec._x / TILESIZE, vec._y / TILESIZE)
+
 
 game::systems::Brain::Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> sizeMap)
 : _map(map), _level(level)
 {
+    Vector<int> posInMap{0, 0};
     for (int x = 0; x < sizeMap._x; x++)
     {
-        for (int y = 0; y < sizeMap._y; y++)
-            map
-
+        _isDangerousMap.push_back(std::vector<bool>{0});
+        _tagMap.push_back(std::vector<Tag>{0});
+        for (int y = 0; y < sizeMap._y; y++) {
+            _isDangerousMap[x].push_back(false);
+            _tagMap[x].push_back(NONE);
+        }
     }
+    for (auto &tile : _map)
+    {
+        posInMap = {tile->getTransform().getPosition()._x, tile->getTransform().getPosition()._y};
+        posInMap = GET_MAP_POS(posInMap);
+    }
+
 }
 
 game::systems::Brain::~Brain()
@@ -21,7 +33,6 @@ game::systems::Brain::~Brain()
 
 game::Event game::systems::Brain::takeDecision()
 {
-    
 }
 
 void game::systems::Brain::setNewGoal(Vector<float> &pos, Vector<float> &goal)

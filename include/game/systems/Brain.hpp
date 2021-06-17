@@ -11,7 +11,7 @@
 #include "Tile.hpp"
 #include "SettingConf.hpp"
 
-#define GET_POS(x) x / TILE_SIZE
+
 #define TILE game::objects::Tile
 namespace game
 {
@@ -28,6 +28,7 @@ namespace game
                 game::Event _decision;
                 std::vector<std::shared_ptr<TILE>> &_map;
                 std::vector<std::vector<bool>> _isDangerousMap;
+                std::vector<std::vector<Tag>> _tagMap;
                 Vector<float> _direction{0, 0};
                 int _level;
 
