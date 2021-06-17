@@ -15,8 +15,6 @@
 #include "CheckBox.hpp"
 #include "BSdf.hpp"
 
-#include "Gui.hpp"
-
 namespace game {
     namespace scenes {
         class MainMenuScene : public gameEngine::AScene {
@@ -36,7 +34,6 @@ namespace game {
                 std::shared_ptr<gameEngine::encapsulation::BText> _settings = nullptr;
                 gameEngine::encapsulation::BTexture2D _background;
             private:
-                Gui _gui;
         };
     }
 }

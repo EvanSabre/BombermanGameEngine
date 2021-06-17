@@ -7,6 +7,8 @@
 
 #include "Gui.hpp"
 
+using namespace game;
+
 Gui::Gui()
 {
     _heartTexture = std::make_shared<gameEngine::encapsulation::BTexture2D>();
@@ -22,7 +24,7 @@ Gui::~Gui()
 {
 }
 
-void Gui::draw(int charac, corner_e corner)
+void Gui::draw(const game::objects::Character &charac, corner_e corner)
 {
     switch (corner)
     {
@@ -44,12 +46,12 @@ void Gui::draw(int charac, corner_e corner)
     }
 }
 
-void Gui::draw(int charac, const Vector<float> &basePose)
+void Gui::draw(const game::objects::Character &charac, const Vector<float> &basePose)
 {
     _heartTexture->setPos({basePose._x - 12, basePose._y});
     _bombTexture->setPos({basePose._x, basePose._y + 40});
-    drawElt(charac, _heartTexture, Vector<float>(0.05, 0.05), 50);
-    drawElt(charac, _bombTexture, Vector<float>(0.1, 0.1));
+    drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
+    drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));
 }
 
 void Gui::draw(const game::objects::Character &charac)
