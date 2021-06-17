@@ -96,7 +96,7 @@ void Selector::update()
 
 SelectorEvent Selector::getEvent(void)
 {
-    if (_buttonManager.isButtonClicked("Next")) {
+    if (_buttonManager.isButtonClicked("Next") == true) {
         printf("NEXT\n");
         return SelectorEvent::NEXT;
     } else if (_buttonManager.isButtonClicked("Prev"))

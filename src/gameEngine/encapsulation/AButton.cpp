@@ -16,6 +16,7 @@ const BColor &color, const BColor &selectColor, float rotation)
     _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
     _content = std::make_shared<BText>(content);
     _state = gameEngine::interfaces::IButton::NORMAL;
+    _action = false;
     _callback = nullptr;
 }
 
@@ -88,7 +89,7 @@ void AButton::setContentStr(const std::string &str)
 }
 
 void AButton::setCallback(std::function<void(std::shared_ptr<game::managers::GameManager> info)> func,
-std::shared_ptr<game::managers::GameManager> infoPtr)
+std::shared_ptr<game::managers::GameManager> &infoPtr)
 {
     _infoPtr = infoPtr;
     _callback = func;
@@ -97,18 +98,14 @@ std::shared_ptr<game::managers::GameManager> infoPtr)
 bool AButton::isInsideButton(const Vector<float> &point)
 {
     if (_rectangle->checkPointInside(point)) {
-        if (_state != PRESSED)
-            _state = MOUSE_HOVER;
         return true;
     }
-    _state = NORMAL;
     return false;
 }
 
 bool AButton::isButtonPressed(const Vector<float> &mousePos)
 {
-    if (_state == MOUSE_HOVER && IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-        _state = PRESSED;
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
         return true;
     }
     return false;
@@ -116,8 +113,16 @@ bool AButton::isButtonPressed(const Vector<float> &mousePos)
 
 bool AButton::isButtonReleased()
 {
-    if (_state == PRESSED && IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
-        _state = NORMAL;
+    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+        return true;
+    }
+    return false;
+}
+
+bool AButton::checkAction()
+{
+    if (_action) {
+        _action = false;
         return true;
     }
     return false;
@@ -128,9 +133,20 @@ void AButton::updateState()
     Vector2 tmp = GetMousePosition();
     Vector<float> vec(tmp.x, tmp.y);
 
-    isInsideButton(vec);
-    isButtonPressed(vec);
-    if (isButtonReleased() && _callback != nullptr)
+    if (isInsideButton(vec)) {
+        if(isButtonPressed(vec)) {
+            _state = PRESSED;
+        } else {
+            _state = MOUSE_HOVER;
+        }
+        if (isButtonReleased()) {
+            _action = true;
+            _state = NORMAL;
+        }
+    } else {
+        _state = NORMAL;
+    }
+    if (_action && _callback != nullptr)
         _callback(_infoPtr);
 }
 

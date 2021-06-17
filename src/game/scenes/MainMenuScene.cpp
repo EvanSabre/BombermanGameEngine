@@ -76,6 +76,8 @@ void MainMenuScene::start()
 
 void MainMenuScene::update()
 {
+    if (!_windowManager->isRunning())
+        _info->setQuit(true);
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
 }
