@@ -1,13 +1,21 @@
 #include "Brain.hpp"
+#include "Map.hpp"
 
 
-game::systems::Brain::Brain(std::shared_ptr<Map> &map, int level)
+
+game::systems::Brain::Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> sizeMap)
 : _map(map), _level(level)
 {
-    
+    for (int x = 0; x < sizeMap._x; x++)
+    {
+        for (int y = 0; y < sizeMap._y; y++)
+            map
+
+    }
 }
 
-game::systems::Brain::~Brain() {
+game::systems::Brain::~Brain()
+{
     
 }
 

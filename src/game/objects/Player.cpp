@@ -37,6 +37,7 @@ void Player::handleKeyEvent() noexcept
                 CALL_MEMBER_FN((*this), my_action)(1);
                 _currentEvent = NULL_EVENT;
                 flag = true;
+                _isMoving = true;
                 std::cout << "Player\n" << this->getTransform() << std::endl;
             }
         } catch (std::out_of_range &my_exception) {

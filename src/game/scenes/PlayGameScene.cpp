@@ -9,7 +9,6 @@
 
 using namespace game::scenes;
 
-
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15)
 {
@@ -80,6 +79,7 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
         if (player->getCollider().isColliding(tile->getCollider().getBoundingBox())) {
             player->onCollisionEnter(*tile);
             player->setTransform().setPosition(prev);
+            player->setIsMoving(false);
         }
     }
 }

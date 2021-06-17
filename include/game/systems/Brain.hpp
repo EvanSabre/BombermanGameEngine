@@ -8,9 +8,11 @@
 #ifndef BRAIN_HPP_
 #define BRAIN_HPP_
 
-#include "Map.hpp"
+#include "Tile.hpp"
 #include "SettingConf.hpp"
 
+#define GET_POS(x) x / TILE_SIZE
+#define TILE game::objects::Tile
 namespace game
 {
     namespace systems
@@ -18,13 +20,13 @@ namespace game
         class Brain
         {
             public:
-                Brain(std::shared_ptr<Map> &map, int level);
+                Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> sizeMap);
                 ~Brain();
             protected:
                 game::Event takeDecision();
             private:
                 game::Event _decision;
-                std::vector<std::shared_ptr<Tile>> _map;
+                std::vector<std::shared_ptr<TILE>> &_map;
                 std::vector<std::vector<bool>> _isDangerousMap;
                 Vector<float> _direction{0, 0};
                 int _level;

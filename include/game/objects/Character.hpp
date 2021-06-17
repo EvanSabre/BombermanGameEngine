@@ -54,6 +54,7 @@ namespace game
                 void addScore(const size_t value) noexcept;
                 void subScore(const size_t value) noexcept;
                 void setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept;
+                void setIsMoving(bool isMoving) noexcept;
 
             //action
             std::shared_ptr<game::objects::AExplosif> &getNextBomb();
@@ -74,6 +75,7 @@ namespace game
             int _health = 1;
             int _lives = 1;
             game::Event _currentEvent;
+            bool _isMoving;
 
         private:
             std::string _name;

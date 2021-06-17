@@ -19,6 +19,7 @@ Character::Character(
     const Vector3T<float> &pos
     ) : gameEngine::objects::Moveable(id),
       _frameCounter(0),
+      _isMoving(false),
       _bombRef(id)
 {
     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
@@ -67,8 +68,12 @@ int Character::getState() const noexcept
     return _state;
 }
 
-
 //setter
+
+void Character::setIsMoving(bool isMoving) noexcept
+{
+    _isMoving = isMoving;
+}
 
 void Character::setCollider() noexcept
 {
