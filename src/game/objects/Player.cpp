@@ -32,10 +32,10 @@ void Player::handleKeyEvent() noexcept
     for (const auto evt : _key_event) {
         try {
             if (kb.isKeyDown(evt.first)) {
-                std::cout << "key was pressed" << std::endl;
                 playerKeyEvt my_action = _key_event.at(evt.first);
                 CALL_MEMBER_FN((*this), my_action)(1);
                 flag = true;
+                std::cout << "Player\n" << this->getTransform() << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }

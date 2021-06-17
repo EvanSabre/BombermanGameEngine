@@ -42,8 +42,39 @@ void ExplosionManager::updateExplosionAnimation()
 
 void ExplosionManager::explode(const game::objects::AExplosif &bomb)
 {
-    for (int x = 1; x <= bomb.getRange(); x++) {
-        // check player and tiles
+    std::unordered_map<std::string, bool> direction = {
+        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true}};
+
+    for (std::size_t range = 1; range <= bomb.getRange(); range++) {
+        Vector3T<float> pos(bomb.getTransform().getPosition());
+
+        if (direction["UP"]) {
+            game::objects::Tile ex(bomb);
+
+            ex.setTransform().setPosition({
+                ex.getTransform().getPosition()._x,
+                ex.getTransform().getPosition()._y,
+                ex.getTransform().getPosition()._z + (float)range,
+            });
+            for (auto &tile : _tiles) {
+                if (tile->getTransform().getPosition()._x == ex.getTransform().getPosition()._x &&
+                    tile->getTransform().getPosition()._z == ex.getTransform().getPosition()._z + (float)range) {
+                    // check tile type -> brick = explode
+                    direction["UP"] = false;
+                } else {
+                    // animation explosion
+                }
+            }
+            for (auto &player : _players) {
+                if (player->getTransform().getPosition()._x == ex.getTransform().getPosition()._x &&
+                    player->getTransform().getPosition()._z == ex.getTransform().getPosition()._z + (float)range) {
+                    // check tile type -> brick = explode
+                    direction["UP"] = false;
+                } else {
+                    // animation explosion
+                }
+            }
+        }
     }
 }
 

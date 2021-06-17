@@ -98,10 +98,10 @@ void PlayGameScene::update()
         // _audio.pauseMusic();
         //return "play";
     }
-    for (auto &it : _players) {
-        Vector3T<float> prev(it->getTransform().getPosition());
-        it->update();
-        collisionChecker(it, prev);
+    for (auto &player : _players) {
+        Vector3T<float> prev(player->getTransform().getPosition());
+        player->update();
+        collisionChecker(player, prev);
     }
 }
 
