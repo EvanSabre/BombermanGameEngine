@@ -25,15 +25,14 @@ void ChooseProfileScene::start()
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y / 7);
 
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
-    std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent =
-    {
-        std::make_shared<TEXT>("1", size, BLACK, 40),
-        std::make_shared<TEXT>("2", size, BLACK, 40),
-        std::make_shared<TEXT>("3", size, BLACK, 40),
-        std::make_shared<TEXT>("4", size, BLACK, 40),
-    };
+
+    std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent;
+
+    for (auto &user : _info->_userManager->getUsers())
+        profileContent.push_back(std::make_shared<TEXT>(user->name));
 
     _profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.5), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
+
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
                                             Vector<float>(WINDOW_X * 0.1, WINDOW_Y * 0.8),
                                             TEXT("Back"),
