@@ -48,16 +48,16 @@ void Gui::draw(const game::objects::Character &charac, corner_e corner)
 
 void Gui::draw(const game::objects::Character &charac, const Vector<float> &basePose)
 {
-    _heartTexture->setPos({basePose._x - 12, basePose._y});
-    _bombTexture->setPos({basePose._x, basePose._y + 40});
+    _heartTexture->setPos(Vector<int>(basePose._x - 12, basePose._y));
+    _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 40));
     drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
     drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));
 }
 
 void Gui::draw(const game::objects::Character &charac)
 {
-    _heartTexture->setPos({0, 0});
-    _bombTexture->setPos({0, 0});
+    _heartTexture->setPos(Vector<int>(0, 0));
+    _bombTexture->setPos(Vector<int>(0, 0));
     drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
     drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));
 }
@@ -66,10 +66,10 @@ void Gui::drawElt(int nbElt, std::shared_ptr<gameEngine::encapsulation::BTexture
     Vector<float> scale, float spacing) noexcept
 {
     Vector<int> bufPos = texture->getPos();
-    Vector<float> newPos = {bufPos._x, bufPos._y};
+    Vector<float> newPos(bufPos._x, bufPos._y);
 
     for (int i = 0; i < nbElt; i++) {
-        texture->setPos({newPos._x, newPos._y});
+        texture->setPos(Vector<int>(newPos._x, newPos._y));
         texture->drawEx(scale);
         newPos._x += spacing;
     }
