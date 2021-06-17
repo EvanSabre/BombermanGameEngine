@@ -108,9 +108,9 @@ void Button::draw()
     if (_texture->isLoad()) {
         _texture->setPos(Vector<int>((int)pos._x, (int)pos._y));
         if (_texture->getSize()._x >= _rectangle->getWidth()) {
-            _texture->drawEx(_rectangle->getWidth() / _texture->getSize()._x);
+            _texture->drawEx(Vector<float>(_rectangle->getWidth() / _texture->getSize()._x, 1));
         } else if (_texture->getSize()._y > _rectangle->getHeight()) {
-            _texture->drawEx(_rectangle->getHeight() / _texture->getSize()._y);
+            _texture->drawEx(Vector<float>(1, _rectangle->getHeight() / _texture->getSize()._y));
         } else {
             _texture->drawRect(*_frameRec, pos);
         }
