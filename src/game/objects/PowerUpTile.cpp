@@ -15,19 +15,16 @@ PowerUpTile::PowerUpTile(const std::shared_ptr<gameEngine::encapsulation::BModel
             const Vector3T<float> &position,
             const Vector3T<float> &rotation,
             const Vector3T<float> &scale,
-            float arriveSpeed,
             float idleSpeed,
             float minHeight,
             float maxHeight
         )
     : Tile(model, texture, type, position, rotation, scale)
 {
-    // _idleSpeed = idleSpeed;
-    // _arriveSpeed = arriveSpeed;
-    // _minHeight = minHeight;
-    // _maxHeight =  maxHeight;
-    _transform._position._y = 150;
-    _speed._y = _arriveSpeed;
+    _idleSpeed = idleSpeed;
+    _minHeight = minHeight;
+    _maxHeight =  maxHeight;
+    _speed._y = _idleSpeed;
 }
 
 PowerUpTile::~PowerUpTile()
@@ -46,7 +43,7 @@ void PowerUpTile::update()
 
 void PowerUpTile::checkHeight() noexcept
 {
-    if (_transform._position._y >= _maxHeight && _speed._y > 0 && _speed._y != _arriveSpeed)
+    if (_transform._position._y >= _maxHeight && _speed._y > 0)
         _speed._y = -_idleSpeed;
     else if (_transform._position._y <= _minHeight && _speed._y < 0)
         _speed._y = _idleSpeed;

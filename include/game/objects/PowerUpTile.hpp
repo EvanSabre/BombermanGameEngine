@@ -21,7 +21,6 @@ namespace game::objects
             const Vector3T<float> &position = {0, 0, 0},
             const Vector3T<float> &rotation = {0, 0, 0},
             const Vector3T<float> &scale = {1, 1, 1},
-            float arriveSpeed = -1,
             float idleSpeed = 0.1,
             float minHeight = 1,
             float maxHeight = 10
@@ -34,7 +33,6 @@ namespace game::objects
 
     private:
         float _idleSpeed = 0.1;
-        float _arriveSpeed = -1;
         Vector3T<float> _speed = {0, 0, 0};
         Vector3T<float> _rotationSpeed = {1, 1, 1};
         float _minHeight = 1;
