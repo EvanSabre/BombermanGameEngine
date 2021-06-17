@@ -103,3 +103,13 @@ SelectorEvent Selector::getEvent(void)
         return SelectorEvent::PREV;
     return SelectorEvent::NONE;
 }
+
+void Selector::setContentPos(Vector<float> pos)
+{
+    _contentPos = pos;
+    for (auto &i : _contents) {
+        printf("SET CONTENT i = %s\n", i->getContent().c_str());
+        i->setTransform().setPosition(Vector3T<float>(_contentPos._x, _contentPos._y, 0));
+    }
+    //exit(0);
+}
