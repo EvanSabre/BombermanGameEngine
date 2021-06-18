@@ -87,7 +87,7 @@ void ChoosePlayersScene::update()
         _buttonManager.setEnabledButton("Play", false);
     } else {
         _info->nbPlayers = nbPlayers;
-        _info->nbBots = nbPlayers;
+        _info->nbBots = nbBots;
         _buttonManager.setEnabledButton("Play", true);
         _PlayersIndication.setColor(WHITE);
     }

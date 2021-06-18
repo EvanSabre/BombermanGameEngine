@@ -8,21 +8,13 @@
 #include "PlayGameScene.hpp"
 
 using namespace game::scenes;
+#define ANIMWALK_PATH "assets/All/Animations/CharacterWalk.iqm"
+#define ANIMIDLE_PATH "assets/All/Animations/CharacterIdle.iqm"
 
 static const gameEngine::component::Transform BOT_LEFT_SPAWN(Vector3T<float>(10, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 static const gameEngine::component::Transform TOP_LEFT_SPAWN(Vector3T<float>(130, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(130, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
-
-static const std::string ANIMWALK_PATH = "assets/All/Animations/CharacterWalk.iqm";
-static const std::string ANIMIDLE_PATH = "assets/All/Animations/CharacterIdle.iqm";
-
-std::vector<gameEngine::component::Transform> SPAWNS = {
-    BOT_LEFT_SPAWN,
-    BOT_RIGHT_SPAWN,
-    TOP_LEFT_SPAWN,
-    TOP_RIGHT_SPAWN
-};
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15), _pause(false)
@@ -37,6 +29,13 @@ void PlayGameScene::start()
 {
     std::string textStr = "assets/" + _universe + "/Textures/Character.png";
     std::string modelStr = "assets/" + _universe + "/Models/Character.iqm";
+    std::vector<gameEngine::component::Transform> SPAWNS = {
+        BOT_LEFT_SPAWN,
+        BOT_RIGHT_SPAWN,
+        TOP_LEFT_SPAWN,
+        TOP_RIGHT_SPAWN
+    };
+    std::array<std::string, 3> botNames = {"Bob", "Michel", "Jacquie"};
     std::vector<gameEngine::component::Transform>::iterator spawnIt = SPAWNS.begin();
 
     _map.dump();
@@ -54,6 +53,16 @@ void PlayGameScene::start()
         player->setCollider();
         spawnIt++;
         _players.push_back(player);
+    }
+    for (size_t i = 0; i < (size_t)_info->nbBots; i++) {
+        std::shared_ptr<game::objects::Bot> bot =
+        std::make_shared<game::objects::Bot>(std::to_string(i + 1), botNames.at(i), textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _tiles, 0, Vector<int>(15, 17));
+        bot->setTransform().setScale(spawnIt->getScale());
+        bot->setTransform().setPosition(spawnIt->getPosition());
+        bot->setTransform().setRotation(spawnIt->getRotation());
+        bot->setCollider();
+        spawnIt++;
+        _players.push_back(bot);
     }
 
     this->setupCamera();
