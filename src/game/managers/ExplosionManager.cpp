@@ -13,6 +13,10 @@ ExplosionManager::ExplosionManager(
     const std::vector<std::shared_ptr<game::objects::Character>> players,
     const std::vector<std::shared_ptr<game::objects::Tile>> tiles)
 {
+    _model = std::make_shared<gameEngine::encapsulation::BModel>(MODELEXPLOSION);
+    _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(TEXTUREEXPLOSION);
+    _anim = std::make_shared<gameEngine::encapsulation::BModelAnimation>(ANIMEXPLOSION);
+    _animRef = std::make_shared<gameEngine::Animation>(*_model, *_texture, *_anim);
 }
 
 ExplosionManager::~ExplosionManager()
@@ -20,56 +24,61 @@ ExplosionManager::~ExplosionManager()
 }
 
 // Member functions
-void ExplosionManager::draw()
-{
-
-}
-
 void ExplosionManager::update()
 {
     std::vector<std::size_t> eraser;
 
+    updateExplosionAnimation();
     for (std::size_t i = 0; i != _bombs.size(); i++) {
         if (_bombs.at(i)->isDone()) {
-            std::cout << "done id = " << i << std::endl;
-            std::cout << "--start explode--" << std::endl;
+            // std::cout << "done id = " << i << std::endl;
+            // std::cout << "--start explode--" << std::endl;
             explode(*_bombs[i]);
-            std::cout << "--end explode--" << std::endl;
-            updateExplosionAnimation();
+            // std::cout << "--end explode--" << std::endl;
             eraser.push_back(i);
             // _bombs.erase(_bombs.begin() + i);
             // delete _bombs.at(i).get();
         }
     }
     for (auto it : eraser) {
-        std::cout << "  nb = " << it << std::endl;
+        // std::cout << "  nb = " << it << std::endl;
         _bombs.erase(_bombs.begin() + it);
+    }
+}
+
+void ExplosionManager::draw()
+{
+    for (auto &anim : _anims) {
+        anim->refresh();
     }
 }
 
 void ExplosionManager::updateExplosionAnimation()
 {
+    for (auto &anim : _anims) {
+        anim->updateModelAnimation();
+    }
 }
 
-bool ExplosionManager::checkTilesExplosion(const game::objects::Tile &ex)
+bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
 {
     for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
-        if ((*tile)->getTransform().getPosition()._x == ex.getTransform().getPosition()._x &&
-            (*tile)->getTransform().getPosition()._y == ex.getTransform().getPosition()._y &&
-            (*tile)->getTransform().getPosition()._z == ex.getTransform().getPosition()._z) {
+        if ((*tile)->getTransform().getPosition()._x == pos._x &&
+            (*tile)->getTransform().getPosition()._y == pos._y &&
+            (*tile)->getTransform().getPosition()._z == pos._z) {
             // check tile type -> brick = explode
             if ((*tile)->getTag() == BRICK)
                 _tiles.erase(tile);
-            std::cout << "* TILE DESTROYED *" << std::endl;
+            // std::cout << "* TILE DESTROYED *" << std::endl;
             return false;
         }
     }
     for (auto &player : _players) {
-        if (player->getTransform().getPosition()._x / TILESIZE == ex.getTransform().getPosition()._x / TILESIZE &&
-            player->getTransform().getPosition()._y == ex.getTransform().getPosition()._y &&
-            player->getTransform().getPosition()._z / TILESIZE == (ex.getTransform().getPosition()._z) / TILESIZE) {
+        if (player->getTransform().getPosition()._x / TILESIZE == pos._x / TILESIZE &&
+            player->getTransform().getPosition()._y == pos._y &&
+            player->getTransform().getPosition()._z / TILESIZE == (pos._z) / TILESIZE) {
             // player dies
-            std::cout << "* PLAYER DESTROYED *" << std::endl;
+            // std::cout << "* PLAYER DESTROYED *" << std::endl;
             return false;
         }
     }
@@ -83,35 +92,38 @@ void ExplosionManager::explode(const game::objects::AExplosif &bomb)
 
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
         Vector3T<float> pos(bomb.getTransform().getPosition());
-        game::objects::Tile ex(bomb);
 
-        std::cout << "range = " << range << std::endl;
+        // std::cout << "range = " << range << std::endl;
         if (direction["UP"]) {
-            std::cout << "UP" << std::endl;
-            ex.setTransform().setPosition({pos._x, pos._y, pos._z + (float)range * TILESIZE});
-            direction["UP"] = checkTilesExplosion(ex);
-            std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // std::cout << "UP" << std::endl;
+            _animRef->setPos({pos._x, pos._y, pos._z + (float)range * TILESIZE});
+            direction["UP"] = checkTilesExplosion(_animRef->getPos());
+            // std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // _anims.push_back(std::make_unique<gameEngine::Animation>(*_animRef));
             // Animation Explosion with ex
         }
         if (direction["DOWN"]) {
-            std::cout << "DOWN" << std::endl;
-            ex.setTransform().setPosition({pos._x, pos._y, pos._z - (float)range * TILESIZE});
-            direction["DOWN"] = checkTilesExplosion(ex);
-            std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // std::cout << "DOWN" << std::endl;
+            _animRef->setPos({pos._x, pos._y, pos._z - (float)range * TILESIZE});
+            direction["DOWN"] = checkTilesExplosion(_animRef->getPos());
+            // std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // _anims.push_back(std::make_unique<gameEngine::Animation>(*_animRef));
             // Animation Explosion with ex
         }
         if (direction["LEFT"]) {
-            std::cout << "LEFT" << std::endl;
-            ex.setTransform().setPosition({pos._x + (float)range * TILESIZE, pos._y, pos._z});
-            direction["LEFT"] = checkTilesExplosion(ex);
-            std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // std::cout << "LEFT" << std::endl;
+            _animRef->setPos({pos._x + (float)range * TILESIZE, pos._y, pos._z});
+            direction["LEFT"] = checkTilesExplosion(_animRef->getPos());
+            // std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // _anims.push_back(std::make_unique<gameEngine::Animation>(*_animRef));
             // Animation Explosion with ex
         }
         if (direction["RIGHT"]) {
-            std::cout << "RIGHT" << std::endl;
-            ex.setTransform().setPosition({pos._x - (float)range * TILESIZE, pos._y, pos._z});
-            direction["RIGHT"] = checkTilesExplosion(ex);
-            std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // std::cout << "RIGHT" << std::endl;
+            _animRef->setPos({pos._x - (float)range * TILESIZE, pos._y, pos._z});
+            direction["RIGHT"] = checkTilesExplosion(_animRef->getPos());
+            // std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // _anims.push_back(std::make_unique<gameEngine::Animation>(*_animRef));
             // Animation Explosion with ex
         }
     }

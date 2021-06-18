@@ -16,6 +16,7 @@
 #include "EffectFactory.hpp"
 #include "BModelAnimation.hpp"
 #include "Bomb.hpp"
+#include "Clock.hpp"
 // #include "Animation.hpp"
 
 #define ANIMIDLE 0
@@ -47,7 +48,6 @@ namespace game
             std::deque<std::shared_ptr<game::objects::AExplosif>> &getBombQueue();
             game::Tag_e getTag() const noexcept override;
             bool hasDropped() const noexcept;
-
 
             //setter
             void setCollider() noexcept;
@@ -89,6 +89,7 @@ namespace game
             std::deque<std::shared_ptr<game::objects::AExplosif>> _bombQueue;
             bool _get;
             bool _hasDropped;
+            gameEngine::component::Clock _clock;
 
         private:
             void addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept;

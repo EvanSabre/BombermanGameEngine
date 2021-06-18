@@ -30,6 +30,7 @@ namespace gameEngine {
                 std::string _filePath;
                 ModelAnimation *_anims;
                 int _animsCount;
+                bool _loaded;
         };
     }
 }

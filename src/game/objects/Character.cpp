@@ -75,12 +75,12 @@ void Character::setCollider() noexcept
     Vector3T<float> sca(this->getTransform().getScale());
 
     _collider.getBoundingBox().setBoundingBox(
-        {pos._x - sca._x * TILESIZE * 0.5,
+        {pos._x - (float)(sca._x * TILESIZE * 0.5),
         pos._y,
-        pos._z - sca._z * TILESIZE * 0.5},
-        {pos._x + sca._x * TILESIZE * 0.5,
+        pos._z - (float)(sca._z * TILESIZE * 0.5)},
+        {pos._x + (float)(sca._x * TILESIZE * 0.5),
         pos._y,
-        pos._z + sca._z * TILESIZE * 0.5});
+        pos._z + (float)(sca._z * TILESIZE * 0.5)});
 }
 
 void Character::setState(const int &state) noexcept
@@ -143,6 +143,10 @@ void Character::update()
 
 void Character::updateModelAnimation()
 {
+    if (_clock.getElapsedTime() >= 3 && _nbBomb < _maxBomb) {
+        _nbBomb++;
+        _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
+    }
     setCollider();
     _anim = _state ? _animWalk : _animIdle;
     if (_model->isLoad() && _anim->isLoad()) {
@@ -190,11 +194,12 @@ void Character::dropBomb(std::size_t tick) noexcept
         (float)((int)((this->getTransform().getPosition()._z + 3) / 10) * 10)
     });
 
+    _nbBomb--;
     _hasDropped = true;
+    _clock.restart();
     _bombQueue.front()->setTransform().setPosition(bombPos);
     _bombQueue.front()->drop();
     _bombQueue.pop_front();
-    _nbBomb--;
     std::cout << "> BOMB DROPPED <" << std::endl;
     std::cout << this->getTransform() << std::endl;
     // if (_bombQueue.empty())

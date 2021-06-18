@@ -9,23 +9,13 @@
 
 using namespace gameEngine;
 
-Animation::Animation(const encapsulation::BModel &model,
-                     const encapsulation::BModelAnimation &animWalk,
-                     const encapsulation::BModelAnimation &animIdle)
-    : _model(model), _animWalk(animWalk), _animIdle(animIdle), _anim(animWalk), _frameCounter(0)
+Animation::Animation(
+    const encapsulation::BModel &model,
+    const encapsulation::BTexture2D &texture,
+    const encapsulation::BModelAnimation &anim)
+    : _model(model), _texture(texture), _anim(anim), _frameCounter(0)
 {
-    _state = ANIMIDLE;
-}
-
-Animation::Animation(const std::string &modelPath,
-                     const std::string &animWalkPath,
-                     const std::string &animIdlePath,
-                     const std::string &texturePath = "")
-    : _model(modelPath), _animWalk(animWalkPath), _animIdle(animIdlePath), _anim(animWalkPath), _texture(texturePath)
-{
-    _state = ANIMIDLE;
-    if (texturePath != "")
-        _model.setTexture(0, MAP_DIFFUSE, _texture);
+    _model.setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
 }
 
 Animation::~Animation()
@@ -34,14 +24,18 @@ Animation::~Animation()
 
 void Animation::updateModelAnimation()
 {
-    _anim = _state ? _animWalk : _animIdle;
-    if (_model.isLoad() && _anim.isLoad()) {
-        _frameCounter++;
-        UpdateModelAnimation(_model.getObj(), _anim.getModelAnimation()[0], _frameCounter);
-    }
-    if (_frameCounter >= _anim.getAnimFrameCount()) {
-        _frameCounter = 0;
-    }
+    std::cout << _pos << std::endl;
+    // if (_model.isLoad() && _anim.isLoad()) {
+    //     _frameCounter++;
+    //     UpdateModelAnimation(
+    //         _model.getObj(),
+    //         _anim.getModelAnimation()[0],
+    //         _frameCounter);
+    // }
+    // if (_frameCounter >= _anim.getAnimFrameCount()) {
+    //     _frameCounter = 0;
+    //     // delete this;
+    // }
 }
 
 void Animation::refresh()
@@ -49,7 +43,12 @@ void Animation::refresh()
     _model.draw();
 }
 
-encapsulation::BModel &Animation::getModel()
+void Animation::setPos(const Vector3T<float> &pos)
 {
-    return this->_model;
+    _pos = pos;
+}
+
+Vector3T<float> Animation::getPos() const
+{
+    return _pos;
 }
