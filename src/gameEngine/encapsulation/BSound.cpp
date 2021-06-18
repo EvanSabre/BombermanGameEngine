@@ -97,6 +97,7 @@ void BSound::resume()
 
 void BSound::setVolume(float volume)
 {
+    std::cout << "AVANT" << std::endl;
     if (!isLoad())
         throw engineError("Volume set on unload Sound", "SOUND");
     if (volume > 1.0f)
@@ -104,6 +105,7 @@ void BSound::setVolume(float volume)
     else if (volume < 0.0f)
         volume = 0.0f;
     SetSoundVolume(this->_sound, volume);
+    std::cout << "APRES" << std::endl;
 }
 
 //base is 1.à

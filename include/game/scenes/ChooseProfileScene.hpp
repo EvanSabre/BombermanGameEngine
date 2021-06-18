@@ -13,6 +13,7 @@
 #include "InputButton.hpp"
 #include "Selector.hpp"
 #include "ButtonManager.hpp"
+#include "AudioManager.hpp"
 
 #define RECTANGLE gameEngine::encapsulation::BRectangle
 #define IMAGE gameEngine::encapsulation::BTexture2D
@@ -33,6 +34,10 @@ namespace game
                 void start() override;
                 void update() override;
                 void draw() override;
+
+            protected:
+                std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
+
             private:
                 int _nbContents = 0;
                 std::unique_ptr<IMAGE> _background = nullptr;

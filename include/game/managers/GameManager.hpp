@@ -37,11 +37,19 @@ namespace game {
                 std::shared_ptr<game::managers::UserManager> _userManager;
                 std::shared_ptr<gameEngine::managers::InputManager<game::Event>> _inputManager;
 
+                void setMusicVolume(float volume);
+                float getMusicVolume() const;
+                void setSoundVolume(float volume);
+                float getSoundVolume() const;
+
             protected:
                 std::string _currentScene;
                 bool _change = false;
                 bool _quit = false;
                 game::systems::setting_t _settings;
+                float _musicVolume;
+                float _soundVolume;
+
             private:
         };
     }

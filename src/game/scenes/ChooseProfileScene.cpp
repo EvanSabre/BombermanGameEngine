@@ -13,6 +13,12 @@ using namespace game::scenes;
 ChooseProfileScene::ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info)
 {
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Game.wav");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav");
+
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
 ChooseProfileScene::~ChooseProfileScene()
@@ -73,6 +79,7 @@ void ChooseProfileScene::start()
                               30);
 
     _nbContents = _profileSelector->getNbContent();
+    _audio->playMusic();
 }
 
 void ChooseProfileScene::update()
@@ -100,6 +107,7 @@ void ChooseProfileScene::update()
         _ProfilesIndicationKilled.setColor(WHITE);
     }
     //_ProfilesIndication.setStr(nb_entity + "/ 4 profiles maximum");
+    _audio->updateMusicStream();
     return;
 }
 

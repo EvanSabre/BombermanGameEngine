@@ -14,8 +14,11 @@ using namespace game::scenes;
 SettingsScene::SettingsScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info)
 {
-    _audio.loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
-    _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Settings.mp3");
+    _audio->loadSoundFromFile("./assets/All/Sound/Bombdrop.wav");
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 
     _background.loadFromFile("./assets/Backgrounds/settings_background.png");
 
@@ -36,15 +39,15 @@ void SettingsScene::start()
     Vector<float> size(300, 200);
     Vector<float> middle(_windowManager->getWindowSize()._x / 2, _windowManager->getWindowSize()._y / 2);
 
-    _audio.setMusicVolume(1.0); //1.0 is max level
-    _audio.playMusic();
-
+    _audio->playMusic();
     //title
     _title = std::make_shared<gameEngine::encapsulation::BSdf>("SETTINGS", 120, WHITE, Vector3T<float>(middle._x - 200, 60, 0));
 
     //sound selector
+    int currentSound = (int)_info->getSoundVolume();
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> soundCt =
         {
+            std::make_shared<TEXT>(std::to_string(currentSound).c_str(), size, BLACK, 40),
             std::make_shared<TEXT>("0", size, BLACK, 40),
             std::make_shared<TEXT>("10", size, BLACK, 40),
             std::make_shared<TEXT>("20", size, BLACK, 40),
@@ -60,8 +63,10 @@ void SettingsScene::start()
     _soundSelector = std::make_unique<gameEngine::component::Selector>("Sound Volume", soundCt, Vector<float>(100,  middle._y - 200), Vector<float>(600, 150), 30, WHITE);
 
     //music selector
+    int currentMusic = (int)_info->getMusicVolume();
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> musicCt =
         {
+            std::make_shared<TEXT>(std::to_string(currentMusic).c_str(), size, BLACK, 40),
             std::make_shared<TEXT>("0", size, BLACK, 40),
             std::make_shared<TEXT>("10", size, BLACK, 40),
             std::make_shared<TEXT>("20", size, BLACK, 40),
@@ -75,7 +80,6 @@ void SettingsScene::start()
             std::make_shared<TEXT>("100", size, BLACK, 40),
         };
     _musicSelector = std::make_unique<gameEngine::component::Selector>("Music Volume", musicCt, Vector<float>(100,  middle._y + 50), Vector<float>(600, 150), 30, WHITE);
-
 
     //back to menu
     gameEngine::encapsulation::BText quitText("Back to Menu", Vector<float>(60, 1010), WHITE, 30);
@@ -138,7 +142,6 @@ void SettingsScene::start()
     _buttonManager.pushButton(buttonPick);
     _buttonManager.pushButton(buttonDrop);
     _buttonManager.pushButton(buttonSave);
-    //_buttonManager.setEnabledButton("Save", false);
     // _keybindings->setFont(_font);
     // _left->setFont(_font);
     // _right->setFont(_font);
@@ -151,15 +154,27 @@ void SettingsScene::start()
 void SettingsScene::update()
 {
     _buttonManager.updateButtons();
+
     _soundSelector->update();
     _musicSelector->update();
-    //***** POUR METTRE EN MARCHE LE BOUTON SAVE *************
-    // if (modifications dans l input) {
-    // _buttonManager.setEnabledButton("Save", true);
-    // _saveButtonText = gameEngine::encapsulation::BText("Save", Vector<float>(1730, 1010), WHITE, 30);
+    _info->setMusicVolume(std::atof(_musicSelector->getCurrentContent()->getContent().c_str()));
+    _info->setSoundVolume(std::atof(_soundSelector->getCurrentContent()->getContent().c_str()));
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
+    _audio->updateMusicStream();
+    // if (_buttonManager.isButtonClicked("Back to Menu")) {
+    //     std::cout << "BBBBBUUUUUUUUUUUUUUUUUUUUUUUUU" << std::endl;
+    //     _audio->playSound();
+    //     _audio->playSound();
+    //     _audio->playSound();
+    //     _audio->playSound();
+    //     _audio->playSound();
+    //     _audio->playSound();
+    //     _audio->playSound();
+    //     _audio->playSound();
+    //     _audio->playSound();
+    //     _audio->playSound();
     // }
-
-    _audio.updateMusicStream();
 }
 
 void SettingsScene::draw()

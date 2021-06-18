@@ -19,7 +19,11 @@ using namespace game::scenes;
 MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info)
 {
-    _audio.loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
+    _audio->loadSoundFromFile("./assets/All/Sound/Bombdrop.wav");
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
 MainMenuScene::~MainMenuScene()
@@ -37,8 +41,7 @@ void MainMenuScene::start()
     Vector<float> middle1(_windowManager->getWindowSize()._x/3 - size._x / 2, _windowManager->getWindowSize()._y/3 - size._y / 2);
     Vector<float> middle2(_windowManager->getWindowSize()._x/3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
-    _audio.setMusicVolume(1.0); //1.0 is max level
-    _audio.playMusic();
+    _audio->playMusic();
 
     _background.loadFromFile("./assets/Backgrounds/SupernovaBG.png");
     _title = std::make_shared<gameEngine::encapsulation::BSdf>("BomberVerse", 120, RED, Vector3T<float>(middle1._x + 120, 60, 0));
@@ -80,7 +83,7 @@ void MainMenuScene::update()
     if (!_windowManager->isRunning())
         _info->setQuit(true);
     _buttonManager.updateButtons();
-    _audio.updateMusicStream();
+    _audio->updateMusicStream();
 }
 
 

@@ -12,6 +12,12 @@ using namespace game::scenes;
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15), _pause(false)
 {
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Game.wav");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav");
+
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
 PlayGameScene::~PlayGameScene()
@@ -35,8 +41,6 @@ void PlayGameScene::start()
     _players.push_back(bot);
 
     this->setupCamera();
-    _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
-    _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
@@ -54,13 +58,10 @@ void PlayGameScene::start()
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), pauseText, BLUE);
 
     setupPause();
-    _audio.setSoundVolume(15.0);
-    _audio.playSound();
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
 
-    _audio.setMusicVolume(1.0); //1.0 is max level
-    _audio.playMusic();
+    _audio->playMusic();
 }
 
 void PlayGameScene::setupPause()
@@ -146,7 +147,7 @@ void PlayGameScene::update()
     //updateExplosionManager();
     _healtTile->update();
     _buttonManager.updateButtons();
-    _audio.updateMusicStream();
+    _audio->updateMusicStream();
     if (!_windowManager->isRunning())
         quit();
     if (_buttonManager.isButtonClicked("PAUSE")) {

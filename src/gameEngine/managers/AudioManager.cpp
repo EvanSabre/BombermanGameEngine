@@ -11,7 +11,9 @@ using namespace gameEngine::encapsulation;
 using namespace gameEngine::managers;
 
 AudioManager::AudioManager()
+: _musicVolume(100), _soundVolume(100)
 {
+    // _sound = std::make_unique<BSound>()
     if (!IsAudioDeviceReady())
         InitAudioDevice();
     SetMasterVolume(100);
@@ -59,8 +61,10 @@ void AudioManager::stopSound()
 
 void AudioManager::setSoundVolume(float volume)
 {
+    std::cout << "AVANT" << std::endl;
     _soundVolume = volume;
     _sound->setVolume(volume);
+    std::cout << "AVANT" << std::endl;
 }
 
 void AudioManager::loadMusicStreamFromFile(const char *filepath)

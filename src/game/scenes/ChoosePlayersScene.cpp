@@ -19,6 +19,12 @@ ChoosePlayersScene::~ChoosePlayersScene()
 ChoosePlayersScene::ChoosePlayersScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info)
 {
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Game.wav");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav");
+
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
 void ChoosePlayersScene::start()
@@ -67,6 +73,7 @@ void ChoosePlayersScene::start()
                               Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.9),
                               WHITE,
                               30);
+    _audio->playMusic();
 }
 
 void ChoosePlayersScene::update()
@@ -92,6 +99,7 @@ void ChoosePlayersScene::update()
         _PlayersIndication.setColor(WHITE);
     }
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
+    _audio->updateMusicStream();
     return;
 }
 

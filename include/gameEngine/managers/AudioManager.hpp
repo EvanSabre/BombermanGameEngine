@@ -45,8 +45,8 @@ namespace gameEngine {
             private:
                 std::unique_ptr<BSound> _sound;
                 std::unique_ptr<BMusic> _music;
-                float _soundVolume;
                 float _musicVolume;
+                float _soundVolume;
         };
     }
 }
