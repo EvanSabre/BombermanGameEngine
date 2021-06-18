@@ -195,6 +195,12 @@ game::Tag_e Character::getTag() const noexcept
     return  game::Tag::CHARACTER;
 }
 
+void Character::stand(std::size_t tick)
+{
+    std::cout << "stand " << getTransform() << std::endl;
+    //exit(0);
+}
+
 // BOMBS
 std::shared_ptr<game::objects::AExplosif> Character::getNextBomb()
 {

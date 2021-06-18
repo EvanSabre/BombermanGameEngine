@@ -20,8 +20,6 @@ Bot::~Bot()
 {
 }
 
-
-
 void Bot::update()
 {
     this->setCurrentEvent(takeDecision(this->getTransform().getPosition()));

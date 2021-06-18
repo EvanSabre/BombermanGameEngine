@@ -123,8 +123,6 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
 
 void PlayGameScene::updateExplosionManager()
 {
-    std::cout << "Hello" << std::endl;
-
     _explosion->setObjects(_players, _tiles);
     _explosion->update();
     _tiles = _explosion->getTiles();
