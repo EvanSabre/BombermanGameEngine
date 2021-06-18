@@ -44,7 +44,8 @@ void PlayGameScene::start()
     _players.push_back(player);
 
     this->setupCamera();
-    _audio.loadMusicStreamFromFile("./assets/All/Music/Game0.wav");
+    std::string nb(std::to_string(std::rand() % 3));
+    _audio.loadMusicStreamFromFile("./assets/All/Music/Game" + nb + ".wav");
     _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
