@@ -13,6 +13,8 @@
 #define MAPBRICK 2
 #define MAPWALL  3
 
+
+
 #define MINSIZE 5
 #define SIZE_X  (_size)
 #define SIZE_Y  (_size + 2)
@@ -32,6 +34,11 @@
 #include <string>
 #include <memory>
 #include "Tile.hpp"
+
+#define GET_MAP_POS(vec) Vector<int>(vec._x / TILESIZE, vec._y / TILESIZE)
+#define CONVERT_MAP_POS(vec) Vector<int>(vec._x * TILESIZE, vec._y * TILESIZE)
+#define GET_MAP_POS_Z(vec) Vector<int>(vec._x / TILESIZE, vec._z / TILESIZE)
+#define CONVERT_MAP_POS_Z(vec) Vector<int>(vec._x * TILESIZE, vec._z * TILESIZE)
 
 using namespace game::objects;
 

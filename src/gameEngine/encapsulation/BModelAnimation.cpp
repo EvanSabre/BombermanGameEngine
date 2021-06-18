@@ -12,19 +12,28 @@ using namespace gameEngine;
 using namespace encapsulation;
 
 BModelAnimation::BModelAnimation(const std::string &filePath)
+    : _loaded(false)
 {
     _filePath = filePath;
-    _anims = LoadModelAnimations(filePath.c_str(), &_animsCount);
+    if (filePath != "") {
+        _loaded = true;
+        _anims = LoadModelAnimations(filePath.c_str(), &_animsCount);
+    }
 }
 
 BModelAnimation::BModelAnimation(const BModelAnimation &ref)
+    : _loaded(false)
 {
-    _anims = LoadModelAnimations(ref.getFilePath().c_str(), &_animsCount);
+    if (ref.getFilePath() != "") {
+        _loaded = true;
+        _anims = LoadModelAnimations(ref.getFilePath().c_str(), &_animsCount);
+    }
 }
 
 BModelAnimation::~BModelAnimation()
 {
-    destroyAnim();
+    if (_loaded)
+        destroyAnim();
 }
 
 void BModelAnimation::destroyAnim()
@@ -42,6 +51,8 @@ std::string BModelAnimation::getFilePath() const noexcept
 
 int BModelAnimation::getAnimFrameCount() const noexcept
 {
+    if (!_loaded)
+        return 0;
     return _anims[0].frameCount;
 }
 
@@ -52,8 +63,14 @@ ModelAnimation *BModelAnimation::getModelAnimation() const noexcept
 
 void BModelAnimation::loadNewAnimation(const std::string &filePath)
 {
-    destroyAnim();
-    _anims = LoadModelAnimations(filePath.c_str(), &_animsCount);
+    if (_loaded) {
+        destroyAnim();
+        _loaded = false;
+    }
+    if (filePath != "") {
+        _loaded = true;
+        _anims = LoadModelAnimations(filePath.c_str(), &_animsCount);
+    }
 }
 
 bool BModelAnimation::isLoad()

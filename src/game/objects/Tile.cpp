@@ -115,6 +115,27 @@ void game::objects::Tile::setModel(const gameEngine::encapsulation::BModel &mode
     *_model = model;
 }
 
+void game::objects::Tile::setModel(const std::string &model)
+{
+    gameEngine::encapsulation::BModel mod(model);
+
+    *_model = mod;
+}
+
+void game::objects::Tile::setTexture(const std::string &texture)
+{
+    gameEngine::encapsulation::BTexture2D tex(texture);
+
+    *_texture = tex;
+    _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
+}
+
+void game::objects::Tile::setTexture(const gameEngine::encapsulation::BTexture2D &texture)
+{
+    *_texture = texture;
+    _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
+}
+
 void game::objects::Tile::setType(const game::Tag &type)
 {
     _type = type;

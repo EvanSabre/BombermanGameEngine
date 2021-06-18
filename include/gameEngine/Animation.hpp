@@ -15,29 +15,29 @@
 #include "BTexture2D.hpp"
 #include "BModelAnimation.hpp"
 #include <vector>
-
-#define ANIMIDLE 0
-#define ANIMWALK 1
+#include "Tile.hpp"
 
 namespace gameEngine {
     class Animation {
         public:
-            Animation(const encapsulation::BModel &, const encapsulation::BModelAnimation &, const encapsulation::BModelAnimation &);
-            Animation(const std::string &modelPath, const std::string &animWalkPath, const std::string &animIdlePath, const std::string &texturePath);
+            Animation(
+                const encapsulation::BModel &model,
+                const encapsulation::BTexture2D &texture,
+                const encapsulation::BModelAnimation &anim);
             ~Animation();
 
             void updateModelAnimation();
             void refresh();
 
-            encapsulation::BModel &getModel();
+            void setPos(const Vector3T<float> &pos);
+            Vector3T<float> getPos() const;
+
         private:
             encapsulation::BModel _model;
-            encapsulation::BModelAnimation _animWalk;
-            encapsulation::BModelAnimation _animIdle;
-            encapsulation::BModelAnimation _anim;
             encapsulation::BTexture2D _texture;
+            encapsulation::BModelAnimation _anim;
             int _frameCounter;
-            int _state;
+            Vector3T<float> _pos;
     };
 }
 
