@@ -9,17 +9,23 @@
 #define CHARACTER_HPP_
 
 #include <string>
+#include <deque>
 #include "Moveable.hpp"
 #include "BModel.hpp"
 #include "IEffect.hpp"
 #include "EffectFactory.hpp"
 #include "BModelAnimation.hpp"
 #include "SettingConf.hpp"
+#include "Bomb.hpp"
 // #include "Animation.hpp"
 
 #define ANIMIDLE 0
 #define ANIMWALK 1
 #define TILESIZE 10
+
+#ifndef CALL_MEMBER_FN
+    #define CALL_MEMBER_FN(object, ptrToMember) ((object).*(ptrToMember))
+#endif
 
 namespace game
 {
@@ -27,6 +33,7 @@ namespace game
     {
         class Character : public gameEngine::objects::Moveable
         {
+            typedef void (game::objects::Character::*playerKeyEvt)(size_t tick);
         public:
             Character(
                         const std::string &id,
@@ -43,7 +50,6 @@ namespace game
                 std::string getName() const noexcept;
                 size_t getScore() const noexcept;
                 int getState() const noexcept;
-                void setCurrentEvent(game::Event Event) noexcept;
                 game::Event getCurrentEvent() const noexcept;
 
             //EFFECT GETTER
@@ -51,18 +57,22 @@ namespace game
                 int getNbBomb() const noexcept;
 
             //setter
+                void setCurrentEvent(game::Event Event) noexcept;
                 void setCollider() noexcept;
                 void setState(const int &) noexcept;
                 void addScore(const size_t value) noexcept;
                 void subScore(const size_t value) noexcept;
                 void setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept;
+                void setIsMoving(bool isMoving) noexcept;
 
             //action
-            //vo dropBomb() const noexcept;
+            std::shared_ptr<game::objects::AExplosif> &getNextBomb();
+            void dropBomb(std::size_t tick) noexcept;
             void draw() const noexcept;
             //tmp for test : to delete
                 void onCollisionEnter(const AGameObject &collision);
                 void onCollisionExit(const AGameObject &collision);
+                void handleEvent() noexcept;
                 void update();
                 void updateAnim();
                 void updateModelAnimation();
@@ -75,6 +85,13 @@ namespace game
             int _health = 1;
             int _lives = 1;
             game::Event _currentEvent;
+            bool _isMoving;
+            std::unordered_map<game::Event, playerKeyEvt> _key_event = {
+                {MOVE_DOWN, &Character::moveLeft},
+                {MOVE_UP, &Character::moveRight},
+                {MOVE_RIGHT, &Character::moveForward},
+                {MOVE_LEFT, &Character::moveBackward}
+            };
 
         private:
             std::string _name;
@@ -86,6 +103,8 @@ namespace game
             std::shared_ptr<gameEngine::encapsulation::BModelAnimation> _anim;
             int _frameCounter;
             int _state;
+            game::objects::Bomb _bombRef;
+            std::deque<std::shared_ptr<game::objects::AExplosif>> _bombQueue;
 
         private:
             void addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept;

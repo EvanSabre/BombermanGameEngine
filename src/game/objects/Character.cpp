@@ -10,15 +10,19 @@
 using namespace game::objects;
 
 Character::Character(
-                    const std::string &id,
-                    const std::string &name,
-                    const std::string &texturePath,
-                    const std::string &model,
-                    const std::string &animWalk,
-                    const std::string &animIdle,
-                    const Vector3T<float> &pos
-                    ) : gameEngine::objects::Moveable(id), _frameCounter(0)
+    const std::string &id,
+    const std::string &name,
+    const std::string &texturePath,
+    const std::string &model,
+    const std::string &animWalk,
+    const std::string &animIdle,
+    const Vector3T<float> &pos
+    ) : gameEngine::objects::Moveable(id),
+      _isMoving(false),
+      _bombRef(id),
+      _frameCounter(0)
 {
+    _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
     _model = std::make_shared<gameEngine::encapsulation::BModel>(model);
     _animWalk = std::make_shared<gameEngine::encapsulation::BModelAnimation>(animWalk);
@@ -75,6 +79,11 @@ int Character::getNbBomb() const noexcept
 }
 
 //setter
+
+void Character::setIsMoving(bool isMoving) noexcept
+{
+    _isMoving = isMoving;
+}
 
 void Character::setCollider() noexcept
 {
@@ -169,4 +178,50 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 game::Tag_e Character::getTag() const noexcept
 {
     return  game::Tag::CHARACTER;
+}
+
+// BOMBS
+std::shared_ptr<game::objects::AExplosif> &Character::getNextBomb()
+{
+    std::shared_ptr<game::objects::AExplosif> bomb(_bombQueue.front());
+
+    _bombQueue.pop_front();
+    return bomb;
+}
+
+void Character::dropBomb(std::size_t tick) noexcept
+{
+    (void)tick;
+    if (_nbBomb <= 0)
+        return;
+    _bombQueue.front()->setTransform().setPosition(this->getTransform().getPosition());
+    std::cout << "DROP" << std::endl;
+    _bombQueue.front()->drop();
+    if (_nbBomb > 0)
+        _nbBomb--;
+    std::cout << "DROPPED" << std::endl;
+    if (_bombQueue.empty())
+        _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
+}
+
+void Character::handleEvent() noexcept
+{
+    bool flag = false;
+
+    for (auto &[evt, action] : _key_event) {
+
+        try {
+            if (_currentEvent == evt) {
+                //std::cout << "event happened" << std::endl;
+                playerKeyEvt my_action = action;
+                CALL_MEMBER_FN((*this), my_action)(1);
+                _currentEvent = NULL_EVENT;
+                flag = true;
+                _isMoving = true;
+                //std::cout << "Player\n" << this->getTransform() << std::endl;
+            }
+        } catch (std::out_of_range &my_exception) {
+        }
+    }
+    setState(!flag ? ANIMIDLE : ANIMWALK);
 }

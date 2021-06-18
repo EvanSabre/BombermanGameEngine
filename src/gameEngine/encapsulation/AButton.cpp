@@ -20,6 +20,7 @@ const int &textSize, const BColor &color, const BColor &selectColor, float rotat
     _state = gameEngine::interfaces::IButton::NORMAL;
     _action = false;
     _enabled = true;
+    _focus = false;
     _callback = nullptr;
 }
 
@@ -145,6 +146,11 @@ bool AButton::isButtonReleased()
     return false;
 }
 
+bool AButton::isFocus()
+{
+    return _focus;
+}
+
 bool AButton::checkAction()
 {
     if (_action) {
@@ -161,6 +167,7 @@ void AButton::updateState()
     Vector<float> vec(tmp.x, tmp.y);
 
     if (_enabled && isInsideButton(vec)) {
+        _focus = true;
         if(isButtonPressed(vec)) {
             _state = PRESSED;
         } else {
@@ -171,6 +178,7 @@ void AButton::updateState()
             _state = NORMAL;
         }
     } else {
+        _focus = false;
         _state = NORMAL;
     }
     if (_action && _callback != nullptr)
@@ -182,10 +190,14 @@ void AButton::update()
     updateState();
 }
 
+void AButton::drawButtonText()
+{
+    _content->draw();
+}
+
 void AButton::drawButtonRect()
 {
     _rectangle->draw();
-    _content->draw();
 }
 
 void AButton::drawOutline()
@@ -199,4 +211,5 @@ void AButton::drawOutline()
 void AButton::draw()
 {
     drawButtonRect();
+    drawButtonText();
 }

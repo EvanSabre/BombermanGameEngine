@@ -135,6 +135,7 @@ void Button::draw()
         _content->draw();
     } else {
         drawButtonRect();
+        drawButtonText();
     }
     drawOutline();
 }

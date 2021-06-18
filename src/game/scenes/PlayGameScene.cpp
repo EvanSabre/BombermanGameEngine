@@ -9,25 +9,9 @@
 
 using namespace game::scenes;
 
-
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15), _pause(false)
 {
-    //TODO: déplacer cette partie Input dans les scènes choix de profils
-    std::cout << "Nb player == " << info->nbPlayers << std::endl;
-    info->nbPlayers = 2;
-    for (int i = 0; i < info->nbPlayers; i++) {
-        // try {
-        //     info->_userManager->createUser("Joueur" + std::to_string(i + 1));
-        // } catch (UserManagmentError &e) {
-        //     std::cout << e.what() << " : " << e.getComponent() << std::endl;
-        //     throw IndieError("UserManagement");
-        // }
-        info->_userManager->assignInputToUser(i, "Joueur" + std::to_string(i + 1));
-        //TODO:AJouter au vecteur de joueur
-    }
-
-    // ! END TODO
 }
 
 PlayGameScene::~PlayGameScene()
@@ -36,38 +20,29 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
-        std::cout << "\n\nHELLO\n\n" << std::endl;
     _map.dump();
     std::srand(_map.getSeed());
+    for (auto &tile : _map.getTiledMap()) {
+        _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
+    }
 
-    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(1)));
-//    std::shared_ptr<game::objects::Player> player2 = std::make_shared<game::objects::Player>("2", "JOJO", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(2)));
+    std::shared_ptr<game::objects::Bot> bot = std::make_shared<game::objects::Bot>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _tiles, 0, Vector<int>(15, 17));
 
-    player->setTransform().setScale({0.1, 0.1, 0.1});
-    player->setTransform().setPosition({10, 10, 10});
-    player->setTransform().setRotation({90, 90, 0});
-    player->setCollider();
+    bot->setTransform().setScale({0.1, 0.1, 0.1});
+    bot->setTransform().setPosition({10, 10, 10});
+    bot->setTransform().setRotation({90, 90, 0});
+    bot->setCollider();
+    _players.push_back(bot);
 
-    // player2->setTransform().setScale({0.1, 0.1, 0.1});
-    // player2->setTransform().setPosition({20, 10, 10});
-    // player2->setTransform().setRotation({90, 90, 0});
-    // player2->setCollider();
-
-    _players.push_back(player);
-//    _players.push_back(player2);
     this->setupCamera();
     _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
     _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
-    for (auto &tile : _map.getTiledMap()) {
-        std::cout << tile.getTransform()._position << std::endl;
-        _tiles.push_back(tile);
-    }
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
     _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::ONEUP, Vector3T<float>{10, 10, 20},
         Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
-    _tiles.push_back((*_healtTile));
+    _tiles.push_back(_healtTile);
 
     _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
     _timer.startThread();
@@ -124,11 +99,21 @@ void PlayGameScene::setupCamera() noexcept
 void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &player, const Vector3T<float> &prev)
 {
     for (auto &tile : _tiles) {
-        if (player->getCollider().isColliding(tile.getCollider().getBoundingBox())) {
-            player->onCollisionEnter(tile);
+        if (player->getCollider().isColliding(tile->getCollider().getBoundingBox())) {
+            player->onCollisionEnter(*tile);
             player->setTransform().setPosition(prev);
+            player->setIsMoving(false);
         }
     }
+}
+
+void PlayGameScene::updateExplosionManager()
+{
+    _explosion->setObjects(_players, _tiles);
+    _explosion->update();
+    _tiles = _explosion->getTiles();
+    for (auto &bomb : _explosion->getBombs())
+        _tiles.push_back(bomb);
 }
 
 void PlayGameScene::updatePause()
@@ -158,7 +143,8 @@ void PlayGameScene::quit()
 
 void PlayGameScene::update()
 {
-    _healtTile.get()->update();
+    //updateExplosionManager();
+    _healtTile->update();
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
     if (!_windowManager->isRunning())
@@ -187,6 +173,8 @@ void PlayGameScene::update()
 
 void PlayGameScene::draw()
 {
+    //_explosion->draw();
+    _buttonManager.drawButtons();
     int idx_player = 0;
     for (auto it : _players) {
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
@@ -195,7 +183,7 @@ void PlayGameScene::draw()
     this->_windowManager->set3DMode(_cam);
     (*_healtTile).draw();
     _map.draw();
-    for (auto it : _players) {
+    for (auto &it : _players) {
         it->draw();
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;

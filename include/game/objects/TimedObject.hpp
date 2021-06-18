@@ -27,7 +27,7 @@ namespace game
                 double getRemainedTime() const noexcept;
                 bool isTimeOver() const noexcept;
 
-            void Update();
+            void update();
 
             virtual void onOverTime() = 0;
 

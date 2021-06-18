@@ -45,7 +45,6 @@ void SettingsScene::start()
     //sound selector
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> soundCt =
         {
-            std::make_shared<TEXT>("100", size, BLACK, 40),
             std::make_shared<TEXT>("0", size, BLACK, 40),
             std::make_shared<TEXT>("10", size, BLACK, 40),
             std::make_shared<TEXT>("20", size, BLACK, 40),
@@ -63,7 +62,6 @@ void SettingsScene::start()
     //music selector
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> musicCt =
         {
-            std::make_shared<TEXT>("100", size, BLACK, 40),
             std::make_shared<TEXT>("0", size, BLACK, 40),
             std::make_shared<TEXT>("10", size, BLACK, 40),
             std::make_shared<TEXT>("20", size, BLACK, 40),
@@ -90,37 +88,37 @@ void SettingsScene::start()
     _keybindings = std::make_shared<gameEngine::encapsulation::BText>("Key Bindings", Vector<float>(middle._x + 400, middle._y - 300), WHITE, 60);
 
     _left = std::make_shared<gameEngine::encapsulation::BText>("Move Left", Vector<float>(middle._x + 300, middle._y - 150), WHITE, 30);
-    gameEngine::encapsulation::BText inputLeftText("", Vector<float>(0, 0), BLACK, 80);
+    gameEngine::encapsulation::BText inputLeftText("A", Vector<float>(middle._x + 850, middle._y - 150), WHITE, 80);
     inputLeftText.setFont(_font);
     std::shared_ptr<gameEngine::object::InputButton> buttonLeft =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y - 150), 1, inputLeftText, DARKGRAY);
 
     _right = std::make_shared<gameEngine::encapsulation::BText>("Move Right", Vector<float>(middle._x + 300, middle._y - 50), WHITE, 30);
-    gameEngine::encapsulation::BText inputRightText("", Vector<float>(500, 1010), BLACK, 80);
+    gameEngine::encapsulation::BText inputRightText("D", Vector<float>(middle._x + 850, middle._y - 50), WHITE, 80);
     inputRightText.setFont(_font);
     std::shared_ptr<gameEngine::object::InputButton> buttonRight =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y - 50), 1, inputRightText, DARKGRAY);
 
     _up = std::make_shared<gameEngine::encapsulation::BText>("Move Up", Vector<float>(middle._x + 300, middle._y + 50), WHITE, 30);
-    gameEngine::encapsulation::BText inputUpText("", Vector<float>(50, 1010), BLACK, 80);
+    gameEngine::encapsulation::BText inputUpText("W", Vector<float>(middle._x + 850, middle._y + 50), WHITE, 80);
     inputUpText.setFont(_font);
     std::shared_ptr<gameEngine::object::InputButton> buttonUp =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 50), 1, inputUpText, DARKGRAY);
 
     _down = std::make_shared<gameEngine::encapsulation::BText>("Move Down", Vector<float>(middle._x + 300, middle._y + 150), WHITE, 30);
-    gameEngine::encapsulation::BText inputDownText("", Vector<float>(50, 1010), BLACK, 80);
+    gameEngine::encapsulation::BText inputDownText("S", Vector<float>(middle._x + 850, middle._y + 150), WHITE, 80);
     inputDownText.setFont(_font);
     std::shared_ptr<gameEngine::object::InputButton> buttonDown =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 150), 1, inputDownText, DARKGRAY);
 
     _pick = std::make_shared<gameEngine::encapsulation::BText>("Pick", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
-    gameEngine::encapsulation::BText inputPickText("", Vector<float>(50, 1010), BLACK, 80);
+    gameEngine::encapsulation::BText inputPickText("K", Vector<float>(middle._x + 850, middle._y + 250), WHITE, 80);
     inputPickText.setFont(_font);
     std::shared_ptr<gameEngine::object::InputButton> buttonPick =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 250), 1, inputPickText, DARKGRAY);
 
     _drop = std::make_shared<gameEngine::encapsulation::BText>("Drop", Vector<float>(middle._x + 300, middle._y + 350), WHITE, 30);
-    gameEngine::encapsulation::BText inputDropText("", Vector<float>(50, 1010), BLACK, 80);
+    gameEngine::encapsulation::BText inputDropText("L", Vector<float>(middle._x + 850, middle._y + 350), WHITE, 80);
     inputDropText.setFont(_font);
     std::shared_ptr<gameEngine::object::InputButton> buttonDrop =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 350), 1, inputDropText, DARKGRAY);
@@ -139,9 +137,8 @@ void SettingsScene::start()
     _buttonManager.pushButton(buttonDown);
     _buttonManager.pushButton(buttonPick);
     _buttonManager.pushButton(buttonDrop);
-
     _buttonManager.pushButton(buttonSave);
-    _buttonManager.setEnabledButton("Save", false);
+    //_buttonManager.setEnabledButton("Save", false);
     // _keybindings->setFont(_font);
     // _left->setFont(_font);
     // _right->setFont(_font);
@@ -154,7 +151,8 @@ void SettingsScene::start()
 void SettingsScene::update()
 {
     _buttonManager.updateButtons();
-
+    _soundSelector->update();
+    _musicSelector->update();
     //***** POUR METTRE EN MARCHE LE BOUTON SAVE *************
     // if (modifications dans l input) {
     // _buttonManager.setEnabledButton("Save", true);
