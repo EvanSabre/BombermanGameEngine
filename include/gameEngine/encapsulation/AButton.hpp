@@ -37,7 +37,7 @@ namespace gameEngine {
                 void setColor(const BColor &color);
                 void setContentStr(const std::string &str);
                 void setEnabled(bool enabled);
-
+                bool isFocus();
                 void setCallback(std::function<void(std::shared_ptr<game::managers::GameManager> info)> func,
                 std::shared_ptr<game::managers::GameManager> &infoPtr);
                 bool isInsideButton(const Vector<float> &point);
@@ -45,6 +45,7 @@ namespace gameEngine {
                 bool isButtonReleased();
                 bool checkAction();
                 void drawButtonRect();
+                void drawButtonText();
                 void drawOutline();
                 void draw();
                 void updateState();
@@ -56,6 +57,7 @@ namespace gameEngine {
                 State _state;
                 bool _action;
                 bool _enabled;
+                bool _focus;
                 std::shared_ptr<BText> _content;
                 std::shared_ptr<BRectangle> _rectangle;
                 std::shared_ptr<BColor> _selectColor;

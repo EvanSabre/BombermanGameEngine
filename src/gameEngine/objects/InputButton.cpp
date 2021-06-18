@@ -16,9 +16,11 @@ InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, co
                 const encapsulation::BColor &color, const encapsulation::BColor &selectColor) :
             AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput)
 {
-    _content.setTextPosition(Vector<float>(pos._x, pos._y - size._y / 2));
-    _content.setTextSize(size._x / maxInput);
-    _content.setColor(BLACK);
+    _content.setTextSize(size._x / 2 / maxInput);
+    _content.setTextPosition(content.getTextPosition());
+    _content.setColor(content.getColor());
+    _content.setStr(content.getStr());
+    //_content.setColor(color);
 }
 
 InputButton::~InputButton()
@@ -37,19 +39,19 @@ void InputButton::getNextChar() noexcept
 
 void InputButton::updateInput()
 {
-    if (_input.size() >= _maxInput)
+    if (_input.size() >= _maxInput) {
         return;
-    _currentChar = GetCharPressed();
+    }
+    getNextChar();
     while (_currentChar > 0) {
         if ((_currentChar >= 32 && _currentChar <= 125)) {
             _input.push_back((char)_currentChar);
-            _action = false;
         }
-        _currentChar = GetCharPressed();
+        getNextChar();
+        if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
+            _input.pop_back();
+        _content.setStr(_input);
     }
-    if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
-        _input.pop_back();
-    _content.setStr(_input);
 }
 
 void InputButton::draw()
@@ -62,10 +64,11 @@ void InputButton::draw()
 void InputButton::update()
 {
     updateState();
-    if (_action) {
+    if (isFocus())
+        updateInput();
+    if (checkAction()) {
         _input.erase();
         _content.setStr(_input);
-        updateInput();
     }
 }
 
