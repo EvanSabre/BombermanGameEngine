@@ -21,6 +21,14 @@ Bot::~Bot()
 {
 }
 
+Vector3T<float> Bot::getMiddlePos(const Vector3T<float> &pos)
+{
+    return Vector3T<float>({
+        (float)((float)((float)(pos._x / 10) + 0.5) * 10),
+        pos._y,
+        (float)((float)((float)(pos._z / 10) + 0.5) * 10)});
+}
+
 void Bot::update()
 {
     this->setCurrentEvent(takeDecision(this->getTransform().getPosition()));
