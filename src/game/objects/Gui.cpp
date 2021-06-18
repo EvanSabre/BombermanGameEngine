@@ -9,7 +9,7 @@
 
 using namespace game;
 
-#define HEART_ICON "./assets/Gui/heart_icon.png"
+#define HEART_ICON "./assets/Gui/heart_icon_2.png"
 #define BOMB_ICON "./assets/Gui/bomb_icon.png"
 
 Gui::Gui()
@@ -54,7 +54,7 @@ void Gui::draw(const game::objects::Character &charac, corner_e corner)
 
 void Gui::draw(const game::objects::Character &charac, const Vector<float> &basePose)
 {
-    _heartTexture->setPos(Vector<int>(basePose._x - 12, basePose._y));
+    _heartTexture->setPos(Vector<int>(basePose._x, basePose._y));
     _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 40));
     drawEltStr(std::to_string(charac.getLives()), _heartTexture, Vector<float>(0.05, 0.05), 50);
     drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));

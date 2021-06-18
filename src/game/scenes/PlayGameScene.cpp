@@ -161,9 +161,8 @@ void PlayGameScene::update()
     _healtTile.get()->update();
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
-    if (!_windowManager->isRunning()) {
+    if (!_windowManager->isRunning())
         quit();
-    }
     if (_buttonManager.isButtonClicked("PAUSE")) {
         _pause = true;
         _timer.setPause(true);
