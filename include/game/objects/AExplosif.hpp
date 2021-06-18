@@ -43,18 +43,23 @@ namespace game::objects
             void increaseRange(const std::size_t &);
             void explode();
             void pickUpBombPass();
+            void setSwitch(bool state);
 
             // Getters
             std::string getPlayerId() const;
             std::size_t getRange() const;
+            bool isDropped() const;
             bool isDone() const;
             bool collide() const;
+            bool getSwitch() const;
 
         protected:
             std::string _playerId;
             std::size_t _range;
             bool _done;
             bool _collide;
+            bool _dropped;
+            bool _switch;
         private:
     };
 }

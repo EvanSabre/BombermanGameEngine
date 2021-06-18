@@ -35,7 +35,7 @@ void Player::handleKeyEvent() noexcept
                 playerKeyEvt my_action = _key_event.at(evt.first);
                 CALL_MEMBER_FN((*this), my_action)(1);
                 flag = true;
-                std::cout << "Player\n" << this->getTransform() << std::endl;
+                // std::cout << "Player\n" << this->getTransform() << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }

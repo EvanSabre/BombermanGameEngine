@@ -78,13 +78,16 @@ void PlayGameScene::updateExplosionManager()
     _explosion->setObjects(_players, _tiles);
     _explosion->update();
     _tiles = _explosion->getTiles();
-    for (auto &bomb : _explosion->getBombs())
+
+    auto array = _explosion->getBombs();
+    for (auto &bomb : array) {
+        // std::cout << bomb->getTransform() << std::endl;
         _tiles.push_back(bomb);
+    }
 }
 
 void PlayGameScene::update()
 {
-    updateExplosionManager();
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
     if (!_windowManager->isRunning()) {
@@ -100,9 +103,20 @@ void PlayGameScene::update()
     }
     for (auto &player : _players) {
         Vector3T<float> prev(player->getTransform().getPosition());
+        auto list = player->getBombQueue();
         player->update();
         collisionChecker(player, prev);
+        if (player->hasDropped()) {
+            for (auto &bomb : list) {
+                if (bomb->getSwitch()) {
+                    _explosion->pushBomb(bomb);
+                }
+                bomb->setSwitch(false);
+            }
+        }
+        player->setDropped(false);
     }
+    updateExplosionManager();
 }
 
 void PlayGameScene::draw()
@@ -110,10 +124,10 @@ void PlayGameScene::draw()
     _explosion->draw();
     _buttonManager.drawButtons();
     this->_windowManager->set3DMode(_cam);
-    _map.draw();
-    for (auto it : _players) {
-        it->draw();
-    }
+    for (auto &player : _players)
+        player->draw();
+    for (auto &tile : _tiles)
+        tile->draw();
     _cam.endMode();
     _timer.getCurrentTime().draw();
 }
