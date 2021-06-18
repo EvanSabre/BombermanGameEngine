@@ -40,7 +40,7 @@ void ChooseProfileScene::start()
     for (auto &user : _info->_userManager->getUsers()) {
         profileContent.push_back(std::make_shared<TEXT>(user->name, size, BLACK, 40));
     }
-    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, TEXT("", size, BLACK, 40), RED, BLACK);
+    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, TEXT("", size, BLACK, 40), RED, BLACK);
     profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
 
     //_profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
