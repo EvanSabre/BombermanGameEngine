@@ -33,6 +33,7 @@ namespace game {
                 bool haveToChange();
                 bool haveToQuit();
                 int nbPlayers = 1;
+                int nbPlayersConfirmed = 0;
                 int nbBots = 0;
                 std::shared_ptr<game::managers::UserManager> _userManager;
                 std::shared_ptr<gameEngine::managers::InputManager<game::Event>> _inputManager;
