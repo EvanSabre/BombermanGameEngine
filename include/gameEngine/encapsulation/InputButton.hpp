@@ -16,6 +16,7 @@ namespace gameEngine {
             public:
                 InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput,
                 const encapsulation::BText &content, const encapsulation::BColor &color,
+                bool relative = false,
                 const encapsulation::BColor &selectColor = BLACK);
                 ~InputButton();
 

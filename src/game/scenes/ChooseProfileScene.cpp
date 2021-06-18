@@ -51,7 +51,7 @@ void ChooseProfileScene::start()
         _profileContent.push_back(std::make_shared<TEXT>(user->name, size, BLACK, 40));
     }
     TEXT inputText("Enter a Username", posbutton, BLACK, 20);
-    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, inputText, RED, BLACK);
+    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, inputText, RED, false, BLACK);
     _profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
 
     _profileSelector = std::make_unique<SELECTOR>("Choose a profile", _profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);

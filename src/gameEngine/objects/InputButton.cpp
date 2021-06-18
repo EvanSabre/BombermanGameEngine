@@ -13,11 +13,14 @@ using namespace gameEngine::object;
 #define MAX_INPUTS 15
 
 InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput, const encapsulation::BText &content,
-                const encapsulation::BColor &color, const encapsulation::BColor &selectColor) :
+                const encapsulation::BColor &color, bool relative, const encapsulation::BColor &selectColor) :
             AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput), _canInput(true)
 {
     _content.setTextSize(size._x / 2 / maxInput + content.getTextSize());
-    _content.setTextPosition(content.getTextPosition());
+    if (relative)
+        _content.setTextPosition(pos);
+    else
+        _content.setTextPosition(content.getTextPosition());
     _content.setColor(content.getColor());
     std::cout << content << std::endl;
     _content.setStr(content.getStr());
