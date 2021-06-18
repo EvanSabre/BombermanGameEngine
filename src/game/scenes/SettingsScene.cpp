@@ -11,6 +11,14 @@ using namespace game::scenes;
 
 #define VOLUME_BUTTON "./assets/Backgrounds/button_background1.png"
 
+static const std::array<gameEngine::key_e, 5> gamePadKeys = {
+    gameEngine::GAMEPAD_BUTTON_LEFT_FACE_UP,
+    gameEngine::GAMEPAD_BUTTON_LEFT_FACE_DOWN,
+    gameEngine::GAMEPAD_BUTTON_LEFT_FACE_LEFT,
+    gameEngine::GAMEPAD_BUTTON_LEFT_FACE_RIGHT,
+    gameEngine::GAMEPAD_BUTTON_RIGHT_FACE_LEFT
+};
+
 SettingsScene::SettingsScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info)
 {
@@ -78,7 +86,6 @@ void SettingsScene::start()
         };
     _musicSelector = std::make_unique<gameEngine::component::Selector>("Music Volume", musicCt, Vector<float>(100,  middle._y + 50), Vector<float>(600, 150), 30, WHITE);
 
-
     //back to menu
     gameEngine::encapsulation::BText quitText("Back to Menu", Vector<float>(60, 1010), WHITE, 30);
     quitText.setFont(_font);
@@ -113,35 +120,34 @@ void SettingsScene::start()
     std::shared_ptr<gameEngine::object::InputButton> buttonDown =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 150), 1, inputDownText, DARKGRAY, true);
 
-    _pick = std::make_shared<gameEngine::encapsulation::BText>("Pick", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
-    gameEngine::encapsulation::BText inputPickText("k", Vector<float>(middle._x + 800, middle._y + 270), WHITE, 20);
-    inputPickText.setFont(_font);
-    std::shared_ptr<gameEngine::object::InputButton> buttonPick =
-    std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 250), 1, inputPickText, DARKGRAY, true);
+    // _pick = std::make_shared<gameEngine::encapsulation::BText>("Pick", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
+    // gameEngine::encapsulation::BText inputPickText("k", Vector<float>(middle._x + 800, middle._y + 270), WHITE, 20);
+    // inputPickText.setFont(_font);
+    // std::shared_ptr<gameEngine::object::InputButton> buttonPick =
+    // std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 250), 1, inputPickText, DARKGRAY, true);
 
-    _drop = std::make_shared<gameEngine::encapsulation::BText>("Drop", Vector<float>(middle._x + 300, middle._y + 350), WHITE, 30);
-    gameEngine::encapsulation::BText inputDropText("l", Vector<float>(middle._x + 800, middle._y + 370), WHITE, 20);
+    _drop = std::make_shared<gameEngine::encapsulation::BText>("Drop", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
+    gameEngine::encapsulation::BText inputDropText("l", Vector<float>(middle._x + 800, middle._y + 270), WHITE, 20);
     inputDropText.setFont(_font);
     std::shared_ptr<gameEngine::object::InputButton> buttonDrop =
-    std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 350), 1, inputDropText, DARKGRAY, true);
+    std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 250), 1, inputDropText, DARKGRAY, true);
 
     //save keybindings
     _saveButtonText = gameEngine::encapsulation::BText("Save", Vector<float>(1730, 1010), BLACK, 30);
     _saveButtonText.setFont(_font);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSave =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(150, 50), Vector<float>(1700, 1000), _saveButtonText, DARKGRAY);
-    // buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu"); }, _info);
 
     _buttonManager.pushButton(buttonQuit);
-    _buttonManager.pushButton(buttonLeft);
-    _buttonManager.pushButton(buttonRight);
-    _buttonManager.pushButton(buttonUp);
-    _buttonManager.pushButton(buttonDown);
-    _buttonManager.pushButton(buttonPick);
-    _buttonManager.pushButton(buttonDrop);
+    _inputManager.pushButton(buttonUp);
+    _inputManager.pushButton(buttonDown);
+    _inputManager.pushButton(buttonRight);
+    _inputManager.pushButton(buttonLeft);
+    _inputManager.pushButton(buttonDrop);
+//    _inputManager.pushButton(buttonPick);
 
     _buttonManager.pushButton(buttonSave);
-    _buttonManager.setEnabledButton("Save", false);
+    //_buttonManager.setEnabledButton("Save", false);
     // _keybindings->setFont(_font);
     // _left->setFont(_font);
     // _right->setFont(_font);
@@ -151,10 +157,41 @@ void SettingsScene::start()
     // _drop->setFont(_font);
 }
 
+void toUpper(std::string &str)
+{
+    std::for_each(str.begin(), str.end(), [](char &c) {
+        c = ::toupper(c);
+    });
+}
+
+void SettingsScene::setKeyMap()
+{
+    std::pair<gameEngine::key_e, gameEngine::key_e> pair;
+    std::pair<game::Event, std::pair<gameEngine::key_e, gameEngine::key_e>> fullPair;
+    int i = 1;
+    std::string tmp;
+
+    for (auto it : _inputManager.getCurrentButtons()) {
+        fullPair.first = (game::Event)i;
+        tmp = it->getContent().getStr();
+        toUpper(tmp);
+        std::cout << tmp << std::endl;
+        pair.first = (gameEngine::key_e)(int)(tmp.c_str()[0]);
+        pair.second = gamePadKeys.at(i - 1);
+        fullPair.second = pair;
+        _keyMap.insert(fullPair);
+        i++;
+    }
+}
+
 void SettingsScene::update()
 {
     _buttonManager.updateButtons();
-
+    _inputManager.updateButtons();
+    if (_buttonManager.isButtonClicked("Save")) {
+        setKeyMap();
+        _info->_inputManager->setKeymap(_keyMap);
+    }
     //***** POUR METTRE EN MARCHE LE BOUTON SAVE *************
     // if (modifications dans l input) {
     // _buttonManager.setEnabledButton("Save", true);
@@ -167,15 +204,15 @@ void SettingsScene::update()
 void SettingsScene::draw()
 {
     _background.draw();
-    _buttonManager.drawButtons();
     _title->draw();
     _keybindings->draw();
     _left->draw();
     _right->draw();
     _up->draw();
     _down->draw();
-    _pick->draw();
     _drop->draw();
+    _inputManager.drawButtons();
+    _buttonManager.drawButtons();
     _soundSelector->draw();
     _musicSelector->draw();
 }
