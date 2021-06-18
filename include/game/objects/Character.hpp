@@ -81,6 +81,7 @@ namespace game
                 void update();
                 void updateAnim();
                 void updateModelAnimation();
+                void stand(std::size_t tick);
 
         protected:
             size_t _score = 0;
@@ -95,7 +96,8 @@ namespace game
                 {MOVE_DOWN, &Character::moveLeft},
                 {MOVE_UP, &Character::moveRight},
                 {MOVE_RIGHT, &Character::moveForward},
-                {MOVE_LEFT, &Character::moveBackward}
+                {MOVE_LEFT, &Character::moveBackward},
+                {NULL_EVENT, &Character::stand}
             };
 
         private:
