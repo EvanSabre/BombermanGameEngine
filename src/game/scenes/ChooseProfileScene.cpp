@@ -12,6 +12,7 @@ using namespace game::scenes;
 #define CONTROLLER "./assets/Backgrounds/manette.png"
 #define KEYPAD "./assets/Backgrounds/keypad.png"
 static const Vector<float> SCALE_GAMEPAD(0.5, 0.5);
+static const Vector<float> SCALE_KEYPAD(0.5, 0.5);
 
 ChooseProfileScene::ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info)
@@ -32,9 +33,17 @@ void ChooseProfileScene::start()
     _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
 
     _image_controller = std::make_shared<gameEngine::encapsulation::BTexture2D>();
-    _image_controller->loadFromFile(CONTROLLER);
+    if (_info->nbPlayersConfirmed == 0)
+        _image_controller->loadFromFile(KEYPAD);
+    else
+        _image_controller->loadFromFile(CONTROLLER);
     _image_controller->setEnabled(true);
     _image_controller->setPos(Vector<int>(pos._x * 1.85, pos._y * 0.2));
+
+    // _InputIndication = TEXT(_info->_userManager->getUserInputs().at(0)->getDeviceName(),
+    //                         Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
+    //                         WHITE,
+    //                         30);
 
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent;
 
@@ -58,8 +67,10 @@ void ChooseProfileScene::start()
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
-    
-    playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play");}, _info);
+    if (_info->nbPlayersConfirmed == _info->nbPlayers)
+        playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play");}, _info);
+    else
+        playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("chooseProfile"); info->nbPlayersConfirmed++;}, _info);
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
@@ -120,11 +131,15 @@ void ChooseProfileScene::draw()
     _zoneStat->draw();
     //_profileKeypad->draw();
     //_image_controller->draw();
-    _image_controller->drawEx(SCALE_GAMEPAD);
+    if (_info->nbPlayersConfirmed == 0)
+        _image_controller->drawEx(SCALE_KEYPAD);
+    else
+        _image_controller->drawEx(SCALE_GAMEPAD);
     _profileSelector->draw();
     if (_nbContents - 1 == _profileSelector->getIdActualContent())
         _inputButton->draw();
     _buttonManager.drawButtons();
+    //_InputIndication.draw();
     _ProfilesIndicationGameWon.draw();
     _ProfilesIndicationGamePlayed.draw();
     _ProfilesIndicationCreated.draw();
