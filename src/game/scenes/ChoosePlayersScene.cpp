@@ -11,6 +11,9 @@
 
 using namespace game::scenes;
 #define BACKGROUND_BUTTON "./assets/Backgrounds/SupernovaBG.png"
+#define PIRATE_UNIVERSE "./assets/Backgrounds/pirate_universe.png"
+#define SAMOURAI_UNIVERSE "./assets/Backgrounds/samourai_universe.png"
+#define VIKING_UNIVERSE "./assets/Backgrounds/viking_universe.png"
 
 ChoosePlayersScene::~ChoosePlayersScene()
 {
@@ -43,8 +46,16 @@ void ChoosePlayersScene::start()
         std::make_shared<TEXT>("3", size, BLACK, 40),
         std::make_shared<TEXT>("4", size, BLACK, 40),
     };
-    _playerSelector = std::make_unique<SELECTOR>("Choose a number of players", playerContent, Vector<float>(pos._x * 1.0, pos._y * 1.5), Vector<float>(size._x, size._y * 0.3), 20, YELLOW);
-    _botSelector = std::make_unique<SELECTOR>("Choose a number of bots", botContent, Vector<float>(pos._x * 1.0, pos._y * 3.5), Vector<float>(size._x, size._y * 0.3), 20, GREEN);
+
+    std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> chooseUniverse =
+    {
+        std::make_unique<IMAGE>(PIRATE_UNIVERSE),
+        std::make_unique<IMAGE>(SAMOURAI_UNIVERSE),
+        std::make_unique<IMAGE>(VIKING_UNIVERSE),
+    };
+    _universeSelector = std::make_unique<SELECTOR>("Choose an universe", chooseUniverse, Vector<float>(pos._x * 2.2, pos._y * 1.5), Vector<float>(size._x * 0.7, size._y * 0.73), 20, RED);
+    _playerSelector = std::make_unique<SELECTOR>("Choose a number of players", playerContent, Vector<float>(pos._x * 0.3, pos._y * 1.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, YELLOW);
+    _botSelector = std::make_unique<SELECTOR>("Choose a number of bots", botContent, Vector<float>(pos._x * 0.3, pos._y * 3.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, GREEN);
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
                                             Vector<float>(WINDOW_X * 0.1, WINDOW_Y * 0.8),
                                             "Back",
@@ -64,7 +75,7 @@ void ChoosePlayersScene::start()
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
     _PlayersIndication = TEXT("",
-                              Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.9),
+                              Vector<float>(pos._x * 0.2 + size._x * 0.5, pos._y + size._y * 0.9),
                               WHITE,
                               30);
 }
@@ -75,6 +86,7 @@ void ChoosePlayersScene::update()
         _info->setQuit(true);
     }
     _buttonManager.updateButtons();
+    _universeSelector->update();
     _botSelector->update();
     _playerSelector->update();
 
@@ -98,6 +110,7 @@ void ChoosePlayersScene::update()
 void ChoosePlayersScene::draw()
 {
     _background->draw();
+    _universeSelector->draw();
     _playerSelector->draw();
     _botSelector->draw();
     _buttonManager.drawButtons();
