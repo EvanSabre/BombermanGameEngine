@@ -95,8 +95,7 @@ namespace game
                 {MOVE_DOWN, &Character::moveLeft},
                 {MOVE_UP, &Character::moveRight},
                 {MOVE_RIGHT, &Character::moveForward},
-                {MOVE_LEFT, &Character::moveBackward},
-                {VALIDATE, &Character::dropBomb}
+                {MOVE_LEFT, &Character::moveBackward}
             };
 
         private:
