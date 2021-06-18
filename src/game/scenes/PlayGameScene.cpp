@@ -34,8 +34,19 @@ void PlayGameScene::start()
     bot->setCollider();
     _players.push_back(bot);
 
+    _info->_userManager->assignInputToUser(0, "Joueur1");
+    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur1"));
+
+    player->setTransform().setScale({0.1, 0.1, 0.1});
+    player->setTransform().setPosition({10, 10, 10});
+    player->setTransform().setRotation({90, 90, 0});
+    player->setCollider();
+    _players.push_back(player);
+
+
     this->setupCamera();
-    _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
+    std::string nb(std::to_string(std::rand() % 4));
+    _audio.loadMusicStreamFromFile("./assets/All/Music/Game" + nb + ".wav");
     _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
@@ -167,7 +178,7 @@ void PlayGameScene::update()
     for (auto &[id, evt]: events)
     {
         if (id <= _players.size()) {
-            _players[id - 1]->setCurrentEvent(evt);
+            _players[1]->setCurrentEvent(evt);
         }
     }
     for (auto &player : _players) {
