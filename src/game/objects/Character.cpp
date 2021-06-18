@@ -68,6 +68,16 @@ int Character::getState() const noexcept
     return _state;
 }
 
+int Character::getLives() const noexcept
+{
+    return _lives;
+}
+
+int Character::getNbBomb() const noexcept
+{
+    return  _nbBomb;
+}
+
 //setter
 
 void Character::setIsMoving(bool isMoving) noexcept
@@ -81,12 +91,12 @@ void Character::setCollider() noexcept
     Vector3T<float> sca(this->getTransform().getScale());
 
     _collider.getBoundingBox().setBoundingBox(
-        {pos._x - sca._x * TILESIZE * 0.5,
+        {(float)(pos._x - sca._x * (float)TILESIZE * 0.5),
         pos._y,
-        pos._z - sca._z * TILESIZE * 0.5},
-        {pos._x + sca._x * TILESIZE * 0.5,
+        (float)(pos._z - sca._z * (float)TILESIZE * 0.5)},
+        {(float)(pos._x + sca._x * (float)TILESIZE * 0.5),
         pos._y,
-        pos._z + sca._z * TILESIZE * 0.5});
+        (float)(pos._z + sca._z * (float)TILESIZE * 0.5)});
 }
 
 void Character::setState(const int &state) noexcept
@@ -126,6 +136,7 @@ void Character::onCollisionEnter(const AGameObject &collision)
     {
         std::unique_ptr<game::interfaces::IEffect> efx = game::objects::EffectFactory::makeEffect(collision.getTag());
         addPowerUpEffec(efx.get());
+        std::cout << "get Power Up" << std::endl;
         return;
     }
     catch(const std::exception& e)

@@ -35,6 +35,8 @@ namespace gameEngine
             BModel &operator=(const BModel &ref);
             ~BModel();
 
+            void update() override;
+
             //getter
                 [[nodiscard]] Model getObj() const noexcept;
                 [[nodiscard]] bool isLoad() const noexcept;
@@ -55,7 +57,7 @@ namespace gameEngine
 
             //draw
                 void rotate();
-                void draw() const noexcept override;
+                void draw() override;
 
         private:
             std::string _filePath;

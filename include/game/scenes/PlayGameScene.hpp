@@ -20,6 +20,9 @@
 #include "Timer.hpp"
 #include "ExplosionManager.hpp"
 #include "Bot.hpp"
+#include "PowerUpTile.hpp"
+#include "Gui.hpp"
+
 
 #define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
 
@@ -30,21 +33,32 @@ namespace game {
                 PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info);
                 ~PlayGameScene();
 
+                void setupPause();
                 void collisionChecker(std::shared_ptr<game::objects::Character> &, const Vector3T<float> &);
+                void drawPause();
+                void updatePause();
                 void start() override;
                 void update() override;
                 void draw() override;
                 void updateExplosionManager();
+                void quit();
             protected:
             private:
+                game::Gui _gui;
                 std::string _universe;
                 Map _map;
+                bool _pause;
                 gameEngine::encapsulation::BCamera _cam;
                 gameEngine::managers::AudioManager _audio;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
                 std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
                 gameEngine::component::Timer _timer;
                 std::shared_ptr<game::manager::ExplosionManager> _explosion;
+                gameEngine::managers::ButtonManager _pauseManager;
+
+                //here for test need to be in map after
+                // game::objects::PowerUpTile _heelth()
+                std::shared_ptr<game::objects::PowerUpTile> _healtTile;
             private:
                 void setupCamera() noexcept;
         };

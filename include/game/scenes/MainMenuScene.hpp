@@ -34,7 +34,6 @@ namespace game {
                 std::shared_ptr<gameEngine::encapsulation::BText> _settings = nullptr;
                 gameEngine::encapsulation::BTexture2D _background;
             private:
-
         };
     }
 }

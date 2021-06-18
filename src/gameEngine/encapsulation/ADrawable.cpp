@@ -30,9 +30,9 @@ void gameEngine::encapsulation::ADrawable::onCollisionExit(const AGameObject &co
 {
 }
 
-void gameEngine::encapsulation::ADrawable::update()
-{
-}
+// void gameEngine::encapsulation::ADrawable::update()
+// {
+// }
 
 //GETTER
 

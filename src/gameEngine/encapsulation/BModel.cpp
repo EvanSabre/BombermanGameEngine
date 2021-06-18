@@ -66,6 +66,10 @@ BModel &BModel::BModel::operator=(const encapsulation::BModel &ref)
     return *this;
 }
 
+void BModel::update()
+{
+}
+
 //----------------------------
 
 //GETTER
@@ -139,7 +143,7 @@ void BModel::rotate()
     _model.transform = MatrixRotateXYZ(vect);
 }
 
-void BModel::draw() const noexcept
+void BModel::draw()
 {
     Vector3T<float> pos(this->_transform.getPosition());
     Vector3 vecPos = {pos._x, pos._y, pos._z};

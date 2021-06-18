@@ -10,6 +10,7 @@
 #include "PlayGameScene.hpp"
 #include "SplashScreenScene.hpp"
 #include "ChoosePlayersScene.hpp"
+#include "ChooseProfileScene.hpp"
 #include "SettingsScene.hpp"
 
 #include "EmptyScene.hpp"
@@ -31,6 +32,10 @@ const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::
         {"choosePlayers",
             [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> info) {
                 return std::make_shared<game::scenes::ChoosePlayersScene>(window, info);
+            }},
+        {"chooseProfile",
+            [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> info) {
+                return std::make_shared<game::scenes::ChooseProfileScene>(window, info);
             }},
         {"empty",
             [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info) {

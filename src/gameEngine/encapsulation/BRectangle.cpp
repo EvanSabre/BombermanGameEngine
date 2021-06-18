@@ -53,6 +53,10 @@ encapsulation::BRectangle::~BRectangle()
     std::cout << "Rectangle destory\n";
 }
 
+void encapsulation::BRectangle::update()
+{
+}
+
 //----------------------------
 
 //GETTER
@@ -120,7 +124,7 @@ void encapsulation::BRectangle::setHeight(const float &height) noexcept
 
 //DRAW
 
-void encapsulation::BRectangle::draw() const noexcept
+void encapsulation::BRectangle::draw()
 {
     DrawRectangleRec(this->getObj(), this->_color.getObj());
 }

@@ -51,6 +51,11 @@ encapsulation::BText::BText(const BText &ref)
     this->setSpacing(ref.getSpacing());
 }
 
+void encapsulation::BText::update()
+{
+
+}
+
 encapsulation::BText &encapsulation::BText::operator=(const BText &ref)
 {
     if (this == &ref)
@@ -144,7 +149,7 @@ std::string encapsulation::BText::getContent() const noexcept
     return getStr();
 }
 
-void encapsulation::BText::draw() const noexcept
+void encapsulation::BText::draw()
 {
     if (this->_font.isLoad()) {
         Vector2 pos = {
