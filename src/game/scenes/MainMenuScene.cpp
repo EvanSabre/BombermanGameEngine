@@ -21,7 +21,7 @@ MainMenuScene::MainMenuScene(std::shared_ptr<gameEngine::managers::WindowManager
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     _audio->loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
-    _audio->loadSoundFromFile("./assets/All/Sound/Bombdrop.wav");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
     _audio->setMusicVolume(_info->getMusicVolume() / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
@@ -53,7 +53,7 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(310, 70), middle2, strText, DARKGRAY, RED, PLAY_BUTTON);
 
-    button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("choosePlayers"); }, _info);
+    // button->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("choosePlayers"); }, _info);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 70, middle2._y + 10), WHITE, 30);
@@ -62,7 +62,7 @@ void MainMenuScene::start()
     settingText.setFont(fontSetting);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, settingText, DARKGRAY);
-    buttonSettings->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("settings"); }, _info);
+//    buttonSettings->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("settings"); }, _info);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
@@ -83,6 +83,18 @@ void MainMenuScene::update()
     if (!_windowManager->isRunning())
         _info->setQuit(true);
     _buttonManager.updateButtons();
+    if (_buttonManager.isButtonClicked("PLAY")) {
+        _audio->stopMusic();
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("choosePlayers");
+    }
+    if (_buttonManager.isButtonClicked("SETTINGS")) {
+        _audio->stopMusic();
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("settings");
+    }
     _audio->updateMusicStream();
 }
 

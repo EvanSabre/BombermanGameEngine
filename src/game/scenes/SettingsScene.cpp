@@ -16,7 +16,7 @@ SettingsScene::SettingsScene(std::shared_ptr<gameEngine::managers::WindowManager
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     _audio->loadMusicStreamFromFile("./assets/All/Music/Settings.mp3");
-    _audio->loadSoundFromFile("./assets/All/Sound/Bombdrop.wav");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
     _audio->setMusicVolume(_info->getMusicVolume() / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
 
@@ -86,7 +86,7 @@ void SettingsScene::start()
     quitText.setFont(_font);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(310, 50), Vector<float>(20, 1000), quitText, DARKGRAY);
-    buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu"); }, _info);
+    // buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu"); }, _info);
 
     //keybindings
     _keybindings = std::make_shared<gameEngine::encapsulation::BText>("Key Bindings", Vector<float>(middle._x + 400, middle._y - 300), WHITE, 60);
@@ -161,20 +161,21 @@ void SettingsScene::update()
     _info->setSoundVolume(std::atof(_soundSelector->getCurrentContent()->getContent().c_str()));
     _audio->setMusicVolume(_info->getMusicVolume() / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
-    _audio->updateMusicStream();
-    // if (_buttonManager.isButtonClicked("Back to Menu")) {
-    //     std::cout << "BBBBBUUUUUUUUUUUUUUUUUUUUUUUUU" << std::endl;
-    //     _audio->playSound();
-    //     _audio->playSound();
-    //     _audio->playSound();
-    //     _audio->playSound();
-    //     _audio->playSound();
-    //     _audio->playSound();
-    //     _audio->playSound();
-    //     _audio->playSound();
-    //     _audio->playSound();
-    //     _audio->playSound();
+    if (_buttonManager.isButtonClicked("Back to Menu")) {
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("menu");
+    }
+    if (_buttonManager.isButtonClicked("Save")) {
+        _audio->playSound("button");
+    }
+    // for (std::vector<std::shared_ptr<gameEngine::encapsulation::AButton>>::iterator it = _buttonManager.getCurrentButtons().begin(); it != _buttonManager.getCurrentButtons().end(); it++)
+    // {
+        // if (it->get()->checkAction()) {
+            // _audio->playSound("button");
+        // }
     // }
+    _audio->updateMusicStream();
 }
 
 void SettingsScene::draw()

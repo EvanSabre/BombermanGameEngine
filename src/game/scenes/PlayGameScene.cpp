@@ -14,7 +14,13 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     _audio->loadMusicStreamFromFile("./assets/All/Music/Game.wav");
-    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav");
+    _audio->loadSoundFromFile("./assets/All/Sound/Bombdrop.wav", "drop");
+    _audio->loadSoundFromFile("./assets/All/Sound/BombExplode.wav", "boom");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
+    _audio->loadSoundFromFile("./assets/All/Sound/CharacterDamage.wav", "damage");
+    _audio->loadSoundFromFile("./assets/All/Sound/CharacterDeath.wav", "death");
+    _audio->loadSoundFromFile("./assets/All/Sound/CollectibleDrop.wav", "itemDrop");
+    _audio->loadSoundFromFile("./assets/All/Sound/CollectiblePick.wav", "itemPick");
 
     _audio->setMusicVolume(_info->getMusicVolume() / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
@@ -123,6 +129,7 @@ void PlayGameScene::updatePause()
     if (_pauseManager.isButtonClicked("RESUME")) {
         _pause = false;
         _timer.setPause(false);
+        _audio->playSound("button");
     }
     if (_pauseManager.isButtonClicked("QUIT")) {
         _timer.setPause(false);

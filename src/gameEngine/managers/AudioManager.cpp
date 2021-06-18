@@ -13,7 +13,6 @@ using namespace gameEngine::managers;
 AudioManager::AudioManager()
 : _musicVolume(100), _soundVolume(100)
 {
-    // _sound = std::make_unique<BSound>()
     if (!IsAudioDeviceReady())
         InitAudioDevice();
     SetMasterVolume(100);
@@ -25,46 +24,50 @@ AudioManager::~AudioManager()
         CloseAudioDevice();
 }
 
-void AudioManager::loadSoundFromFile(const char *filepath)
+void AudioManager::loadSoundFromFile(const char *filepath, std::string name)
 {
-    _sound = std::make_unique<BSound>(filepath);
+    std::pair<std::string, std::shared_ptr<BSound>> pair = std::make_pair(name, std::make_shared<BSound>(filepath));
+    _sounds.insert(pair);
 }
 
-void AudioManager::unloadSoundStream()
+void AudioManager::unloadSoundStream(std::string sound)
 {
-    _sound->unload();
+    _sounds.find(sound)->second->unload();
 }
 
-void AudioManager::playSound()
+void AudioManager::playSound(std::string sound)
 {
-    if (_sound->isLoad())
-        _sound->play();
+    if (_sounds.find(sound)->second->isLoad()) {
+        _sounds.find(sound)->second->play();
+        std::cout << "SOUND PLAYEEEDDDDD" << std::endl;
+    }
 }
 
-void AudioManager::pauseSound()
+void AudioManager::pauseSound(std::string sound)
 {
-    if (_sound->isLoad())
-        _sound->pause();
+    if (_sounds.find(sound)->second->isLoad())
+        _sounds.find(sound)->second->pause();
 }
 
-void AudioManager::resumeSound()
+void AudioManager::resumeSound(std::string sound)
 {
-    if (_sound->isLoad())
-        _sound->resume();
+    if (_sounds.find(sound)->second->isLoad())
+        _sounds.find(sound)->second->resume();
 }
 
-void AudioManager::stopSound()
+void AudioManager::stopSound(std::string sound)
 {
-    if (_sound->isLoad())
-        _sound->stop();
+    if (_sounds.find(sound)->second->isLoad())
+        _sounds.find(sound)->second->stop();
 }
 
 void AudioManager::setSoundVolume(float volume)
 {
-    std::cout << "AVANT" << std::endl;
     _soundVolume = volume;
-    _sound->setVolume(volume);
-    std::cout << "AVANT" << std::endl;
+    for (std::pair<std::string, std::shared_ptr<BSound>> sound : _sounds)
+    {
+        sound.second->setVolume(volume);
+    }
 }
 
 void AudioManager::loadMusicStreamFromFile(const char *filepath)
