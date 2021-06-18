@@ -55,6 +55,7 @@ namespace game {
                 gameEngine::component::Timer _timer;
                 std::shared_ptr<game::manager::ExplosionManager> _explosion;
                 gameEngine::managers::ButtonManager _pauseManager;
+                std::vector<std::shared_ptr<game::objects::Character>> _tab{0};
 
                 //here for test need to be in map after
                 // game::objects::PowerUpTile _heelth()

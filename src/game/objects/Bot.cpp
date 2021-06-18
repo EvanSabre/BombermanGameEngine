@@ -25,7 +25,7 @@ Bot::~Bot()
 void Bot::update()
 {
     //if (!_isMoving) {
-    this->setCurrentEvent(takeDecision());
+    this->setCurrentEvent(takeDecision(this->getTransform().getPosition()));
     //std::cout << "Bot update and move " << _currentEvent << std::endl;
     //}
     handleEvent();
