@@ -13,31 +13,37 @@
 #include "Vector.hpp"
 #include "BColor.hpp"
 #include "Errors.hpp"
+#include "ADrawable.hpp"
 
 namespace gameEngine
 {
     namespace encapsulation
     {
-        class BTexture2D
+        class BTexture2D : public gameEngine::encapsulation::ADrawable
         {
         public:
             BTexture2D(const std::string &filePath);
             BTexture2D(const std::string &filePath, const BText &content);
             BTexture2D(const BTexture2D &ref);
             BTexture2D();
+            BTexture2D(const std::string &filepath, const std::string &content);
             ~BTexture2D();
+
+            void update() override;
 
         //getter
             [[nodiscard]] Texture2D getObj() const noexcept;
             [[nodiscard]] bool isLoad() const noexcept;
-            [[nodiscard]] BColor getColor() const noexcept;
+            //[[nodiscard]] BColor getColor() const noexcept;
             [[nodiscard]] Vector<int> getPos() const noexcept;
             [[nodiscard]] Vector<int> getSize() const noexcept;
             [[nodiscard]] std::string getFilePath() const noexcept;
             [[nodiscard]] bool getEnabled() const noexcept;
+            std::string getContent() const noexcept override;
+            void setContent(std::string &content) noexcept;
         //setter
             void setPos(const Vector<int> &pos) noexcept;
-            void setColor(const BColor &color) noexcept;
+            //void setColor(const BColor &color) noexcept;
             void setEnabled(bool enabled) noexcept;
 
             //trhrow runtime error if img is not load
@@ -48,7 +54,7 @@ namespace gameEngine
             void unload() noexcept;
 
         //draw
-            void draw() const noexcept;
+            void draw() override;
             void drawEx(const Vector<float> &scale) const noexcept;
             void drawRect(const BRectangle &rect, Vector<float> pos) const noexcept;
 
@@ -58,6 +64,7 @@ namespace gameEngine
             bool _enabled = true;
             Texture2D _texture;
             std::string _filepath;
+            std::string _content;
             Vector<int> _pos{0, 0};
             BColor _color{WHITE};
 
