@@ -20,7 +20,6 @@ InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, co
     _content.setTextPosition(content.getTextPosition());
     _content.setColor(content.getColor());
     _content.setStr(content.getStr());
-    //_content.setColor(color);
 }
 
 InputButton::~InputButton()
