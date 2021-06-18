@@ -123,9 +123,6 @@ void Map::generateMapTiles()
 
 void Map::draw()
 {
-    for (auto &it : _tiledMap) {
-        it.draw();
-    }
 }
 
 // getters

@@ -32,6 +32,7 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
+    // _info->_userManager->createUser("Joueur1");
     _map.dump();
     std::srand(_map.getSeed());
     for (auto &tile : _map.getTiledMap()) {
@@ -41,12 +42,23 @@ void PlayGameScene::start()
     std::shared_ptr<game::objects::Bot> bot = std::make_shared<game::objects::Bot>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _tiles, 0, Vector<int>(15, 17));
 
     bot->setTransform().setScale({0.1, 0.1, 0.1});
-    bot->setTransform().setPosition({10, 10, 10});
+    bot->setTransform().setPosition({130, 10, 10});
     bot->setTransform().setRotation({90, 90, 0});
     bot->setCollider();
     _players.push_back(bot);
 
+    _info->_userManager->assignInputToUser(0, "Joueur1");
+    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("991", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur1"));
+
+    player->setTransform().setScale({0.1, 0.1, 0.1});
+    player->setTransform().setPosition({10, 10, 10});
+    player->setTransform().setRotation({90, 90, 0});
+    player->setCollider();
+    _players.push_back(player);
+
     this->setupCamera();
+    std::string nb(std::to_string(std::rand() % 3));
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Game" + nb + ".wav");
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
@@ -66,7 +78,7 @@ void PlayGameScene::start()
     setupPause();
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
-
+    _explosion = std::make_shared<game::managers::ExplosionManager>(_players, _tiles);
     _audio->playMusic();
 }
 
@@ -119,8 +131,12 @@ void PlayGameScene::updateExplosionManager()
     _explosion->setObjects(_players, _tiles);
     _explosion->update();
     _tiles = _explosion->getTiles();
-    for (auto &bomb : _explosion->getBombs())
+
+    auto array = _explosion->getBombs();
+    for (auto &bomb : array) {
+        // std::cout << bomb->getTransform() << std::endl;
         _tiles.push_back(bomb);
+    }
 }
 
 void PlayGameScene::updatePause()
@@ -163,20 +179,31 @@ void PlayGameScene::update()
     }
     if (_pause) {
         updatePause();
-    } else {
-        std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
-        for (auto &[id, evt]: events)
-        {
-            if (id <= _players.size()) {
-                _players[id - 1]->setCurrentEvent(evt);
-            }
-        }
-        for (auto &it : _players) {
-            Vector3T<float> prev(it->getTransform().getPosition());
-            it->update();
-            collisionChecker(it, prev);
+        return;
+    }
+    std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
+    for (auto &[id, evt]: events)
+    {
+        if (id <= _players.size()) {
+            _players[1]->setCurrentEvent(evt);
         }
     }
+    for (auto &player : _players) {
+        Vector3T<float> prev(player->getTransform().getPosition());
+        auto list = player->getBombQueue();
+        player->update();
+        collisionChecker(player, prev);
+        if (player->hasDropped()) {
+            for (auto &bomb : list) {
+                if (bomb->getSwitch()) {
+                    _explosion->pushBomb(bomb);
+                }
+                bomb->setSwitch(false);
+            }
+        }
+        player->setDropped(false);
+    }
+    updateExplosionManager();
 }
 
 void PlayGameScene::draw()
@@ -190,12 +217,13 @@ void PlayGameScene::draw()
     }
     this->_windowManager->set3DMode(_cam);
     (*_healtTile).draw();
-    _map.draw();
     for (auto &it : _players) {
         it->draw();
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
     }
+    for (auto &tile : _tiles)
+        tile->draw();
     _cam.endMode();
     _timer.getCurrentTime().draw();
     if (_pause) {

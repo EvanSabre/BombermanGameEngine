@@ -17,7 +17,6 @@ Player::Player(const std::string &id, const std::string &name, const std::string
 
 Player::~Player()
 {
-    std::cout << "Player dctor\n";
 }
 
 //------------------

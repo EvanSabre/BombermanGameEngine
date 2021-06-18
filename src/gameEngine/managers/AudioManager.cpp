@@ -37,10 +37,8 @@ void AudioManager::unloadSoundStream(std::string sound)
 
 void AudioManager::playSound(std::string sound)
 {
-    if (_sounds.find(sound)->second->isLoad()) {
+    if (_sounds.find(sound)->second->isLoad())
         _sounds.find(sound)->second->play();
-        std::cout << "SOUND PLAYEEEDDDDD" << std::endl;
-    }
 }
 
 void AudioManager::pauseSound(std::string sound)
@@ -70,9 +68,9 @@ void AudioManager::setSoundVolume(float volume)
     }
 }
 
-void AudioManager::loadMusicStreamFromFile(const char *filepath)
+void AudioManager::loadMusicStreamFromFile(const std::string &filepath)
 {
-    _music = std::make_unique<BMusic>(filepath);
+    _music = std::make_unique<BMusic>(filepath.c_str());
 }
 
 void AudioManager::unloadMusicStream()

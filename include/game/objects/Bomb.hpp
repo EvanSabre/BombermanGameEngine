@@ -46,7 +46,6 @@ namespace game::objects
         protected:
         private:
             std::unique_ptr<std::thread> _countdown;
-            bool _dropped;
     };
 }
 

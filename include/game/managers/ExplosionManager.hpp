@@ -10,8 +10,13 @@
 
 #include "Bomb.hpp"
 #include "Player.hpp"
+#include "Animation.hpp"
 
-namespace game::manager
+#define MODELEXPLOSION   "assets/All/Models/HealthUp.obj"
+#define TEXTUREEXPLOSION "assets/All/Textures/Tile.png"
+#define ANIMEXPLOSION    ""
+
+namespace game::managers
 {
     class ExplosionManager {
         public:
@@ -25,6 +30,7 @@ namespace game::manager
             void update();
             void updateExplosionAnimation();
             void explode(const game::objects::AExplosif &);
+            bool checkTilesExplosion(const Vector3T<float> &pos);
 
             // Setters
             void setObjects(
@@ -41,6 +47,11 @@ namespace game::manager
             std::vector<std::shared_ptr<game::objects::Character>> _players;
             std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
             std::vector<std::shared_ptr<game::objects::AExplosif>> _bombs;
+            std::shared_ptr<gameEngine::encapsulation::BModelAnimation> _anim;
+            std::shared_ptr<gameEngine::encapsulation::BModel> _model;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _texture;
+            std::shared_ptr<gameEngine::Animation> _animRef;
+            std::vector<std::unique_ptr<gameEngine::Animation>> _anims;
     };
 }
 

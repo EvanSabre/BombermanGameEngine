@@ -10,6 +10,7 @@
 
 #include "Tile.hpp"
 #include "SettingConf.hpp"
+#include "Clock.hpp"
 
 
 #define TILE game::objects::Tile
@@ -23,34 +24,53 @@ namespace game
                 Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> sizeMap);
                 ~Brain();
             protected:
-                game::Event takeDecision();
+                game::Event takeDecision(Vector3T<float> pos);
+                double _timer;
             private:
+                double _basedTimer = 0.5;
                 game::Event _decision;
+                game::Event _nextDecision;
+                Vector<int> _posInMap{0, 0};
+                Vector<int> _lastPosInMap{0, 0};
                 std::vector<std::shared_ptr<TILE>> &_map;
                 std::vector<std::vector<bool>> _isDangerousMap;
                 std::vector<std::vector<Tag>> _tagMap;
-                Vector<float> _direction{0, 0};
+                std::vector<std::vector<game::Event>> _directionMap;
+                std::vector<std::vector<int>> _distanceMap;
+                Vector<int> _direction{0, 0};
                 int _level;
                 Vector<int> _sizeMap;
+                gameEngine::component::Clock _clock;
 
-                void setNewGoal(Vector<float> &pos, Vector<float> &goal);
-                bool isADangerousZone(Vector<float> &pos);
-                bool isDangerous(Vector<float> &pos, Vector<float> &dir);
-                bool isSolid(Vector<float> &pos, Vector<float> &dir);
-                bool needDropBomb();
-                void setNewGoalOffense(Vector<float> &pos, Vector<float> &goal);
-                void setNewGoalDefense(Vector<float> &pos, Vector<float> &goal);
-                void updateDangerousMap();
-                short PathFinding(Vector<float> &pos, Vector<float> &goal);
-                short PathFinding(Vector<float> &pos);
+                void setNewGoal(Vector<int> &pos, Vector<int> &goal);
+                bool isADangerousZone(Vector<int> &pos);
+                bool isDangerous(Vector<int> &pos, Vector<int> &dir);
+                bool isSolid(Vector<int> &pos, Vector<int> &dir);
+                bool isSolid(int x, int y);
+                bool needDropBomb(void);
+                void setNewGoalOffense(Vector<int> &pos, Vector<int> &goal);
+                void setNewGoalDefense(Vector<int> &pos, Vector<int> &goal);
+                void updateMaps(std::vector<std::shared_ptr<TILE>> &map);
+                void updateDangerousMap(void);
+                short PathFinding(Vector<int> &pos, Vector<int> &goal);
+                short PathFinding(Vector<int> &pos);
+                void defensePathFinding(int x, int y, int d, int a, int b);
                 void dumpMap(void);
                 game::Event getEventFromDirection();
-                const std::array<Vector<float>, 4> directions =
+                const std::array<Vector<int>, 4> directions =
                 {
-                    Vector<float>{-1, 0},
-                    Vector<float>{0, -1},
-                    Vector<float>{1, 0},
-                    Vector<float>{0, 1}
+                    Vector<int>{-1, 0},
+                    Vector<int>{0, -1},
+                    Vector<int>{1, 0},
+                    Vector<int>{0, 1}
+                };
+
+                const std::array<game::Event, 4> events =
+                {
+                    MOVE_DOWN,
+                    MOVE_LEFT,
+                    MOVE_UP,
+                    MOVE_RIGHT
                 };
         };
     }

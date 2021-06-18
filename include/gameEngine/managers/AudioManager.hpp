@@ -29,7 +29,7 @@ namespace gameEngine {
                 void stopSound(std::string name);
                 void setSoundVolume(float volume);
 
-                void loadMusicStreamFromFile(const char *filepath);
+                void loadMusicStreamFromFile(const std::string &filepath);
                 void unloadMusicStream();
                 void updateMusicStream();
 
