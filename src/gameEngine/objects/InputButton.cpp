@@ -18,7 +18,7 @@ InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, co
 {
     _content.setTextSize(size._x / 2 / maxInput + content.getTextSize());
     if (relative)
-        _content.setTextPosition(pos);
+        _content.setTextPosition(Vector<float>(pos._x, pos._y - content.getTextSize()));
     else
         _content.setTextPosition(content.getTextPosition());
     _content.setColor(content.getColor());
