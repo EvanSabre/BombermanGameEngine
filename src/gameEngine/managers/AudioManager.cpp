@@ -63,9 +63,9 @@ void AudioManager::setSoundVolume(float volume)
     _sound->setVolume(volume);
 }
 
-void AudioManager::loadMusicStreamFromFile(const char *filepath)
+void AudioManager::loadMusicStreamFromFile(const std::string &filepath)
 {
-    _music = std::make_unique<BMusic>(filepath);
+    _music = std::make_unique<BMusic>(filepath.c_str());
 }
 
 void AudioManager::unloadMusicStream()

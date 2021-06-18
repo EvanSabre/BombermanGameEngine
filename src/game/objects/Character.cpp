@@ -20,7 +20,8 @@ Character::Character(
     ) : gameEngine::objects::Moveable(id),
       _isMoving(false),
       _bombRef(id),
-      _frameCounter(0)
+      _frameCounter(0),
+      _hasDropped(false)
 {
     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
@@ -75,7 +76,12 @@ int Character::getLives() const noexcept
 
 int Character::getNbBomb() const noexcept
 {
-    return  _nbBomb;
+    return _nbBomb;
+}
+
+bool Character::hasDropped() const noexcept
+{
+    return _hasDropped;
 }
 
 //setter
@@ -119,6 +125,11 @@ void Character::setModel(std::shared_ptr<gameEngine::encapsulation::BModel> mode
     this->_model = model;
 }
 
+void Character::setDropped(bool state) noexcept
+{
+    _hasDropped = state;
+}
+
 void Character::draw() const noexcept
 {
     if (!this->_model)
@@ -155,6 +166,10 @@ void Character::update()
 
 void Character::updateModelAnimation()
 {
+    if (_clock.getElapsedTime() >= 3 && _nbBomb < _maxBomb) {
+        _nbBomb++;
+        _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
+    }
     setCollider();
     _anim = _state ? _animWalk : _animIdle;
     if (_model->isLoad() && _anim->isLoad()) {
@@ -170,7 +185,7 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 {
     _lives += efx->getLife();
     _health += efx->getHealth();
-    _nbBomb += efx->getNbBomb();
+    _maxBomb += efx->getNbBomb();
     _bombRange += efx->getBlastPower();
     _speed = _speed + efx->getSpeed();
 }
@@ -180,28 +195,44 @@ game::Tag_e Character::getTag() const noexcept
     return  game::Tag::CHARACTER;
 }
 
-// BOMBS
-std::shared_ptr<game::objects::AExplosif> &Character::getNextBomb()
+void Character::stand(std::size_t tick)
 {
-    std::shared_ptr<game::objects::AExplosif> bomb(_bombQueue.front());
+    std::cout << "stand " << getTransform() << std::endl;
+    //exit(0);
+}
 
-    _bombQueue.pop_front();
-    return bomb;
+// BOMBS
+std::shared_ptr<game::objects::AExplosif> Character::getNextBomb()
+{
+    return _bombQueue.front();
+}
+
+std::deque<std::shared_ptr<game::objects::AExplosif>> &Character::getBombQueue()
+{
+    return _bombQueue;
 }
 
 void Character::dropBomb(std::size_t tick) noexcept
 {
     (void)tick;
-    if (_nbBomb <= 0)
+    if (_nbBomb <= 0 || _hasDropped)
         return;
-    _bombQueue.front()->setTransform().setPosition(this->getTransform().getPosition());
-    std::cout << "DROP" << std::endl;
+    Vector3T<float> bombPos({
+        (float)((int)((this->getTransform().getPosition()._x + 3) / 10) * 10),
+        this->getTransform().getPosition()._y,
+        (float)((int)((this->getTransform().getPosition()._z + 3) / 10) * 10)
+    });
+
+    _nbBomb--;
+    _hasDropped = true;
+    _clock.restart();
+    _bombQueue.front()->setTransform().setPosition(bombPos);
     _bombQueue.front()->drop();
-    if (_nbBomb > 0)
-        _nbBomb--;
-    std::cout << "DROPPED" << std::endl;
-    if (_bombQueue.empty())
-        _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
+    _bombQueue.pop_front();
+    std::cout << "> BOMB DROPPED <" << std::endl;
+    std::cout << this->getTransform() << std::endl;
+    // if (_bombQueue.empty())
+    //     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
 }
 
 void Character::handleEvent() noexcept
@@ -212,13 +243,12 @@ void Character::handleEvent() noexcept
 
         try {
             if (_currentEvent == evt) {
-                //std::cout << "event happened" << std::endl;
                 playerKeyEvt my_action = action;
                 CALL_MEMBER_FN((*this), my_action)(1);
                 _currentEvent = NULL_EVENT;
                 flag = true;
                 _isMoving = true;
-                //std::cout << "Player\n" << this->getTransform() << std::endl;
+                std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }

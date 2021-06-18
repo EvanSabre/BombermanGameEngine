@@ -22,7 +22,9 @@ AExplosif::AExplosif(
       _playerId(id),
       _range(3),
       _done(false),
-      _collide(true)
+      _collide(true),
+      _dropped(false),
+      _switch(false)
 {
 }
 
@@ -38,7 +40,9 @@ AExplosif::AExplosif(
       _playerId(id),
       _range(3),
       _done(false),
-      _collide(true)
+      _collide(true),
+      _dropped(false),
+      _switch(false)
 {
 }
 
@@ -47,7 +51,9 @@ AExplosif::AExplosif(const AExplosif &ref)
      _playerId(ref._playerId),
      _range(ref._range),
      _done(ref._done),
-     _collide(ref._collide)
+     _collide(ref._collide),
+     _dropped(ref._dropped),
+     _switch(ref._switch)
 {
 }
 
@@ -71,6 +77,11 @@ void AExplosif::pickUpBombPass()
     _collide = false;
 }
 
+void AExplosif::setSwitch(bool state)
+{
+    _switch = state;
+}
+
 // Getters
 std::string AExplosif::getPlayerId() const
 {
@@ -82,6 +93,11 @@ std::size_t AExplosif::getRange() const
     return _range;
 }
 
+bool AExplosif::isDropped() const
+{
+    return _dropped;
+}
+
 bool AExplosif::isDone() const
 {
     return _done;
@@ -90,6 +106,11 @@ bool AExplosif::isDone() const
 bool AExplosif::collide() const
 {
     return _collide;
+}
+
+bool AExplosif::getSwitch() const
+{
+    return _switch;
 }
 
 // Operators

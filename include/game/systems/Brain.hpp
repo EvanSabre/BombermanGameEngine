@@ -10,6 +10,7 @@
 
 #include "Tile.hpp"
 #include "SettingConf.hpp"
+#include "Clock.hpp"
 
 
 #define TILE game::objects::Tile
@@ -24,8 +25,11 @@ namespace game
                 ~Brain();
             protected:
                 game::Event takeDecision(Vector3T<float> pos);
+                double _timer;
             private:
+                double _basedTimer = 0.5;
                 game::Event _decision;
+                game::Event _nextDecision;
                 Vector<int> _posInMap{0, 0};
                 Vector<int> _lastPosInMap{0, 0};
                 std::vector<std::shared_ptr<TILE>> &_map;
@@ -36,6 +40,7 @@ namespace game
                 Vector<int> _direction{0, 0};
                 int _level;
                 Vector<int> _sizeMap;
+                gameEngine::component::Clock _clock;
 
                 void setNewGoal(Vector<int> &pos, Vector<int> &goal);
                 bool isADangerousZone(Vector<int> &pos);
@@ -51,6 +56,7 @@ namespace game
                 short PathFinding(Vector<int> &pos);
                 void defensePathFinding(int x, int y, int d, int a, int b);
                 void dumpMap(void);
+                void computeDirection(void);
                 game::Event getEventFromDirection();
                 const std::array<Vector<int>, 4> directions =
                 {
