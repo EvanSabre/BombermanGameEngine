@@ -14,6 +14,7 @@ Bot::Bot(const std::string &id, const std::string &name, const std::string &text
          std::vector<std::shared_ptr<game::objects::Tile>> &map, int level, Vector<int> sizeMap)
         : Character(id, name, text, model, animWalk, animIdle), Brain(map, level, sizeMap)
 {
+    _key_event.insert({NULL_EVENT, &Character::stand});
 }
 
 Bot::~Bot()

@@ -56,6 +56,7 @@ namespace game
                 short PathFinding(Vector<int> &pos);
                 void defensePathFinding(int x, int y, int d, int a, int b);
                 void dumpMap(void);
+                void computeDirection(void);
                 game::Event getEventFromDirection();
                 const std::array<Vector<int>, 4> directions =
                 {

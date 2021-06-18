@@ -32,10 +32,25 @@ Brain::~Brain()
 {
 }
 
+void Brain::computeDirection()
+{
+    std::vector<game::Event> dirAvailables;
+
+    dirAvailables.push_back(game::Event::NULL_EVENT);
+    if (!isSolid(_posInMap._x, _posInMap._y + 1))
+        dirAvailables.push_back(game::Event::MOVE_DOWN);
+    if (!isSolid(_posInMap._x, _posInMap._y - 1))
+        dirAvailables.push_back(game::Event::MOVE_UP);
+    if (!isSolid(_posInMap._x - 1, _posInMap._y))
+        dirAvailables.push_back(game::Event::MOVE_LEFT);
+    if (!isSolid(_posInMap._x + 1, _posInMap._y))
+        dirAvailables.push_back(game::Event::MOVE_RIGHT);
+    _nextDecision =  (game::Event)(std::rand() % dirAvailables.size());
+
+}
+
 game::Event Brain::takeDecision(Vector3T<float> pos)
 {
-    int dir;
-
     _posInMap = GET_MAP_POS_Z(pos);
     setNewGoal(_posInMap, _direction);
     // if (_level)
@@ -44,9 +59,8 @@ game::Event Brain::takeDecision(Vector3T<float> pos)
     //     return (game::Event)(std::rand() % 5);
 
     if (_clock.getElapsedTime() > _timer) {
-        dir = (game::Event)(std::rand() % 5);
-        _direction = directions[dir];
-        _nextDecision = getEventFromDirection();
+        computeDirection();
+        //_nextDecision = getEventFromDirection();
         _timer = _basedTimer;
         _clock.restart();
     }
@@ -125,14 +139,14 @@ bool Brain::isSolid(Vector<int> &pos, Vector<int> &dir)
 {
     Vector<int> newPos = (pos += dir);
 
-    if (_tagMap[newPos._x][newPos._y] == WALL)
+    if (_tagMap[newPos._x][newPos._y] == WALL || _tagMap[newPos._x][newPos._y] == BRICK || _tagMap[newPos._x][newPos._y] == BORDER)
         return true;
     return false;
 }
 
 bool Brain::isSolid(int x, int y)
 {
-    if (_tagMap[x][y] == WALL)
+    if (_tagMap[x][y] == WALL || _tagMap[x][y] == BRICK || _tagMap[x][y] == BORDER)
         return true;
     return false;
 }
