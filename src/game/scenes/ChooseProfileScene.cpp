@@ -129,7 +129,6 @@ void ChooseProfileScene::createNewProfile()
 
 void ChooseProfileScene::update()
 {
-
     if (!_windowManager->isRunning()) {
         _info->setQuit(true);
     }
@@ -140,27 +139,28 @@ void ChooseProfileScene::update()
     if (_inputButton->checkValidate()) {
         createNewProfile();
     }
-    if (_buttonManager.isButtonClicked("Play")) {
-        _info->nbPlayersConfirmed++;
-        _info->pushPlayingProfile(_profileSelector->getCurrentContent()->getContent());
-        if (_info->nbPlayersConfirmed == _info->nbPlayers)
-            _info->setCurrentScene("play");
-        else
-            _info->setCurrentScene("chooseProfile");
-    }
     try {
-        std::shared_ptr<game::User> cUser = _info->_userManager->getUser(_profileSelector->getCurrentContent()->getContent());
-        _ProfilesBeKilled.setStr(std::to_string(cUser->beKilled));
-        _ProfilesCreated.setStr(TimestampUtil::timestampToString(cUser->created));
-        _ProfilesGamePlayed.setStr(std::to_string(cUser->gamesPlayed));
-        _ProfilesGameWon.setStr(std::to_string(cUser->gamesWon));
-        _ProfilesKills.setStr(std::to_string(cUser->kills));
+        _cUser = _info->_userManager->getUser(_profileSelector->getCurrentContent()->getContent());
+        _ProfilesBeKilled.setStr(std::to_string(_cUser->beKilled));
+        _ProfilesCreated.setStr(TimestampUtil::timestampToString(_cUser->created));
+        _ProfilesGamePlayed.setStr(std::to_string(_cUser->gamesPlayed));
+        _ProfilesGameWon.setStr(std::to_string(_cUser->gamesWon));
+        _ProfilesKills.setStr(std::to_string(_cUser->kills));
     } catch (UserManagmentError &e) {
+        _cUser = nullptr;
         _ProfilesBeKilled.setStr("");
         _ProfilesCreated.setStr("");
         _ProfilesGamePlayed.setStr("");
         _ProfilesGameWon.setStr("");
         _ProfilesKills.setStr("");
+    }
+    if (_buttonManager.isButtonClicked("Play") && _cUser != nullptr) {
+        _info->nbPlayersConfirmed++;
+        _info->pushPlayer(_cUser);
+        if (_info->nbPlayersConfirmed == _info->nbPlayers)
+            _info->setCurrentScene("play");
+        else
+            _info->setCurrentScene("chooseProfile");
     }
     _acceptPopUp.update();
 }

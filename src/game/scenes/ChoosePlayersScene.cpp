@@ -92,7 +92,6 @@ void ChoosePlayersScene::update()
         _PlayersIndication.setColor(WHITE);
     }
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
-    return;
 }
 
 void ChoosePlayersScene::draw()

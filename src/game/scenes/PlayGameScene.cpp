@@ -9,6 +9,21 @@
 
 using namespace game::scenes;
 
+static const gameEngine::component::Transform BOT_LEFT_SPAWN(Vector3T<float>(10, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
+static const gameEngine::component::Transform TOP_LEFT_SPAWN(Vector3T<float>(130, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
+static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(130, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
+static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
+
+static const std::string ANIMWALK_PATH = "assets/All/Animations/CharacterWalk.iqm";
+static const std::string ANIMIDLE_PATH = "assets/All/Animations/CharacterIdle.iqm";
+
+std::vector<gameEngine::component::Transform> SPAWNS = {
+    BOT_LEFT_SPAWN,
+    BOT_RIGHT_SPAWN,
+    TOP_LEFT_SPAWN,
+    TOP_RIGHT_SPAWN
+};
+
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15), _pause(false)
 {
@@ -20,19 +35,26 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
+    std::string textStr = "assets/" + _universe + "/Textures/Character.png";
+    std::string modelStr = "assets/" + _universe + "/Models/Character.iqm";
+    std::vector<gameEngine::component::Transform>::iterator spawnIt = SPAWNS.begin();
+
     _map.dump();
     std::srand(_map.getSeed());
     for (auto &tile : _map.getTiledMap()) {
         _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
     }
 
-    std::shared_ptr<game::objects::Bot> bot = std::make_shared<game::objects::Bot>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _tiles, 0, Vector<int>(15, 17));
-
-    bot->setTransform().setScale({0.1, 0.1, 0.1});
-    bot->setTransform().setPosition({10, 10, 10});
-    bot->setTransform().setRotation({90, 90, 0});
-    bot->setCollider();
-    _players.push_back(bot);
+    for (auto it : _info->_players) {
+        std::shared_ptr<game::objects::Player> player =
+        std::make_shared<game::objects::Player>(std::to_string(it->Id), it->name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, it);
+        player->setTransform().setScale(spawnIt->getScale());
+        player->setTransform().setPosition(spawnIt->getPosition());
+        player->setTransform().setRotation(spawnIt->getRotation());
+        player->setCollider();
+        spawnIt++;
+        _players.push_back(player);
+    }
 
     this->setupCamera();
     _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
@@ -59,7 +81,7 @@ void PlayGameScene::start()
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
 
-    _audio.setMusicVolume(1.0); //1.0 is max level
+    _audio.setMusicVolume(0); //1.0 is max level
     _audio.playMusic();
 }
 

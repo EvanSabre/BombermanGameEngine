@@ -29,18 +29,19 @@ namespace game {
                 void setCurrentScene(const std::string &str);
                 std::string getCurrentScene() const noexcept;
                 void setQuit(bool q);
-                void pushPlayingProfile(const std::string &profile);
                 bool haveToChange();
                 bool haveToQuit();
+                std::vector<std::shared_ptr<game::User>> getPlayers() const noexcept;
+                void pushPlayer(std::shared_ptr<game::User> &player);
                 int nbPlayers = 1;
                 int nbPlayersConfirmed = 0;
                 int nbBots = 0;
                 std::shared_ptr<game::managers::UserManager> _userManager;
                 std::shared_ptr<gameEngine::managers::InputManager<game::Event>> _inputManager;
+                std::vector<std::shared_ptr<game::User>> _players;
 
             protected:
                 std::string _currentScene;
-                std::vector<std::string> _profilesPlaying;
                 bool _change = false;
                 bool _quit = false;
                 game::systems::setting_t _settings;

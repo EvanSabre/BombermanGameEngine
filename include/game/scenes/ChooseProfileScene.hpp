@@ -59,6 +59,7 @@ namespace game
                 TEXT _ProfilesCreated;
                 TEXT _ProfilesBeKilled;
                 TEXT _ProfilesKills;
+                std::shared_ptr<game::User> _cUser;
                 gameEngine::component::PopUp _acceptPopUp;
                 gameEngine::managers::ButtonManager _buttonManager;
                 std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> _profileContent;

@@ -33,10 +33,14 @@ bool game::managers::GameManager::haveToChange()
     return false;
 }
 
-void game::managers::GameManager::pushPlayingProfile(const std::string &profile)
+std::vector<std::shared_ptr<game::User>> game::managers::GameManager::getPlayers() const noexcept
 {
-    _profilesPlaying.push_back(profile);
-    std::cout << "ADDING PROFILE : " << profile << std::endl;
+    return _players;
+}
+
+void game::managers::GameManager::pushPlayer(std::shared_ptr<game::User> &player)
+{
+    _players.push_back(player);
 }
 
 void game::managers::GameManager::setQuit(bool q)
