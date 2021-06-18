@@ -47,6 +47,10 @@ void Brain::computeDirection()
         dirAvailables.push_back(game::Event::MOVE_RIGHT);
     _nextDecision =  (game::Event)(std::rand() % dirAvailables.size());
 
+    std::cout << "Directions" << std::endl;
+    for (auto &i : dirAvailables)
+        std::cout << i << std::endl;
+
 }
 
 game::Event Brain::takeDecision(Vector3T<float> pos)
