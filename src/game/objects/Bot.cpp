@@ -24,10 +24,10 @@ Bot::~Bot()
 
 void Bot::update()
 {
-    if (!_isMoving) {
-        this->setCurrentEvent(takeDecision());
-        std::cout << "Bot update and move " << _currentEvent << std::endl;
-    }
+    //if (!_isMoving) {
+    this->setCurrentEvent(takeDecision());
+    //std::cout << "Bot update and move " << _currentEvent << std::endl;
+    //}
     handleEvent();
     updateModelAnimation();
 }

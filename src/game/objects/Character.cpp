@@ -18,9 +18,9 @@ Character::Character(
     const std::string &animIdle,
     const Vector3T<float> &pos
     ) : gameEngine::objects::Moveable(id),
-      _frameCounter(0),
       _isMoving(false),
-      _bombRef(id)
+      _bombRef(id),
+      _frameCounter(0)
 {
     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
@@ -193,7 +193,6 @@ void Character::dropBomb(std::size_t tick) noexcept
         _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
 }
 
-
 void Character::handleEvent() noexcept
 {
     bool flag = false;
@@ -202,13 +201,13 @@ void Character::handleEvent() noexcept
 
         try {
             if (_currentEvent == evt) {
-                std::cout << "event happened" << std::endl;
+                //std::cout << "event happened" << std::endl;
                 playerKeyEvt my_action = action;
                 CALL_MEMBER_FN((*this), my_action)(1);
                 _currentEvent = NULL_EVENT;
                 flag = true;
                 _isMoving = true;
-                std::cout << "Player\n" << this->getTransform() << std::endl;
+                //std::cout << "Player\n" << this->getTransform() << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }

@@ -31,6 +31,7 @@ namespace game
                 std::vector<std::vector<Tag>> _tagMap;
                 Vector<float> _direction{0, 0};
                 int _level;
+                Vector<int> _sizeMap;
 
                 void setNewGoal(Vector<float> &pos, Vector<float> &goal);
                 bool isADangerousZone(Vector<float> &pos);
@@ -42,6 +43,7 @@ namespace game
                 void updateDangerousMap();
                 short PathFinding(Vector<float> &pos, Vector<float> &goal);
                 short PathFinding(Vector<float> &pos);
+                void dumpMap(void);
                 game::Event getEventFromDirection();
                 const std::array<Vector<float>, 4> directions =
                 {

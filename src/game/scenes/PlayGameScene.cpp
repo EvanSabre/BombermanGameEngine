@@ -12,7 +12,6 @@ using namespace game::scenes;
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15)
 {
-    // ! END TODO
 }
 
 PlayGameScene::~PlayGameScene()
@@ -23,8 +22,11 @@ void PlayGameScene::start()
 {
     _map.dump();
     std::srand(_map.getSeed());
+    for (auto &tile : _map.getTiledMap()) {
+        _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
+    }
 
-    std::shared_ptr<game::objects::Bot> bot = std::make_shared<game::objects::Bot>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _tiles, 0, Vector<int>(17, 15));
+    std::shared_ptr<game::objects::Bot> bot = std::make_shared<game::objects::Bot>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _tiles, 0, Vector<int>(15, 17));
 
     bot->setTransform().setScale({0.1, 0.1, 0.1});
     bot->setTransform().setPosition({10, 10, 10});
@@ -35,10 +37,6 @@ void PlayGameScene::start()
     this->setupCamera();
     _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
     _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
-    for (auto &tile : _map.getTiledMap()) {
-        _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
-    }
-
     _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
     _timer.startThread();
     _timer.getCurrentTime().setColor(RED);
