@@ -4,7 +4,7 @@
 using namespace game::systems;
 
 Brain::Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> sizeMap)
-: _map(map), _level(level), _sizeMap(sizeMap)
+: _timer(0.5), _map(map), _level(level), _sizeMap(sizeMap), _nextDecision(NULL_EVENT)
 {
     Vector<int> tilePosInMap{0, 0};
     for (int x = 0; x < sizeMap._x; x++) {
@@ -38,6 +38,19 @@ game::Event Brain::takeDecision(Vector3T<float> pos)
 
     _posInMap = GET_MAP_POS_Z(pos);
     setNewGoal(_posInMap, _direction);
+    // if (_level)
+    //     return (game::Event)(std::rand() % 5);
+    // else
+    //     return (game::Event)(std::rand() % 5);
+
+    if (_clock.getElapsedTime() > _timer) {
+        dir = (game::Event)(std::rand() % 5);
+        _direction = directions[dir];
+        _nextDecision = getEventFromDirection();
+        _timer = _basedTimer;
+        _clock.restart();
+    }
+    _decision = _nextDecision;
     return _decision;
 }
 
@@ -58,18 +71,19 @@ void Brain::setNewGoalOffense(Vector<int> &pos, Vector<int> &goal)
 {
     short dir;
     if (_level)
-        dir = std::rand() % 4 + 1;
+        dir = std::rand() % 4;
     else
-        dir = std::rand() % 4 + 1; // TODO: calcul de direction en cherchant le player le plus proche
+        dir = std::rand() % 4; // TODO: calcul de direction en cherchant le player le plus proche
     _direction = directions[dir];
-    _decision = this->getEventFromDirection();
+    // _direction = directions[dir];
+    // _decision = this->getEventFromDirection();
 
-    if (!isDangerous(pos, _direction) && isSolid(pos, _direction))
-    {
-        goal += _direction;
-        if (needDropBomb())
-            _decision = VALIDATE;
-    }
+    // if (!isDangerous(pos, _direction) && isSolid(pos, _direction))
+    // {
+    //     goal += _direction;
+    //     if (needDropBomb())
+    //         _decision = VALIDATE;
+    // }
 }
 
 void Brain::setNewGoalDefense(Vector<int> &pos, Vector<int> &goal)
@@ -91,7 +105,7 @@ void Brain::updateDangerousMap()
 
 game::Event Brain::getEventFromDirection()
 {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         if (_direction == directions[i])
             return events[i];
     }

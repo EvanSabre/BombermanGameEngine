@@ -53,7 +53,7 @@ namespace game {
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
                 std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
                 gameEngine::component::Timer _timer;
-                std::shared_ptr<game::manager::ExplosionManager> _explosion;
+                std::shared_ptr<game::managers::ExplosionManager> _explosion;
                 gameEngine::managers::ButtonManager _pauseManager;
                 std::vector<std::shared_ptr<game::objects::Character>> _tab{0};
 

@@ -55,6 +55,9 @@ namespace game::objects {
 
             // setters
             void setModel(const gameEngine::encapsulation::BModel &);
+            void setModel(const std::string &);
+            void setTexture(const gameEngine::encapsulation::BTexture2D &);
+            void setTexture(const std::string &);
             void setType(const game::Tag &);
 
         protected:
