@@ -95,7 +95,7 @@ void ChoosePlayersScene::start()
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
-    playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play");}, _info);
+    playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("chooseProfile");}, _info);
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
@@ -125,12 +125,11 @@ void ChoosePlayersScene::update()
         _buttonManager.setEnabledButton("Play", false);
     } else {
         _info->nbPlayers = nbPlayers;
-        _info->nbBots = nbPlayers;
+        _info->nbBots = nbBots;
         _buttonManager.setEnabledButton("Play", true);
         _PlayersIndication.setColor(WHITE);
     }
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
-    return;
 }
 
 void ChoosePlayersScene::draw()

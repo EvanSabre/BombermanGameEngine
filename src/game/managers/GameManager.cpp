@@ -33,6 +33,16 @@ bool game::managers::GameManager::haveToChange()
     return false;
 }
 
+std::vector<std::shared_ptr<game::User>> game::managers::GameManager::getPlayers() const noexcept
+{
+    return _players;
+}
+
+void game::managers::GameManager::pushPlayer(std::shared_ptr<game::User> &player)
+{
+    _players.push_back(player);
+}
+
 void game::managers::GameManager::setQuit(bool q)
 {
     _quit = q;
