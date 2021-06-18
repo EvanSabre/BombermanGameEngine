@@ -43,9 +43,11 @@ namespace game
                 std::unique_ptr<RECTANGLE> _profileKeypad = nullptr;
                 std::unique_ptr<RECTANGLE> _zoneStat = nullptr;
                 std::unique_ptr<INPUT_BUTTON> _inputButton = nullptr;
-                TEXT _ProfilesIndicationGame;
-                TEXT _ProfilesIndicationPlayed;
-                TEXT _ProfilesIndicationKilled;
+                TEXT _ProfilesIndicationGamePlayed;
+                TEXT _ProfilesIndicationGameWon;
+                TEXT _ProfilesIndicationCreated;
+                TEXT _ProfilesIndicationBeKilled;
+                TEXT _ProfilesIndicationKills;
                 gameEngine::managers::ButtonManager _buttonManager;
         };
     };

@@ -11,6 +11,7 @@ using namespace game::scenes;
 #define BACKGROUND_BUTTON "./assets/Backgrounds/SupernovaBG.png"
 #define CONTROLLER "./assets/Backgrounds/manette.png"
 #define KEYPAD "./assets/Backgrounds/keypad.png"
+static const Vector<float> SCALE_GAMEPAD(0.5, 0.5);
 
 ChooseProfileScene::ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info)
@@ -29,14 +30,11 @@ void ChooseProfileScene::start()
     Vector<float> sizebutton(WINDOW_X / 8, WINDOW_Y / 10);
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
     _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
-    Vector<float> scaling(10, 10);
 
     _image_controller = std::make_shared<gameEngine::encapsulation::BTexture2D>();
-    _image_controller->loadFromFile(BACKGROUND_BUTTON);
+    _image_controller->loadFromFile(CONTROLLER);
     _image_controller->setEnabled(true);
-    _image_controller->setPos(Vector<int>(pos._x * 2, pos._y * 2));
-    _image_controller->drawEx(scaling);
-
+    _image_controller->setPos(Vector<int>(pos._x * 1.85, pos._y * 0.2));
 
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent;
 
@@ -65,13 +63,19 @@ void ChooseProfileScene::start()
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
-    _ProfilesIndicationGame = TEXT("Game Won: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
+    _ProfilesIndicationGameWon = TEXT("Game Won: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
                               WHITE,
                               30);
-    _ProfilesIndicationPlayed = TEXT("Played: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.65),
+    _ProfilesIndicationGamePlayed = TEXT("Game Played: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.55),
                               WHITE,
                               30);
-    _ProfilesIndicationKilled = TEXT("Killed: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.85),
+    _ProfilesIndicationCreated = TEXT("Created: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.65),
+                              WHITE,
+                              30);
+    _ProfilesIndicationBeKilled = TEXT("Be Killed: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.75),
+                              WHITE,
+                              30);
+    _ProfilesIndicationKills = TEXT("Kills: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.85),
                               WHITE,
                               30);
 
@@ -93,14 +97,18 @@ void ChooseProfileScene::update()
     }
     std::string nb_entity = std::to_string(std::atoi(_profileSelector->getCurrentContent()->getContent().c_str()));
     if (std::atoi(nb_entity.c_str()) > 4 || std::atoi(nb_entity.c_str()) < 1) {
-        _ProfilesIndicationGame.setColor(BLACK);
-        _ProfilesIndicationPlayed.setColor(BLACK);
-        _ProfilesIndicationKilled.setColor(BLACK);
+        _ProfilesIndicationGameWon.setColor(BLACK);
+        _ProfilesIndicationGamePlayed.setColor(BLACK);
+        _ProfilesIndicationCreated.setColor(BLACK);
+        _ProfilesIndicationBeKilled.setColor(BLACK);
+        _ProfilesIndicationKills.setColor(BLACK);
     }
     else {
-        _ProfilesIndicationGame.setColor(WHITE);
-        _ProfilesIndicationPlayed.setColor(WHITE);
-        _ProfilesIndicationKilled.setColor(WHITE);
+        _ProfilesIndicationGameWon.setColor(WHITE);
+        _ProfilesIndicationGamePlayed.setColor(WHITE);
+        _ProfilesIndicationCreated.setColor(WHITE);
+        _ProfilesIndicationBeKilled.setColor(WHITE);
+        _ProfilesIndicationKills.setColor(WHITE);
     }
     //_ProfilesIndication.setStr(nb_entity + "/ 4 profiles maximum");
     return;
@@ -111,11 +119,15 @@ void ChooseProfileScene::draw()
     _background->draw();
     _zoneStat->draw();
     //_profileKeypad->draw();
+    //_image_controller->draw();
+    _image_controller->drawEx(SCALE_GAMEPAD);
     _profileSelector->draw();
     if (_nbContents - 1 == _profileSelector->getIdActualContent())
         _inputButton->draw();
     _buttonManager.drawButtons();
-    _ProfilesIndicationGame.draw();
-    _ProfilesIndicationPlayed.draw();
-    _ProfilesIndicationKilled.draw();
+    _ProfilesIndicationGameWon.draw();
+    _ProfilesIndicationGamePlayed.draw();
+    _ProfilesIndicationCreated.draw();
+    _ProfilesIndicationBeKilled.draw();
+    _ProfilesIndicationKills.draw();
 }
