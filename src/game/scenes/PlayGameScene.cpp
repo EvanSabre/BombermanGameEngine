@@ -108,11 +108,15 @@ void PlayGameScene::setupCamera() noexcept
 
 void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &player, const Vector3T<float> &prev)
 {
-    for (auto &tile : _tiles) {
-        if (player->getCollider().isColliding(tile->getCollider().getBoundingBox())) {
-            player->onCollisionEnter(*tile);
+    for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
+        if (player->getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
             player->setTransform().setPosition(prev);
             player->setIsMoving(false);
+            player->onCollisionEnter(*(*tile));
+            if ((*tile)->getTag() == ONEUP) {
+                _tiles.erase(tile);
+            } else
+                tile++;
         }
     }
 }
@@ -208,7 +212,6 @@ void PlayGameScene::draw()
         idx_player++;
     }
     this->_windowManager->set3DMode(_cam);
-    (*_healtTile).draw();
     for (auto &it : _players) {
         it->draw();
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
