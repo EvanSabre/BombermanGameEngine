@@ -15,8 +15,7 @@ const int &textSize, const BColor &color, const BColor &selectColor, float rotat
 {
     _selectColor = std::make_shared<BColor>(selectColor);
     _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
-    std::cout << "text constructor\n";
-    _content = std::make_shared<BText>(content, pos, color, textSize);
+    _content = std::make_shared<BText>(content, pos, BLACK, textSize);
     _state = gameEngine::interfaces::IButton::NORMAL;
     _action = false;
     _enabled = true;

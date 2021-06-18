@@ -113,7 +113,6 @@ bool UserManager::findUser(const std::string &name) const noexcept
 std::shared_ptr<game::User> &UserManager::getUser(const std::string& name)
 {
     for (auto&user : _users) {
-        std::cout << user << std::endl;
         if (user->name == name)
             return user;
     }
@@ -162,7 +161,6 @@ void UserManager::saveUser(const std::shared_ptr<User> &user)
             return;
         }
     }
-    std::cout << "3\n";
     throw UserManagmentError("saveUser(unable to find userFile): " + user->name);
 }
 

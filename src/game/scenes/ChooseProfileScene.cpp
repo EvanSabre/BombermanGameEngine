@@ -15,7 +15,7 @@ static const Vector<float> SCALE_GAMEPAD(0.5, 0.5);
 static const Vector<float> SCALE_KEYPAD(0.5, 0.5);
 
 ChooseProfileScene::ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
-AScene(windowManager, info)
+AScene(windowManager, info), _acceptPopUp("This username has already been taken", Vector<float>(windowManager->getWindowSize()._x / 2, windowManager->getWindowSize()._y / 2), Vector<float>(500, 200))
 {
 }
 
@@ -32,6 +32,7 @@ void ChooseProfileScene::start()
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
     _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
 
+    _acceptPopUp.setEnabled(false);
     _image_controller = std::make_shared<gameEngine::encapsulation::BTexture2D>();
     if (_info->nbPlayersConfirmed == 0)
         _image_controller->loadFromFile(KEYPAD);
@@ -39,6 +40,7 @@ void ChooseProfileScene::start()
         _image_controller->loadFromFile(CONTROLLER);
     _image_controller->setEnabled(true);
     _image_controller->setPos(Vector<int>(pos._x * 1.85, pos._y * 0.2));
+    _image_controller->setColor(RED);
 
     // _InputIndication = TEXT(_info->_userManager->getUserInputs().at(0)->getDeviceName(),
     //                         Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
@@ -108,6 +110,11 @@ void ChooseProfileScene::createNewProfile()
 {
     Vector<float> size(WINDOW_X / 2.1, WINDOW_Y / 2.3);
 
+    if (_info->_userManager->findUser(_inputButton->getInput())) {
+        _acceptPopUp.setEnabled(true);
+
+        return;
+    }
     try {
         _info->_userManager->createUser(_inputButton->getInput());
     } catch (UserManagmentError &e) {
@@ -136,7 +143,7 @@ void ChooseProfileScene::update()
     if (_buttonManager.isButtonClicked("Play")) {
         _info->nbPlayersConfirmed++;
         _info->pushPlayingProfile(_profileSelector->getCurrentContent()->getContent());
-        if (_info->nbPlayersConfirmed)
+        if (_info->nbPlayersConfirmed == _info->nbPlayers)
             _info->setCurrentScene("play");
         else
             _info->setCurrentScene("chooseProfile");
@@ -155,6 +162,7 @@ void ChooseProfileScene::update()
         _ProfilesGameWon.setStr("");
         _ProfilesKills.setStr("");
     }
+    _acceptPopUp.update();
 }
 
 void ChooseProfileScene::draw()
@@ -167,8 +175,13 @@ void ChooseProfileScene::draw()
         _image_controller->drawEx(SCALE_KEYPAD);
     else
         _image_controller->drawEx(SCALE_GAMEPAD);
-    _profileSelector->draw();
-    _buttonManager.drawButtons();
+    if (!_acceptPopUp.getEnabled()) {
+        _profileSelector->draw();
+        _buttonManager.drawButtons();
+        _inputButton->setCanInput(true);
+    } else {
+        _inputButton->setCanInput(false);
+    }
     if (_nbContents - 1 == _profileSelector->getIdActualContent())
         _inputButton->draw();
     //_InputIndication.draw();
@@ -183,5 +196,7 @@ void ChooseProfileScene::draw()
     _ProfilesCreated.draw();
     _ProfilesBeKilled.draw();
     _ProfilesKills.draw();
+
+    _acceptPopUp.draw();
 
 }

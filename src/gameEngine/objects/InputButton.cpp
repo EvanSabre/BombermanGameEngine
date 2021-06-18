@@ -14,7 +14,7 @@ using namespace gameEngine::object;
 
 InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput, const encapsulation::BText &content,
                 const encapsulation::BColor &color, const encapsulation::BColor &selectColor) :
-            AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput)
+            AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput), _canInput(true)
 {
     _content.setTextSize(size._x / 2 / maxInput + content.getTextSize());
     _content.setTextPosition(content.getTextPosition());
@@ -41,6 +41,11 @@ void InputButton::getNextChar() noexcept
 bool InputButton::checkValidate()
 {
     return _validate;
+}
+
+void InputButton::setCanInput(bool can)
+{
+    _canInput = can;
 }
 
 void InputButton::updateInput()
@@ -71,7 +76,7 @@ void InputButton::update()
 {
     _validate = false;
     updateState();
-    if (isFocus())
+    if (isFocus() && _canInput)
         updateInput();
     if (checkAction()) {
         _input.erase();

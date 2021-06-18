@@ -23,6 +23,7 @@ namespace gameEngine {
                 void getNextChar() noexcept;
                 bool checkValidate();
                 void updateInput();
+                void setCanInput(bool can);
 
                 using encapsulation::AButton::update;
                 void update() override;
@@ -36,6 +37,7 @@ namespace gameEngine {
                 int _currentChar;
                 int _maxInput;
                 bool _validate;
+                bool _canInput;
             private:
         };
     }

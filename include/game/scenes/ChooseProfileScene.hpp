@@ -14,6 +14,7 @@
 #include "Selector.hpp"
 #include "ButtonManager.hpp"
 #include "TimestampUtil.hpp"
+#include "PopUp.hpp"
 
 #define RECTANGLE gameEngine::encapsulation::BRectangle
 #define IMAGE gameEngine::encapsulation::BTexture2D
@@ -58,7 +59,7 @@ namespace game
                 TEXT _ProfilesCreated;
                 TEXT _ProfilesBeKilled;
                 TEXT _ProfilesKills;
-
+                gameEngine::component::PopUp _acceptPopUp;
                 gameEngine::managers::ButtonManager _buttonManager;
                 std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> _profileContent;
         };
