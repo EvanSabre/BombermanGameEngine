@@ -145,7 +145,6 @@ void BModel::rotate()
 
 void BModel::draw()
 {
-    std::cout << "AAAAAAAAA" << std::endl;
     Vector3T<float> pos(this->_transform.getPosition());
     Vector3 vecPos = {pos._x, pos._y, pos._z};
     Vector3T<float> scale(this->_transform.getScale());
