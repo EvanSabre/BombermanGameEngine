@@ -9,6 +9,8 @@
 
 using namespace game::scenes;
 #define BACKGROUND_BUTTON "./assets/Backgrounds/SupernovaBG.png"
+#define CONTROLLER "./assets/Backgrounds/manette.png"
+#define KEYPAD "./assets/Backgrounds/keypad.png"
 
 ChooseProfileScene::ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info)
@@ -25,25 +27,25 @@ void ChooseProfileScene::start()
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y * 0.30);
     Vector<float> posbutton(WINDOW_X / 2.3, WINDOW_Y * 0.42);
     Vector<float> sizebutton(WINDOW_X / 8, WINDOW_Y / 10);
-
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
     _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
+    Vector<float> scaling(10, 10);
 
-    // std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileKey =
-    // {
-    //     std::make_shared<TEXT>("1", size, BLACK, 40)
-    // };
+    _image_controller = std::make_shared<gameEngine::encapsulation::BTexture2D>();
+    _image_controller->loadFromFile(BACKGROUND_BUTTON);
+    _image_controller->setEnabled(true);
+    _image_controller->setPos(Vector<int>(pos._x * 2, pos._y * 2));
+    _image_controller->drawEx(scaling);
+
 
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent;
 
-    //_info->_userManager->createUser("Evan");
     for (auto &user : _info->_userManager->getUsers()) {
         profileContent.push_back(std::make_shared<TEXT>(user->name, size, BLACK, 40));
     }
-    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, TEXT("", size, BLACK, 40), RED, BLACK);
+    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, TEXT("", size, BLACK, 40), RED, BLACK);
     profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
 
-    //_profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
     _profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
     _profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
@@ -58,6 +60,7 @@ void ChooseProfileScene::start()
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
+    
     playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play");}, _info);
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
