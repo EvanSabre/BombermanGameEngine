@@ -107,7 +107,6 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
     }
 }
 
-<<<<<<< HEAD
 void PlayGameScene::updateExplosionManager()
 {
     _explosion->setObjects(_players, _tiles);
@@ -115,7 +114,8 @@ void PlayGameScene::updateExplosionManager()
     _tiles = _explosion->getTiles();
     for (auto &bomb : _explosion->getBombs())
         _tiles.push_back(bomb);
-=======
+}
+
 void PlayGameScene::updatePause()
 {
     _pauseManager.updateButtons();
@@ -139,16 +139,12 @@ void PlayGameScene::quit()
     _timer.setIsDone(true);
     _timer.wait();
     _info->setQuit(true);
->>>>>>> dev
 }
 
 void PlayGameScene::update()
 {
-<<<<<<< HEAD
     //updateExplosionManager();
-=======
-    _healtTile.get()->update();
->>>>>>> dev
+    _healtTile->update();
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
     if (!_windowManager->isRunning())
@@ -157,12 +153,6 @@ void PlayGameScene::update()
         _pause = true;
         _timer.setPause(true);
     }
-<<<<<<< HEAD
-    for (auto &it : _players) {
-        Vector3T<float> prev(it->getTransform().getPosition());
-        it->update();
-        collisionChecker(it, prev);
-=======
     if (_pause) {
         updatePause();
     } else {
@@ -178,26 +168,22 @@ void PlayGameScene::update()
             it->update();
             collisionChecker(it, prev);
         }
->>>>>>> dev
     }
 }
 
 void PlayGameScene::draw()
 {
-<<<<<<< HEAD
     //_explosion->draw();
     _buttonManager.drawButtons();
-=======
     int idx_player = 0;
     for (auto it : _players) {
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
     }
->>>>>>> dev
     this->_windowManager->set3DMode(_cam);
     (*_healtTile).draw();
     _map.draw();
-    for (auto it : _players) {
+    for (auto &it : _players) {
         it->draw();
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
