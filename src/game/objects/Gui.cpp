@@ -9,14 +9,17 @@
 
 using namespace game;
 
+#define HEART_ICON "./assets/Gui/heart_icon.png"
+#define BOMB_ICON "./assets/Gui/bomb_icon.png"
+
 Gui::Gui()
 {
     _heartTexture = std::make_shared<gameEngine::encapsulation::BTexture2D>();
-    _heartTexture->loadFromFile("./heart_icon.png");
+    _heartTexture->loadFromFile(HEART_ICON);
     _heartTexture->setEnabled(true);
 
     _bombTexture = std::make_shared<gameEngine::encapsulation::BTexture2D>();
-    _bombTexture->loadFromFile("./bomb_icon.png");
+    _bombTexture->loadFromFile(BOMB_ICON);
     _bombTexture->setEnabled(true);
 
     _text.setTransform()._scale = Vector3T<float>(10, 3, 3);
