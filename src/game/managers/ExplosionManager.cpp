@@ -51,6 +51,31 @@ void ExplosionManager::updateExplosionAnimation()
 {
 }
 
+bool ExplosionManager::checkTilesExplosion(const game::objects::Tile &ex)
+{
+    for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
+        if ((*tile)->getTransform().getPosition()._x == ex.getTransform().getPosition()._x &&
+            (*tile)->getTransform().getPosition()._y == ex.getTransform().getPosition()._y &&
+            (*tile)->getTransform().getPosition()._z == ex.getTransform().getPosition()._z) {
+            // check tile type -> brick = explode
+            if ((*tile)->getTag() == BRICK)
+                _tiles.erase(tile);
+            std::cout << "* TILE DESTROYED *" << std::endl;
+            return false;
+        }
+    }
+    for (auto &player : _players) {
+        if (player->getTransform().getPosition()._x / TILESIZE == ex.getTransform().getPosition()._x / TILESIZE &&
+            player->getTransform().getPosition()._y == ex.getTransform().getPosition()._y &&
+            player->getTransform().getPosition()._z / TILESIZE == (ex.getTransform().getPosition()._z) / TILESIZE) {
+            // player dies
+            std::cout << "* PLAYER DESTROYED *" << std::endl;
+            return false;
+        }
+    }
+    return true;
+}
+
 void ExplosionManager::explode(const game::objects::AExplosif &bomb)
 {
     std::unordered_map<std::string, bool> direction = {
@@ -58,31 +83,34 @@ void ExplosionManager::explode(const game::objects::AExplosif &bomb)
 
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
         Vector3T<float> pos(bomb.getTransform().getPosition());
+        game::objects::Tile ex(bomb);
 
         std::cout << "range = " << range << std::endl;
         if (direction["UP"]) {
-            game::objects::Tile ex(bomb);
-
             std::cout << "UP" << std::endl;
-            ex.setTransform().setPosition({pos._x, pos._y, pos._z + (float)range});
-            for (auto &tile : _tiles) {
-                if (tile->getTransform().getPosition()._x == ex.getTransform().getPosition()._x &&
-                    tile->getTransform().getPosition()._z == ex.getTransform().getPosition()._z) {
-                    // check tile type -> brick = explode
-                    std::cout << "* TILE DESTROYED *" << std::endl;
-                    direction["UP"] = false;
-                    continue;
-                }
-            }
-            for (auto &player : _players) {
-                if (player->getTransform().getPosition()._x / TILESIZE == ex.getTransform().getPosition()._x / TILESIZE &&
-                    player->getTransform().getPosition()._z / TILESIZE == (ex.getTransform().getPosition()._z) / TILESIZE) {
-                    // player dies
-                    std::cout << "* PLAYER DESTROYED *" << std::endl;
-                    direction["UP"] = false;
-                    continue;
-                }
-            }
+            ex.setTransform().setPosition({pos._x, pos._y, pos._z + (float)range * TILESIZE});
+            direction["UP"] = checkTilesExplosion(ex);
+            std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // Animation Explosion with ex
+        }
+        if (direction["DOWN"]) {
+            std::cout << "DOWN" << std::endl;
+            ex.setTransform().setPosition({pos._x, pos._y, pos._z - (float)range * TILESIZE});
+            direction["DOWN"] = checkTilesExplosion(ex);
+            std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // Animation Explosion with ex
+        }
+        if (direction["LEFT"]) {
+            std::cout << "LEFT" << std::endl;
+            ex.setTransform().setPosition({pos._x + (float)range * TILESIZE, pos._y, pos._z});
+            direction["LEFT"] = checkTilesExplosion(ex);
+            std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
+            // Animation Explosion with ex
+        }
+        if (direction["RIGHT"]) {
+            std::cout << "RIGHT" << std::endl;
+            ex.setTransform().setPosition({pos._x - (float)range * TILESIZE, pos._y, pos._z});
+            direction["RIGHT"] = checkTilesExplosion(ex);
             std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
             // Animation Explosion with ex
         }

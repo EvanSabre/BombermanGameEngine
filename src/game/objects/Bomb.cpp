@@ -61,7 +61,7 @@ void Bomb::countdown()
 {
     std::mutex mtx;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(4000)); // 4 seconds
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000)); // 3 seconds
 
     mtx.lock();
     std::cout << "BOOOOOM" << std::endl;

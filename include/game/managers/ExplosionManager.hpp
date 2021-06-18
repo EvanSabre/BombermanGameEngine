@@ -25,6 +25,7 @@ namespace game::manager
             void update();
             void updateExplosionAnimation();
             void explode(const game::objects::AExplosif &);
+            bool checkTilesExplosion(const game::objects::Tile &);
 
             // Setters
             void setObjects(
