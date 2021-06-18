@@ -38,11 +38,12 @@ namespace game
                 std::unique_ptr<IMAGE> _background = nullptr;
                 //std::unique_ptr<IMAGE> _image_keypad = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BTexture2D> _image_controller;
-                //std::shared_ptr<gameEngine::encapsulation::BTexture2D> _image_keypad;
+                std::shared_ptr<gameEngine::encapsulation::BTexture2D> _image_keypad;
                 std::unique_ptr<SELECTOR> _profileSelector = nullptr;
                 std::unique_ptr<RECTANGLE> _profileKeypad = nullptr;
                 std::unique_ptr<RECTANGLE> _zoneStat = nullptr;
                 std::unique_ptr<INPUT_BUTTON> _inputButton = nullptr;
+                TEXT _InputIndication;
                 TEXT _ProfilesIndicationGamePlayed;
                 TEXT _ProfilesIndicationGameWon;
                 TEXT _ProfilesIndicationCreated;
