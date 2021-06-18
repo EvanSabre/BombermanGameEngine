@@ -12,12 +12,12 @@ using namespace gameEngine::object;
 
 #define MAX_INPUTS 15
 
-InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, const encapsulation::BText &content,
+InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput, const encapsulation::BText &content,
                 const encapsulation::BColor &color, const encapsulation::BColor &selectColor) :
-            AButton(size, pos, content, color, selectColor), _currentChar(0)
+            AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput)
 {
-    _content.setTextPosition(pos);
-    _content.setTextSize(size._x / MAX_INPUTS);
+    _content.setTextPosition(Vector<float>(pos._x, pos._y - size._y / 2));
+    _content.setTextSize(size._x / maxInput);
     _content.setColor(BLACK);
 }
 
@@ -37,10 +37,13 @@ void InputButton::getNextChar() noexcept
 
 void InputButton::updateInput()
 {
+    if (_input.size() >= _maxInput)
+        return;
     _currentChar = GetCharPressed();
     while (_currentChar > 0) {
         if ((_currentChar >= 32 && _currentChar <= 125)) {
             _input.push_back((char)_currentChar);
+            _action = false;
         }
         _currentChar = GetCharPressed();
     }
@@ -58,8 +61,12 @@ void InputButton::draw()
 
 void InputButton::update()
 {
-    updateInput();
     updateState();
+    if (_action) {
+        _input.erase();
+        _content.setStr(_input);
+        updateInput();
+    }
 }
 
 std::string InputButton::getContent() const noexcept

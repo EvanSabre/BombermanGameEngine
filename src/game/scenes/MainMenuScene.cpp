@@ -83,6 +83,7 @@ void MainMenuScene::update()
     _audio.updateMusicStream();
 }
 
+
 void MainMenuScene::draw()
 {
     _background.draw();

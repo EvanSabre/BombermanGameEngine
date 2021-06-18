@@ -26,6 +26,7 @@ void Timer::timerExecute()
 
     _clock.restart();
     while (_duration > 0 && _isDone == false) {
+        while(_pause);
         if (_clock.getElapsedTime() >= 1) {
             _clock.restart();
             mtx.lock();
@@ -48,6 +49,11 @@ void Timer::timerExecute()
 
 void Timer::update()
 {
+}
+
+void Timer::setPause(bool pause)
+{
+    _pause = pause;
 }
 
 double Timer::getDuration() const noexcept

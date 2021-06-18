@@ -23,6 +23,7 @@ namespace gameEngine {
                 ~Timer();
 
                 double getDuration() const noexcept;
+                void setPause(bool pause);
                 void setDuration(const double &duration);
                 void setTimePos(const Vector<float> &pos);
                 void setIsDone(bool isDone);
@@ -35,6 +36,7 @@ namespace gameEngine {
                 void addToDuration(const double &add);
                 void update() override;
             protected:
+                bool _pause = false;
                 double _duration = 120;
                 bool _isDone = false;
                 std::unique_ptr<std::thread> _timerThread;
