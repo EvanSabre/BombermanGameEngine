@@ -13,6 +13,7 @@
 #include "InputButton.hpp"
 #include "Selector.hpp"
 #include "ButtonManager.hpp"
+#include "TimestampUtil.hpp"
 
 #define RECTANGLE gameEngine::encapsulation::BRectangle
 #define IMAGE gameEngine::encapsulation::BTexture2D
@@ -30,6 +31,8 @@ namespace game
             public:
                 ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info);
                 ~ChooseProfileScene();
+
+                void createNewProfile();
                 void start() override;
                 void update() override;
                 void draw() override;
@@ -49,7 +52,15 @@ namespace game
                 TEXT _ProfilesIndicationCreated;
                 TEXT _ProfilesIndicationBeKilled;
                 TEXT _ProfilesIndicationKills;
+
+                TEXT _ProfilesGamePlayed;
+                TEXT _ProfilesGameWon;
+                TEXT _ProfilesCreated;
+                TEXT _ProfilesBeKilled;
+                TEXT _ProfilesKills;
+
                 gameEngine::managers::ButtonManager _buttonManager;
+                std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> _profileContent;
         };
     };
 };

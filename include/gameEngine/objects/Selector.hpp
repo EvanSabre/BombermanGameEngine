@@ -47,6 +47,8 @@ namespace gameEngine
                 Vector<float> getContentEmplacementPos(void);
                 void setContentPos(Vector<float> pos);
                 std::shared_ptr<gameEngine::encapsulation::ADrawable> &getCurrentContent();
+                void setContent(const std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &_content);
+                void setICurrent(const int &iCurrent);
                 int getNbContent();
                 int getIdActualContent();
 

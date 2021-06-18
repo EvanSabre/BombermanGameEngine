@@ -59,7 +59,7 @@ void ChoosePlayersScene::start()
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
-    playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play");}, _info);
+    playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("chooseProfile");}, _info);
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);

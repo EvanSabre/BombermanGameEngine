@@ -33,6 +33,12 @@ bool game::managers::GameManager::haveToChange()
     return false;
 }
 
+void game::managers::GameManager::pushPlayingProfile(const std::string &profile)
+{
+    _profilesPlaying.push_back(profile);
+    std::cout << "ADDING PROFILE : " << profile << std::endl;
+}
+
 void game::managers::GameManager::setQuit(bool q)
 {
     _quit = q;

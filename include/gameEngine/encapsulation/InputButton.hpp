@@ -21,6 +21,7 @@ namespace gameEngine {
 
                 std::string getInput() const noexcept;
                 void getNextChar() noexcept;
+                bool checkValidate();
                 void updateInput();
 
                 using encapsulation::AButton::update;
@@ -34,6 +35,7 @@ namespace gameEngine {
                 std::string _input;
                 int _currentChar;
                 int _maxInput;
+                bool _validate;
             private:
         };
     }

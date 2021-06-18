@@ -97,6 +97,7 @@ set(GAME_SRC
 set(UTILS_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/Utilitaries.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/TimestampUtil.cpp"
         "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"

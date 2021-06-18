@@ -16,10 +16,12 @@ InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, co
                 const encapsulation::BColor &color, const encapsulation::BColor &selectColor) :
             AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput)
 {
-    _content.setTextSize(size._x / 2 / maxInput);
+    _content.setTextSize(size._x / 2 / maxInput + content.getTextSize());
     _content.setTextPosition(content.getTextPosition());
     _content.setColor(content.getColor());
+    std::cout << content << std::endl;
     _content.setStr(content.getStr());
+    std::cout << _content << std::endl;
 }
 
 InputButton::~InputButton()
@@ -36,6 +38,11 @@ void InputButton::getNextChar() noexcept
     _currentChar = GetCharPressed();
 }
 
+bool InputButton::checkValidate()
+{
+    return _validate;
+}
+
 void InputButton::updateInput()
 {
     if (_input.size() >= _maxInput) {
@@ -47,10 +54,10 @@ void InputButton::updateInput()
             _input.push_back((char)_currentChar);
         }
         getNextChar();
-        if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
-            _input.pop_back();
         _content.setStr(_input);
     }
+    if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
+        _input.pop_back();
 }
 
 void InputButton::draw()
@@ -62,6 +69,7 @@ void InputButton::draw()
 
 void InputButton::update()
 {
+    _validate = false;
     updateState();
     if (isFocus())
         updateInput();
@@ -69,6 +77,8 @@ void InputButton::update()
         _input.erase();
         _content.setStr(_input);
     }
+    if (GetKeyPressed() == KEY_ENTER)
+        _validate = true;
 }
 
 std::string InputButton::getContent() const noexcept

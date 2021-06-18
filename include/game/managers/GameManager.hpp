@@ -29,7 +29,7 @@ namespace game {
                 void setCurrentScene(const std::string &str);
                 std::string getCurrentScene() const noexcept;
                 void setQuit(bool q);
-
+                void pushPlayingProfile(const std::string &profile);
                 bool haveToChange();
                 bool haveToQuit();
                 int nbPlayers = 1;
@@ -40,6 +40,7 @@ namespace game {
 
             protected:
                 std::string _currentScene;
+                std::vector<std::string> _profilesPlaying;
                 bool _change = false;
                 bool _quit = false;
                 game::systems::setting_t _settings;

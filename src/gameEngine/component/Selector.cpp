@@ -61,6 +61,16 @@ std::shared_ptr<gameEngine::encapsulation::ADrawable> &Selector::getCurrentConte
     return _contents[_iCurrent];
 }
 
+void Selector::setICurrent(const int &iCurrent)
+{
+    _iCurrent = iCurrent;
+}
+
+void Selector::setContent(const std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &content)
+{
+    _contents = content;
+}
+
 void Selector::draw()
 {
     _mainRect->draw();
