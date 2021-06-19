@@ -156,6 +156,7 @@ void Character::setDropped(bool state) noexcept
 void Character::looseLife(int nbLife) noexcept
 {
     _lives -= nbLife;
+    checkLives();
 }
 
 
@@ -190,7 +191,6 @@ void Character::onCollisionExit(const AGameObject &collision)
 
 void Character::update()
 {
-    checkLives();
     updateModelAnimation();
 }
 
