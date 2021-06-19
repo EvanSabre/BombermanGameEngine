@@ -41,10 +41,10 @@ void Gui::draw(const game::objects::Character &charac, corner_e corner)
         draw(charac, {1750, 60});
         break;
     case Gui::BOTTOM_LEFT:
-        draw(charac, {0, 900});
+        draw(charac, {0, 800});
         break;
     case Gui::BOTTOM_RIGHT:
-        draw(charac, {1750, 900});
+        draw(charac, {1750, 800});
         break;
     default:
         draw(charac, {0, 0});
@@ -58,10 +58,12 @@ void Gui::draw(const game::objects::Character &charac, const Vector<float> &base
     std::cout << "draw gui" << std::endl;
     _heartTexture->setPos(Vector<int>(basePose._x, basePose._y + 80));
     _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 120));
+
     drawLabel(charac.getName(), Vector<float>(basePose._x - 20, basePose._y));
     drawLabel(std::string("Score : ") + std::to_string(charac.getScore()), Vector<float>(basePose._x - 20, basePose._y + 40));
     drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
     drawEltStr(std::to_string(charac.getNbBomb()), _bombTexture, Vector<float>(0.1, 0.1), 50);
+    drawLabel(std::string("Spedd: ") + std::to_string((int)(charac.getSpeed()._x * 10)), Vector<float>(basePose._x - 20, basePose._y + 160));
 }
 
 void Gui::drawElt(int nbElt, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,
