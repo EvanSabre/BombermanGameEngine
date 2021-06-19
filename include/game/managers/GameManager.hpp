@@ -37,7 +37,7 @@ namespace game {
 
                 std::vector<std::shared_ptr<game::User>> getPlayers() const noexcept;
                 void pushPlayer(std::shared_ptr<game::User> &player);
-                int nbPlayers = 1;
+                int nbPlayers = 4;
                 int nbPlayersConfirmed = 0;
                 int nbBots = 0;
                 std::shared_ptr<game::managers::UserManager> _userManager;
