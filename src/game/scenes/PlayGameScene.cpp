@@ -138,7 +138,7 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
     p.setCollider();
 
     for (auto tile = _tiles.begin(); tile != _tiles.end();) {
-        if ((*tile)->getTag() == BOMB && p.getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
+        if (p.getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
             tile++;
             continue;
         }
