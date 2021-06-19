@@ -191,6 +191,7 @@ void Character::onCollisionExit(const AGameObject &collision)
 
 void Character::update()
 {
+    checkLives();
     updateModelAnimation();
 }
 

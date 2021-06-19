@@ -30,5 +30,5 @@ void Bot::update()
     this->setIsMoving(false);
     dropBomb(1);
     handleEvent();
-    updateModelAnimation();
+    this->Character::update();
 }
