@@ -26,7 +26,7 @@ namespace gameEngine
             BTexture2D(const std::string &filePath, const BText &content);
             BTexture2D(const BTexture2D &ref);
             BTexture2D();
-            BTexture2D &operator=(const BTexture2D &ref) = default;
+            BTexture2D &operator=(const BTexture2D &ref);
             BTexture2D(const std::string &filepath, const std::string &content);
             ~BTexture2D();
 

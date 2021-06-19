@@ -14,6 +14,15 @@ encapsulation::ADrawable::ADrawable()
 {
 }
 
+encapsulation::ADrawable &encapsulation::ADrawable::operator=(const ADrawable &ref)
+{
+    if (this == &ref)
+        return (*this);
+    _color = ref._color;
+    return (*this);
+}
+
+
 encapsulation::ADrawable::~ADrawable()
 {
 }
@@ -24,10 +33,12 @@ encapsulation::ADrawable::~ADrawable()
 
 void gameEngine::encapsulation::ADrawable::onCollisionEnter(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 void gameEngine::encapsulation::ADrawable::onCollisionExit(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 // void gameEngine::encapsulation::ADrawable::update()

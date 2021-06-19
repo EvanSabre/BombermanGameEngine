@@ -14,10 +14,13 @@ namespace gameEngine {
     namespace object {
         class InputButton : public encapsulation::AButton, public encapsulation::ADrawable {
             public:
-                InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput,
-                const encapsulation::BText &content, const encapsulation::BColor &color,
-                bool relative = false,
-                const encapsulation::BColor &selectColor = BLACK);
+                InputButton(const Vector<float> &size, const Vector<float> &pos,
+                    std::size_t maxInput,
+                    const encapsulation::BText &content,
+                    const encapsulation::BColor &color,
+                    bool relative = false,
+                    const encapsulation::BColor &selectColor = BLACK
+                    );
                 ~InputButton();
 
                 std::string getInput() const noexcept;
@@ -35,7 +38,7 @@ namespace gameEngine {
             protected:
                 std::string _input;
                 int _currentChar;
-                int _maxInput;
+                std::size_t _maxInput;
                 bool _validate;
                 bool _canInput;
             private:
