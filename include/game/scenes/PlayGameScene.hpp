@@ -23,9 +23,6 @@
 #include "PowerUpTile.hpp"
 #include "Gui.hpp"
 
-
-#define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
-
 namespace game {
     namespace scenes {
         class PlayGameScene : public gameEngine::AScene {
@@ -45,7 +42,6 @@ namespace game {
             protected:
             private:
                 game::Gui _gui;
-                std::string _universe;
                 Map _map;
                 bool _pause;
                 gameEngine::encapsulation::BCamera _cam;
