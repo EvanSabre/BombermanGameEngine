@@ -12,6 +12,7 @@
 #include "ChoosePlayersScene.hpp"
 #include "ChooseProfileScene.hpp"
 #include "SettingsScene.hpp"
+#include "CreditScene.hpp"
 
 #include "EmptyScene.hpp"
 using namespace game::managers;
@@ -44,6 +45,10 @@ const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::
         {"settings",
             [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info) {
                 return std::make_shared<game::scenes::SettingsScene>(window, info);
+            }},
+        {"credits",
+            [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info) {
+                return std::make_shared<game::scenes::CreditScene>(window, info);
             }}
 };
 

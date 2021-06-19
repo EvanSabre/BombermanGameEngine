@@ -43,6 +43,7 @@ namespace game::managers
             // Getters
             std::vector<std::shared_ptr<game::objects::AExplosif>> &getBombs();
             std::vector<std::shared_ptr<game::objects::Tile>> &getTiles();
+            std::vector<std::shared_ptr<game::objects::Character>> &getPlayers();
 
         protected:
             std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;

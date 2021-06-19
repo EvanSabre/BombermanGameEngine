@@ -96,6 +96,12 @@ int Character::getNbBomb() const noexcept
     return _nbBomb;
 }
 
+bool Character::isAlive() const noexcept
+{
+    return _alive;
+}
+
+
 bool Character::hasDropped() const noexcept
 {
     return _hasDropped;
@@ -147,6 +153,12 @@ void Character::setDropped(bool state) noexcept
     _hasDropped = state;
 }
 
+void Character::looseLife(int nbLife) noexcept
+{
+    _lives -= nbLife;
+}
+
+
 void Character::draw() const noexcept
 {
     if (!this->_model)
@@ -178,6 +190,7 @@ void Character::onCollisionExit(const AGameObject &collision)
 
 void Character::update()
 {
+    checkLives();
     updateModelAnimation();
 }
 
@@ -273,3 +286,15 @@ void Character::handleEvent() noexcept
     }
     setState(!flag ? ANIMIDLE : ANIMWALK);
 }
+
+void Character::checkLives() noexcept
+{
+    if (_lives <= 0 && _alive)
+        loose();
+}
+
+void Character::loose() noexcept
+{
+    _alive = false;
+}
+

@@ -99,13 +99,17 @@ bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
             return false;
         }
     }
-    for (auto &player : _players) {
-        if ((int)((player->getTransform().getPosition()._x + 3) / TILESIZE) == (int)(pos._x / TILESIZE) &&
-            player->getTransform().getPosition()._y == pos._y &&
-            (int)((player->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
+            // player dies
+    for (auto player = _players.begin(); player != _players.end(); player++) {
+        if ((int)(((*player)->getTransform().getPosition()._x + 3) / TILESIZE) == (int)(pos._x / TILESIZE) &&
+            (*player)->getTransform().getPosition()._y == pos._y &&
+            (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
             // player dies
             // std::cout << "* PLAYER DESTROYED *" << std::endl;
             _audio->playSound("damage");
+            (*player)->looseLife();
+            if (!(*player)->isAlive())
+                _players.erase(player);
             return false;
         }
     }
@@ -193,4 +197,9 @@ std::vector<std::shared_ptr<game::objects::AExplosif>> &ExplosionManager::getBom
 std::vector<std::shared_ptr<game::objects::Tile>> &ExplosionManager::getTiles()
 {
     return _tiles;
+}
+
+std::vector<std::shared_ptr<game::objects::Character>> &ExplosionManager::getPlayers()
+{
+    return _players;
 }

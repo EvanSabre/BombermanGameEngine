@@ -49,6 +49,7 @@ namespace game
             //getter
                 std::string getName() const noexcept;
                 game::Event getCurrentEvent() const noexcept;
+                bool isAlive() const noexcept;
 
             //EFFECT GETTER
                 int getLives() const noexcept;
@@ -60,6 +61,8 @@ namespace game
                 void setState(const int &) noexcept;
                 void addScore(const size_t value) noexcept;
                 void subScore(const size_t value) noexcept;
+                void looseLife(int nbLife = 1) noexcept;
+
             size_t getScore() const noexcept;
             int getState() const noexcept;
             std::shared_ptr<game::objects::AExplosif> getNextBomb();
@@ -83,8 +86,11 @@ namespace game
                 void updateAnim();
                 void updateModelAnimation();
                 void stand(std::size_t tick);
+                void checkLives() noexcept;
+                void loose() noexcept;
 
         protected:
+            bool _alive = true;
             size_t _score = 0;
             int _maxBomb = 1;
             int _nbBomb = 1;
