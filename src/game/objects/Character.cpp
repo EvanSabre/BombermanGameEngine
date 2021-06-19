@@ -220,7 +220,10 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
     _maxLives += efx->getMaxLife();
     if (_lives < _maxLives)
         _lives += efx->getLife();
-    _maxBomb += efx->getNbBomb();
+    if (efx->getNbBomb()) {
+        _maxBomb ++;
+        reload();
+    }
     _bombRange += efx->getBlastPower();
     _bombRef.increaseRange(_bombRange);
     _speed = _speed + efx->getSpeed();
@@ -265,10 +268,8 @@ void Character::dropBomb(std::size_t tick) noexcept
     _bombQueue.front()->setTransform().setPosition(bombPos);
     _bombQueue.front()->drop();
     _bombQueue.pop_front();
-    std::cout << "> BOMB DROPPED <" << std::endl;
-    std::cout << this->getTransform() << std::endl;
-    // if (_bombQueue.empty())
-    //     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
+    // std::cout << "> BOMB DROPPED <" << std::endl;
+    // std::cout << this->getTransform() << std::endl;
 }
 
 void Character::handleEvent() noexcept
