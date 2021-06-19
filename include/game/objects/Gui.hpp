@@ -35,6 +35,7 @@ namespace game
             Vector<float> scale, float spacing = 30) noexcept;
         void drawEltStr(const std::string &str, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,
             Vector<float> scale, float spacing = 30) noexcept;
+        void drawLabel(const std::string &str, const Vector<float> &pos) noexcept;
 
     private:
         std::shared_ptr<gameEngine::encapsulation::BTexture2D> _heartTexture;

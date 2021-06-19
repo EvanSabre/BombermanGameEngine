@@ -209,7 +209,7 @@ void PlayGameScene::update()
     std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
     for (auto &[id, evt]: events)
     {
-        if (id <= _players.size()) {
+        if ((std::size_t)id <= _players.size()) {
             _players[id - 1]->setCurrentEvent(evt);
         }
     }
