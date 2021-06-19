@@ -40,10 +40,11 @@ void ChooseProfileScene::start()
     _image_controller->setEnabled(true);
     _image_controller->setPos(Vector<int>(pos._x * 1.85, pos._y * 0.2));
 
-    // _InputIndication = TEXT(_info->_userManager->getUserInputs().at(0)->getDeviceName(),
-    //                         Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
-    //                         WHITE,
-    //                         30);
+    _info->_userManager->getUserInputs().size();
+    _InputIndication = TEXT(_info->_userManager->getUserInputs().at(_info->nbPlayersConfirmed + 1)->getDeviceName(),
+                            Vector<float>(pos._x * 1.80, pos._y * 0.7),
+                            WHITE,
+                            30);
 
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent;
 
@@ -101,6 +102,7 @@ void ChooseProfileScene::update()
     _buttonManager.updateButtons();
     _profileSelector->update();
     _inputButton->update();
+    _InputIndication.setStr(_info->_userManager->getUserInputs().at(_info->nbPlayersConfirmed + 1)->getDeviceName());
     //_profileKeypad->update();
 
     if (_buttonManager.isButtonClicked("Play")) {
@@ -139,7 +141,7 @@ void ChooseProfileScene::draw()
     if (_nbContents - 1 == _profileSelector->getIdActualContent())
         _inputButton->draw();
     _buttonManager.drawButtons();
-    //_InputIndication.draw();
+    _InputIndication.draw();
     _ProfilesIndicationGameWon.draw();
     _ProfilesIndicationGamePlayed.draw();
     _ProfilesIndicationCreated.draw();
