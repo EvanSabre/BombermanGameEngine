@@ -66,6 +66,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SplashScreenScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/ChoosePlayersScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/ChooseProfileScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/LoadScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SettingsScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/CreditScene.cpp"

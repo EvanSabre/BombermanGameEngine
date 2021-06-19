@@ -15,6 +15,8 @@
 #include "ButtonManager.hpp"
 
 #define PLAY_BUTTON "./assets/Backgrounds/button_background1.png"
+#define WINDOW_X _windowManager->getWindowSize()._x
+#define WINDOW_Y _windowManager->getWindowSize()._y
 
 namespace gameEngine {
     class AScene : public gameEngine::interfaces::IScene {

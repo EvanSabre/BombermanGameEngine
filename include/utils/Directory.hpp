@@ -21,9 +21,6 @@
 #include "File.hpp"
 #include <filesystem>
 
-//std::filesystem::directory_iterator
-
-
 class Directory
 {
   public:
@@ -31,6 +28,7 @@ class Directory
     ~Directory();
 
     std::vector<std::shared_ptr<File>> getAllDirFiles() noexcept;
+    std::vector<std::string> getSubDirNames();
     std::shared_ptr<File> &loadFile(const std::string &filename, bool force_creation=false);
 
   private:

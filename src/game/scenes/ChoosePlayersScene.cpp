@@ -21,7 +21,7 @@ ChoosePlayersScene::~ChoosePlayersScene()
 }
 
 ChoosePlayersScene::ChoosePlayersScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
-AScene(windowManager, info), _universe("Vikings")
+AScene(windowManager, info), _universe("Vikings"), _background(BACKGROUND_BUTTON)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     _audio->loadMusicStreamFromFile("./assets/All/Music/Settings.mp3");
@@ -36,7 +36,6 @@ void ChoosePlayersScene::start()
     Vector<float> size(WINDOW_X / 2, WINDOW_Y / 1.5);
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y / 7);
 
-    _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> playerContent =
     {
         std::make_shared<TEXT>("1", size, BLACK, 40),
@@ -81,10 +80,6 @@ void ChoosePlayersScene::start()
         modelList[0],
         modelList[1],
         modelList[2],
-        // std::make_shared<IMAGE>(PIRATE_UNIVERSE, "Pirates"),
-        // std::make_shared<IMAGE>(VIKING_UNIVERSE, "Vikings"),
-        // std::make_shared<IMAGE>(SAMOURAI_UNIVERSE, "Samurai"),
-
     };
 
     _universeSelector =
@@ -168,7 +163,7 @@ void ChoosePlayersScene::update()
 
 void ChoosePlayersScene::draw()
 {
-    _background->draw();
+    _background.draw();
     _playerSelector->draw();
     _botSelector->draw();
     _buttonManager.drawButtons();

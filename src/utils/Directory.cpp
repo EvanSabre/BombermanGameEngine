@@ -40,6 +40,18 @@ std::shared_ptr<File> &Directory::loadFile(const std::string &filename, bool for
     throw std::runtime_error("File not found and doesn't want to be created");
 }
 
+std::vector<std::string> Directory::getSubDirNames()
+{
+    std::vector<std::string> names;
+
+    for (const auto it : std::filesystem::directory_iterator(_dirPath)) {
+        if (it.is_directory()) {
+            names.push_back(it.path().string());
+        }
+    }
+    return names;
+}
+
 std::vector<std::shared_ptr<File>> Directory::getAllDirFiles() noexcept
 {
     std::string path;

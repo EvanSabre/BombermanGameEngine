@@ -48,6 +48,16 @@ std::vector<std::shared_ptr<game::User>> game::managers::GameManager::getPlayers
     return _players;
 }
 
+bool game::managers::GameManager::getIsSave() const noexcept
+{
+    return _isSave;
+}
+
+std::string game::managers::GameManager::getSavePath() const noexcept
+{
+    return _savePath;
+}
+
 void game::managers::GameManager::pushPlayer(std::shared_ptr<game::User> &player)
 {
     _players.push_back(player);
@@ -70,6 +80,16 @@ bool game::managers::GameManager::haveToQuit()
     if (_quit)
         return true;
     return false;
+}
+
+void game::managers::GameManager::setSave(bool save)
+{
+    _isSave = save;
+}
+
+void game::managers::GameManager::setSavePath(const std::string &path)
+{
+    _savePath = path;
 }
 
 void game::managers::GameManager::setMusicVolume(float volume)
