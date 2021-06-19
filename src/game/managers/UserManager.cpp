@@ -190,6 +190,3 @@ void UserManager::removeInputToUser(const std::string &name) noexcept
         return;
     }
 }
-
-//TODO : mapKey
-//TODO: make une unordredmap GLOBAL EVENT
