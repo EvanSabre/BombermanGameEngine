@@ -69,7 +69,6 @@ void SplashScreenScene::updateAnim(size_t &frame, size_t max, int multipler, gam
 
 void SplashScreenScene::animJump()
 {
-    std::cout << _jumpFrame << std::endl;
     if (_currentFrame == 1)
         _audio->playSound("jump");
     _jumpFrame++;
