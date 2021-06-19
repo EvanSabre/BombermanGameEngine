@@ -9,8 +9,6 @@
 
 using namespace game::scenes;
 
-#define VOLUME_BUTTON "./assets/Backgrounds/button_background1.png"
-
 static const std::array<gameEngine::key_e, 5> gamePadKeys = {
     gameEngine::GAMEPAD_BUTTON_LEFT_FACE_UP,
     gameEngine::GAMEPAD_BUTTON_LEFT_FACE_DOWN,
@@ -49,7 +47,7 @@ void SettingsScene::start()
 
     _audio->playMusic();
     //title
-    _title = std::make_shared<gameEngine::encapsulation::BSdf>("SETTINGS", 120, WHITE, Vector3T<float>(middle._x - 200, 60, 0));
+    _title = std::make_shared<gameEngine::encapsulation::BSdf>("SETTINGS", 100, WHITE, Vector3T<float>(middle._x - 280, 60, 0));
 
     //sound selector
     int currentSound = (int)_info->getSoundVolume();
@@ -90,10 +88,10 @@ void SettingsScene::start()
     _musicSelector = std::make_unique<gameEngine::component::Selector>("Music Volume", musicCt, Vector<float>(100,  middle._y + 50), Vector<float>(600, 150), 30, WHITE);
 
     //back to menu
-    gameEngine::encapsulation::BText quitText("Back to Menu", Vector<float>(60, 1010), WHITE, 30);
+    gameEngine::encapsulation::BText quitText("Back to Menu", Vector<float>(40, 1010), WHITE, 30);
     quitText.setFont(_font);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(310, 50), Vector<float>(20, 1000), quitText, DARKGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 50), Vector<float>(20, 1000), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
     // buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu"); }, _info);
 
     //keybindings
@@ -139,7 +137,7 @@ void SettingsScene::start()
     _saveButtonText = gameEngine::encapsulation::BText("Save", Vector<float>(1730, 1010), BLACK, 30);
     _saveButtonText.setFont(_font);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSave =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(150, 50), Vector<float>(1700, 1000), _saveButtonText, DARKGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(150, 50), Vector<float>(1700, 1000), _saveButtonText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     _buttonManager.pushButton(buttonQuit);
     _inputManager.pushButton(buttonUp);

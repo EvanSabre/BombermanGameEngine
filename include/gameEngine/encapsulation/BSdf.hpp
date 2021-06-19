@@ -18,7 +18,7 @@
 #else   // PLATFORM_RPI, PLATFORM_ANDROID, PLATFORM_WEB
     #define GLSL_VERSION            100
 #endif
-#define DEFAULT_FONT "./assets/Fonts/anonymous_pro_bold.ttf"
+#define DEFAULT_FONT "./assets/Fonts/title.ttf"
 #define SHADER_PATH "./assets/Shaders/glsl%i/sdf.fs"
 
 namespace gameEngine {
