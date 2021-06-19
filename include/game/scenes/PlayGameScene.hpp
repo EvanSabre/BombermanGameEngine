@@ -23,9 +23,6 @@
 #include "PowerUpTile.hpp"
 #include "Gui.hpp"
 
-
-#define UNIVERSE std::vector<std::string>({"Vikings", "Pirates", "Samurai"})
-
 namespace game {
     namespace scenes {
         class PlayGameScene : public gameEngine::AScene {
