@@ -13,15 +13,14 @@ Directory::Directory(const std::string &dirpath, bool force_creation)
 {
     this->_dirPath = dirpath;
     this->_directory = std::filesystem::is_directory(_dirPath);
-    std::filesystem::create_directory(_dirPath);
 
-    for (const auto & file : std::filesystem::directory_iterator(_dirPath.c_str()))
-        std::cout << file.path() << std::endl;
     if (!this->_directory && !force_creation)
         throw std::invalid_argument(
             std::string("Read Dir: fail to open directory ") + _dirPath);
     else if (!this->_directory && force_creation)
         std::filesystem::create_directory(_dirPath);
+    for (const auto & file : std::filesystem::directory_iterator(_dirPath.c_str()))
+        std::cout << file.path() << std::endl;
 }
 
 Directory::~Directory()

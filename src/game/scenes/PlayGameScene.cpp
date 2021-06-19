@@ -10,7 +10,8 @@
 using namespace game::scenes;
 #define ANIMWALK_PATH "assets/All/Animations/CharacterWalk.iqm"
 #define ANIMIDLE_PATH "assets/All/Animations/CharacterIdle.iqm"
-
+#define SAVE_DIR "/Saves"
+#define PLAYER_SAVE "/Players.save"
 static const gameEngine::component::Transform BOT_LEFT_SPAWN(Vector3T<float>(10, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 static const gameEngine::component::Transform TOP_LEFT_SPAWN(Vector3T<float>(130, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(130, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
@@ -32,6 +33,12 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
 
     _audio->setMusicVolume(_info->getMusicVolume() / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
+    _savePath = realpath("./", NULL);
+    _savePath.append(SAVE_DIR);
+
+    if (!std::filesystem::is_directory(_savePath)) {
+        Directory _dir(std::string(_savePath), true);
+    }
 }
 
 PlayGameScene::~PlayGameScene()
@@ -115,6 +122,16 @@ void PlayGameScene::setupPause()
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(310, 100), middle2, resumeText, DARKGRAY);
 
     middle2._y += middle2._y / 2;
+    gameEngine::encapsulation::BText saveText("SAVE", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonSave =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), Vector<float>(middle2._x, middle2._y), saveText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+    gameEngine::encapsulation::BText inputText("Enter a Save name", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 20);
+    _saveInput =
+    std::make_shared<gameEngine::object::InputButton>(Vector<float>(300, 50), Vector<float>(middle2._x, middle2._y), 10, inputText, RED, false, BLACK);
+    _saveInput->setEnabled(false);
+
+    middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
     gameEngine::encapsulation::BFont fontQuit;
     fontQuit.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
@@ -123,6 +140,7 @@ void PlayGameScene::setupPause()
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, DARKGRAY);
 
     _pauseManager.pushButton(resume);
+    _pauseManager.pushButton(buttonSave);
     _pauseManager.pushButton(buttonQuit);
 }
 
@@ -169,23 +187,52 @@ void PlayGameScene::updateExplosionManager()
     }
 }
 
+void PlayGameScene::savePlayers()
+{
+    File file = _fileManager.loadFile(_savePath + "/" + _saveInput->getContent() + PLAYER_SAVE, true);
+    std::string text;
+    std::stringstream ss;
+
+    for (auto it : _players) {
+        ss << "Player : " << it->getName() << ":" << std::endl;
+        ss << "Transform :" << it->getTransform();
+        ss << "Lives : " << it->getLives() << std::endl;
+        ss << "Speed : " << it->getSpeed() << std::endl;
+        ss << "Score : " << it->getScore() << std::endl;
+        ss << "####" << std::endl;
+        text = ss.str();
+        ss.clear();
+    }
+    _fileManager.writeFile(file, text, true);
+}
+
 void PlayGameScene::updatePause()
 {
     _pauseManager.updateButtons();
+    _saveInput->update();
     if (_pauseManager.isButtonClicked("RESUME")) {
         _pause = false;
         _timer.setPause(false);
         _audio->playSound("button");
+    }
+    if (_pauseManager.isButtonClicked("SAVE")) {
+        _saveInput->setEnabled(true);
+        _pauseManager.setEnabledButton("SAVE", false);
     }
     if (_pauseManager.isButtonClicked("QUIT")) {
         _timer.setPause(false);
         _audio->playSound("button");
         quit();
     }
+    if (_saveInput->getEnabled() && _saveInput->checkValidate()) {
+        _map.saveMap(_tiles, _savePath + "/" + _saveInput->getContent());
+        savePlayers();
+    }
 }
 
 void PlayGameScene::drawPause()
 {
+    _saveInput->draw();
     _pauseManager.drawButtons();
 }
 

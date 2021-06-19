@@ -22,6 +22,7 @@
 #include "Bot.hpp"
 #include "PowerUpTile.hpp"
 #include "Gui.hpp"
+#include "InputButton.hpp"
 
 namespace game {
     namespace scenes {
@@ -39,6 +40,7 @@ namespace game {
                 void draw() override;
                 void updateExplosionManager();
                 void quit();
+                void savePlayers();
             protected:
             private:
                 game::Gui _gui;
@@ -52,7 +54,9 @@ namespace game {
                 std::shared_ptr<game::managers::ExplosionManager> _explosion;
                 gameEngine::managers::ButtonManager _pauseManager;
                 std::vector<std::shared_ptr<game::objects::Character>> _tab{0};
-
+                gameEngine::managers::AFileManager _fileManager;
+                std::string _savePath;
+                std::shared_ptr<gameEngine::object::InputButton> _saveInput;
                 //here for test need to be in map after
                 // game::objects::PowerUpTile _heelth()
                 std::shared_ptr<game::objects::PowerUpTile> _healtTile;

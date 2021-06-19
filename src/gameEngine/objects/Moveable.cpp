@@ -42,6 +42,11 @@ void Moveable::moveDirection(std::size_t tick,
     }
 }
 
+Vector3T<float> Moveable::getSpeed() const noexcept
+{
+    return _speed;
+}
+
 void Moveable::moveRight(std::size_t tick) noexcept
 {
     gameEngine::systems::Move::moveRight(_transform, _speed._x, tick);

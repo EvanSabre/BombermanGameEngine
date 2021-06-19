@@ -14,6 +14,7 @@
 #include "BModel.hpp"
 #include "Selector.hpp"
 #include "TSelector.hpp"
+#include "Map.hpp"
 
 #define WINDOW_X _windowManager->getWindowSize()._x
 #define WINDOW_Y _windowManager->getWindowSize()._y
@@ -33,6 +34,7 @@ namespace game {
                 gameEngine::component::Timer _timer;
                 std::unique_ptr<gameEngine::component::TSelector<gameEngine::encapsulation::BModel>> _universeSelector = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BTexture2D> _tmp;
+                Map _map;
             private:
         };
     }

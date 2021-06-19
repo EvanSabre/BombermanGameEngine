@@ -112,6 +112,8 @@ void Button::update()
 //DRAW
 void Button::draw()
 {
+    if (!_enabled)
+        return;
     Vector<float> pos(
         _rectangle->getTransform().getPosition()._x,
         _rectangle->getTransform().getPosition()._y);

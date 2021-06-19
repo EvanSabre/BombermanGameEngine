@@ -156,3 +156,14 @@ void Map::setSeed(const std::size_t &seed)
 {
     _seed = seed;
 }
+
+void Map::saveMap(const std::vector<std::shared_ptr<Tile>> &tiles, const std::string &path)
+{
+    Directory dir(path, true);
+    File file = _fileManager.loadFile(path + MAP_SAVE, true);
+    std::string text;
+
+    for (auto it : tiles)
+        text.append(std::to_string(it->getType()) + "|");
+    _fileManager.writeFile(file, text, true);
+}
