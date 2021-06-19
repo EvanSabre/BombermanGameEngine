@@ -12,7 +12,7 @@ using namespace gameEngine::object;
 
 #define MAX_INPUTS 15
 
-InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput, const encapsulation::BText &content,
+InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, std::size_t maxInput, const encapsulation::BText &content,
                 const encapsulation::BColor &color, bool relative, const encapsulation::BColor &selectColor) :
             AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput), _canInput(true)
 {
