@@ -7,6 +7,7 @@
 
 #include "Selector.hpp"
 #include "Path.hpp"
+#include "BModel.hpp"
 
 using namespace gameEngine::component;
 
@@ -20,8 +21,9 @@ Selector::Selector(
     Vector<float> size,
     int sizeText,
     gameEngine::encapsulation::BColor color,
-    gameEngine::encapsulation::BColor colorText
-    )
+    gameEngine::encapsulation::BColor colorText,
+    bool is3D
+    ) : _is3D(is3D)
 {
     Vector<float> sizeButton(size._x * 0.1, size._x * 0.1);
     _title = std::make_unique<TEXT>(name,
@@ -50,6 +52,17 @@ Selector::Selector(
 
     for (auto &i : _contents)
         i->setTransform().setPosition(Vector3T<float>(_contentPos._x, _contentPos._y, 0));
+    if(is3D) {
+        for (auto &i : contents) {
+            auto tmp = std::dynamic_pointer_cast<gameEngine::encapsulation::BModel>(i);
+            std::cout << tmp->getTransform() << std::endl;
+        }
+        _cam.setPosition({-20, 10, 10});
+        _cam.setTarget({0, 2, 0});
+        _cam.setUp({0, 1, 0});
+        _cam.setFovy(55);
+        _cam.setProjection(CAMERA_PERSPECTIVE);
+    }
 }
 
 Selector::~Selector()
@@ -73,10 +86,12 @@ void Selector::setContent(const std::vector<std::shared_ptr<gameEngine::encapsul
 
 void Selector::draw()
 {
-    _mainRect->draw();
-    _buttonManager.drawButtons();
-    _title->draw();
-    _contents[_iCurrent]->draw();
+    // _mainRect->draw();
+    // _buttonManager.drawButtons();
+    // _title->draw();
+    if (_is3D) {
+        _contents[_iCurrent]->draw();
+    }
 }
 
 void Selector::update()
@@ -101,6 +116,11 @@ void Selector::update()
         default:
             break;
     }
+}
+
+void Selector::set3D(bool enabled)
+{
+    _is3D = enabled;
 }
 
 SelectorEvent Selector::getEvent(void)

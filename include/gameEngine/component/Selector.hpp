@@ -11,6 +11,7 @@
 #include "Button.hpp"
 #include "ButtonManager.hpp"
 #include <vector>
+#include "BCamera.hpp"
 
 #define BUTTON gameEngine::encapsulation::Button
 #define TEXT gameEngine::encapsulation::BText
@@ -40,7 +41,8 @@ namespace gameEngine
                     Vector<float> size,
                     int sizeText,
                     gameEngine::encapsulation::BColor color = WHITE,
-                    gameEngine::encapsulation::BColor colorText = BLACK);
+                    gameEngine::encapsulation::BColor colorText = BLACK,
+                    bool is3D = false);
                 ~Selector();
 
                 Vector<float> getContentEmplacementSize(void);
@@ -51,9 +53,10 @@ namespace gameEngine
                 void setICurrent(const int &iCurrent);
                 int getNbContent();
                 int getIdActualContent();
-
+                void set3D(bool enabled);
                 void draw();
                 void update();
+                gameEngine::encapsulation::BCamera _cam;
             private:
                 SelectorEvent getEvent(void);
                 gameEngine::managers::ButtonManager _buttonManager;
@@ -63,6 +66,7 @@ namespace gameEngine
                 std::unique_ptr<TEXT> _title = nullptr;
                 std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> _contents;
                 int _iCurrent = 0;
+                bool _is3D = false;
                 Vector<float> _contentSize = {0, 0};
                 Vector<float> _contentPos = {0, 0};
         };

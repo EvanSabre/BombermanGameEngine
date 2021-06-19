@@ -48,37 +48,41 @@ void ChoosePlayersScene::start()
         std::make_shared<TEXT>("4", size, BLACK, 40),
     };
 
-    // std::vector<std::shared_ptr<gameEngine::encapsulation::BModel>> modelList =
-    // {
-    //     std::make_shared<gameEngine::encapsulation::BModel>("./assets/Pirates/Models/Character.iqm", Vector3T<float>(3, 4, 0)),
-    //     std::make_shared<gameEngine::encapsulation::BModel>("./assets/Samurai/Models/Character.iqm", Vector3T<float>(3, 4, 0)),
-    //     std::make_shared<gameEngine::encapsulation::BModel>("./assets/Vikings/Models/Character.iqm", Vector3T<float>(3, 4, 0)),
-    // };
+    std::vector<std::shared_ptr<gameEngine::encapsulation::BModel>> modelList =
+    {
+        std::make_shared<gameEngine::encapsulation::BModel>("./assets/Pirates/Models/Character.iqm", Vector3T<float>(3, 4, 0)),
+        std::make_shared<gameEngine::encapsulation::BModel>("./assets/Samurai/Models/Character.iqm", Vector3T<float>(3, 4, 0)),
+        std::make_shared<gameEngine::encapsulation::BModel>("./assets/Vikings/Models/Character.iqm", Vector3T<float>(3, 4, 0)),
+    };
 
-    // gameEngine::encapsulation::BTexture2D texture1("./assets/Pirates/Textures/Character.png");
-    // gameEngine::encapsulation::BTexture2D texture2("./assets/Samurai/Textures/Character.png");
-    // gameEngine::encapsulation::BTexture2D texture3("./assets/Vikings/Textures/Character.png");
+    gameEngine::encapsulation::BTexture2D texture1("./assets/Pirates/Textures/Character.png");
+    gameEngine::encapsulation::BTexture2D texture2("./assets/Samurai/Textures/Character.png");
+    gameEngine::encapsulation::BTexture2D texture3("./assets/Vikings/Textures/Character.png");
 
-    // modelList[0]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture1);
-    // modelList[1]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture2);
-    // modelList[2]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture3);
+    modelList[0]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture1);
+    modelList[1]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture2);
+    modelList[2]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture3);
 
-    // modelList[0]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
-    // modelList[1]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
-    // modelList[2]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
+    modelList[0]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
+    modelList[1]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
+    modelList[2]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
+
+    modelList[0]->setTransform().setPosition(Vector3T<float>(10, 10, 10));
+    modelList[1]->setTransform().setPosition(Vector3T<float>(10, 10, 10));
+    modelList[2]->setTransform().setPosition(Vector3T<float>(10, 10, 10));
 
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> chooseUniverse =
     {
-        // modelList[0],
-        // modelList[1],
-        // modelList[2],
-        std::make_shared<IMAGE>(PIRATE_UNIVERSE, "Pirates"),
-        std::make_shared<IMAGE>(VIKING_UNIVERSE, "Vikings"),
-        std::make_shared<IMAGE>(SAMOURAI_UNIVERSE, "Samurai"),
+        modelList[0],
+        modelList[1],
+        modelList[2],
+        // std::make_shared<IMAGE>(PIRATE_UNIVERSE, "Pirates"),
+        // std::make_shared<IMAGE>(VIKING_UNIVERSE, "Vikings"),
+        // std::make_shared<IMAGE>(SAMOURAI_UNIVERSE, "Samurai"),
 
     };
 
-    _universeSelector = std::make_unique<SELECTOR>("Choose an universe", chooseUniverse, Vector<float>(pos._x * 2.0, pos._y * 0.9), Vector<float>(size._x * 0.95, size._y * 1), 20, DARKGRAY);
+    _universeSelector = std::make_unique<SELECTOR>("Choose an universe", chooseUniverse, Vector<float>(pos._x * 2.0, pos._y * 0.9), Vector<float>(size._x * 0.95, size._y * 1), 20, DARKGRAY, WHITE, true);
     _playerSelector = std::make_unique<SELECTOR>("Choose a number of players", playerContent, Vector<float>(pos._x * 0.3, pos._y * 1.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, DARKGRAY);
     _botSelector = std::make_unique<SELECTOR>("Choose a number of bots", botContent, Vector<float>(pos._x * 0.3, pos._y * 3.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, DARKGRAY);
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
@@ -134,12 +138,15 @@ void ChoosePlayersScene::update()
 
 void ChoosePlayersScene::draw()
 {
-    _background->draw();
+    // _background->draw();
+    // _playerSelector->draw();
+    // _botSelector->draw();
+    // _buttonManager.drawButtons();
+    // _PlayersIndication.draw();
+    _universeSelector->_cam.beginMode();
+    DrawGrid(10, 1.0f);
     _universeSelector->draw();
-    _playerSelector->draw();
-    _botSelector->draw();
-    _buttonManager.drawButtons();
-    _PlayersIndication.draw();
+    _universeSelector->_cam.endMode();
 }
 
 // * Callbacks
