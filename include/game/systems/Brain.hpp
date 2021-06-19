@@ -14,8 +14,8 @@
 #include <stack>
 
 #define GET_MAP_POS(size, vec) Vector<int>(size._x - 1 - vec._x / TILESIZE, vec._y / TILESIZE)
-#define GET_MAP_POS_Z(size, vec) Vector<int>(size._x - 1 - vec._x / TILESIZE, vec._z / TILESIZE)
-#define GET_MAP_POS_Z_FLOAT(size, vec) Vector<float>(size._x - 1 - vec._x / TILESIZE, vec._z / TILESIZE)
+#define GET_MAP_POS_Z(size, vec) Vector<int>(size._x - (vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
+#define GET_MAP_POS_Z_FLOAT(size, vec) Vector<float>(size._x - (vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
 
 
 
