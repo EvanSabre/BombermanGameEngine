@@ -22,7 +22,7 @@ Gui::Gui()
     _bombTexture->loadFromFile(BOMB_ICON);
     _bombTexture->setEnabled(true);
 
-    _text.setTransform()._scale = Vector3T<float>(10, 3, 3);
+    _text.setTransform()._scale._x = 20;
     _text.setColor(BLACK);
 }
 
@@ -54,11 +54,12 @@ void Gui::draw(const game::objects::Character &charac, corner_e corner)
 
 void Gui::draw(const game::objects::Character &charac, const Vector<float> &basePose)
 {
-    _heartTexture->setPos(Vector<int>(basePose._x, basePose._y + 40));
-    _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 80));
-    drawLabel(charac.getName(), basePose);
-    drawEltStr(std::to_string(charac.getLives()), _heartTexture, Vector<float>(0.05, 0.05), 50);
-    drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));
+    _heartTexture->setPos(Vector<int>(basePose._x, basePose._y + 80));
+    _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 120));
+    drawLabel(charac.getName(), Vector<float>(basePose._x - 20, basePose._y));
+    drawLabel(std::string("Score : ") + std::to_string(charac.getScore()), Vector<float>(basePose._x - 20, basePose._y + 40));
+    drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
+    drawEltStr(std::to_string(charac.getNbBomb()), _bombTexture, Vector<float>(0.1, 0.1), 50);
 }
 
 void Gui::drawElt(int nbElt, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,
