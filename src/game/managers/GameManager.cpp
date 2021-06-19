@@ -8,7 +8,7 @@
 #include "GameManager.hpp"
 #include "SettingConf.hpp"
 
-game::managers::GameManager::GameManager(const std::string &str) : _currentScene(str), _change(false)
+game::managers::GameManager::GameManager(const std::string &str) : _currentScene(str), _change(false), _musicVolume(100), _soundVolume(100)
 {
     _settings = game::systems::SettingConf::getDefaultSettings();
     _userManager = std::make_shared<UserManager>("./Users/");
@@ -70,4 +70,24 @@ bool game::managers::GameManager::haveToQuit()
     if (_quit)
         return true;
     return false;
+}
+
+void game::managers::GameManager::setMusicVolume(float volume)
+{
+    _musicVolume = volume;
+}
+
+float game::managers::GameManager::getMusicVolume() const
+{
+    return _musicVolume;
+}
+
+void game::managers::GameManager::setSoundVolume(float volume)
+{
+    _soundVolume = volume;
+}
+
+float game::managers::GameManager::getSoundVolume() const
+{
+    return _soundVolume;
 }

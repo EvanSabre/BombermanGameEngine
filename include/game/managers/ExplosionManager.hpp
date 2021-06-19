@@ -11,6 +11,7 @@
 #include "Bomb.hpp"
 #include "Player.hpp"
 #include "Animation.hpp"
+#include "AudioManager.hpp"
 
 #define MODELEXPLOSION   "assets/All/Models/HealthUp.obj"
 #define TEXTUREEXPLOSION "assets/All/Textures/Tile.png"
@@ -43,6 +44,7 @@ namespace game::managers
             std::vector<std::shared_ptr<game::objects::Tile>> &getTiles();
 
         protected:
+            std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
         private:
             std::vector<std::shared_ptr<game::objects::Character>> _players;
             std::vector<std::shared_ptr<game::objects::Tile>> _tiles;

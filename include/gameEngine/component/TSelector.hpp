@@ -86,6 +86,7 @@ namespace gameEngine
                     }
                 ~TSelector() = default;
 
+                std::vector<std::shared_ptr<T>> &getContent() { return _contents; }
                 std::shared_ptr<T> &getCurrentContent() { return _contents[_iCurrent]; }
 
                 void setContent(const std::vector<std::shared_ptr<T>> &content) { _contents = content;}

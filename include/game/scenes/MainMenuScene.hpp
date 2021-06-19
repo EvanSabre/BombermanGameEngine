@@ -29,7 +29,7 @@ namespace game {
                 //Unique to this scene
             protected:
                 gameEngine::scenes::Parallax _parallax;
-                gameEngine::managers::AudioManager _audio;
+                std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BSdf> _title = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BText> _settings = nullptr;
                 gameEngine::encapsulation::BTexture2D _background;
