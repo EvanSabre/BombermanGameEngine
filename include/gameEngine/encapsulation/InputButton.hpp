@@ -16,12 +16,15 @@ namespace gameEngine {
             public:
                 InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput,
                 const encapsulation::BText &content, const encapsulation::BColor &color,
+                bool relative = false,
                 const encapsulation::BColor &selectColor = BLACK);
                 ~InputButton();
 
                 std::string getInput() const noexcept;
                 void getNextChar() noexcept;
+                bool checkValidate();
                 void updateInput();
+                void setCanInput(bool can);
 
                 using encapsulation::AButton::update;
                 void update() override;
@@ -30,10 +33,11 @@ namespace gameEngine {
                 void draw() override;
 
             protected:
-                encapsulation::BText _content;
                 std::string _input;
                 int _currentChar;
                 int _maxInput;
+                bool _validate;
+                bool _canInput;
             private:
         };
     }

@@ -36,6 +36,7 @@ BModel::~BModel()
 
 BModel::BModel(const encapsulation::BModel &ref)
 {
+    std::cout << "JACKPOT\n";
     this->resetObj();
     try {
         this->load(ref.getFilePath());
@@ -150,7 +151,7 @@ void BModel::draw()
     Vector3T<float> scale(this->_transform.getScale());
     Vector3 vecScale = {scale._x, scale._y, scale._z};
 
-    DrawModel(this->_model, vecPos, scale._x, _color.getObj());
+    DrawModel(this->_model, vecPos, vecScale.x, _color.getObj());
 }
 
 //---------------------

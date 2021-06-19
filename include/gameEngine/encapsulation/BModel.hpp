@@ -60,6 +60,9 @@ namespace gameEngine
                 void draw() override;
 
         private:
+            int _materiel_idx;
+            int _maps_idx;
+            std::shared_ptr<BTexture2D> _texture;
             std::string _filePath;
             Model _model;
 

@@ -33,9 +33,9 @@ std::string AEffect::getType() const noexcept
     return this->_type;
 }
 
-int AEffect::getHealth() const noexcept
+int AEffect::getMaxLife() const noexcept
 {
-    return this->_health;
+    return this->_maxLife;
 }
 
 int AEffect::getNbBomb() const noexcept

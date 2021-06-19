@@ -23,7 +23,7 @@ namespace game
             std::string getType() const noexcept;
 
             int getLife() const noexcept final;
-            int getHealth() const noexcept final;
+            int getMaxLife() const noexcept final;
             int getNbBomb() const noexcept final;
             int getBlastPower() const noexcept final;
             int getBombPass() const noexcept final;
@@ -31,7 +31,7 @@ namespace game
 
         protected:
             int _extraLife = 0;
-            int _health = 0;
+            int _maxLife = 0;
             int _nbBomb = 0;
             int _blastPower = 0;
             int _bombPass = 0;
