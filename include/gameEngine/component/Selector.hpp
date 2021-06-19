@@ -14,6 +14,7 @@
 #include "BCamera.hpp"
 
 #define BUTTON gameEngine::encapsulation::Button
+#define IMAGE gameEngine::encapsulation::BTexture2D
 #define TEXT gameEngine::encapsulation::BText
 #define RECTANGLE gameEngine::encapsulation::BRectangle
 
@@ -58,7 +59,7 @@ namespace gameEngine
             private:
                 SelectorEvent getEvent(void);
                 gameEngine::managers::ButtonManager _buttonManager;
-                std::unique_ptr<RECTANGLE> _mainRect = nullptr;
+                std::unique_ptr<IMAGE> _mainRect = nullptr;
                 std::shared_ptr<BUTTON> _buttonNext = nullptr;
                 std::shared_ptr<BUTTON> _buttonPrev = nullptr;
                 std::unique_ptr<TEXT> _title = nullptr;
