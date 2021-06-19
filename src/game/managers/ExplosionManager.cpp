@@ -116,9 +116,11 @@ void ExplosionManager::explode(const game::objects::AExplosif &bomb)
 {
     std::unordered_map<std::string, bool> direction = {
         {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true}};
+    Vector3T<float> pos(bomb.getTransform().getPosition());
 
+    _animRef->setPos({pos._x, pos._y, pos._z});
+    direction["UP"] = checkTilesExplosion(_animRef->getPos());
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
-        Vector3T<float> pos(bomb.getTransform().getPosition());
 
         // std::cout << "range = " << range << std::endl;
         if (direction["UP"]) {

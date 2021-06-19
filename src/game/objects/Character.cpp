@@ -37,6 +37,23 @@ Character::Character(
     _state = ANIMIDLE;
 }
 
+// Character::Character(const Character &ref)
+//  : gameEngine::objects::Moveable(ref.getId()),
+//    _isMoving(ref._isMoving),
+//    _bombRef(ref.getId()),
+//    _frameCounter(ref._frameCounter),
+//    _hasDropped(ref._hasDropped),
+//    _bombQueue(ref._bombQueue),
+//    _texture(ref._texture),
+//    _model(ref._model),
+//    _animWalk(ref._animWalk),
+//    _animIdle(ref._animIdle),
+//    _anim(ref._anim),
+//    _name(ref._name),
+//    _state(ref._state)
+// {
+// }
+
 Character::~Character()
 {
 }

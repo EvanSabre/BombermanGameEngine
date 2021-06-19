@@ -43,6 +43,7 @@ namespace game
                 const std::string &animWalk,
                 const std::string &animIdle,
                 const Vector3T<float> &pos = {0, 0, 0});
+            // Character(const Character &ref);
             ~Character();
 
             //getter

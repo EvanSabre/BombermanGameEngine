@@ -53,6 +53,7 @@ namespace game::objects {
             gameEngine::encapsulation::BTexture2D getTexture() const;
             gameEngine::encapsulation::BModel &getModel();
             game::Tag getType() const;
+            bool collide() const;
 
             // setters
             void setModel(const gameEngine::encapsulation::BModel &);
@@ -65,6 +66,7 @@ namespace game::objects {
             std::shared_ptr<gameEngine::encapsulation::BModel> _model;
             std::shared_ptr<gameEngine::encapsulation::BTexture2D> _texture;
             game::Tag _type;
+            bool _collide;
         private:
     };
 }

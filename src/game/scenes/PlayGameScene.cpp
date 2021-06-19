@@ -135,7 +135,15 @@ void PlayGameScene::setupCamera() noexcept
 
 void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &player, const Vector3T<float> &prev)
 {
+    game::objects::Character p(*player);
+    p.setTransform().setPosition(prev);
+    p.setCollider();
+
     for (auto tile = _tiles.begin(); tile != _tiles.end();) {
+        if ((*tile)->getTag() == BOMB && p.getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
+            tile++;
+            continue;
+        }
         if (player->getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
             player->setTransform().setPosition(prev);
             player->setIsMoving(false);
