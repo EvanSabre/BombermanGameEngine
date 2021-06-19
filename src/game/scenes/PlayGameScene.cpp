@@ -17,7 +17,7 @@ static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(13
 static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
-: AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15), _pause(false)
+: AScene(windowManager, info), _map(_info->getUniverse(), 15), _pause(false)
 {
 }
 
@@ -27,8 +27,8 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
-    std::string textStr = "assets/" + _universe + "/Textures/Character.png";
-    std::string modelStr = "assets/" + _universe + "/Models/Character.iqm";
+    std::string textStr = "assets/" + _info->getUniverse() + "/Textures/Character.png";
+    std::string modelStr = "assets/" + _info->getUniverse() + "/Models/Character.iqm";
     std::vector<gameEngine::component::Transform> SPAWNS = {
         BOT_LEFT_SPAWN,
         BOT_RIGHT_SPAWN,

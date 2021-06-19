@@ -33,6 +33,16 @@ bool game::managers::GameManager::haveToChange()
     return false;
 }
 
+std::string game::managers::GameManager::getUniverse() const noexcept
+{
+    return _universe;
+}
+
+void game::managers::GameManager::setUniverse(const std::string &uni)
+{
+    _universe = uni;
+}
+
 std::vector<std::shared_ptr<game::User>> game::managers::GameManager::getPlayers() const noexcept
 {
     return _players;

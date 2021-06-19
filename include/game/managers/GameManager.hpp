@@ -18,6 +18,7 @@
 
 #define SETTINGS_MANAGER game::systems::SettingConf
 #define SETTINGS game::system::setting_t
+#define UNIVERSE std::array<std::string, 3>({"Pirates", "Samurai", "Vikings"})
 
 namespace game {
     namespace managers {
@@ -31,6 +32,9 @@ namespace game {
                 void setQuit(bool q);
                 bool haveToChange();
                 bool haveToQuit();
+                std::string getUniverse() const noexcept;
+                void setUniverse(const std::string &uni);
+
                 std::vector<std::shared_ptr<game::User>> getPlayers() const noexcept;
                 void pushPlayer(std::shared_ptr<game::User> &player);
                 int nbPlayers = 1;
@@ -45,6 +49,7 @@ namespace game {
                 bool _change = false;
                 bool _quit = false;
                 game::systems::setting_t _settings;
+                std::string _universe = "Viking";
             private:
         };
     }

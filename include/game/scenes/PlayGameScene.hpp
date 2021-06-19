@@ -45,7 +45,6 @@ namespace game {
             protected:
             private:
                 game::Gui _gui;
-                std::string _universe;
                 Map _map;
                 bool _pause;
                 gameEngine::encapsulation::BCamera _cam;

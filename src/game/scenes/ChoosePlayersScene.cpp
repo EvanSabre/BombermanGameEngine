@@ -109,7 +109,6 @@ void ChoosePlayersScene::start()
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
-    playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("chooseProfile");}, _info);
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
@@ -129,6 +128,11 @@ void ChoosePlayersScene::update()
     _botSelector->update();
     _playerSelector->update();
 
+    if (_buttonManager.isButtonClicked("Play")) {
+        std::cout << _universeSelector->getIdActualContent() << std::endl;
+        _info->setUniverse(UNIVERSE.at(_universeSelector->getIdActualContent()));
+        _info->setCurrentScene("chooseProfile");
+    }
     int nbBots = std::atoi(_botSelector->getCurrentContent()->getContent().c_str());
     int nbPlayers = std::atoi(_playerSelector->getCurrentContent()->getContent().c_str());
     //_universeSelector->getCurrentContent()->setTransform().setPosition(Vector3T<float>(1280, 400, 0));
