@@ -25,14 +25,19 @@ ExplosionManager::ExplosionManager(
     _audio->loadSoundFromFile("./assets/All/Sound/CharacterDamage.wav", "damage");
     _audio->loadSoundFromFile("./assets/All/Sound/CharacterDeath.wav", "death");
     _audio->loadSoundFromFile("./assets/All/Sound/CollectibleDrop.wav", "itemDrop");
+    std::shared_ptr<gameEngine::encapsulation::BTexture2D> tileTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
+    std::shared_ptr<gameEngine::encapsulation::BTexture2D> speedTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/SpeedUp.png");
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
-    _powerUps[game::ONEUP] = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::ONEUP);
-    _powerUps[game::BOMBUP] = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::BOMBUP);
-    _powerUps[game::HEALTHUP] = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::HEALTHUP);
-    _powerUps[game::FIREUP] = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::FIREUP);
-    _powerUps[game::BOMBPASS] = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::ONEUP);
-    _powerUps[game::SPEEDUP] = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::SPEEDUP);
+    std::shared_ptr<gameEngine::encapsulation::BModel> oneModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/OneUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    std::shared_ptr<gameEngine::encapsulation::BModel> speedModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/SpeedUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    std::shared_ptr<gameEngine::encapsulation::BModel> bombModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/BombUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    std::shared_ptr<gameEngine::encapsulation::BModel> passModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/BombPass.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    _powerUps[game::ONEUP] = std::make_shared<game::objects::PowerUpTile>(oneModel, tileTex, game::ONEUP);
+    _powerUps[game::BOMBUP] = std::make_shared<game::objects::PowerUpTile>(bombModel, tileTex, game::BOMBUP);
+    _powerUps[game::HEALTHUP] = std::make_shared<game::objects::PowerUpTile>(healthModel, tileTex, game::HEALTHUP);
+    _powerUps[game::FIREUP] = std::make_shared<game::objects::PowerUpTile>(passModel, tileTex, game::FIREUP);
+    _powerUps[game::BOMBPASS] = std::make_shared<game::objects::PowerUpTile>(passModel, tileTex, game::ONEUP);
+    _powerUps[game::SPEEDUP] = std::make_shared<game::objects::PowerUpTile>(speedModel, speedTex, game::SPEEDUP);
 }
 
 ExplosionManager::~ExplosionManager()
@@ -87,7 +92,7 @@ bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
             (*tile)->getTransform().getPosition()._z == pos._z) {
             // check tile type -> brick = explode
             if ((*tile)->getTag() == BRICK) {
-                if (!(std::rand() % 6)) {
+                if (!(std::rand() % 5)) {
                     std::size_t nb = std::rand() % 5;
                     _powerUps[map[nb]]->setTransform().setPosition((*tile)->getTransform().getPosition());
                     _powerUps[map[nb]]->setTransform().setScale({5, 5, 5});
