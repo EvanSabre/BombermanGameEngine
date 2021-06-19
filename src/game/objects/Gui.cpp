@@ -55,7 +55,7 @@ void Gui::draw(const game::objects::Character &charac, corner_e corner)
 
 void Gui::draw(const game::objects::Character &charac, const Vector<float> &basePose)
 {
-    std::cout << "draw gui" << std::endl;
+    // std::cout << "draw gui" << std::endl;
     _heartTexture->setPos(Vector<int>(basePose._x, basePose._y + 80));
     _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 120));
 
