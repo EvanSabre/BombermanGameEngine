@@ -24,6 +24,14 @@ ExplosionManager::ExplosionManager(
     _audio->loadSoundFromFile("./assets/All/Sound/CharacterDamage.wav", "damage");
     _audio->loadSoundFromFile("./assets/All/Sound/CharacterDeath.wav", "death");
     _audio->loadSoundFromFile("./assets/All/Sound/CollectibleDrop.wav", "itemDrop");
+    std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
+    _powerUps[game::ONEUP] = std::make_shared<game::objects::Tile>(healthModel, healthTex, game::ONEUP);
+    _powerUps[game::BOMBUP] = std::make_shared<game::objects::Tile>(healthModel, healthTex, game::BOMBUP);
+    _powerUps[game::HEALTHUP] = std::make_shared<game::objects::Tile>(healthModel, healthTex, game::HEALTHUP);
+    _powerUps[game::FIREUP] = std::make_shared<game::objects::Tile>(healthModel, healthTex, game::FIREUP);
+    // _powerUps[game::BOMBPASS] = std::make_shared<game::objects::Tile>(healthModel, healthTex, game::ONEUP);
+    _powerUps[game::SPEEDUP] = std::make_shared<game::objects::Tile>(healthModel, healthTex, game::SPEEDUP);
 }
 
 ExplosionManager::~ExplosionManager()
@@ -76,8 +84,11 @@ bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
             (*tile)->getTransform().getPosition()._y == pos._y &&
             (*tile)->getTransform().getPosition()._z == pos._z) {
             // check tile type -> brick = explode
-            if ((*tile)->getTag() == BRICK)
+            if ((*tile)->getTag() == BRICK) {
+                _powerUps[game::ONEUP]->setTransform().setPosition((*tile)->getTransform().getPosition());
                 _tiles.erase(tile);
+                _tiles.push_back(std::make_shared<game::objects::Tile>(*_powerUps[game::ONEUP]));
+            }
             // std::cout << "* TILE DESTROYED *" << std::endl;
             return false;
         }

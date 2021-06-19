@@ -97,7 +97,7 @@ namespace game
                 {MOVE_UP, &Character::moveRight},
                 {MOVE_RIGHT, &Character::moveForward},
                 {MOVE_LEFT, &Character::moveBackward},
-                {NULL_EVENT, &Character::stand},
+                // {NULL_EVENT, &Character::stand},
                 {VALIDATE, &Character::dropBomb}
             };
 

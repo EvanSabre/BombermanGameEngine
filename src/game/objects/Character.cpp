@@ -198,7 +198,7 @@ game::Tag_e Character::getTag() const noexcept
 
 void Character::stand(std::size_t tick)
 {
-    std::cout << "stand " << getTransform() << std::endl;
+    // std::cout << "stand " << getTransform() << std::endl;
     //exit(0);
 }
 
@@ -249,7 +249,7 @@ void Character::handleEvent() noexcept
                 _currentEvent = NULL_EVENT;
                 flag = true;
                 _isMoving = true;
-                std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
+                // std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }

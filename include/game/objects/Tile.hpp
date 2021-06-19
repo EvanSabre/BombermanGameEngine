@@ -41,6 +41,7 @@ namespace game::objects {
             ~Tile();
 
             // member functions
+            Tile &operator=(const Tile &ref);
             void onCollisionEnter(const gameEngine::objects::AGameObject &collision);
             void onCollisionExit(const gameEngine::objects::AGameObject &collision);
             void update();

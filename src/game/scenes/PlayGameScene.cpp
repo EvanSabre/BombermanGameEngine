@@ -17,7 +17,7 @@ static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(13
 static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
-: AScene(windowManager, info), _map(_info->getUniverse(), 15), _pause(false)
+: AScene(windowManager, info), _map(_info->getUniverse(), MAPSIZE), _pause(false)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     std::string nb(std::to_string(std::rand() % 3));
@@ -80,11 +80,9 @@ void PlayGameScene::start()
 
     this->setupCamera();
 
-    std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
-    _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::ONEUP, Vector3T<float>{10, 10, 20},
-        Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
-    _tiles.push_back(_healtTile);
+    // std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
+    //     Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
 
     _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
     _timer.startThread();
@@ -99,7 +97,7 @@ void PlayGameScene::start()
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
     _explosion = std::make_shared<game::managers::ExplosionManager>(_players, _tiles);
-    _audio->playMusic();
+    // _audio->playMusic();
 }
 
 void PlayGameScene::setupPause()
@@ -142,11 +140,10 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
             player->setTransform().setPosition(prev);
             player->setIsMoving(false);
             player->onCollisionEnter(*(*tile));
-            if ((*tile)->getTag() == BOMB)
-                std::cout << "BOOOOOOMM" << std::endl;
             if ((*tile)->getTag() == ONEUP || (*tile)->getTag() == BOMBUP ||
                 (*tile)->getTag() == HEALTHUP || (*tile)->getTag() == FIREUP ||
                 (*tile)->getTag() == BOMBPASS || (*tile)->getTag() == SPEEDUP) {
+                std::cout << "POWERUP" << std::endl;
                 _audio->playSound("itemPick");
                 _tiles.erase(tile);
                 continue;
@@ -199,7 +196,6 @@ void PlayGameScene::quit()
 void PlayGameScene::update()
 {
     //updateExplosionManager();
-    _healtTile->update();
     _buttonManager.updateButtons();
     if (!_windowManager->isRunning())
         quit();
@@ -217,6 +213,9 @@ void PlayGameScene::update()
         if ((std::size_t)id <= _players.size()) {
             _players[id - 1]->setCurrentEvent(evt);
         }
+    }
+    for (auto &tile : _tiles) {
+        tile->update();
     }
     for (auto &player : _players) {
         Vector3T<float> prev(player->getTransform().getPosition());
