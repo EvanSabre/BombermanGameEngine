@@ -29,7 +29,7 @@ void PlayGameScene::start()
     std::shared_ptr<game::objects::Bot> bot = std::make_shared<game::objects::Bot>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _tiles, 0, Vector<int>(15, 17));
 
     bot->setTransform().setScale({0.1, 0.1, 0.1});
-    bot->setTransform().setPosition({130, 10, 10});
+    bot->setTransform().setPosition({130, 10, 20});
     bot->setGoal(bot->getTransform().getPosition());
     bot->setTransform().setRotation({90, 90, 0});
     bot->setCollider();
