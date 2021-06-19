@@ -37,6 +37,23 @@ Character::Character(
     _state = ANIMIDLE;
 }
 
+// Character::Character(const Character &ref)
+//  : gameEngine::objects::Moveable(ref.getId()),
+//    _isMoving(ref._isMoving),
+//    _bombRef(ref.getId()),
+//    _frameCounter(ref._frameCounter),
+//    _hasDropped(ref._hasDropped),
+//    _bombQueue(ref._bombQueue),
+//    _texture(ref._texture),
+//    _model(ref._model),
+//    _animWalk(ref._animWalk),
+//    _animIdle(ref._animIdle),
+//    _anim(ref._anim),
+//    _name(ref._name),
+//    _state(ref._state)
+// {
+// }
+
 Character::~Character()
 {
 }
@@ -211,7 +228,7 @@ game::Tag_e Character::getTag() const noexcept
 
 void Character::stand(std::size_t tick)
 {
-    std::cout << "stand " << getTransform() << std::endl;
+    // std::cout << "stand " << getTransform() << std::endl;
     //exit(0);
 }
 
@@ -262,7 +279,7 @@ void Character::handleEvent() noexcept
                 _currentEvent = NULL_EVENT;
                 flag = true;
                 _isMoving = true;
-                std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
+                // std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }
