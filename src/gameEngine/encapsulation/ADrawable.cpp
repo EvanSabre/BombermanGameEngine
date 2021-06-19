@@ -14,6 +14,15 @@ encapsulation::ADrawable::ADrawable()
 {
 }
 
+encapsulation::ADrawable &encapsulation::ADrawable::operator=(const ADrawable &ref)
+{
+    if (this == &ref)
+        return (*this);
+    _color = ref._color;
+    return (*this);
+}
+
+
 encapsulation::ADrawable::~ADrawable()
 {
 }
