@@ -185,18 +185,25 @@ void SettingsScene::setKeyMap()
 
 void SettingsScene::update()
 {
+    bool canSave = true;
+
     _buttonManager.updateButtons();
     _inputManager.updateButtons();
+    for (auto it : _inputManager.getCurrentButtons()) {
+        if (it->getContent().getStr().empty()) {
+            canSave = false;
+            it->setColor(RED);
+        } else
+            it->setColor(DARKGRAY);
+    }
+    if (canSave)
+        _buttonManager.setEnabledButton("Save", true);
+    else
+        _buttonManager.setEnabledButton("Save", false);
     if (_buttonManager.isButtonClicked("Save")) {
         setKeyMap();
         _info->_inputManager->setKeymap(_keyMap);
     }
-    //***** POUR METTRE EN MARCHE LE BOUTON SAVE *************
-    // if (modifications dans l input) {
-    // _buttonManager.setEnabledButton("Save", true);
-    // _saveButtonText = gameEngine::encapsulation::BText("Save", Vector<float>(1730, 1010), WHITE, 30);
-    // }
-
     _audio.updateMusicStream();
 }
 
