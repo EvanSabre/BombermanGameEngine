@@ -19,6 +19,19 @@ static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info), _map(_info->getUniverse(), 15), _pause(false)
 {
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    std::string nb(std::to_string(std::rand() % 3));
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Game" + nb + ".wav");
+    _audio->loadSoundFromFile("./assets/All/Sound/Bombdrop.wav", "drop");
+    _audio->loadSoundFromFile("./assets/All/Sound/BombExplode.mp3", "boom");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
+    _audio->loadSoundFromFile("./assets/All/Sound/CharacterDamage.wav", "damage");
+    _audio->loadSoundFromFile("./assets/All/Sound/CharacterDeath.wav", "death");
+    _audio->loadSoundFromFile("./assets/All/Sound/CollectibleDrop.wav", "itemDrop");
+    _audio->loadSoundFromFile("./assets/All/Sound/CollectiblePick.wav", "itemPick");
+
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
 PlayGameScene::~PlayGameScene()
@@ -66,9 +79,6 @@ void PlayGameScene::start()
     }
 
     this->setupCamera();
-    std::string nb(std::to_string(std::rand() % 3));
-    _audio.loadMusicStreamFromFile("./assets/All/Music/Game" + nb + ".wav");
-    _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
@@ -86,13 +96,10 @@ void PlayGameScene::start()
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), pauseText, BLUE);
 
     setupPause();
-    _audio.setSoundVolume(15.0);
-    _audio.playSound();
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
     _explosion = std::make_shared<game::managers::ExplosionManager>(_players, _tiles);
-    _audio.setMusicVolume(1.0); //1.0 is max level
-    _audio.playMusic();
+    _audio->playMusic();
 }
 
 void PlayGameScene::setupPause()
@@ -136,6 +143,7 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
             player->setIsMoving(false);
             player->onCollisionEnter(*(*tile));
             if ((*tile)->getTag() == ONEUP) {
+                _audio->playSound("itemPick");
                 _tiles.erase(tile);
             } else
                 tile++;
@@ -162,9 +170,11 @@ void PlayGameScene::updatePause()
     if (_pauseManager.isButtonClicked("RESUME")) {
         _pause = false;
         _timer.setPause(false);
+        _audio->playSound("button");
     }
     if (_pauseManager.isButtonClicked("QUIT")) {
         _timer.setPause(false);
+        _audio->playSound("button");
         quit();
     }
 }
@@ -186,7 +196,6 @@ void PlayGameScene::update()
     //updateExplosionManager();
     _healtTile->update();
     _buttonManager.updateButtons();
-    _audio.updateMusicStream();
     if (!_windowManager->isRunning())
         quit();
     if (_buttonManager.isButtonClicked("PAUSE")) {
@@ -210,6 +219,7 @@ void PlayGameScene::update()
         player->update();
         collisionChecker(player, prev);
         if (player->hasDropped()) {
+            _audio->playSound("drop");
             for (auto &bomb : list) {
                 if (bomb->getSwitch()) {
                     _explosion->pushBomb(bomb);
@@ -220,6 +230,7 @@ void PlayGameScene::update()
         player->setDropped(false);
     }
     updateExplosionManager();
+    _audio->updateMusicStream();
 }
 
 void PlayGameScene::draw()

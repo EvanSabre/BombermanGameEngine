@@ -23,6 +23,12 @@ ChoosePlayersScene::~ChoosePlayersScene()
 ChoosePlayersScene::ChoosePlayersScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info), _universe("Vikings")
 {
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Settings.mp3");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
+
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
 void ChoosePlayersScene::start()
@@ -109,13 +115,14 @@ void ChoosePlayersScene::start()
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
-    backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
+    // backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
     _PlayersIndication = TEXT("",
                               Vector<float>(pos._x * 0.2 + size._x * 0.5, pos._y + size._y * 0.9),
                               WHITE,
                               30);
+    _audio->playMusic();
 }
 
 void ChoosePlayersScene::update()
@@ -148,6 +155,21 @@ void ChoosePlayersScene::update()
         _PlayersIndication.setColor(WHITE);
     }
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
+    // if (_buttonManager.isButtonClicked("Play")) {
+    //     _audio->stopMusic();
+    //     _audio->playSound("button");
+    //     _audio->updateMusicStream();
+    //     sleep(1);
+    //     _info->setCurrentScene("play");
+    // }
+    if (_buttonManager.isButtonClicked("Back")) {
+        _audio->stopMusic();
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("menu");
+    }
+    _audio->updateMusicStream();
+    return;
 }
 
 void ChoosePlayersScene::draw()

@@ -22,8 +22,11 @@ static const std::array<gameEngine::key_e, 5> gamePadKeys = {
 SettingsScene::SettingsScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
 : AScene(windowManager, info)
 {
-    _audio.loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
-    _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Settings.mp3");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 
     _background.loadFromFile("./assets/Backgrounds/settings_background.png");
 
@@ -44,16 +47,15 @@ void SettingsScene::start()
     Vector<float> size(300, 200);
     Vector<float> middle(_windowManager->getWindowSize()._x / 2, _windowManager->getWindowSize()._y / 2);
 
-    _audio.setMusicVolume(1.0); //1.0 is max level
-    _audio.playMusic();
-
+    _audio->playMusic();
     //title
     _title = std::make_shared<gameEngine::encapsulation::BSdf>("SETTINGS", 120, WHITE, Vector3T<float>(middle._x - 200, 60, 0));
 
     //sound selector
+    int currentSound = (int)_info->getSoundVolume();
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> soundCt =
         {
-            std::make_shared<TEXT>("100", size, BLACK, 40),
+            std::make_shared<TEXT>(std::to_string(currentSound).c_str(), size, BLACK, 40),
             std::make_shared<TEXT>("0", size, BLACK, 40),
             std::make_shared<TEXT>("10", size, BLACK, 40),
             std::make_shared<TEXT>("20", size, BLACK, 40),
@@ -69,9 +71,10 @@ void SettingsScene::start()
     _soundSelector = std::make_unique<gameEngine::component::Selector>("Sound Volume", soundCt, Vector<float>(100,  middle._y - 200), Vector<float>(600, 150), 30, WHITE);
 
     //music selector
+    int currentMusic = (int)_info->getMusicVolume();
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> musicCt =
         {
-            std::make_shared<TEXT>("100", size, BLACK, 40),
+            std::make_shared<TEXT>(std::to_string(currentMusic).c_str(), size, BLACK, 40),
             std::make_shared<TEXT>("0", size, BLACK, 40),
             std::make_shared<TEXT>("10", size, BLACK, 40),
             std::make_shared<TEXT>("20", size, BLACK, 40),
@@ -91,7 +94,7 @@ void SettingsScene::start()
     quitText.setFont(_font);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(310, 50), Vector<float>(20, 1000), quitText, DARKGRAY);
-    buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu"); }, _info);
+    // buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu"); }, _info);
 
     //keybindings
     _keybindings = std::make_shared<gameEngine::encapsulation::BText>("Key Bindings", Vector<float>(middle._x + 400, middle._y - 300), WHITE, 60);
@@ -120,11 +123,11 @@ void SettingsScene::start()
     std::shared_ptr<gameEngine::object::InputButton> buttonDown =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 150), 1, inputDownText, DARKGRAY, true);
 
-    // _pick = std::make_shared<gameEngine::encapsulation::BText>("Pick", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
-    // gameEngine::encapsulation::BText inputPickText("k", Vector<float>(middle._x + 800, middle._y + 270), WHITE, 20);
-    // inputPickText.setFont(_font);
-    // std::shared_ptr<gameEngine::object::InputButton> buttonPick =
-    // std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 250), 1, inputPickText, DARKGRAY, true);
+    _pick = std::make_shared<gameEngine::encapsulation::BText>("Pick", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
+    gameEngine::encapsulation::BText inputPickText("k", Vector<float>(middle._x + 800, middle._y + 270), WHITE, 20);
+    inputPickText.setFont(_font);
+    std::shared_ptr<gameEngine::object::InputButton> buttonPick =
+    std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 250), 1, inputPickText, DARKGRAY, true);
 
     _drop = std::make_shared<gameEngine::encapsulation::BText>("Drop", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
     gameEngine::encapsulation::BText inputDropText("l", Vector<float>(middle._x + 800, middle._y + 270), WHITE, 20);
@@ -144,7 +147,7 @@ void SettingsScene::start()
     _inputManager.pushButton(buttonRight);
     _inputManager.pushButton(buttonLeft);
     _inputManager.pushButton(buttonDrop);
-//    _inputManager.pushButton(buttonPick);
+   _inputManager.pushButton(buttonPick);
 
     _buttonManager.pushButton(buttonSave);
     //_buttonManager.setEnabledButton("Save", false);
@@ -202,9 +205,21 @@ void SettingsScene::update()
         _buttonManager.setEnabledButton("Save", false);
     if (_buttonManager.isButtonClicked("Save")) {
         setKeyMap();
+        _audio->playSound("button");
         _info->_inputManager->setKeymap(_keyMap);
     }
-    _audio.updateMusicStream();
+    _soundSelector->update();
+    _musicSelector->update();
+    _info->setMusicVolume(std::atof(_musicSelector->getCurrentContent()->getContent().c_str()));
+    _info->setSoundVolume(std::atof(_soundSelector->getCurrentContent()->getContent().c_str()));
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
+    if (_buttonManager.isButtonClicked("Back to Menu")) {
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("menu");
+    }
+    _audio->updateMusicStream();
 }
 
 void SettingsScene::draw()

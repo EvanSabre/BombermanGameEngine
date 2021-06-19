@@ -17,6 +17,12 @@ static const Vector<float> SCALE_KEYPAD(0.5, 0.5);
 ChooseProfileScene::ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info), _acceptPopUp("This username has already been taken", Vector<float>(windowManager->getWindowSize()._x / 2, windowManager->getWindowSize()._y / 2), Vector<float>(500, 200))
 {
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
+
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
 ChooseProfileScene::~ChooseProfileScene()
@@ -69,6 +75,8 @@ void ChooseProfileScene::start()
                                             WHITE,
                                             BACKGROUND_BUTTON);
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
+    // playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play");}, _info);
+
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
     _ProfilesIndicationGameWon = TEXT("Game Won: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
@@ -104,6 +112,7 @@ void ChooseProfileScene::start()
                               30);
 
     _nbContents = _profileSelector->getNbContent();
+    _audio->playMusic();
 }
 
 void ChooseProfileScene::createNewProfile()
@@ -162,6 +171,8 @@ void ChooseProfileScene::update()
         else
             _info->setCurrentScene("chooseProfile");
     }
+    // _ProfilesIndication.setStr(nb_entity + "/ 4 profiles maximum");
+    _audio->updateMusicStream();
     _acceptPopUp.update();
 }
 
