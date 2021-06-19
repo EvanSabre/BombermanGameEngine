@@ -26,7 +26,7 @@ namespace gameEngine {
                 virtual ~IButton() = default;
 
                 virtual bool isInsideButton(const Vector<float> &point) = 0;
-                virtual bool isButtonPressed(const Vector<float> &mousePos) = 0;
+                virtual bool isButtonPressed() = 0;
                 virtual bool isButtonReleased() = 0;
                 virtual void update() = 0;
                 virtual void draw() = 0;
