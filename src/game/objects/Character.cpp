@@ -18,10 +18,7 @@ Character::Character(
     const std::string &animIdle,
     const Vector3T<float> &pos
     ) : gameEngine::objects::Moveable(id),
-      _isMoving(false),
-      _bombRef(id),
-      _frameCounter(0),
-      _hasDropped(false)
+      _bombRef(id)
 {
     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
