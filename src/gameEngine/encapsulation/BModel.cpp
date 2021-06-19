@@ -43,7 +43,6 @@ BModel::BModel(const encapsulation::BModel &ref)
     } catch (const LoadingError &e) {
         throw e;
     }
-    this->setTexture(ref._materiel_idx, ref._maps_idx, *ref._texture);
     this->_color = ref.getColor();
     this->_transform.setPosition(ref._transform.getPosition());
     this->_transform.setRotation(ref._transform.getRotation());
@@ -128,9 +127,6 @@ void BModel::unloadKeepMesh() noexcept
 void BModel::setTexture(int material_idx, int maps_idx,
                 const BTexture2D &texture) noexcept
 {
-    _maps_idx = maps_idx;
-    _materiel_idx = material_idx;
-    _texture = std::make_shared<BTexture2D>(texture);
     _model.materials[material_idx].maps[maps_idx].texture = texture.getObj();              // Set map diffuse texture
 }
 //-------------------------
@@ -155,11 +151,6 @@ void BModel::draw()
     Vector3T<float> scale(this->_transform.getScale());
     Vector3 vecScale = {scale._x, scale._y, scale._z};
 
-    //std::cout << _transform << std::endl;
-    setTransform().setPosition(this->_transform.getPosition());
-    setTransform().setRotation(this->_transform.getRotation());
-    setTransform().setScale(this->_transform.getScale());
-    rotate();
     DrawModel(this->_model, vecPos, vecScale.x, _color.getObj());
 }
 

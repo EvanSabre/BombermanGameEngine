@@ -32,8 +32,7 @@ namespace game {
                 gameEngine::encapsulation::BSdf _text;
                 gameEngine::component::Timer _timer;
                 std::unique_ptr<gameEngine::component::TSelector<gameEngine::encapsulation::BModel>> _universeSelector = nullptr;
-                std::shared_ptr<gameEngine::encapsulation::BModel> tmp;
-
+                std::shared_ptr<gameEngine::encapsulation::BTexture2D> _tmp;
             private:
         };
     }

@@ -8,13 +8,13 @@
 #include "ChoosePlayersScene.hpp"
 #include "Button.hpp"
 #include "InputButton.hpp"
-#include "BModel.hpp"
 
 using namespace game::scenes;
 #define BACKGROUND_BUTTON "./assets/Backgrounds/SupernovaBG.png"
 #define PIRATE_UNIVERSE "./assets/Backgrounds/pirate_universe.png"
 #define SAMOURAI_UNIVERSE "./assets/Backgrounds/samourai_universe.png"
 #define VIKING_UNIVERSE "./assets/Backgrounds/viking_universe.png"
+
 
 ChoosePlayersScene::~ChoosePlayersScene()
 {
@@ -55,23 +55,32 @@ void ChoosePlayersScene::start()
         std::make_shared<gameEngine::encapsulation::BModel>("./assets/Vikings/Models/Character.iqm", Vector3T<float>(3, 4, 0)),
     };
 
-    gameEngine::encapsulation::BTexture2D texture1("./assets/Pirates/Textures/Character.png");
-    gameEngine::encapsulation::BTexture2D texture2("./assets/Samurai/Textures/Character.png");
-    gameEngine::encapsulation::BTexture2D texture3("./assets/Vikings/Textures/Character.png");
+    _textures = {
+        std::make_shared<gameEngine::encapsulation::BTexture2D>("./assets/Pirates/Textures/Character.png"),
+        std::make_shared<gameEngine::encapsulation::BTexture2D>("./assets/Samurai/Textures/Character.png"),
+        std::make_shared<gameEngine::encapsulation::BTexture2D>("./assets/Vikings/Textures/Character.png")
+    };
 
-    modelList[0]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture1);
-    modelList[1]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture2);
-    modelList[2]->setTexture(0, MATERIAL_MAP_DIFFUSE, texture3);
+    modelList[0]->setTexture(0, MATERIAL_MAP_DIFFUSE, *_textures[0]);
+    modelList[1]->setTexture(0, MATERIAL_MAP_DIFFUSE, *_textures[1]);
+    modelList[2]->setTexture(0, MATERIAL_MAP_DIFFUSE, *_textures[2]);
 
     modelList[0]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
     modelList[1]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
     modelList[2]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
 
-    modelList[0]->setTransform().setPosition(Vector3T<float>(10, 10, 10));
-    modelList[1]->setTransform().setPosition(Vector3T<float>(10, 10, 10));
-    modelList[2]->setTransform().setPosition(Vector3T<float>(10, 10, 10));
+    modelList[0]->setTransform().setPosition(Vector3T<float>(80, 10, 140));
+    modelList[1]->setTransform().setPosition(Vector3T<float>(80, 10, 140));
+    modelList[2]->setTransform().setPosition(Vector3T<float>(80, 10, 140));
 
-    std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> chooseUniverse =
+    modelList[0]->setTransform().setRotation(Vector3T<float>(180, 90, 0));
+    modelList[1]->setTransform().setRotation(Vector3T<float>(180, 90, 0));
+    modelList[2]->setTransform().setRotation(Vector3T<float>(180, 90, 0));
+
+    for (int i = 0; i < 3; i++)
+        modelList[i]->rotate();
+
+    std::vector<std::shared_ptr<gameEngine::encapsulation::BModel>> chooseUniverse =
     {
         modelList[0],
         modelList[1],
@@ -82,7 +91,8 @@ void ChoosePlayersScene::start()
 
     };
 
-    _universeSelector = std::make_unique<SELECTOR>("Choose an universe", chooseUniverse, Vector<float>(pos._x * 2.0, pos._y * 0.9), Vector<float>(size._x * 0.95, size._y * 1), 20, DARKGRAY, WHITE, true);
+    _universeSelector =
+    std::make_unique<gameEngine::component::TSelector<gameEngine::encapsulation::BModel>>("Choose an universe", chooseUniverse, Vector<float>(pos._x * 2.0, pos._y * 0.9), Vector<float>(size._x * 0.95, size._y * 1), 20, DARKGRAY, WHITE, true);
     _playerSelector = std::make_unique<SELECTOR>("Choose a number of players", playerContent, Vector<float>(pos._x * 0.3, pos._y * 1.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, DARKGRAY);
     _botSelector = std::make_unique<SELECTOR>("Choose a number of bots", botContent, Vector<float>(pos._x * 0.3, pos._y * 3.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, DARKGRAY);
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
@@ -121,7 +131,7 @@ void ChoosePlayersScene::update()
 
     int nbBots = std::atoi(_botSelector->getCurrentContent()->getContent().c_str());
     int nbPlayers = std::atoi(_playerSelector->getCurrentContent()->getContent().c_str());
-    _universeSelector->getCurrentContent()->setTransform().setPosition(Vector3T<float>(1280, 400, 0));
+    //_universeSelector->getCurrentContent()->setTransform().setPosition(Vector3T<float>(1280, 400, 0));
 
     std::string nb_entity = std::to_string(nbBots + nbPlayers);
     if (std::atoi(nb_entity.c_str()) > 4 || std::atoi(nb_entity.c_str()) < 1) {
@@ -138,15 +148,12 @@ void ChoosePlayersScene::update()
 
 void ChoosePlayersScene::draw()
 {
-    // _background->draw();
-    // _playerSelector->draw();
-    // _botSelector->draw();
-    // _buttonManager.drawButtons();
-    // _PlayersIndication.draw();
-    _universeSelector->_cam.beginMode();
-    DrawGrid(10, 1.0f);
+    _background->draw();
+    _playerSelector->draw();
+    _botSelector->draw();
+    _buttonManager.drawButtons();
     _universeSelector->draw();
-    _universeSelector->_cam.endMode();
+    _PlayersIndication.draw();
 }
 
 // * Callbacks

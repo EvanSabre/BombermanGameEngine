@@ -48,6 +48,8 @@ namespace gameEngine
                     gameEngine::encapsulation::BColor color = WHITE,
                     gameEngine::encapsulation::BColor colorText = BLACK,
                     bool is3D = false) {
+                            _iCurrent = 0;
+                            _is3D = is3D;
                             Vector<float> sizeButton(size._x * 0.1, size._x * 0.1);
                             _title = std::make_unique<TEXT>(name,
                                     Vector<float>(pos._x + size._x * 0.35, pos._y + size._y * 0.1),
@@ -68,18 +70,19 @@ namespace gameEngine
                                             PREV_BUTTON_PATH);
                             _mainRect = std::make_unique<RECTANGLE>(size, pos, color);
                             for (auto i : contents) {
-                                _contents.push_back(std::make_shared<T>(*i));
+                                _contents.push_back(i);
                             }
-                            //_contents = contents;
                             _contentPos = Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.4);
                             _contentSize = sizeButton;
                             _buttonManager.pushButton(_buttonNext);
                             _buttonManager.pushButton(_buttonPrev);
-                            _cam.setPosition({-20, 180, 70});
-                            _cam.setTarget({70, 0, 70});
-                            _cam.setUp({0, 1, 0});
-                            _cam.setFovy(55);
-                            _cam.setProjection(CAMERA_PERSPECTIVE);
+                            if (is3D) {
+                                _cam.setPosition({-20, 180, 70});
+                                _cam.setTarget({70, 0, 70});
+                                _cam.setUp({0, 1, 0});
+                                _cam.setFovy(55);
+                                _cam.setProjection(CAMERA_PERSPECTIVE);
+                            }
                     }
                 ~TSelector() = default;
 
@@ -100,9 +103,12 @@ namespace gameEngine
                         return SelectorEvent::NONE;
                 }
                 void draw() { _mainRect->draw(); _buttonManager.drawButtons(); _title->draw();
-                            _cam.beginMode();
-                            _contents[_iCurrent]->draw();
-                            _cam.endMode();
+                            if (_is3D) {
+                                _cam.beginMode();
+                                _contents[_iCurrent]->draw();
+                                _cam.endMode();
+                            } else
+                                _contents[_iCurrent]->draw();
                             }
                 void update() {
                         _buttonManager.updateButtons();

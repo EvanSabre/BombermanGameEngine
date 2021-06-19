@@ -63,6 +63,7 @@ namespace game
                 gameEngine::component::PopUp _acceptPopUp;
                 gameEngine::managers::ButtonManager _buttonManager;
                 std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> _profileContent;
+
         };
     };
 };
