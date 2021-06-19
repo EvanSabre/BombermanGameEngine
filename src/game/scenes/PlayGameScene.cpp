@@ -137,17 +137,22 @@ void PlayGameScene::setupCamera() noexcept
 
 void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &player, const Vector3T<float> &prev)
 {
-    for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
+    for (auto tile = _tiles.begin(); tile != _tiles.end();) {
         if (player->getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
             player->setTransform().setPosition(prev);
             player->setIsMoving(false);
             player->onCollisionEnter(*(*tile));
-            if ((*tile)->getTag() == ONEUP) {
+            if ((*tile)->getTag() == BOMB)
+                std::cout << "BOOOOOOMM" << std::endl;
+            if ((*tile)->getTag() == ONEUP || (*tile)->getTag() == BOMBUP ||
+                (*tile)->getTag() == HEALTHUP || (*tile)->getTag() == FIREUP ||
+                (*tile)->getTag() == BOMBPASS || (*tile)->getTag() == SPEEDUP) {
                 _audio->playSound("itemPick");
                 _tiles.erase(tile);
-            } else
-                tile++;
+                continue;
+            }
         }
+        tile++;
     }
 }
 
