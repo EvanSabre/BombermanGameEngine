@@ -40,6 +40,8 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
+    // std::string textStr = "assets/Vikings/Textures/Character.png";
+    // std::string modelStr = "assets/Vikings/Models/Character.iqm";
     std::string textStr = "assets/" + _info->getUniverse() + "/Textures/Character.png";
     std::string modelStr = "assets/" + _info->getUniverse() + "/Models/Character.iqm";
     std::vector<gameEngine::component::Transform> SPAWNS = {

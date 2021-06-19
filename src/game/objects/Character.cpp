@@ -218,6 +218,7 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
         _lives += efx->getLife();
     _maxBomb += efx->getNbBomb();
     _bombRange += efx->getBlastPower();
+    _bombRef.increaseRange(_bombRange);
     _speed = _speed + efx->getSpeed();
 }
 
@@ -297,4 +298,3 @@ void Character::loose() noexcept
 {
     _alive = false;
 }
-

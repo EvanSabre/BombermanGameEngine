@@ -61,7 +61,7 @@ AExplosif::~AExplosif()
 // Setters
 void AExplosif::increaseRange(const std::size_t &range)
 {
-    _range += range;
+    _range = range;
 }
 
 void AExplosif::explode()
