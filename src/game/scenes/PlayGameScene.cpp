@@ -30,7 +30,7 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     _audio->loadSoundFromFile("./assets/All/Sound/CollectibleDrop.wav", "itemDrop");
     _audio->loadSoundFromFile("./assets/All/Sound/CollectiblePick.wav", "itemPick");
 
-    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setMusicVolume((_info->getMusicVolume() - 20) / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
@@ -91,9 +91,9 @@ void PlayGameScene::start()
     _timer.getCurrentTime().setColor(RED);
     _timer.getCurrentTime().setTextSize(100);
 
-    gameEngine::encapsulation::BText pauseText("PAUSE", Vector<float>(10, 10), WHITE, 30);
+    gameEngine::encapsulation::BText pauseText("PAUSE", Vector<float>(100, 30), WHITE, 20);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), pauseText, BLUE);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 40), Vector<float>(10, 10), pauseText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     setupPause();
     _buttonManager.pushButton(button);
@@ -107,23 +107,21 @@ void PlayGameScene::setupPause()
     Vector<float> size(300, 200);
     Vector<float> middle2(_windowManager->getWindowSize()._x/3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
-    gameEngine::encapsulation::BText resumeText("RESUME", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 30);
-    gameEngine::encapsulation::BFont fontPlay;
-    fontPlay.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
-    resumeText.setFont(fontPlay);
+    gameEngine::encapsulation::BText resumeText("RESUME", Vector<float>(middle2._x + 60, middle2._y + 15), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> resume =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(310, 100), middle2, resumeText, DARKGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), resumeText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
-    gameEngine::encapsulation::BFont fontQuit;
-    fontQuit.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
-    quitText.setFont(fontQuit);
+    gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 85), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 70), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 155), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, DARKGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 140), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     _pauseManager.pushButton(resume);
     _pauseManager.pushButton(buttonQuit);
+    _pauseManager.pushButton(buttonSettings);
 }
 
 void PlayGameScene::setupCamera() noexcept

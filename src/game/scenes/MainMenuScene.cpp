@@ -40,7 +40,7 @@ void MainMenuScene::start()
     Vector<float> middle1(_windowManager->getWindowSize()._x/3 - size._x / 2, _windowManager->getWindowSize()._y/3 - size._y / 2);
     Vector<float> middle2(_windowManager->getWindowSize()._x/3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
-    // _audio->playMusic();
+    _audio->playMusic();
 
     _background.loadFromFile("./assets/Backgrounds/menu_background.png");
     _title = std::make_shared<gameEngine::encapsulation::BSdf>("BomberVerse", 120, DARKBLUE, Vector3T<float>(middle1._x + 40, 60, 0));
