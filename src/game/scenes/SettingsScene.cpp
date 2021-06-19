@@ -175,8 +175,7 @@ void SettingsScene::setKeyMap()
         fullPair.first = (game::Event)i;
         tmp = it->getContent().getStr();
         toUpper(tmp);
-        std::cout << tmp << std::endl;
-        pair.first = (gameEngine::key_e)(int)(tmp.c_str()[0]);
+        pair.first = (gameEngine::key_e)(tmp.c_str()[0]);
         pair.second = gamePadKeys.at(i - 1);
         fullPair.second = pair;
         _keyMap.insert(fullPair);

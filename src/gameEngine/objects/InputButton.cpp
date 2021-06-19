@@ -16,15 +16,13 @@ InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, co
                 const encapsulation::BColor &color, bool relative, const encapsulation::BColor &selectColor) :
             AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput), _canInput(true)
 {
-    _content.setTextSize(size._x / 2 / maxInput + content.getTextSize());
+    _content->setTextSize(size._x / 2 / maxInput + content.getTextSize());
     if (relative)
-        _content.setTextPosition(Vector<float>(pos._x, pos._y - content.getTextSize() / 2));
+        _content->setTextPosition(Vector<float>(pos._x, pos._y - content.getTextSize() / 2));
     else
-        _content.setTextPosition(content.getTextPosition());
-    _content.setColor(content.getColor());
-    std::cout << content << std::endl;
-    _content.setStr(content.getStr());
-    std::cout << _content << std::endl;
+        _content->setTextPosition(content.getTextPosition());
+    _content->setColor(content.getColor());
+    _content->setStr(content.getStr());
 }
 
 InputButton::~InputButton()
@@ -62,28 +60,30 @@ void InputButton::updateInput()
             _input.push_back((char)_currentChar);
         }
         getNextChar();
-        _content.setStr(_input);
+        _content->setStr(_input);
+        if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
+            _input.pop_back();
     }
-    if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
-        _input.pop_back();
 }
 
 void InputButton::draw()
 {
     drawButtonRect();
     drawOutline();
-    _content.draw();
+    _content->draw();
 }
 
 void InputButton::update()
 {
     _validate = false;
     updateState();
-    if (isFocus() && _canInput)
+    if (isFocus() && _canInput) {
         updateInput();
+    }
     if (checkAction()) {
+        std::cout << "erasing\n";
         _input.erase();
-        _content.setStr(_input);
+        _content->setStr(_input);
     }
     if (GetKeyPressed() == KEY_ENTER)
         _validate = true;
@@ -91,5 +91,6 @@ void InputButton::update()
 
 std::string InputButton::getContent() const noexcept
 {
-    return _content.getStr();
+    std::cout << _content << std::endl;
+    return _content->getStr();
 }

@@ -33,7 +33,6 @@ namespace gameEngine {
                 void draw() override;
 
             protected:
-                encapsulation::BText _content;
                 std::string _input;
                 int _currentChar;
                 int _maxInput;
