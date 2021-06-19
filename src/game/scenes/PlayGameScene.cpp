@@ -161,6 +161,7 @@ void PlayGameScene::updateExplosionManager()
     _explosion->setObjects(_players, _tiles);
     _explosion->update();
     _tiles = _explosion->getTiles();
+    _players = _explosion->getPlayers();
 
     auto array = _explosion->getBombs();
     for (auto &bomb : array) {
@@ -219,8 +220,6 @@ void PlayGameScene::update()
         }
     }
     for (auto &player : _players) {
-        if (!(*player).isAlive())
-            continue;
         Vector3T<float> prev(player->getTransform().getPosition());
         auto list = player->getBombQueue();
         player->update();
@@ -260,8 +259,7 @@ void PlayGameScene::draw()
     }
     int idx_player = 0;
     for (auto &it : _players) {
-        if ((*it).isAlive())
-            _gui.draw((*it), (game::Gui::corner_e)idx_player);
+        _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
     }
 }
