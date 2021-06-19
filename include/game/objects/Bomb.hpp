@@ -42,6 +42,7 @@ namespace game::objects
             // Member functions
             void drop() final;
             void countdown();
+            void setCollider() noexcept;
 
         protected:
         private:

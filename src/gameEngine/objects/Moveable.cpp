@@ -16,6 +16,12 @@ Moveable::Moveable(const std::string &id) : AGameObject(id)
 Moveable::~Moveable()
 {}
 
+Vector3T<float> Moveable::getSpeed() const noexcept
+{
+    return _speed;
+}
+
+
 void Moveable::move(const std::size_t &tick) noexcept
 {
     gameEngine::systems::Move::move(_transform, _speed, tick);

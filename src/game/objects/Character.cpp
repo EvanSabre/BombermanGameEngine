@@ -37,6 +37,23 @@ Character::Character(
     _state = ANIMIDLE;
 }
 
+// Character::Character(const Character &ref)
+//  : gameEngine::objects::Moveable(ref.getId()),
+//    _isMoving(ref._isMoving),
+//    _bombRef(ref.getId()),
+//    _frameCounter(ref._frameCounter),
+//    _hasDropped(ref._hasDropped),
+//    _bombQueue(ref._bombQueue),
+//    _texture(ref._texture),
+//    _model(ref._model),
+//    _animWalk(ref._animWalk),
+//    _animIdle(ref._animIdle),
+//    _anim(ref._anim),
+//    _name(ref._name),
+//    _state(ref._state)
+// {
+// }
+
 Character::~Character()
 {
 }
@@ -78,6 +95,12 @@ int Character::getNbBomb() const noexcept
 {
     return _nbBomb;
 }
+
+bool Character::isAlive() const noexcept
+{
+    return _alive;
+}
+
 
 bool Character::hasDropped() const noexcept
 {
@@ -130,6 +153,12 @@ void Character::setDropped(bool state) noexcept
     _hasDropped = state;
 }
 
+void Character::looseLife(int nbLife) noexcept
+{
+    _lives -= nbLife;
+}
+
+
 void Character::draw() const noexcept
 {
     if (!this->_model)
@@ -161,6 +190,7 @@ void Character::onCollisionExit(const AGameObject &collision)
 
 void Character::update()
 {
+    checkLives();
     updateModelAnimation();
 }
 
@@ -198,7 +228,7 @@ game::Tag_e Character::getTag() const noexcept
 
 void Character::stand(std::size_t tick)
 {
-    std::cout << "stand " << getTransform() << std::endl;
+    // std::cout << "stand " << getTransform() << std::endl;
     //exit(0);
 }
 
@@ -249,10 +279,22 @@ void Character::handleEvent() noexcept
                 _currentEvent = NULL_EVENT;
                 flag = true;
                 _isMoving = true;
-                std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
+                // std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }
     }
     setState(!flag ? ANIMIDLE : ANIMWALK);
 }
+
+void Character::checkLives() noexcept
+{
+    if (_lives <= 0 && _alive)
+        loose();
+}
+
+void Character::loose() noexcept
+{
+    _alive = false;
+}
+

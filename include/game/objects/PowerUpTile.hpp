@@ -25,9 +25,11 @@ namespace game::objects
             float minHeight = 10,
             float maxHeight = 20
             );
+        PowerUpTile(const PowerUpTile &ref);
         ~PowerUpTile();
 
-        void update() override;
+
+        void update() final;
         void onCollisionEnter(const gameEngine::objects::AGameObject &collision) override;
 
     private:

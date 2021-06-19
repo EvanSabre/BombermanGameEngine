@@ -25,6 +25,8 @@
 #include "InputButton.hpp"
 #include "PopUp.hpp"
 
+#define MAPSIZE 15
+
 namespace game {
     namespace scenes {
         class PlayGameScene : public gameEngine::AScene {

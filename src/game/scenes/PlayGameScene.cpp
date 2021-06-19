@@ -18,7 +18,7 @@ static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(13
 static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
-: AScene(windowManager, info), _map(_info->getUniverse(), 15), _pause(false)
+: AScene(windowManager, info), _map(_info->getUniverse(), MAPSIZE), _pause(false)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     std::string nb(std::to_string(std::rand() % 3));
@@ -31,7 +31,7 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
     _audio->loadSoundFromFile("./assets/All/Sound/CollectibleDrop.wav", "itemDrop");
     _audio->loadSoundFromFile("./assets/All/Sound/CollectiblePick.wav", "itemPick");
 
-    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setMusicVolume((_info->getMusicVolume() - 20) / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
     _savePath = realpath("./", NULL);
     _savePath.append(SAVE_DIR);
@@ -87,26 +87,24 @@ void PlayGameScene::start()
 
     this->setupCamera();
 
-    std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
-    _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::ONEUP, Vector3T<float>{10, 10, 20},
-        Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
-    _tiles.push_back(_healtTile);
+    // std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
+    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
+    //     Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
 
     _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
     _timer.startThread();
     _timer.getCurrentTime().setColor(RED);
     _timer.getCurrentTime().setTextSize(100);
 
-    gameEngine::encapsulation::BText pauseText("PAUSE", Vector<float>(10, 10), WHITE, 30);
+    gameEngine::encapsulation::BText pauseText("PAUSE", Vector<float>(100, 30), WHITE, 20);
     std::shared_ptr<gameEngine::encapsulation::Button> button =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(50, 50), Vector<float>(10, 10), pauseText, BLUE);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 40), Vector<float>(10, 10), pauseText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     setupPause();
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
     _explosion = std::make_shared<game::managers::ExplosionManager>(_players, _tiles);
-    _audio->playMusic();
+    // _audio->playMusic();
 }
 
 void PlayGameScene::setupPause()
@@ -114,12 +112,9 @@ void PlayGameScene::setupPause()
     Vector<float> size(300, 200);
     Vector<float> middle2(_windowManager->getWindowSize()._x/3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y/3 - size._y / 2);
 
-    gameEngine::encapsulation::BText resumeText("RESUME", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 30);
-    gameEngine::encapsulation::BFont fontPlay;
-    fontPlay.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
-    resumeText.setFont(fontPlay);
+    gameEngine::encapsulation::BText resumeText("RESUME", Vector<float>(middle2._x + 60, middle2._y + 15), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> resume =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(310, 100), middle2, resumeText, DARKGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), resumeText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText saveText("SAVE", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 30);
@@ -134,17 +129,19 @@ void PlayGameScene::setupPause()
     _savePopUp->setEnabled(false);
 
     middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
-    gameEngine::encapsulation::BFont fontQuit;
-    fontQuit.loadFromFile("./assets/Fonts/Pacifico-Regular.ttf");
-    quitText.setFont(fontQuit);
+    gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 85), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 70), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 155), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, DARKGRAY);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 140), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
 
 
     _pauseManager.pushButton(resume);
     _pauseManager.pushButton(buttonSave);
     _pauseManager.pushButton(buttonQuit);
+    _pauseManager.pushButton(buttonSettings);
 }
 
 void PlayGameScene::setupCamera() noexcept
@@ -158,13 +155,19 @@ void PlayGameScene::setupCamera() noexcept
 
 void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &player, const Vector3T<float> &prev)
 {
+    game::objects::Character p(*player);
+    p.setTransform().setPosition(prev);
+    p.setCollider();
+
     for (auto tile = _tiles.begin(); tile != _tiles.end();) {
+        if (p.getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
+            tile++;
+            continue;
+        }
         if (player->getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
             player->setTransform().setPosition(prev);
             player->setIsMoving(false);
             player->onCollisionEnter(*(*tile));
-            if ((*tile)->getTag() == BOMB)
-                std::cout << "BOOOOOOMM" << std::endl;
             if ((*tile)->getTag() == ONEUP || (*tile)->getTag() == BOMBUP ||
                 (*tile)->getTag() == HEALTHUP || (*tile)->getTag() == FIREUP ||
                 (*tile)->getTag() == BOMBPASS || (*tile)->getTag() == SPEEDUP) {
@@ -182,6 +185,7 @@ void PlayGameScene::updateExplosionManager()
     _explosion->setObjects(_players, _tiles);
     _explosion->update();
     _tiles = _explosion->getTiles();
+    _players = _explosion->getPlayers();
 
     auto array = _explosion->getBombs();
     for (auto &bomb : array) {
@@ -254,7 +258,6 @@ void PlayGameScene::quit()
 void PlayGameScene::update()
 {
     //updateExplosionManager();
-    _healtTile->update();
     _buttonManager.updateButtons();
     if (!_windowManager->isRunning())
         quit();
@@ -272,6 +275,9 @@ void PlayGameScene::update()
         if ((std::size_t)id <= _players.size()) {
             _players[id - 1]->setCurrentEvent(evt);
         }
+    }
+    for (auto &tile : _tiles) {
+        tile->update();
     }
     for (auto &player : _players) {
         Vector3T<float> prev(player->getTransform().getPosition());
@@ -297,16 +303,10 @@ void PlayGameScene::draw()
 {
     //_explosion->draw();
     _buttonManager.drawButtons();
-    int idx_player = 0;
-    for (auto it : _players) {
-        _gui.draw((*it), (game::Gui::corner_e)idx_player);
-        idx_player++;
-    }
+
     this->_windowManager->set3DMode(_cam);
     for (auto &it : _players) {
         it->draw();
-        _gui.draw((*it), (game::Gui::corner_e)idx_player);
-        idx_player++;
     }
     for (auto &tile : _tiles)
         tile->draw();
@@ -316,5 +316,10 @@ void PlayGameScene::draw()
         drawPause();
     } else {
         _buttonManager.drawButtons();
+    }
+    int idx_player = 0;
+    for (auto &it : _players) {
+        _gui.draw((*it), (game::Gui::corner_e)idx_player);
+        idx_player++;
     }
 }

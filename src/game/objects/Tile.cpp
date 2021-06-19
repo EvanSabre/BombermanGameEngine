@@ -7,7 +7,9 @@
 
 #include "Tile.hpp"
 
-game::objects::Tile::Tile(
+using namespace game::objects;
+
+Tile::Tile(
     const std::string &modelfilepath,
     const std::string &texturefilepath,
     const game::Tag &type,
@@ -17,7 +19,8 @@ game::objects::Tile::Tile(
     const gameEngine::encapsulation::BColor &color)
     : gameEngine::objects::AGameObject(""),
      _model(std::make_unique<gameEngine::encapsulation::BModel>(modelfilepath, position, color)),
-     _texture(std::make_unique<gameEngine::encapsulation::BTexture2D>(texturefilepath))
+     _texture(std::make_unique<gameEngine::encapsulation::BTexture2D>(texturefilepath)),
+     _collide(false)
 {
     _type = type;
     _transform.setPosition(position);
@@ -33,7 +36,7 @@ game::objects::Tile::Tile(
         position._z + scale._z * TILESIZE * TILESCALE});
 }
 
-game::objects::Tile::Tile(
+Tile::Tile(
     const std::shared_ptr<gameEngine::encapsulation::BModel> &model,
     const std::shared_ptr<gameEngine::encapsulation::BTexture2D> &texture,
     const game::Tag &type,
@@ -42,7 +45,8 @@ game::objects::Tile::Tile(
     const Vector3T<float> &scale)
     : gameEngine::objects::AGameObject(""),
      _model(model),
-     _texture(texture)
+     _texture(texture),
+     _collide(false)
 {
     _type = type;
     _transform.setPosition(position);
@@ -58,71 +62,77 @@ game::objects::Tile::Tile(
         position._z + scale._z * TILESIZE * TILESCALE});
 }
 
-game::objects::Tile::Tile(const Tile &tile)
+Tile::Tile(const Tile &tile)
     : gameEngine::objects::AGameObject(tile),
       _model(tile._model),
-      _texture(tile._texture)
+      _texture(tile._texture),
+     _collide(tile._collide)
 {
     _type = tile._type;
 }
 
-game::objects::Tile::~Tile()
+Tile::~Tile()
 {
 }
 
-void game::objects::Tile::onCollisionEnter(const AGameObject &collision)
+void Tile::onCollisionEnter(const AGameObject &collision)
 {
 }
 
-void game::objects::Tile::onCollisionExit(const AGameObject &collision)
+void Tile::onCollisionExit(const AGameObject &collision)
 {
 }
 
-void game::objects::Tile::update()
+void Tile::update()
 {
 }
 
-void game::objects::Tile::draw()
+void Tile::draw()
 {
     _model->setTransform() = _transform;
     _model->draw();
 }
 
 // getters
-gameEngine::encapsulation::BTexture2D game::objects::Tile::getTexture() const
+gameEngine::encapsulation::BTexture2D Tile::getTexture() const
 {
     return *_texture;
 }
 
-gameEngine::encapsulation::BModel &game::objects::Tile::getModel()
+gameEngine::encapsulation::BModel &Tile::getModel()
 {
     return *_model;
 }
 
-game::Tag game::objects::Tile::getTag() const noexcept
+game::Tag Tile::getTag() const noexcept
 {
     return _type;
 }
 
-game::Tag game::objects::Tile::getType() const
+game::Tag Tile::getType() const
 {
     return _type;
+}
+
+bool Tile::collide() const
+{
+    return _collide;
 }
 
 // setters
-void game::objects::Tile::setModel(const gameEngine::encapsulation::BModel &model)
+void Tile::setModel(const gameEngine::encapsulation::BModel &model)
 {
     *_model = model;
 }
 
-void game::objects::Tile::setModel(const std::string &model)
+void Tile::setModel(const std::string &model)
 {
     gameEngine::encapsulation::BModel mod(model);
 
     *_model = mod;
 }
 
-void game::objects::Tile::setTexture(const std::string &texture)
+void Tile::setTexture(const std::string &texture)
 {
     gameEngine::encapsulation::BTexture2D tex(texture);
 
@@ -130,13 +140,13 @@ void game::objects::Tile::setTexture(const std::string &texture)
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
 }
 
-void game::objects::Tile::setTexture(const gameEngine::encapsulation::BTexture2D &texture)
+void Tile::setTexture(const gameEngine::encapsulation::BTexture2D &texture)
 {
     *_texture = texture;
     _model->setTexture(0, MATERIAL_MAP_DIFFUSE, *_texture);
 }
 
-void game::objects::Tile::setType(const game::Tag &type)
+void Tile::setType(const game::Tag &type)
 {
     _type = type;
 }
