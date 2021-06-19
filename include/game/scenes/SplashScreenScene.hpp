@@ -10,6 +10,7 @@
 
 #include "AScene.hpp"
 #include "Clock.hpp"
+#include "AudioManager.hpp"
 
 namespace game {
     namespace scenes {
@@ -48,6 +49,7 @@ namespace game {
                 size_t _idleFrame;
                 size_t _currentFrame;
                 size_t _nbReset;
+                std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
             private:
 
         };
