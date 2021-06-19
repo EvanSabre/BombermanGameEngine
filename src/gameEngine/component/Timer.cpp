@@ -11,6 +11,7 @@ using namespace gameEngine::component;
 
 Timer::Timer(const double &duration) : _format("")
 {
+    _duration = duration;
 }
 
 Timer::~Timer()
