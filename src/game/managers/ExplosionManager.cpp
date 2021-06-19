@@ -52,19 +52,15 @@ void ExplosionManager::update()
     updateExplosionAnimation();
     for (std::size_t i = 0; i != _bombs.size(); i++) {
         if (_bombs.at(i)->isDone()) {
-            // std::cout << "done id = " << i << std::endl;
-            // std::cout << "--start explode--" << std::endl;
+            for (auto &player : _players)
+                if (_bombs.at(i)->getPlayerId() == player->getId())
+                    player->reload();
             explode(*_bombs[i]);
-            // std::cout << "--end explode--" << std::endl;
             eraser.push_back(i);
-            // _bombs.erase(_bombs.begin() + i);
-            // delete _bombs.at(i).get();
         }
     }
-    for (auto it : eraser) {
-        // std::cout << "  nb = " << it << std::endl;
+    for (auto it : eraser)
         _bombs.erase(_bombs.begin() + it);
-    }
 }
 
 void ExplosionManager::draw()
@@ -185,16 +181,12 @@ void ExplosionManager::pushBomb(const std::shared_ptr<game::objects::AExplosif> 
 {
     if (bomb == nullptr)
         return;
-    // std::cout << bomb->getTransform() << std::endl;
     _bombs.push_back(bomb);
 }
 
 // Getters
 std::vector<std::shared_ptr<game::objects::AExplosif>> &ExplosionManager::getBombs()
 {
-    // if (!_bombs.empty())
-    //     std::cout << _bombs.front()->getTransform() << std::endl;
-
     return _bombs;
 }
 
