@@ -128,6 +128,7 @@ void SettingConf::parseSetting(setting_t &conf, const std::vector<std::string> &
 
 setting_t SettingConf::parseMusicVolume(setting_t conf, const std::string &key, std::string value)
 {
+    (void)key;
     try {
         parseInt(conf._musicVolume, value);
     } catch(const std::exception& e) {
@@ -139,6 +140,7 @@ setting_t SettingConf::parseMusicVolume(setting_t conf, const std::string &key, 
 
 setting_t SettingConf::parseSoundVolume(setting_t conf, const std::string &key, std::string value)
 {
+    (void)key;
     try {
         parseInt(conf._soundVolume, value);
     } catch(const std::exception& e) {
