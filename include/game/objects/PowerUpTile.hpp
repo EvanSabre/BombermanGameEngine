@@ -30,7 +30,6 @@ namespace game::objects
 
 
         void update() final;
-        void onCollisionEnter(const gameEngine::objects::AGameObject &collision) override;
 
     private:
         float _idleSpeed = 0.1;
