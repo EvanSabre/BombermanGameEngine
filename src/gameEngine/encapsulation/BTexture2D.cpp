@@ -41,6 +41,7 @@ BTexture2D::BTexture2D(const std::string &filepath, const std::string &content)
     this->resetObj();
     this->loadFromFile(filepath);
     _filepath = filepath;
+    _content = content;
 }
 
 
