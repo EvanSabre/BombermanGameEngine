@@ -83,18 +83,18 @@ namespace game
                 Vector<int> _direction{0, 0};
                 int _level;
                 gameEngine::component::Clock _clock;
-                const std::array<Vector<int>, 4> directions =
+                const std::array<Vector<int>, 5> directions =
                 {
-                    //Vector<int>{-0, 0},
+                    Vector<int>{-0, 0},
                     Vector<int>{-1, 0},
                     Vector<int>{1, 0},
                     Vector<int>{0, 1},
                     Vector<int>{0, -1}
                 };
 
-                const std::array<game::Event, 4> events =
+                const std::array<game::Event, 5> events =
                 {
-                    //NULL_EVENT,
+                    NULL_EVENT,
                     MOVE_UP,
                     MOVE_DOWN,
                     MOVE_RIGHT,

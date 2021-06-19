@@ -37,7 +37,6 @@ void Brain::computeDirection()
     std::vector<game::Event> dirAvailables;
     std::vector<game::Event>::iterator it;
 
-    //dirAvailables.push_back(game::Event::NULL_EVENT);
     if (!isSolid(_posInMap._x, _posInMap._y + 1))
         dirAvailables.push_back(game::Event::MOVE_RIGHT);
     if (!isSolid(_posInMap._x, _posInMap._y - 1))
@@ -46,6 +45,8 @@ void Brain::computeDirection()
         dirAvailables.push_back(game::Event::MOVE_UP);
     if (!isSolid(_posInMap._x + 1, _posInMap._y))
         dirAvailables.push_back(game::Event::MOVE_DOWN);
+    _direction = directions[0];
+    _nextDecision = NULL_EVENT;
     std::cout << "Directions " << dirAvailables.size() << std::endl;
     for (auto &i : dirAvailables)
     {
@@ -54,14 +55,12 @@ void Brain::computeDirection()
             _nextDecision = i;
             std::cout << "Event setted ";
             printEvent(_nextDecision);
+            _direction = directions[(int) _nextDecision];
+            //break;
         }
         printEvent(i);
     }
-    // do {
-    //     _nextDecision = (game::Event)(std::rand() % dirAvailables.size());
-    //     it = std::find (dirAvailables.begin(), dirAvailables.end(), _nextDecision);
-    // } while (it == dirAvailables.end());
-    _direction = directions[(int) _nextDecision - 1];
+    //_nextDecision = NULL_EVENT;
 
 }
 
