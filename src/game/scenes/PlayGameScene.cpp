@@ -159,6 +159,7 @@ void PlayGameScene::updateExplosionManager()
     _explosion->setObjects(_players, _tiles);
     _explosion->update();
     _tiles = _explosion->getTiles();
+    _players = _explosion->getPlayers();
 
     auto array = _explosion->getBombs();
     for (auto &bomb : array) {
@@ -240,16 +241,10 @@ void PlayGameScene::draw()
 {
     //_explosion->draw();
     _buttonManager.drawButtons();
-    int idx_player = 0;
-    for (auto it : _players) {
-        _gui.draw((*it), (game::Gui::corner_e)idx_player);
-        idx_player++;
-    }
+
     this->_windowManager->set3DMode(_cam);
     for (auto &it : _players) {
         it->draw();
-        _gui.draw((*it), (game::Gui::corner_e)idx_player);
-        idx_player++;
     }
     for (auto &tile : _tiles)
         tile->draw();
@@ -259,5 +254,10 @@ void PlayGameScene::draw()
         drawPause();
     } else {
         _buttonManager.drawButtons();
+    }
+    int idx_player = 0;
+    for (auto &it : _players) {
+        _gui.draw((*it), (game::Gui::corner_e)idx_player);
+        idx_player++;
     }
 }
