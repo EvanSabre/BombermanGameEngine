@@ -72,6 +72,10 @@ void AExplosif::explode()
     _done = true;
 }
 
+void AExplosif::update()
+{
+}
+
 void AExplosif::pickUpBombPass()
 {
     _collide = false;

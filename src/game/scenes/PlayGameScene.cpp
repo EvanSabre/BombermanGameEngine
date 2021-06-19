@@ -143,7 +143,6 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
             if ((*tile)->getTag() == ONEUP || (*tile)->getTag() == BOMBUP ||
                 (*tile)->getTag() == HEALTHUP || (*tile)->getTag() == FIREUP ||
                 (*tile)->getTag() == BOMBPASS || (*tile)->getTag() == SPEEDUP) {
-                std::cout << "POWERUP" << std::endl;
                 _audio->playSound("itemPick");
                 _tiles.erase(tile);
                 continue;

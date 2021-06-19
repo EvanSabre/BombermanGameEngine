@@ -44,6 +44,7 @@ namespace game::objects
             void explode();
             void pickUpBombPass();
             void setSwitch(bool state);
+            void update();
 
             // Getters
             std::string getPlayerId() const;
