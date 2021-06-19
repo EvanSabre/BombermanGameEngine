@@ -63,5 +63,6 @@ void Bot::update()
     //this->printEvent(_currentEvent);
     //dropBomb(1);
     handleEvent();
+    checkLives();
     updateModelAnimation();
 }

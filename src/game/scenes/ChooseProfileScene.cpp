@@ -17,6 +17,12 @@ static const Vector<float> SCALE_KEYPAD(0.5, 0.5);
 ChooseProfileScene::ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info), _acceptPopUp("This username has already been taken", Vector<float>(windowManager->getWindowSize()._x / 2, windowManager->getWindowSize()._y / 2), Vector<float>(500, 200))
 {
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Menu.mp3");
+    _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
+
+    _audio->setMusicVolume(_info->getMusicVolume() / 100);
+    _audio->setSoundVolume(_info->getSoundVolume() / 100);
 }
 
 ChooseProfileScene::~ChooseProfileScene()
@@ -56,19 +62,15 @@ void ChooseProfileScene::start()
 
     _profileSelector = std::make_unique<SELECTOR>("Choose a profile", _profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
     _profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
-    std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
-                                            Vector<float>(WINDOW_X * 0.1, WINDOW_Y * 0.8),
-                                            TEXT("Back"),
-                                            BLUE,
-                                            WHITE,
-                                            BACKGROUND_BUTTON);
-    std::shared_ptr<BUTTON> playButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
-                                            Vector<float>(WINDOW_X * 0.8, WINDOW_Y * 0.8),
-                                            TEXT("Play"),
-                                            BLUE,
-                                            WHITE,
-                                            BACKGROUND_BUTTON);
-    backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
+
+    gameEngine::encapsulation::BText backText("Back", Vector<float>(WINDOW_X * 0.1 + 80, WINDOW_Y * 0.8 + 65), WHITE, 40);
+    std::shared_ptr<gameEngine::encapsulation::Button> backButton =
+        std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(WINDOW_X * 0.1, WINDOW_Y * 0.8 + 50), backText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+    gameEngine::encapsulation::BText playText("Play", Vector<float>(WINDOW_X * 0.8 + 80, WINDOW_Y * 0.8 + 65), WHITE, 40);
+    std::shared_ptr<gameEngine::encapsulation::Button> playButton =
+        std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(WINDOW_X * 0.8, WINDOW_Y * 0.8 + 50), playText, DARKGRAY, WHITE, PLAY_BUTTON);
+
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
     _ProfilesIndicationGameWon = TEXT("Game Won: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
@@ -104,6 +106,7 @@ void ChooseProfileScene::start()
                               30);
 
     _nbContents = _profileSelector->getNbContent();
+    _audio->playMusic();
 }
 
 void ChooseProfileScene::createNewProfile()
@@ -157,11 +160,21 @@ void ChooseProfileScene::update()
     if (_buttonManager.isButtonClicked("Play") && _cUser != nullptr) {
         _info->nbPlayersConfirmed++;
         _info->pushPlayer(_cUser);
+        _audio->playSound("button");
+        sleep(1);
         if (_info->nbPlayersConfirmed == _info->nbPlayers)
             _info->setCurrentScene("play");
         else
             _info->setCurrentScene("chooseProfile");
     }
+    if (_buttonManager.isButtonClicked("Back")) {
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("choosePlayers");
+    }
+
+    // _ProfilesIndication.setStr(nb_entity + "/ 4 profiles maximum");
+    _audio->updateMusicStream();
     _acceptPopUp.update();
 }
 

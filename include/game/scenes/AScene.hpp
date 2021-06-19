@@ -14,6 +14,8 @@
 #include "GameManager.hpp"
 #include "ButtonManager.hpp"
 
+#define PLAY_BUTTON "./assets/Backgrounds/button_background1.png"
+
 namespace gameEngine {
     class AScene : public gameEngine::interfaces::IScene {
         public:

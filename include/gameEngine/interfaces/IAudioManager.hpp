@@ -25,13 +25,13 @@ namespace gameEngine
             public:
                 virtual ~IAudioManager() = default;
 
-                virtual void loadSoundFromFile(const char *filepath) = 0;
-                virtual void unloadSoundStream() = 0;
+                virtual void loadSoundFromFile(const char *filepath, std::string sound) = 0;
+                virtual void unloadSoundStream(std::string sound) = 0;
 
-                virtual void playSound() = 0;
-                virtual void pauseSound() = 0;
-                virtual void resumeSound() = 0;
-                virtual void stopSound() = 0;
+                virtual void playSound(std::string sound) = 0;
+                virtual void pauseSound(std::string sound) = 0;
+                virtual void resumeSound(std::string sound) = 0;
+                virtual void stopSound(std::string sound) = 0;
                 virtual void setSoundVolume(float volume) = 0;
 
                 virtual void loadMusicStreamFromFile(const std::string &filepath) = 0;

@@ -26,5 +26,5 @@ Player::~Player()
 void Player::update()
 {
     handleEvent();
-    updateModelAnimation();
+    this->Character::update();
 }

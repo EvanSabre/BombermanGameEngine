@@ -11,6 +11,8 @@
 #include "Bomb.hpp"
 #include "Player.hpp"
 #include "Animation.hpp"
+#include "AudioManager.hpp"
+#include "PowerUpTile.hpp"
 
 #define MODELEXPLOSION   "assets/All/Models/HealthUp.obj"
 #define TEXTUREEXPLOSION "assets/All/Textures/Tile.png"
@@ -41,8 +43,10 @@ namespace game::managers
             // Getters
             std::vector<std::shared_ptr<game::objects::AExplosif>> &getBombs();
             std::vector<std::shared_ptr<game::objects::Tile>> &getTiles();
+            std::vector<std::shared_ptr<game::objects::Character>> &getPlayers();
 
         protected:
+            std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
         private:
             std::vector<std::shared_ptr<game::objects::Character>> _players;
             std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
@@ -52,6 +56,7 @@ namespace game::managers
             std::shared_ptr<gameEngine::encapsulation::BTexture2D> _texture;
             std::shared_ptr<gameEngine::Animation> _animRef;
             std::vector<std::unique_ptr<gameEngine::Animation>> _anims;
+            std::unordered_map<game::Tag_e, std::shared_ptr<game::objects::PowerUpTile>> _powerUps;
     };
 }
 

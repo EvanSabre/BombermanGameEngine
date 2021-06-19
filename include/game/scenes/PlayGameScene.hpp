@@ -23,6 +23,8 @@
 #include "PowerUpTile.hpp"
 #include "Gui.hpp"
 
+#define MAPSIZE 15
+
 namespace game {
     namespace scenes {
         class PlayGameScene : public gameEngine::AScene {
@@ -45,7 +47,7 @@ namespace game {
                 Map _map;
                 bool _pause;
                 gameEngine::encapsulation::BCamera _cam;
-                gameEngine::managers::AudioManager _audio;
+                std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
                 std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
                 gameEngine::component::Timer _timer;

@@ -32,7 +32,7 @@ namespace game {
                 void draw() override;
 
             protected:
-                gameEngine::managers::AudioManager _audio;
+                std::shared_ptr <gameEngine::managers::AudioManager> _audio = nullptr;
                 gameEngine::encapsulation::BFont _font;
                 std::shared_ptr<gameEngine::encapsulation::BSdf> _title = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BText> _keybindings = nullptr;
@@ -46,6 +46,7 @@ namespace game {
                 gameEngine::encapsulation::BTexture2D _background;
                 std::unique_ptr<gameEngine::component::Selector> _soundSelector = nullptr;
                 std::unique_ptr<gameEngine::component::Selector> _musicSelector = nullptr;
+                std::unique_ptr<gameEngine::component::Selector> _aiSelector = nullptr;
                 std::unordered_map<game::Event, std::pair<gameEngine::key_e, gameEngine::key_e>> _keyMap;
                 gameEngine::managers::ButtonManager _inputManager;
             private:
