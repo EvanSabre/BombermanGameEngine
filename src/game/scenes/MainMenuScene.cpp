@@ -50,6 +50,10 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), strText, DARKGRAY, WHITE, PLAY_BUTTON);
 
+    gameEngine::encapsulation::BText loadText("LOAD", Vector<float>(middle2._x + 60, middle2._y + 115), WHITE, 40);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonLoads =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 100), loadText, DARKGRAY, WHITE, PLAY_BUTTON);
+    middle2._y += 100;
     gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 15, middle2._y + 115), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 100), settingText, DARKGRAY, WHITE, PLAY_BUTTON);
@@ -58,12 +62,13 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonCredits =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 200), creditText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 615), WHITE, 40);
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 515), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 600), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 500), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     buttonQuit->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setQuit(true); }, _info);
     _buttonManager.pushButton(button);
+    _buttonManager.pushButton(buttonLoads);
     _buttonManager.pushButton(buttonSettings);
     _buttonManager.pushButton(buttonCredits);
     _buttonManager.pushButton(buttonQuit);
