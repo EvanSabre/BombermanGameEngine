@@ -12,7 +12,7 @@ using namespace game::objects;
 HealthUp::HealthUp()
     : AEffect("HealthUP")
 {
-    _maxLife = 1;
+    _extraLife = 1;
 }
 
 HealthUp::~HealthUp()
