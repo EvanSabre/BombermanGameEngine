@@ -174,7 +174,7 @@ void BTexture2D::unload() noexcept
 
 void BTexture2D::draw()
 {
-    Vector<int> newPos = {(int) this->getTransform().getPosition()._x, (int) this->getTransform().getPosition()._y};
+    Vector<int> newPos = {(int) _pos._x, (int) _pos._y};
 
     if (isLoad() && _enabled == true)
         DrawTexture(this->_texture, newPos._x, newPos._y, _color.getObj());
