@@ -33,10 +33,12 @@ encapsulation::ADrawable::~ADrawable()
 
 void gameEngine::encapsulation::ADrawable::onCollisionEnter(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 void gameEngine::encapsulation::ADrawable::onCollisionExit(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 // void gameEngine::encapsulation::ADrawable::update()
