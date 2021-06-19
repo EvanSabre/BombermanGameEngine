@@ -194,12 +194,16 @@ void Character::update()
     updateModelAnimation();
 }
 
-void Character::updateModelAnimation()
+void Character::reload()
 {
-    if (_clock.getElapsedTime() >= 3 && _nbBomb < _maxBomb) {
+    if (_nbBomb < _maxBomb) {
         _nbBomb++;
         _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     }
+}
+
+void Character::updateModelAnimation()
+{
     setCollider();
     _anim = _state ? _animWalk : _animIdle;
     if (_model->isLoad() && _anim->isLoad()) {

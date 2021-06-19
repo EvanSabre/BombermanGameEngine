@@ -52,6 +52,9 @@ void ExplosionManager::update()
     updateExplosionAnimation();
     for (std::size_t i = 0; i != _bombs.size(); i++) {
         if (_bombs.at(i)->isDone()) {
+            for (auto &player : _players)
+                if (_bombs.at(i)->getPlayerId() == player->getId())
+                    player->reload();
             // std::cout << "done id = " << i << std::endl;
             // std::cout << "--start explode--" << std::endl;
             explode(*_bombs[i]);
