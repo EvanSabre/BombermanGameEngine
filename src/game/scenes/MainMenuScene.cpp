@@ -54,7 +54,7 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 100), settingText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    gameEngine::encapsulation::BText creditText("CREDITS", Vector<float>(middle2._x + 15, middle2._y + 215), WHITE, 40);
+    gameEngine::encapsulation::BText creditText("CREDITS", Vector<float>(middle2._x + 35, middle2._y + 215), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonCredits =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 200), creditText, DARKGRAY, WHITE, PLAY_BUTTON);
 
