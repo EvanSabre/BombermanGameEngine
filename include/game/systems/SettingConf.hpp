@@ -27,7 +27,8 @@ namespace game
         MOVE_LEFT,
         VALIDATE,
         PAUSE,
-        BACK
+        BACK,
+        STAND
     }Event;
     namespace systems
     {

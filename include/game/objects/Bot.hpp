@@ -23,7 +23,6 @@ namespace game
                 ~Bot();
                 void update() override;
 
-                Vector3T<float> getMiddlePos(const Vector3T<float> &pos);
                 gameEngine::component::Clock _clock;
             protected:
             private:
