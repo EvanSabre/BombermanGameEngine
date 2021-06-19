@@ -309,49 +309,49 @@ bool Brain::needDropBomb()
 
 void Brain::dumpMap()
 {
-    std::string c = " ";
-    std::cout << "TagMap" << std::endl;
-    for (int x = 0; x < _sizeMap._x; x++)
-    {
-        std::cout << std::endl;
-        for (int y = 0; y < _sizeMap._y; y++) {
-            if (_tagMap[x][y] == Tag::BRICK)
-                c = "*";
-            else if(_tagMap[x][y] == Tag::WALL)
-                c = "x";
-            else if(_tagMap[x][y] == Tag::NONE)
-                c = " ";
-            else
-                c = std::to_string((int) _tagMap[x][y]);
-            std::cout << "[" << c << "]";
-        }
-    }
-    std::cout << std::endl;
+    // std::string c = " ";
+    // std::cout << "TagMap" << std::endl;
+    // for (int x = 0; x < _sizeMap._x; x++)
+    // {
+    //     std::cout << std::endl;
+    //     for (int y = 0; y < _sizeMap._y; y++) {
+    //         if (_tagMap[x][y] == Tag::BRICK)
+    //             c = "*";
+    //         else if(_tagMap[x][y] == Tag::WALL)
+    //             c = "x";
+    //         else if(_tagMap[x][y] == Tag::NONE)
+    //             c = " ";
+    //         else
+    //             c = std::to_string((int) _tagMap[x][y]);
+    //         std::cout << "[" << c << "]";
+    //     }
+    // }
+    // std::cout << std::endl;
 
-    std::cout << "\r\nDangerous Map" << std::endl;
-    for (int x = 0; x < _sizeMap._x; x++)
-    {
-        std::cout << std::endl;
-        for (int y = 0; y < _sizeMap._y; y++)
-            std::cout << "[" << _isDangerousMap[x][y] << "]";
-    }
-    std::cout << std::endl;
+    // std::cout << "\r\nDangerous Map" << std::endl;
+    // for (int x = 0; x < _sizeMap._x; x++)
+    // {
+    //     std::cout << std::endl;
+    //     for (int y = 0; y < _sizeMap._y; y++)
+    //         std::cout << "[" << _isDangerousMap[x][y] << "]";
+    // }
+    // std::cout << std::endl;
 
-    std::cout << "\r\nDistance Map" << std::endl;
-    for (int x = 0; x < _sizeMap._x; x++)
-    {
-        std::cout << std::endl;
-        for (int y = 0; y < _sizeMap._y; y++)
-            std::cout << "[" << _distanceMap[x][y] << "]";
-    }
-    std::cout << std::endl;
+    // std::cout << "\r\nDistance Map" << std::endl;
+    // for (int x = 0; x < _sizeMap._x; x++)
+    // {
+    //     std::cout << std::endl;
+    //     for (int y = 0; y < _sizeMap._y; y++)
+    //         std::cout << "[" << _distanceMap[x][y] << "]";
+    // }
+    // std::cout << std::endl;
 
-    std::cout << "\r\nDirection Map" << std::endl;
-    for (int x = 0; x < _sizeMap._x; x++)
-    {
-        std::cout << std::endl;
-        for (int y = 0; y < _sizeMap._y; y++)
-            std::cout << "[" << _directionMap[x][y] << "]";
-    }
-    std::cout << std::endl;
+    // std::cout << "\r\nDirection Map" << std::endl;
+    // for (int x = 0; x < _sizeMap._x; x++)
+    // {
+    //     std::cout << std::endl;
+    //     for (int y = 0; y < _sizeMap._y; y++)
+    //         std::cout << "[" << _directionMap[x][y] << "]";
+    // }
+    // std::cout << std::endl;
 }

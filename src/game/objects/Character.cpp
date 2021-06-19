@@ -195,10 +195,33 @@ game::Tag_e Character::getTag() const noexcept
     return  game::Tag::CHARACTER;
 }
 
+static Vector3T<float> getMiddlePos(const Vector3T<float> &pos)
+{
+    return Vector3T<float>({
+        (float)((float)((int)(pos._x / 10) + 0.5) * 10),
+        pos._y,
+        (float)((float)((int)(pos._z / 10) + 0.5) * 10)});
+}
+
 void Character::stand(std::size_t tick)
 {
-    //std::cout << "stand " << getTransform() << std::endl;
-    //exit(0);
+    // static int i = 1;
+    // Vector3T<float> mid(getMiddlePos(this->getTransform().getPosition()));
+    // std::pair<game::Event, game::Event> move({
+    //     (mid._x - getTransform().getPosition()._x) < 0 ? MOVE_DOWN : MOVE_UP,
+    //     (mid._z - getTransform().getPosition()._z) < 0 ? MOVE_LEFT : MOVE_RIGHT
+    // });
+
+    // std::cout << "STANDING" << std::endl;
+    // if (!(mid._x - getTransform().getPosition()._x))
+    //     move.first = STAND;
+    // if (!(mid._x - getTransform().getPosition()._x))
+    //     move.second = STAND;
+    // if (i && move.first != STAND)
+    //     _key_event[move.first];
+    // else if (!i && move.second != STAND)
+    //     _key_event[move.second];
+    // i = 1 - i;
 }
 
 // BOMBS

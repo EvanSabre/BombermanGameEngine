@@ -155,7 +155,7 @@ namespace gameEngine
                     for (auto &[id, input] : _inputList) {
                         for (auto &[event, pairFunc] : _keymap) {
                             if((input.get()->*pairFunc.first)(pairFunc.second.first) || (input.get()->*pairFunc.first)(pairFunc.second.second)) {
-                                std::cout << "Joueur "<< id << " Pressed " << event << std::endl;
+                                // std::cout << "Joueur "<< id << " Pressed " << event << std::endl;
                                 results.push_back(std::make_pair(id, event));
                             }
                         }
