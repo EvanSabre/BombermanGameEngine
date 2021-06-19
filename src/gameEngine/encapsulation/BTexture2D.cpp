@@ -9,19 +9,19 @@
 
 using namespace gameEngine::encapsulation;
 
-BTexture2D::BTexture2D(const std::string &filePath)
+BTexture2D::BTexture2D(const std::string &filePath) : ADrawable()
 {
     this->resetObj();
     this->loadFromFile(filePath);
     _filepath = filePath;
 }
 
-BTexture2D::BTexture2D()
+BTexture2D::BTexture2D() : ADrawable()
 {
     this->resetObj();
 }
 
-BTexture2D::BTexture2D(const std::string &filePath, const encapsulation::BText &content)
+BTexture2D::BTexture2D(const std::string &filePath, const encapsulation::BText &content) : ADrawable()
 {
     this->resetObj();
     encapsulation::BText t(content);
@@ -29,11 +29,18 @@ BTexture2D::BTexture2D(const std::string &filePath, const encapsulation::BText &
     _filepath = filePath;
 }
 
-BTexture2D::BTexture2D(const BTexture2D &ref)
+BTexture2D::BTexture2D(const BTexture2D &ref) : ADrawable()
 {
     this->resetObj();
     this->loadFromFile(ref.getFilePath());
     this->_filepath = ref._filepath;
+}
+
+BTexture2D::BTexture2D(const std::string &filepath, const std::string &content)
+{
+    this->resetObj();
+    this->loadFromFile(filepath);
+    _filepath = filepath;
 }
 
 
@@ -41,6 +48,10 @@ BTexture2D::~BTexture2D()
 {
     if (isLoad())
         this->unload();
+}
+
+void BTexture2D::update()
+{
 }
 
 //-----------------------
@@ -59,10 +70,10 @@ bool BTexture2D::isLoad() const noexcept
     return true;
 }
 
-BColor BTexture2D::getColor() const noexcept
-{
-    return this->_color;
-}
+// BColor BTexture2D::getColor() const noexcept
+// {
+//     return this->_color;
+// }
 
 Vector<int> BTexture2D::getPos() const noexcept
 {
@@ -86,15 +97,25 @@ bool BTexture2D::getEnabled() const noexcept
     return this->_enabled;
 }
 
+std::string BTexture2D::getContent() const noexcept
+{
+    return _content;
+}
+
 //setter
 void BTexture2D::setPos(const Vector<int> &pos) noexcept
 {
     this->_pos = pos;
 }
 
-void BTexture2D::setColor(const BColor &color) noexcept
+// void BTexture2D::setColor(const BColor &color) noexcept
+// {
+//     this->_color = color;
+// }
+
+void BTexture2D::setContent(std::string &content) noexcept
 {
-    this->_color = color;
+    this->_content = content;
 }
 
 void BTexture2D::setEnabled(bool enable) noexcept
@@ -150,10 +171,12 @@ void BTexture2D::unload() noexcept
 
 //DRAW
 
-void BTexture2D::draw() const noexcept
+void BTexture2D::draw()
 {
+    Vector<int> newPos = {(int) this->getTransform().getPosition()._x, (int) this->getTransform().getPosition()._y};
+
     if (isLoad() && _enabled == true)
-        DrawTexture(this->_texture, _pos._x, _pos._y, _color.getObj());
+        DrawTexture(this->_texture, newPos._x, newPos._y, _color.getObj());
 }
 
 void BTexture2D::drawEx(const Vector<float> &scale) const noexcept

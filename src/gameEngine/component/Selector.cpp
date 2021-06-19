@@ -7,6 +7,7 @@
 
 #include "Selector.hpp"
 #include "Path.hpp"
+#include "BModel.hpp"
 
 using namespace gameEngine::component;
 
@@ -20,8 +21,7 @@ Selector::Selector(
     Vector<float> size,
     int sizeText,
     gameEngine::encapsulation::BColor color,
-    gameEngine::encapsulation::BColor colorText
-    )
+    gameEngine::encapsulation::BColor colorText)
 {
     Vector<float> sizeButton(size._x * 0.1, size._x * 0.1);
     _title = std::make_unique<TEXT>(name,
@@ -61,12 +61,22 @@ std::shared_ptr<gameEngine::encapsulation::ADrawable> &Selector::getCurrentConte
     return _contents[_iCurrent];
 }
 
+void Selector::setICurrent(const int &iCurrent)
+{
+    _iCurrent = iCurrent;
+}
+
+void Selector::setContent(const std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> &content)
+{
+    _contents = content;
+}
+
 void Selector::draw()
 {
     _mainRect->draw();
     _buttonManager.drawButtons();
-    _title->draw();
     _contents[_iCurrent]->draw();
+    _title->draw();
 }
 
 void Selector::update()
@@ -93,6 +103,7 @@ void Selector::update()
     }
 }
 
+
 SelectorEvent Selector::getEvent(void)
 {
     if (_buttonManager.isButtonClicked("Next") == true) {
@@ -101,4 +112,24 @@ SelectorEvent Selector::getEvent(void)
     } else if (_buttonManager.isButtonClicked("Prev"))
         return SelectorEvent::PREV;
     return SelectorEvent::NONE;
+}
+
+void Selector::setContentPos(Vector<float> pos)
+{
+    _contentPos = pos;
+    for (auto &i : _contents) {
+        printf("SET CONTENT i = %s\n", i->getContent().c_str());
+        i->setTransform().setPosition(Vector3T<float>(_contentPos._x, _contentPos._y, 0));
+    }
+    //exit(0);
+}
+
+int Selector::getNbContent()
+{
+    return (int)_contents.size();
+}
+
+int Selector::getIdActualContent()
+{
+    return _iCurrent;
 }

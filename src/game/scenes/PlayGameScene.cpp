@@ -8,26 +8,17 @@
 #include "PlayGameScene.hpp"
 
 using namespace game::scenes;
+#define ANIMWALK_PATH "assets/All/Animations/CharacterWalk.iqm"
+#define ANIMIDLE_PATH "assets/All/Animations/CharacterIdle.iqm"
 
+static const gameEngine::component::Transform BOT_LEFT_SPAWN(Vector3T<float>(10, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
+static const gameEngine::component::Transform TOP_LEFT_SPAWN(Vector3T<float>(130, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
+static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(130, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
+static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
-: AScene(windowManager, info), _universe(UNIVERSE.at(std::rand() % UNIVERSE.size())), _map(_universe, 15), _pause(false)
+: AScene(windowManager, info), _map(_info->getUniverse(), 15), _pause(false)
 {
-    //TODO: déplacer cette partie Input dans les scènes choix de profils
-    std::cout << "Nb player == " << info->nbPlayers << std::endl;
-    info->nbPlayers = 2;
-    for (int i = 0; i < info->nbPlayers; i++) {
-        // try {
-        //     info->_userManager->createUser("Joueur" + std::to_string(i + 1));
-        // } catch (UserManagmentError &e) {
-        //     std::cout << e.what() << " : " << e.getComponent() << std::endl;
-        //     throw IndieError("UserManagement");
-        // }
-        info->_userManager->assignInputToUser(i, "Joueur" + std::to_string(i + 1));
-        //TODO:AJouter au vecteur de joueur
-    }
-
-    // ! END TODO
 }
 
 PlayGameScene::~PlayGameScene()
@@ -36,38 +27,54 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
-        std::cout << "\n\nHELLO\n\n" << std::endl;
+    std::string textStr = "assets/" + _info->getUniverse() + "/Textures/Character.png";
+    std::string modelStr = "assets/" + _info->getUniverse() + "/Models/Character.iqm";
+    std::vector<gameEngine::component::Transform> SPAWNS = {
+        BOT_LEFT_SPAWN,
+        BOT_RIGHT_SPAWN,
+        TOP_LEFT_SPAWN,
+        TOP_RIGHT_SPAWN
+    };
+    std::array<std::string, 3> botNames = {"Bob", "Michel", "Jacquie"};
+    std::vector<gameEngine::component::Transform>::iterator spawnIt = SPAWNS.begin();
+
     _map.dump();
     std::srand(_map.getSeed());
-
-    std::shared_ptr<game::objects::Player> player = std::make_shared<game::objects::Player>("1", "Josh", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(1)));
-//    std::shared_ptr<game::objects::Player> player2 = std::make_shared<game::objects::Player>("2", "JOJO", "assets/" + _universe + "/Textures/Character.png", "assets/" + _universe + "/Models/Character.iqm", "assets/All/Animations/CharacterWalk.iqm", "assets/All/Animations/CharacterIdle.iqm", _info->_userManager->getUser("Joueur" + std::to_string(2)));
-
-    player->setTransform().setScale({0.1, 0.1, 0.1});
-    player->setTransform().setPosition({10, 10, 10});
-    player->setTransform().setRotation({90, 90, 0});
-    player->setCollider();
-
-    // player2->setTransform().setScale({0.1, 0.1, 0.1});
-    // player2->setTransform().setPosition({20, 10, 10});
-    // player2->setTransform().setRotation({90, 90, 0});
-    // player2->setCollider();
-
-    _players.push_back(player);
-//    _players.push_back(player2);
-    this->setupCamera();
-    _audio.loadMusicStreamFromFile("./assets/All/Music/Game.wav");
-    _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
     for (auto &tile : _map.getTiledMap()) {
-        std::cout << tile.getTransform()._position << std::endl;
-        _tiles.push_back(tile);
+        _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
     }
+
+    for (auto it : _info->_players) {
+        std::shared_ptr<game::objects::Player> player =
+        std::make_shared<game::objects::Player>(std::to_string(it->Id), it->name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, it);
+        player->setTransform().setScale(spawnIt->getScale());
+        player->setTransform().setPosition(spawnIt->getPosition());
+        player->setTransform().setRotation(spawnIt->getRotation());
+        player->setCollider();
+        spawnIt++;
+        _players.push_back(player);
+    }
+    for (size_t i = 0; i < (size_t)_info->nbBots; i++) {
+        std::shared_ptr<game::objects::Bot> bot =
+        std::make_shared<game::objects::Bot>(std::to_string(i + 1), botNames.at(i), textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _tiles, 0, Vector<int>(15, 17));
+        bot->setTransform().setScale(spawnIt->getScale());
+        bot->setTransform().setPosition(spawnIt->getPosition());
+        bot->setTransform().setRotation(spawnIt->getRotation());
+        bot->setCollider();
+        spawnIt++;
+        _players.push_back(bot);
+    }
+
+    this->setupCamera();
+    std::string nb(std::to_string(std::rand() % 3));
+    _audio.loadMusicStreamFromFile("./assets/All/Music/Game" + nb + ".wav");
+    _audio.loadSoundFromFile("./assets/All/Sound/Button.wav");
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
     _healtTile = std::make_shared<game::objects::PowerUpTile>(healthModel, healthTex, game::ONEUP, Vector3T<float>{10, 10, 20},
         Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
-    _tiles.push_back((*_healtTile));
+    _tiles.push_back(_healtTile);
 
     _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
     _timer.startThread();
@@ -83,7 +90,7 @@ void PlayGameScene::start()
     _audio.playSound();
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
-
+    _explosion = std::make_shared<game::managers::ExplosionManager>(_players, _tiles);
     _audio.setMusicVolume(1.0); //1.0 is max level
     _audio.playMusic();
 }
@@ -123,11 +130,29 @@ void PlayGameScene::setupCamera() noexcept
 
 void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &player, const Vector3T<float> &prev)
 {
-    for (auto &tile : _tiles) {
-        if (player->getCollider().isColliding(tile.getCollider().getBoundingBox())) {
-            player->onCollisionEnter(tile);
+    for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
+        if (player->getCollider().isColliding((*tile)->getCollider().getBoundingBox())) {
             player->setTransform().setPosition(prev);
+            player->setIsMoving(false);
+            player->onCollisionEnter(*(*tile));
+            if ((*tile)->getTag() == ONEUP) {
+                _tiles.erase(tile);
+            } else
+                tile++;
         }
+    }
+}
+
+void PlayGameScene::updateExplosionManager()
+{
+    _explosion->setObjects(_players, _tiles);
+    _explosion->update();
+    _tiles = _explosion->getTiles();
+
+    auto array = _explosion->getBombs();
+    for (auto &bomb : array) {
+        // std::cout << bomb->getTransform() << std::endl;
+        _tiles.push_back(bomb);
     }
 }
 
@@ -158,49 +183,62 @@ void PlayGameScene::quit()
 
 void PlayGameScene::update()
 {
-    _healtTile.get()->update();
+    //updateExplosionManager();
+    _healtTile->update();
     _buttonManager.updateButtons();
     _audio.updateMusicStream();
-    if (!_windowManager->isRunning()) {
+    if (!_windowManager->isRunning())
         quit();
-    }
     if (_buttonManager.isButtonClicked("PAUSE")) {
         _pause = true;
         _timer.setPause(true);
     }
     if (_pause) {
         updatePause();
-    } else {
-        std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
-        for (auto &[id, evt]: events)
-        {
-            if (id <= _players.size()) {
-                _players[id - 1]->setCurrentEvent(evt);
-            }
-        }
-        for (auto &it : _players) {
-            Vector3T<float> prev(it->getTransform().getPosition());
-            it->update();
-            collisionChecker(it, prev);
+        return;
+    }
+    std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
+    for (auto &[id, evt]: events)
+    {
+        if (id <= _players.size()) {
+            _players[id - 1]->setCurrentEvent(evt);
         }
     }
+    for (auto &player : _players) {
+        Vector3T<float> prev(player->getTransform().getPosition());
+        auto list = player->getBombQueue();
+        player->update();
+        collisionChecker(player, prev);
+        if (player->hasDropped()) {
+            for (auto &bomb : list) {
+                if (bomb->getSwitch()) {
+                    _explosion->pushBomb(bomb);
+                }
+                bomb->setSwitch(false);
+            }
+        }
+        player->setDropped(false);
+    }
+    updateExplosionManager();
 }
 
 void PlayGameScene::draw()
 {
+    //_explosion->draw();
+    _buttonManager.drawButtons();
     int idx_player = 0;
     for (auto it : _players) {
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
     }
     this->_windowManager->set3DMode(_cam);
-    (*_healtTile).draw();
-    _map.draw();
-    for (auto it : _players) {
+    for (auto &it : _players) {
         it->draw();
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
     }
+    for (auto &tile : _tiles)
+        tile->draw();
     _cam.endMode();
     _timer.getCurrentTime().draw();
     if (_pause) {

@@ -47,6 +47,10 @@ void Timer::timerExecute()
     }
 }
 
+void Timer::update()
+{
+}
+
 void Timer::setPause(bool pause)
 {
     _pause = pause;
@@ -62,7 +66,7 @@ void Timer::wait()
     _timerThread->join();
 }
 
-void Timer::draw() const noexcept
+void Timer::draw()
 {
     _currentTime.draw();
 }

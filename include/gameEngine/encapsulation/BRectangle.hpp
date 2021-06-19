@@ -32,6 +32,8 @@ namespace gameEngine
             BRectangle &operator=(const BRectangle &ref);
             ~BRectangle();
 
+            void update() override;
+
             //getter
                 [[nodiscard]] Rectangle getObj() const;
                 [[nodiscard]] float getWidth() const noexcept;
@@ -47,7 +49,7 @@ namespace gameEngine
                 void setHeight(const float &) noexcept;
 
             //draw
-                void draw() const noexcept override;
+                void draw() override;
                 void drawLines(const BColor &color) const noexcept;
 
             //collision

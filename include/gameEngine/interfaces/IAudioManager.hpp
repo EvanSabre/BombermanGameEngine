@@ -34,7 +34,7 @@ namespace gameEngine
                 virtual void stopSound() = 0;
                 virtual void setSoundVolume(float volume) = 0;
 
-                virtual void loadMusicStreamFromFile(const char *filepath) = 0;
+                virtual void loadMusicStreamFromFile(const std::string &filepath) = 0;
                 virtual void unloadMusicStream() = 0;
                 virtual void updateMusicStream() = 0;
 

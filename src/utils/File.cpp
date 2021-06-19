@@ -100,12 +100,15 @@ void File::write(const std::string &to_append, bool rewrite) const
 {
     std::ofstream file;
 
-    if (!isAccessible())
+    if (!isAccessible()) {
         throw std::runtime_error("Fiel : Is not accessible");
-    if (rewrite)
+    }
+    if (rewrite) {
         file.open(this->_path);
-    else
+    } else {
         file.open(this->_path, std::ios::app);
+
+    }
     file << to_append;
 }
 

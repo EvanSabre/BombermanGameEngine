@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.17)
 
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
@@ -48,6 +48,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Selector.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Clock.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/component/Timer.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/component/PopUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/WindowManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/AudioManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/managers/ButtonManager.cpp"
@@ -64,6 +65,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/MainMenuScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SplashScreenScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/ChoosePlayersScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/ChooseProfileScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SettingsScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Character.cpp"
@@ -82,8 +84,13 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/SpeedUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Effects/OneUp.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/TimedObject.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/AExplosif.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Bomb.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/Bot.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/managers/ExplosionManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/systems/SettingConf.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/systems/Brain.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GameManager.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
@@ -91,6 +98,7 @@ set(GAME_SRC
 set(UTILS_SRC
         "${PROJECT_SOURCE_DIR}/src/utils/Path.cpp"
         "${PROJECT_SOURCE_DIR}/src/utils/Utilitaries.cpp"
+        "${PROJECT_SOURCE_DIR}/src/utils/TimestampUtil.cpp"
         "${PROJECT_SOURCE_DIR}/src/Errors.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/PlayGameScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/SceneManager.cpp"

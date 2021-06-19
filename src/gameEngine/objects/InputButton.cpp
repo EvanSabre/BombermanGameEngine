@@ -13,12 +13,16 @@ using namespace gameEngine::object;
 #define MAX_INPUTS 15
 
 InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput, const encapsulation::BText &content,
-                const encapsulation::BColor &color, const encapsulation::BColor &selectColor) :
-            AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput)
+                const encapsulation::BColor &color, bool relative, const encapsulation::BColor &selectColor) :
+            AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput), _canInput(true)
 {
-    _content.setTextPosition(Vector<float>(pos._x, pos._y - size._y / 2));
-    _content.setTextSize(size._x / maxInput);
-    _content.setColor(BLACK);
+    _content->setTextSize(size._x / 2 / maxInput + content.getTextSize());
+    if (relative)
+        _content->setTextPosition(Vector<float>(pos._x, pos._y - content.getTextSize() / 2));
+    else
+        _content->setTextPosition(content.getTextPosition());
+    _content->setColor(content.getColor());
+    _content->setStr(content.getStr());
 }
 
 InputButton::~InputButton()
@@ -35,36 +39,58 @@ void InputButton::getNextChar() noexcept
     _currentChar = GetCharPressed();
 }
 
+bool InputButton::checkValidate()
+{
+    return _validate;
+}
+
+void InputButton::setCanInput(bool can)
+{
+    _canInput = can;
+}
+
 void InputButton::updateInput()
 {
-    if (_input.size() >= _maxInput)
+    if (_input.size() >= _maxInput) {
         return;
-    _currentChar = GetCharPressed();
+    }
+    getNextChar();
     while (_currentChar > 0) {
         if ((_currentChar >= 32 && _currentChar <= 125)) {
             _input.push_back((char)_currentChar);
-            _action = false;
         }
-        _currentChar = GetCharPressed();
+        getNextChar();
+        _content->setStr(_input);
+        if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
+            _input.pop_back();
     }
-    if (IsKeyPressed(KEY_BACKSPACE) && !_input.empty())
-        _input.pop_back();
-    _content.setStr(_input);
 }
 
 void InputButton::draw()
 {
     drawButtonRect();
     drawOutline();
-    _content.draw();
+    _content->draw();
 }
 
 void InputButton::update()
 {
+    _validate = false;
     updateState();
-    if (_action) {
-        _input.erase();
-        _content.setStr(_input);
+    if (isFocus() && _canInput) {
         updateInput();
     }
+    if (checkAction()) {
+        std::cout << "erasing\n";
+        _input.erase();
+        _content->setStr(_input);
+    }
+    if (GetKeyPressed() == KEY_ENTER)
+        _validate = true;
+}
+
+std::string InputButton::getContent() const noexcept
+{
+    std::cout << _content << std::endl;
+    return _content->getStr();
 }

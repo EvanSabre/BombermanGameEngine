@@ -36,6 +36,7 @@ BModel::~BModel()
 
 BModel::BModel(const encapsulation::BModel &ref)
 {
+    std::cout << "JACKPOT\n";
     this->resetObj();
     try {
         this->load(ref.getFilePath());
@@ -64,6 +65,10 @@ BModel &BModel::BModel::operator=(const encapsulation::BModel &ref)
     this->_transform.setRotation(ref._transform.getRotation());
     this->_transform.setScale(ref._transform.getScale());
     return *this;
+}
+
+void BModel::update()
+{
 }
 
 //----------------------------
@@ -130,7 +135,7 @@ void BModel::setTexture(int material_idx, int maps_idx,
 
 void BModel::rotate()
 {
-    Vector3T rota(this->_transform.getRotation());
+    Vector3T<float> rota(this->_transform.getRotation());
     Vector3 vect = {
         DEG2RAD * rota._x,
         DEG2RAD * rota._y,
@@ -139,14 +144,14 @@ void BModel::rotate()
     _model.transform = MatrixRotateXYZ(vect);
 }
 
-void BModel::draw() const noexcept
+void BModel::draw()
 {
     Vector3T<float> pos(this->_transform.getPosition());
     Vector3 vecPos = {pos._x, pos._y, pos._z};
-    Vector3T scale(this->_transform.getScale());
+    Vector3T<float> scale(this->_transform.getScale());
     Vector3 vecScale = {scale._x, scale._y, scale._z};
 
-    DrawModel(this->_model, vecPos, scale._x, _color.getObj());
+    DrawModel(this->_model, vecPos, vecScale.x, _color.getObj());
 }
 
 //---------------------

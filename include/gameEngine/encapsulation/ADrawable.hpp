@@ -25,7 +25,7 @@ namespace gameEngine
             // member functions
             void onCollisionEnter(const AGameObject &collision);
             void onCollisionExit(const AGameObject &collision);
-            void update();
+            virtual void update() = 0;
             game::Tag_e getTag() const noexcept;
 
             //getter
@@ -35,7 +35,7 @@ namespace gameEngine
             void setColor(const gameEngine::encapsulation::BColor &color) noexcept;
 
             //draw
-            virtual void draw() const noexcept = 0;
+            virtual void draw() = 0;
             virtual std::string getContent() const noexcept = 0;
 
         protected:

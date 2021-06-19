@@ -12,8 +12,9 @@
 #include "BText.hpp"
 #include "Character.hpp"
 #include "BRectangle.hpp"
+#include "BText.hpp"
 #include <memory>
-
+#include "Clock.hpp"
 namespace game
 {
     class Gui {
@@ -28,15 +29,17 @@ namespace game
         Gui();
         ~Gui();
 
-        void draw(const game::objects::Character &charac);
         void draw(const game::objects::Character &charac, const Vector<float> &basePose);
         void draw(const game::objects::Character &charac, corner_e corner);
         void drawElt(int nb, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,
+            Vector<float> scale, float spacing = 30) noexcept;
+        void drawEltStr(const std::string &str, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,
             Vector<float> scale, float spacing = 30) noexcept;
 
     private:
         std::shared_ptr<gameEngine::encapsulation::BTexture2D> _heartTexture;
         std::shared_ptr<gameEngine::encapsulation::BTexture2D> _bombTexture;
+        gameEngine::encapsulation::BText _text;
     };
 } // namespace game
 

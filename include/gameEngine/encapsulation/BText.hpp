@@ -34,6 +34,8 @@ namespace gameEngine
             BText &operator=(const BText &ref);
             ~BText();
 
+            void update() override;
+
             //getterT
                 [[nodiscard]] std::string getStr() const noexcept;
                 [[nodiscard]] BFont getFont() const noexcept;
@@ -54,7 +56,7 @@ namespace gameEngine
                 void setTextSize(const float &size) noexcept;
 
             //draw
-                void draw() const noexcept override;
+                void draw() override;
                 std::string getContent() const noexcept override;
         private:
             //ADrawable protected vaiable
