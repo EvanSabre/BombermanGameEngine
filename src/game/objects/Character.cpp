@@ -184,7 +184,7 @@ void Character::updateModelAnimation()
 void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 {
     _lives += efx->getLife();
-    _health += efx->getHealth();
+    _maxLives += efx->getMaxLife();
     _maxBomb += efx->getNbBomb();
     _bombRange += efx->getBlastPower();
     _speed = _speed + efx->getSpeed();

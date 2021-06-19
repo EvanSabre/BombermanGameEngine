@@ -88,7 +88,7 @@ namespace game
             int _maxBomb = 1;
             int _nbBomb = 1;
             int _bombRange = 1;
-            int _health = 1;
+            int _maxLives = 3;
             int _lives = 1;
             game::Event _currentEvent;
             bool _isMoving;
