@@ -35,11 +35,6 @@
 #include <memory>
 #include "Tile.hpp"
 
-#define GET_MAP_POS(vec) Vector<int>(vec._x / TILESIZE, vec._y / TILESIZE)
-#define CONVERT_MAP_POS(vec) Vector<int>(vec._x * TILESIZE, vec._y * TILESIZE)
-#define GET_MAP_POS_Z(vec) Vector<int>(vec._x / TILESIZE, vec._z / TILESIZE)
-#define CONVERT_MAP_POS_Z(vec) Vector<int>(vec._x * TILESIZE, vec._z * TILESIZE)
-
 using namespace game::objects;
 
 namespace game::objects {

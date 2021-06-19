@@ -14,7 +14,8 @@ Bot::Bot(const std::string &id, const std::string &name, const std::string &text
          std::vector<std::shared_ptr<game::objects::Tile>> &map, int level, Vector<int> sizeMap)
         : Character(id, name, text, model, animWalk, animIdle), Brain(map, level, sizeMap)
 {
-    _key_event.insert({NULL_EVENT, &Character::stand});
+    _goal = GET_MAP_POS_Z(_sizeMap, this->getTransform().getPosition());
+    //_key_event.insert({NULL_EVENT, &Character::stand});
 }
 
 Bot::~Bot()
@@ -33,12 +34,13 @@ void Bot::update()
 {
     this->updateMaps();
     this->setCurrentEvent(takeDecision(this->getTransform().getPosition()));
-    if (!_isMoving) {
-        _timer = 0;
-        //std::cout << "Bot update and move " << _currentEvent << std::endl;
-    }
+    // if (!_isMoving) {
+    //     _timer = 0;
+    // }
     this->setIsMoving(false);
-    dropBomb(1);
+    //std::cout << "Bot update and move ";
+    //this->printEvent(_currentEvent);
+    //dropBomb(1);
     handleEvent();
     updateModelAnimation();
 }

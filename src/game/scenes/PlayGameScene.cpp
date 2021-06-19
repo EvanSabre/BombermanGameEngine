@@ -30,6 +30,7 @@ void PlayGameScene::start()
 
     bot->setTransform().setScale({0.1, 0.1, 0.1});
     bot->setTransform().setPosition({130, 10, 10});
+    bot->setGoal(bot->getTransform().getPosition());
     bot->setTransform().setRotation({90, 90, 0});
     bot->setCollider();
     _players.push_back(bot);
