@@ -14,8 +14,8 @@ using namespace game::scenes;
 static const std::array<gameEngine::key_e, 5> gamePadKeys = {
     gameEngine::GAMEPAD_BUTTON_LEFT_FACE_UP,
     gameEngine::GAMEPAD_BUTTON_LEFT_FACE_DOWN,
-    gameEngine::GAMEPAD_BUTTON_LEFT_FACE_LEFT,
     gameEngine::GAMEPAD_BUTTON_LEFT_FACE_RIGHT,
+    gameEngine::GAMEPAD_BUTTON_LEFT_FACE_LEFT,
     gameEngine::GAMEPAD_BUTTON_RIGHT_FACE_LEFT
 };
 
