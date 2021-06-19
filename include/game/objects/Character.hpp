@@ -76,6 +76,7 @@ namespace game
             void setIsMoving(bool isMoving) noexcept;
 
             //action
+            void reload();
             void dropBomb(std::size_t tick) noexcept;
             void draw() const noexcept;
             //tmp for test : to delete
