@@ -23,7 +23,7 @@ Gui::Gui()
     _bombTexture->setEnabled(true);
 
     _text.setTransform()._scale = Vector3T<float>(10, 3, 3);
-
+    _text.setColor(BLACK);
 }
 
 Gui::~Gui()
@@ -54,8 +54,9 @@ void Gui::draw(const game::objects::Character &charac, corner_e corner)
 
 void Gui::draw(const game::objects::Character &charac, const Vector<float> &basePose)
 {
-    _heartTexture->setPos(Vector<int>(basePose._x, basePose._y));
-    _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 40));
+    _heartTexture->setPos(Vector<int>(basePose._x, basePose._y + 40));
+    _bombTexture->setPos(Vector<int>(basePose._x, basePose._y + 80));
+    drawLabel(charac.getName(), basePose);
     drawEltStr(std::to_string(charac.getLives()), _heartTexture, Vector<float>(0.05, 0.05), 50);
     drawElt(charac.getNbBomb(), _bombTexture, Vector<float>(0.1, 0.1));
 }
@@ -78,11 +79,19 @@ void Gui::drawEltStr(const std::string &str, std::shared_ptr<gameEngine::encapsu
             Vector<float> scale, float spacing) noexcept
 {
     Vector<int> bufPos = texture->getPos();
-    _text.setTransform()._position._x = bufPos._x + 30;
+    _text.setTransform()._position._x = bufPos._x + spacing;
     _text.setTransform()._position._y = bufPos._y + 15;
 
     texture->drawEx(scale);
     _text.setStr(str);
-    _text.setColor(BLACK);
+    _text.draw();
+}
+
+void Gui::drawLabel(const std::string &str, const Vector<float> &pos) noexcept
+{
+    _text.setTransform()._position._x = pos._x + 30;
+    _text.setTransform()._position._y = pos._y + 15;
+
+    _text.setStr(str);
     _text.draw();
 }

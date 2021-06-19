@@ -51,6 +51,7 @@ namespace game
 
             //EFFECT GETTER
                 int getLives() const noexcept;
+                int getNbBomb() const noexcept;
 
             //setter
                 void setCurrentEvent(game::Event Event) noexcept;
@@ -58,7 +59,6 @@ namespace game
                 void setState(const int &) noexcept;
                 void addScore(const size_t value) noexcept;
                 void subScore(const size_t value) noexcept;
-            int getNbBomb() const noexcept;
             size_t getScore() const noexcept;
             int getState() const noexcept;
             std::shared_ptr<game::objects::AExplosif> getNextBomb();
