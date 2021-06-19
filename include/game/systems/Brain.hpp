@@ -11,7 +11,7 @@
 #include "Tile.hpp"
 #include "SettingConf.hpp"
 #include "Clock.hpp"
-
+#include <array>
 
 #define TILE game::objects::Tile
 namespace game
@@ -59,10 +59,10 @@ namespace game
                 game::Event getEventFromDirection();
                 const std::array<Vector<int>, 4> directions =
                 {
-                    Vector<int>{-1, 0},
-                    Vector<int>{0, -1},
-                    Vector<int>{1, 0},
-                    Vector<int>{0, 1}
+                    Vector<int>(-1, 0),
+                    Vector<int>(0, -1),
+                    Vector<int>(1, 0),
+                    Vector<int>(0, 1)
                 };
 
                 const std::array<game::Event, 4> events =

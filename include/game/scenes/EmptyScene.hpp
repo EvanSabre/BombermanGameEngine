@@ -11,6 +11,12 @@
 #include "AScene.hpp"
 #include "Timer.hpp"
 #include "BSdf.hpp"
+#include "BModel.hpp"
+#include "Selector.hpp"
+#include "TSelector.hpp"
+
+#define WINDOW_X _windowManager->getWindowSize()._x
+#define WINDOW_Y _windowManager->getWindowSize()._y
 
 namespace game {
     namespace scenes {
@@ -25,6 +31,8 @@ namespace game {
             protected:
                 gameEngine::encapsulation::BSdf _text;
                 gameEngine::component::Timer _timer;
+                std::unique_ptr<gameEngine::component::TSelector<gameEngine::encapsulation::BModel>> _universeSelector = nullptr;
+                std::shared_ptr<gameEngine::encapsulation::BTexture2D> _tmp;
             private:
         };
     }

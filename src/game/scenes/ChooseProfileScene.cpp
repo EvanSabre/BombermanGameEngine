@@ -9,9 +9,13 @@
 
 using namespace game::scenes;
 #define BACKGROUND_BUTTON "./assets/Backgrounds/SupernovaBG.png"
+#define CONTROLLER "./assets/Backgrounds/manette.png"
+#define KEYPAD "./assets/Backgrounds/keypad.png"
+static const Vector<float> SCALE_GAMEPAD(0.5, 0.5);
+static const Vector<float> SCALE_KEYPAD(0.5, 0.5);
 
 ChooseProfileScene::ChooseProfileScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
-AScene(windowManager, info)
+AScene(windowManager, info), _acceptPopUp("This username has already been taken", Vector<float>(windowManager->getWindowSize()._x / 2, windowManager->getWindowSize()._y / 2), Vector<float>(500, 200))
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     _audio->loadMusicStreamFromFile("./assets/All/Music/Game.wav");
@@ -29,28 +33,34 @@ void ChooseProfileScene::start()
 {
     Vector<float> size(WINDOW_X / 2, WINDOW_Y / 1.5);
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y * 0.30);
-    Vector<float> posbutton(WINDOW_X / 2.3, WINDOW_Y * 0.42);
-    Vector<float> sizebutton(WINDOW_X / 8, WINDOW_Y / 10);
-
+    Vector<float> posbutton(WINDOW_X / 2.5, WINDOW_Y * 0.42);
+    Vector<float> sizebutton(WINDOW_X / 5, WINDOW_Y / 12);
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
     _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
 
-    // std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileKey =
-    // {
-    //     std::make_shared<TEXT>("1", size, BLACK, 40)
-    // };
+    _acceptPopUp.setEnabled(false);
+    _image_controller = std::make_shared<gameEngine::encapsulation::BTexture2D>();
+    if (_info->nbPlayersConfirmed == 0)
+        _image_controller->loadFromFile(KEYPAD);
+    else
+        _image_controller->loadFromFile(CONTROLLER);
+    _image_controller->setEnabled(true);
+    _image_controller->setPos(Vector<int>(pos._x * 1.85, pos._y * 0.2));
+    _image_controller->setColor(RED);
 
-    std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> profileContent;
+    // _InputIndication = TEXT(_info->_userManager->getUserInputs().at(0)->getDeviceName(),
+    //                         Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
+    //                         WHITE,
+    //                         30);
 
-    //_info->_userManager->createUser("Evan");
     for (auto &user : _info->_userManager->getUsers()) {
-        profileContent.push_back(std::make_shared<TEXT>(user->name, size, BLACK, 40));
+        _profileContent.push_back(std::make_shared<TEXT>(user->name, size, BLACK, 40));
     }
-    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, TEXT("", size, BLACK, 40), RED, BLACK);
-    profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
+    TEXT inputText("Enter a Username", posbutton, BLACK, 20);
+    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, inputText, RED, false, BLACK);
+    _profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
 
-    //_profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
-    _profileSelector = std::make_unique<SELECTOR>("Choose a profile", profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
+    _profileSelector = std::make_unique<SELECTOR>("Choose a profile", _profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
     _profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
     std::shared_ptr<BUTTON> backButton = std::make_shared<BUTTON>(Vector<float>(size._x * 0.2, size._y * 0.2),
                                             Vector<float>(WINDOW_X * 0.1, WINDOW_Y * 0.8),
@@ -64,22 +74,64 @@ void ChooseProfileScene::start()
                                             BLUE,
                                             WHITE,
                                             BACKGROUND_BUTTON);
-    playButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("play");}, _info);
     backButton->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("menu");}, _info);
     _buttonManager.pushButton(backButton);
     _buttonManager.pushButton(playButton);
-    _ProfilesIndicationGame = TEXT("Game Won: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
-                              WHITE,
+    _ProfilesIndicationGameWon = TEXT("Game Won: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.45),
+                              BLACK,
                               30);
-    _ProfilesIndicationPlayed = TEXT("Played: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.65),
-                              WHITE,
+    _ProfilesIndicationGamePlayed = TEXT("Game Played: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.55),
+                              BLACK,
                               30);
-    _ProfilesIndicationKilled = TEXT("Killed: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.85),
-                              WHITE,
+    _ProfilesIndicationCreated = TEXT("Created: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.65),
+                              BLACK,
+                              30);
+    _ProfilesIndicationBeKilled = TEXT("Be Killed: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.75),
+                              BLACK,
+                              30);
+    _ProfilesIndicationKills = TEXT("Kills: ", Vector<float>(pos._x + size._x * 0.1, pos._y + size._y * 0.85),
+                              BLACK,
+                              30);
+
+    _ProfilesGameWon = TEXT("", Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.45),
+                              BLACK,
+                              30);
+    _ProfilesGamePlayed = TEXT("", Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.55),
+                              BLACK,
+                              30);
+    _ProfilesCreated = TEXT("", Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.65),
+                              BLACK,
+                              30);
+    _ProfilesBeKilled = TEXT("", Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.75),
+                              BLACK,
+                              30);
+    _ProfilesKills = TEXT("", Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.85),
+                              BLACK,
                               30);
 
     _nbContents = _profileSelector->getNbContent();
     _audio->playMusic();
+}
+
+void ChooseProfileScene::createNewProfile()
+{
+    Vector<float> size(WINDOW_X / 2.1, WINDOW_Y / 2.3);
+
+    if (_info->_userManager->findUser(_inputButton->getInput())) {
+        _acceptPopUp.setEnabled(true);
+
+        return;
+    }
+    try {
+        _info->_userManager->createUser(_inputButton->getInput());
+    } catch (UserManagmentError &e) {
+        throw IndieError("Error in new profile");
+    }
+    auto it = _profileContent.end();
+    _profileContent.insert(it, std::make_shared<TEXT>(_inputButton->getInput(), size, BLACK, 40));
+    _profileContent.push_back(std::make_shared<TEXT>(_inputButton->getInput(), size, BLACK, 40));
+    _profileSelector->setContent(_profileContent);
+    _profileSelector->setICurrent(_profileContent.size() - 1);
 }
 
 void ChooseProfileScene::update()
@@ -91,24 +143,35 @@ void ChooseProfileScene::update()
     _profileSelector->update();
     _inputButton->update();
     //_profileKeypad->update();
-
-    if (_buttonManager.isButtonClicked("Play")) {
-        return;
+    if (_inputButton->checkValidate()) {
+        createNewProfile();
     }
-    std::string nb_entity = std::to_string(std::atoi(_profileSelector->getCurrentContent()->getContent().c_str()));
-    if (std::atoi(nb_entity.c_str()) > 4 || std::atoi(nb_entity.c_str()) < 1) {
-        _ProfilesIndicationGame.setColor(BLACK);
-        _ProfilesIndicationPlayed.setColor(BLACK);
-        _ProfilesIndicationKilled.setColor(BLACK);
+    try {
+        _cUser = _info->_userManager->getUser(_profileSelector->getCurrentContent()->getContent());
+        _ProfilesBeKilled.setStr(std::to_string(_cUser->beKilled));
+        _ProfilesCreated.setStr(TimestampUtil::timestampToString(_cUser->created));
+        _ProfilesGamePlayed.setStr(std::to_string(_cUser->gamesPlayed));
+        _ProfilesGameWon.setStr(std::to_string(_cUser->gamesWon));
+        _ProfilesKills.setStr(std::to_string(_cUser->kills));
+    } catch (UserManagmentError &e) {
+        _cUser = nullptr;
+        _ProfilesBeKilled.setStr("");
+        _ProfilesCreated.setStr("");
+        _ProfilesGamePlayed.setStr("");
+        _ProfilesGameWon.setStr("");
+        _ProfilesKills.setStr("");
     }
-    else {
-        _ProfilesIndicationGame.setColor(WHITE);
-        _ProfilesIndicationPlayed.setColor(WHITE);
-        _ProfilesIndicationKilled.setColor(WHITE);
+    if (_buttonManager.isButtonClicked("Play") && _cUser != nullptr) {
+        _info->nbPlayersConfirmed++;
+        _info->pushPlayer(_cUser);
+        if (_info->nbPlayersConfirmed == _info->nbPlayers)
+            _info->setCurrentScene("play");
+        else
+            _info->setCurrentScene("chooseProfile");
     }
     //_ProfilesIndication.setStr(nb_entity + "/ 4 profiles maximum");
     _audio->updateMusicStream();
-    return;
+    _acceptPopUp.update();
 }
 
 void ChooseProfileScene::draw()
@@ -116,11 +179,33 @@ void ChooseProfileScene::draw()
     _background->draw();
     _zoneStat->draw();
     //_profileKeypad->draw();
-    _profileSelector->draw();
+    //_image_controller->draw();
+    if (_info->nbPlayersConfirmed == 0)
+        _image_controller->drawEx(SCALE_KEYPAD);
+    else
+        _image_controller->drawEx(SCALE_GAMEPAD);
+    if (!_acceptPopUp.getEnabled()) {
+        _profileSelector->draw();
+        _buttonManager.drawButtons();
+        _inputButton->setCanInput(true);
+    } else {
+        _inputButton->setCanInput(false);
+    }
     if (_nbContents - 1 == _profileSelector->getIdActualContent())
         _inputButton->draw();
-    _buttonManager.drawButtons();
-    _ProfilesIndicationGame.draw();
-    _ProfilesIndicationPlayed.draw();
-    _ProfilesIndicationKilled.draw();
+    //_InputIndication.draw();
+    _ProfilesIndicationGameWon.draw();
+    _ProfilesIndicationGamePlayed.draw();
+    _ProfilesIndicationCreated.draw();
+    _ProfilesIndicationBeKilled.draw();
+    _ProfilesIndicationKills.draw();
+
+    _ProfilesGameWon.draw();
+    _ProfilesGamePlayed.draw();
+    _ProfilesCreated.draw();
+    _ProfilesBeKilled.draw();
+    _ProfilesKills.draw();
+
+    _acceptPopUp.draw();
+
 }

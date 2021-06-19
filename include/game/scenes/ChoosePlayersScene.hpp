@@ -14,10 +14,14 @@
 #include "Selector.hpp"
 #include "ButtonManager.hpp"
 #include "AudioManager.hpp"
+#include "TSelector.hpp"
+#include "BModel.hpp"
 
 #define RECTANGLE gameEngine::encapsulation::BRectangle
 #define IMAGE gameEngine::encapsulation::BTexture2D
 #define SELECTOR gameEngine::component::Selector
+#define TSELECTOR gameEngine::component::TSelector
+
 #define WINDOW_X _windowManager->getWindowSize()._x
 #define WINDOW_Y _windowManager->getWindowSize()._y
 
@@ -41,10 +45,11 @@ namespace game
                 std::unique_ptr<IMAGE> _background = nullptr;
                 std::unique_ptr<SELECTOR> _playerSelector = nullptr;
                 std::unique_ptr<SELECTOR> _botSelector = nullptr;
-                std::unique_ptr<SELECTOR> _universeSelector = nullptr;
+                std::unique_ptr<TSELECTOR<gameEngine::encapsulation::BModel>> _universeSelector = nullptr;
                 TEXT _PlayersIndication;
                 gameEngine::managers::ButtonManager _buttonManager;
                 std::string _universe;
+                std::array<std::shared_ptr<gameEngine::encapsulation::BTexture2D>, 3> _textures;
         };
     };
 };

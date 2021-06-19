@@ -10,6 +10,7 @@
 
 #include "IAudioManager.hpp"
 #include <memory>
+#include <unordered_map>
 
 using namespace gameEngine::encapsulation;
 
