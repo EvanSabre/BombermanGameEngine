@@ -77,10 +77,12 @@ Tile::~Tile()
 
 void Tile::onCollisionEnter(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 void Tile::onCollisionExit(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 void Tile::update()
