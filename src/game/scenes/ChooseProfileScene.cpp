@@ -51,7 +51,7 @@ void ChooseProfileScene::start()
     _info->_userManager->getUserInputs().size();
     _InputIndication = TEXT(_info->_userManager->getUserInputs().at(_info->nbPlayersConfirmed + 1)->getDeviceName(),
                             Vector<float>(pos._x * 1.80, pos._y * 0.7),
-                            WHITE,
+                            BLACK,
                             30);
 
     for (auto &user : _info->_userManager->getUsers()) {
