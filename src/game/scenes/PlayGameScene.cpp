@@ -20,9 +20,10 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
 : AScene(windowManager, info), _map(_info->getUniverse(), 15), _pause(false)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
-    _audio->loadMusicStreamFromFile("./assets/All/Music/Game.wav");
+    std::string nb(std::to_string(std::rand() % 3));
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Game" + nb + ".wav");
     _audio->loadSoundFromFile("./assets/All/Sound/Bombdrop.wav", "drop");
-    _audio->loadSoundFromFile("./assets/All/Sound/BombExplode.wav", "boom");
+    _audio->loadSoundFromFile("./assets/All/Sound/BombExplode.mp3", "boom");
     _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
     _audio->loadSoundFromFile("./assets/All/Sound/CharacterDamage.wav", "damage");
     _audio->loadSoundFromFile("./assets/All/Sound/CharacterDeath.wav", "death");
@@ -78,8 +79,6 @@ void PlayGameScene::start()
     }
 
     this->setupCamera();
-    std::string nb(std::to_string(std::rand() % 3));
-    _audio->loadMusicStreamFromFile("./assets/All/Music/Game" + nb + ".wav");
 
     std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
@@ -144,6 +143,7 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
             player->setIsMoving(false);
             player->onCollisionEnter(*(*tile));
             if ((*tile)->getTag() == ONEUP) {
+                _audio->playSound("itemPick");
                 _tiles.erase(tile);
             } else
                 tile++;
@@ -174,6 +174,7 @@ void PlayGameScene::updatePause()
     }
     if (_pauseManager.isButtonClicked("QUIT")) {
         _timer.setPause(false);
+        _audio->playSound("button");
         quit();
     }
 }
@@ -195,7 +196,6 @@ void PlayGameScene::update()
     //updateExplosionManager();
     _healtTile->update();
     _buttonManager.updateButtons();
-    _audio->updateMusicStream();
     if (!_windowManager->isRunning())
         quit();
     if (_buttonManager.isButtonClicked("PAUSE")) {
@@ -219,6 +219,7 @@ void PlayGameScene::update()
         player->update();
         collisionChecker(player, prev);
         if (player->hasDropped()) {
+            _audio->playSound("drop");
             for (auto &bomb : list) {
                 if (bomb->getSwitch()) {
                     _explosion->pushBomb(bomb);
@@ -229,6 +230,7 @@ void PlayGameScene::update()
         player->setDropped(false);
     }
     updateExplosionManager();
+    _audio->updateMusicStream();
 }
 
 void PlayGameScene::draw()

@@ -19,6 +19,11 @@ ExplosionManager::ExplosionManager(
     _animRef = std::make_shared<gameEngine::Animation>(*_model, *_texture, *_anim);
     _players = players;
     _tiles = tiles;
+    _audio = std::make_shared<gameEngine::managers::AudioManager>();
+    _audio->loadSoundFromFile("./assets/All/Sound/BombExplode.mp3", "boom");
+    _audio->loadSoundFromFile("./assets/All/Sound/CharacterDamage.wav", "damage");
+    _audio->loadSoundFromFile("./assets/All/Sound/CharacterDeath.wav", "death");
+    _audio->loadSoundFromFile("./assets/All/Sound/CollectibleDrop.wav", "itemDrop");
 }
 
 ExplosionManager::~ExplosionManager()
@@ -64,6 +69,8 @@ void ExplosionManager::updateExplosionAnimation()
 
 bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
 {
+    // bruit explosion
+    _audio->playSound("boom");
     for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
         if ((*tile)->getTransform().getPosition()._x == pos._x &&
             (*tile)->getTransform().getPosition()._y == pos._y &&
@@ -81,6 +88,7 @@ bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
             player->getTransform().getPosition()._z / TILESIZE == (pos._z) / TILESIZE) {
             // player dies
             // std::cout << "* PLAYER DESTROYED *" << std::endl;
+            _audio->playSound("damage");
             return false;
         }
     }

@@ -24,7 +24,7 @@ ChoosePlayersScene::ChoosePlayersScene(std::shared_ptr<gameEngine::managers::Win
 AScene(windowManager, info), _universe("Vikings")
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
-    _audio->loadMusicStreamFromFile("./assets/All/Music/Game.wav");
+    _audio->loadMusicStreamFromFile("./assets/All/Music/Settings.mp3");
     _audio->loadSoundFromFile("./assets/All/Sound/Button.wav", "button");
 
     _audio->setMusicVolume(_info->getMusicVolume() / 100);
@@ -155,12 +155,13 @@ void ChoosePlayersScene::update()
         _PlayersIndication.setColor(WHITE);
     }
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
-    if (_buttonManager.isButtonClicked("Play")) {
-        _audio->stopMusic();
-        _audio->playSound("button");
-        sleep(1);
-        _info->setCurrentScene("play");
-    }
+    // if (_buttonManager.isButtonClicked("Play")) {
+    //     _audio->stopMusic();
+    //     _audio->playSound("button");
+    //     _audio->updateMusicStream();
+    //     sleep(1);
+    //     _info->setCurrentScene("play");
+    // }
     if (_buttonManager.isButtonClicked("Back")) {
         _audio->stopMusic();
         _audio->playSound("button");
