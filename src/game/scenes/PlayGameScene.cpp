@@ -219,6 +219,8 @@ void PlayGameScene::update()
         }
     }
     for (auto &player : _players) {
+        if (!(*player).isAlive())
+            continue;
         Vector3T<float> prev(player->getTransform().getPosition());
         auto list = player->getBombQueue();
         player->update();
@@ -258,7 +260,8 @@ void PlayGameScene::draw()
     }
     int idx_player = 0;
     for (auto &it : _players) {
-        _gui.draw((*it), (game::Gui::corner_e)idx_player);
+        if ((*it).isAlive())
+            _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
     }
 }
