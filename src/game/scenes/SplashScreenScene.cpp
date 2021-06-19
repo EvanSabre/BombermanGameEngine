@@ -91,7 +91,7 @@ void SplashScreenScene::animIdle()
 {
     _idleFrame++;
     updateAnim(_idleFrame, IDLE_FRAMES, IDLE_X, _idleRect);
-    if (_nbReset >= 4) {
+    if (_nbReset >= 3) {
         _idleText.setEnabled(false);
         _attackText.setEnabled(true);
         _attackText.setPos(_idleText.getPos());
@@ -124,7 +124,7 @@ void SplashScreenScene::animAttack()
 
 std::string SplashScreenScene::done()
 {
-    if (_clock.getElapsedTime() > 1)
+    if (_clock.getElapsedTime() > 3)
         return "menu";
     return "";
 }
@@ -142,7 +142,8 @@ void SplashScreenScene::update()
             animAttack();
             break;
         case DONE:
-            _info->setCurrentScene("menu");
+            animIdle();
+            _info->setCurrentScene(done());
             break;
         default:
             break;
