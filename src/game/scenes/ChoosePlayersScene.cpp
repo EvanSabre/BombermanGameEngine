@@ -67,24 +67,14 @@ void ChoosePlayersScene::start()
         std::make_shared<gameEngine::encapsulation::BTexture2D>("./assets/Vikings/Textures/Character.png")
     };
 
-    modelList[0]->setTexture(0, MATERIAL_MAP_DIFFUSE, *_textures[0]);
-    modelList[1]->setTexture(0, MATERIAL_MAP_DIFFUSE, *_textures[1]);
-    modelList[2]->setTexture(0, MATERIAL_MAP_DIFFUSE, *_textures[2]);
-
-    modelList[0]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
-    modelList[1]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
-    modelList[2]->setTransform().setScale(Vector3T<float>(0.1, 0.1, 0.1));
-
-    modelList[0]->setTransform().setPosition(Vector3T<float>(80, 10, 140));
-    modelList[1]->setTransform().setPosition(Vector3T<float>(80, 10, 140));
-    modelList[2]->setTransform().setPosition(Vector3T<float>(80, 10, 140));
-
-    modelList[0]->setTransform().setRotation(Vector3T<float>(180, 90, 0));
-    modelList[1]->setTransform().setRotation(Vector3T<float>(180, 90, 0));
-    modelList[2]->setTransform().setRotation(Vector3T<float>(180, 90, 0));
-
-    for (int i = 0; i < 3; i++)
+    for (std::size_t i = 0; i != modelList.size(); i++) {
+        modelList[i]->setTexture(0, MATERIAL_MAP_DIFFUSE, *_textures[i]);
+        modelList[i]->setTransform().setScale(Vector3T<float>(0.3, 0.3, 0.3));
+        modelList[i]->setTransform().setPosition(Vector3T<float>(30, 10, 145));
+        modelList[i]->setTransform().setRotation(Vector3T<float>(150, 90, 0));
+        // modelList[i]->setTransform().setRotation(Vector3T<float>(0, 0, 0));
         modelList[i]->rotate();
+    }
 
     std::vector<std::shared_ptr<gameEngine::encapsulation::BModel>> chooseUniverse =
     {
@@ -130,6 +120,15 @@ void ChoosePlayersScene::update()
     if (!_windowManager->isRunning()) {
         _info->setQuit(true);
     }
+    // auto models = _universeSelector->getContent();
+    // for (auto &model : models) {
+    //     model->setTransform().setRotation({
+    //         model->getTransform().getRotation()._x,
+    //         model->getTransform().getRotation()._y,
+    //         model->getTransform().getRotation()._z
+    //     });
+    //     model->rotate();
+    // }
     _universeSelector->update();
     _buttonManager.updateButtons();
     _botSelector->update();
