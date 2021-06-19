@@ -11,7 +11,7 @@ Brain::Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> siz
         _isDangerousMap.push_back(std::vector<bool>{0});
         _tagMap.push_back(std::vector<Tag>{0});
         _directionMap.push_back(std::vector<game::Event>{0});
-        _distanceMap.push_back(std::vector<int>{0});
+        _distanceMap.push_back(std::vector<int>{-1});
         for (int y = 0; y < sizeMap._y; y++) {
             _isDangerousMap[x].push_back(false);
             _tagMap[x].push_back(NONE);
@@ -22,7 +22,6 @@ Brain::Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> siz
     for (auto &tile : _map) {
         tilePosInMap = {(int) tile->getTransform().getPosition()._x, (int) tile->getTransform().getPosition()._z};
         tilePosInMap = GET_MAP_POS(tilePosInMap);
-        std::cout << "tag = " << tile->getTag() << tile->getTransform().getPosition() << std::endl;
         _tagMap[tilePosInMap._x][tilePosInMap._y] = tile->getTag();
     }
     dumpMap();
@@ -46,6 +45,10 @@ void Brain::computeDirection()
     if (!isSolid(_posInMap._x + 1, _posInMap._y))
         dirAvailables.push_back(game::Event::MOVE_RIGHT);
     _nextDecision =  (game::Event)(std::rand() % dirAvailables.size());
+
+    // std::cout << "Directions" << std::endl;
+    // for (auto &i : dirAvailables)
+    //     std::cout << i << std::endl;
 
 }
 
@@ -102,13 +105,40 @@ void Brain::setNewGoalOffense(Vector<int> &pos, Vector<int> &goal)
 
 void Brain::setNewGoalDefense(Vector<int> &pos, Vector<int> &goal)
 {
-   //short newDir = PathFinding(pos);
+   short newDir = PathFinding(pos);
    //goal += directions[newDir];
    _decision = getEventFromDirection();
 }
 
-void Brain::updateMaps(std::vector<std::shared_ptr<TILE>> &map)
+void Brain::updateMaps()
 {
+    Vector<int> tilePosInMap{0, 0};
+    for (auto &tile : _map) {
+        tilePosInMap = {(int) tile->getTransform().getPosition()._x, (int) tile->getTransform().getPosition()._z};
+        tilePosInMap = GET_MAP_POS(tilePosInMap);
+        if (_tagMap[tilePosInMap._x][tilePosInMap._y] != tile->getTag()) {
+            _tagMap[tilePosInMap._x][tilePosInMap._y] = tile->getTag();
+            // std::cout << "Update Map Bot" << tile->getTag() << " "<< tilePosInMap << std::endl;
+        }
+    }
+    dumpMap();
+    // int x = 0;
+    // int y = 0;
+    // for (auto &tile : _map)
+    // {
+    //     if (x == _sizeMap._x)
+    //     {
+    //         x = 0;
+    //         y++;
+    //     }
+    //     if (_tagMap[x][y] != tile->getTag())
+    //     {
+    //         std::cout << "Update Map Bot" << tile->getTag() << " "<< x << ":" << y<< std::endl;
+    //         //dumpMap();
+    //         _tagMap[x][y] = tile->getTag();
+    //     }
+    //     x++;
+    // }
     //TODO: pas de push back juste si la case a changé la remplacer par la nouvelle valeur;
 }
 
@@ -193,21 +223,49 @@ bool Brain::needDropBomb()
 
 void Brain::dumpMap()
 {
-    std::cout << "TagMap" << std::endl;
-    for (int x = 0; x < _sizeMap._x; x++)
-    {
-        std::cout << std::endl;
-        for (int y = 0; y < _sizeMap._y; y++)
-            std::cout << "[" << _tagMap[x][y] << "]";
-    }
-    std::cout << std::endl;
+    // std::string c = " ";
+    // std::cout << "TagMap" << std::endl;
+    // for (int x = 0; x < _sizeMap._x; x++)
+    // {
+    //     std::cout << std::endl;
+    //     for (int y = 0; y < _sizeMap._y; y++) {
+    //         if (_tagMap[x][y] == Tag::BRICK)
+    //             c = "*";
+    //         else if(_tagMap[x][y] == Tag::WALL)
+    //             c = "x";
+    //         else if(_tagMap[x][y] == Tag::NONE)
+    //             c = " ";
+    //         else
+    //             c = std::to_string((int) _tagMap[x][y]);
+    //         std::cout << "[" << c << "]";
+    //     }
+    // }
+    // std::cout << std::endl;
 
-    std::cout << "\r\nDangerous Map" << std::endl;
-    for (int x = 0; x < _sizeMap._x; x++)
-    {
-        std::cout << std::endl;
-        for (int y = 0; y < _sizeMap._y; y++)
-            std::cout << "[" << _isDangerousMap[x][y] << "]";
-    }
-    std::cout << std::endl;
+    // std::cout << "\r\nDangerous Map" << std::endl;
+    // for (int x = 0; x < _sizeMap._x; x++)
+    // {
+    //     std::cout << std::endl;
+    //     for (int y = 0; y < _sizeMap._y; y++)
+    //         std::cout << "[" << _isDangerousMap[x][y] << "]";
+    // }
+    // std::cout << std::endl;
+
+    // std::cout << "\r\nDistance Map" << std::endl;
+    // for (int x = 0; x < _sizeMap._x; x++)
+    // {
+    //     std::cout << std::endl;
+    //     for (int y = 0; y < _sizeMap._y; y++)
+    //         std::cout << "[" << _distanceMap[x][y] << "]";
+    // }
+    // std::cout << std::endl;
+
+    // std::cout << "\r\nDirection Map" << std::endl;
+    // for (int x = 0; x < _sizeMap._x; x++)
+    // {
+    //     std::cout << std::endl;
+    //     for (int y = 0; y < _sizeMap._y; y++)
+    //         std::cout << "[" << _directionMap[x][y] << "]";
+    // }
+    // std::cout << std::endl;
 }

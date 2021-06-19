@@ -23,10 +23,11 @@ Bot::~Bot()
 
 void Bot::update()
 {
+    this->updateMaps();
     this->setCurrentEvent(takeDecision(this->getTransform().getPosition()));
     if (!_isMoving) {
         _timer = 0;
-        std::cout << "Bot update and move " << _currentEvent << std::endl;
+        //std::cout << "Bot update and move " << _currentEvent << std::endl;
     }
     this->setIsMoving(false);
     dropBomb(1);

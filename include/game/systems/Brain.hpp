@@ -25,9 +25,10 @@ namespace game
                 ~Brain();
             protected:
                 game::Event takeDecision(Vector3T<float> pos);
+                void updateMaps(void);
                 double _timer;
             private:
-                double _basedTimer = 0.5;
+                double _basedTimer = 2;
                 game::Event _decision;
                 game::Event _nextDecision;
                 Vector<int> _posInMap{0, 0};
@@ -50,7 +51,6 @@ namespace game
                 bool needDropBomb(void);
                 void setNewGoalOffense(Vector<int> &pos, Vector<int> &goal);
                 void setNewGoalDefense(Vector<int> &pos, Vector<int> &goal);
-                void updateMaps(std::vector<std::shared_ptr<TILE>> &map);
                 void updateDangerousMap(void);
                 short PathFinding(Vector<int> &pos, Vector<int> &goal);
                 short PathFinding(Vector<int> &pos);

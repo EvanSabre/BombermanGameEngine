@@ -205,23 +205,23 @@ static Vector3T<float> getMiddlePos(const Vector3T<float> &pos)
 
 void Character::stand(std::size_t tick)
 {
-    static int i = 1;
-    Vector3T<float> mid(getMiddlePos(this->getTransform().getPosition()));
-    std::pair<game::Event, game::Event> move({
-        (mid._x - getTransform().getPosition()._x) < 0 ? MOVE_DOWN : MOVE_UP,
-        (mid._z - getTransform().getPosition()._z) < 0 ? MOVE_LEFT : MOVE_RIGHT
-    });
+    // static int i = 1;
+    // Vector3T<float> mid(getMiddlePos(this->getTransform().getPosition()));
+    // std::pair<game::Event, game::Event> move({
+    //     (mid._x - getTransform().getPosition()._x) < 0 ? MOVE_DOWN : MOVE_UP,
+    //     (mid._z - getTransform().getPosition()._z) < 0 ? MOVE_LEFT : MOVE_RIGHT
+    // });
 
-    std::cout << "STANDING" << std::endl;
-    if (!(mid._x - getTransform().getPosition()._x))
-        move.first = STAND;
-    if (!(mid._x - getTransform().getPosition()._x))
-        move.second = STAND;
-    if (i && move.first != STAND)
-        _key_event[move.first];
-    else if (!i && move.second != STAND)
-        _key_event[move.second];
-    i = 1 - i;
+    // std::cout << "STANDING" << std::endl;
+    // if (!(mid._x - getTransform().getPosition()._x))
+    //     move.first = STAND;
+    // if (!(mid._x - getTransform().getPosition()._x))
+    //     move.second = STAND;
+    // if (i && move.first != STAND)
+    //     _key_event[move.first];
+    // else if (!i && move.second != STAND)
+    //     _key_event[move.second];
+    // i = 1 - i;
 }
 
 // BOMBS
@@ -271,7 +271,7 @@ void Character::handleEvent() noexcept
                 _currentEvent = NULL_EVENT;
                 flag = true;
                 _isMoving = true;
-                std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
+                //std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }

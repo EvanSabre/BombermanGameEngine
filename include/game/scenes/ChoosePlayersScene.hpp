@@ -36,8 +36,10 @@ namespace game
                 std::unique_ptr<IMAGE> _background = nullptr;
                 std::unique_ptr<SELECTOR> _playerSelector = nullptr;
                 std::unique_ptr<SELECTOR> _botSelector = nullptr;
+                std::unique_ptr<SELECTOR> _universeSelector = nullptr;
                 TEXT _PlayersIndication;
                 gameEngine::managers::ButtonManager _buttonManager;
+                std::string _universe;
         };
     };
 };
