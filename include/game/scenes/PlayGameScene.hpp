@@ -23,6 +23,7 @@
 #include "PowerUpTile.hpp"
 #include "Gui.hpp"
 #include "InputButton.hpp"
+#include "PopUp.hpp"
 
 namespace game {
     namespace scenes {
@@ -57,6 +58,7 @@ namespace game {
                 gameEngine::managers::AFileManager _fileManager;
                 std::string _savePath;
                 std::shared_ptr<gameEngine::object::InputButton> _saveInput;
+                std::unique_ptr<gameEngine::component::PopUp> _savePopUp;
                 //here for test need to be in map after
                 // game::objects::PowerUpTile _heelth()
                 std::shared_ptr<game::objects::PowerUpTile> _healtTile;

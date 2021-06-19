@@ -128,8 +128,10 @@ void PlayGameScene::setupPause()
 
     gameEngine::encapsulation::BText inputText("Enter a Save name", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 20);
     _saveInput =
-    std::make_shared<gameEngine::object::InputButton>(Vector<float>(300, 50), Vector<float>(middle2._x, middle2._y), 10, inputText, RED, false, BLACK);
+    std::make_shared<gameEngine::object::InputButton>(Vector<float>(300, 50), middle2, 10, inputText, RED, false, BLACK);
     _saveInput->setEnabled(false);
+    _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 110, middle2._y - 10), Vector<float>(270, 150));
+    _savePopUp->setEnabled(false);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 115, middle2._y + 10), WHITE, 30);
@@ -138,6 +140,7 @@ void PlayGameScene::setupPause()
     quitText.setFont(fontQuit);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), middle2, quitText, DARKGRAY);
+
 
     _pauseManager.pushButton(resume);
     _pauseManager.pushButton(buttonSave);
@@ -194,7 +197,7 @@ void PlayGameScene::savePlayers()
     std::stringstream ss;
 
     for (auto it : _players) {
-        ss << "Player : " << it->getName() << ":" << std::endl;
+        ss << "Player : " << it->getName() << std::endl;
         ss << "Transform :" << it->getTransform();
         ss << "Lives : " << it->getLives() << std::endl;
         ss << "Speed : " << it->getSpeed() << std::endl;
@@ -210,6 +213,7 @@ void PlayGameScene::updatePause()
 {
     _pauseManager.updateButtons();
     _saveInput->update();
+    _savePopUp->update();
     if (_pauseManager.isButtonClicked("RESUME")) {
         _pause = false;
         _timer.setPause(false);
@@ -227,6 +231,9 @@ void PlayGameScene::updatePause()
     if (_saveInput->getEnabled() && _saveInput->checkValidate()) {
         _map.saveMap(_tiles, _savePath + "/" + _saveInput->getContent());
         savePlayers();
+        _savePopUp->setEnabled(true);
+        _saveInput->setEnabled(false);
+        _pauseManager.setEnabledButton("SAVE", true);
     }
 }
 
@@ -234,6 +241,7 @@ void PlayGameScene::drawPause()
 {
     _saveInput->draw();
     _pauseManager.drawButtons();
+    _savePopUp->draw();
 }
 
 void PlayGameScene::quit()

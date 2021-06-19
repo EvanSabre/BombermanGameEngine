@@ -15,7 +15,7 @@ namespace gameEngine {
     namespace component {
         class PopUp : public gameEngine::encapsulation::ADrawable {
             public:
-                PopUp(const std::string &text, const Vector<float> &pos, const Vector<float> &size);
+                PopUp(const std::string &text, const Vector<float> &pos = {0,0}, const Vector<float> &size = {0,0});
                 ~PopUp();
 
                 void update() override;
