@@ -22,7 +22,6 @@ namespace game
                     std::vector<std::shared_ptr<game::objects::Tile>> &map, int level, Vector<int> sizeMap);
                 ~Bot();
                 void update() override;
-
                 gameEngine::component::Clock _clock;
             protected:
             private:
