@@ -39,7 +39,7 @@ namespace gameEngine {
                 bool _pause = false;
                 double _duration;
                 bool _isDone = false;
-                std::unique_ptr<std::thread> _timerThread;
+                std::unique_ptr<std::thread> _timerThread = nullptr;
                 gameEngine::component::Clock _clock;
                 std::string _format;
                 gameEngine::encapsulation::BText _currentTime;
