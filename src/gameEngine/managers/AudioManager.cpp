@@ -41,6 +41,15 @@ void AudioManager::playSound(std::string sound)
         _sounds.find(sound)->second->play();
 }
 
+void AudioManager::playSoundWaitEnd(std::string sound)
+{
+    if (_sounds.find(sound)->second->isLoad()) {
+        _sounds.find(sound)->second->play();
+        while(_sounds.find(sound)->second->isPlaying());
+    }
+}
+
+
 void AudioManager::pauseSound(std::string sound)
 {
     if (_sounds.find(sound)->second->isLoad())

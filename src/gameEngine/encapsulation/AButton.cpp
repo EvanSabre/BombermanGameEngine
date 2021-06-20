@@ -16,7 +16,7 @@ const int &textSize, const BColor &color, const BColor &selectColor, float rotat
     _selectColor = std::make_shared<BColor>(selectColor);
     _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
     _content = std::make_shared<BText>(content, pos, BLACK, textSize);
-    _state = gameEngine::interfaces::IButton::NORMAL;
+    _state = gameEngine::encapsulation::AButton::State::NORMAL;
     _action = false;
     _enabled = true;
     _focus = false;
@@ -29,7 +29,7 @@ const BColor &color, const BColor &selectColor, float rotation)
     _selectColor = std::make_shared<BColor>(selectColor);
     _rectangle = std::make_shared<BRectangle>(size, pos, color, rotation);
     _content = std::make_shared<BText>(content);
-    _state = gameEngine::interfaces::IButton::NORMAL;
+    _state = gameEngine::encapsulation::AButton::State::NORMAL;
     _action = false;
     _enabled = true;
     _callback = nullptr;
@@ -39,7 +39,7 @@ AButton::AButton(const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<
 {
     _rectangle = rect;
     _content = text;
-    _state = gameEngine::interfaces::IButton::NORMAL;
+    _state = gameEngine::encapsulation::AButton::State::NORMAL;
 }
 
 AButton::~AButton()
@@ -131,7 +131,7 @@ bool AButton::isInsideButton(const Vector<float> &point)
 
 bool AButton::isButtonPressed()
 {
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+    if (BEvt::isMouseBtnDown(MOUSE_BUTTON_LEFT)) {
         return true;
     }
     return false;
@@ -139,7 +139,7 @@ bool AButton::isButtonPressed()
 
 bool AButton::isButtonReleased()
 {
-    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+    if (BEvt::isMouseBtnReleased(MOUSE_BUTTON_LEFT)) {
         return true;
     }
     return false;
@@ -162,23 +162,22 @@ bool AButton::checkAction()
 
 void AButton::updateState()
 {
-    Vector2 tmp = GetMousePosition();
-    Vector<float> vec(tmp.x, tmp.y);
+    Vector<float> vec = BEvt::getMousePosition();
 
     if (_enabled && isInsideButton(vec)) {
         _focus = true;
         if(isButtonPressed()) {
-            _state = PRESSED;
+            _state = gameEngine::encapsulation::AButton::State::PRESSED;
         } else {
-            _state = MOUSE_HOVER;
+            _state = gameEngine::encapsulation::AButton::State::MOUSE_HOVER;
         }
         if (isButtonReleased()) {
             _action = true;
-            _state = NORMAL;
+            _state = gameEngine::encapsulation::AButton::State::NORMAL;
         }
     } else {
         _focus = false;
-        _state = NORMAL;
+        _state = gameEngine::encapsulation::AButton::State::NORMAL;
     }
     if (_action && _callback != nullptr)
         _callback(_infoPtr);
@@ -201,9 +200,9 @@ void AButton::drawButtonRect()
 
 void AButton::drawOutline()
 {
-    if (_state == MOUSE_HOVER)
+    if (_state == gameEngine::encapsulation::AButton::State::MOUSE_HOVER)
         _rectangle->drawLines(*_selectColor);
-    if (_state == PRESSED)
+    if (_state == gameEngine::encapsulation::AButton::State::PRESSED)
         _rectangle->drawLines(BLUE);
 }
 

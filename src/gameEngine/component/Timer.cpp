@@ -16,6 +16,11 @@ Timer::Timer(const double &duration) : _format("")
 
 Timer::~Timer()
 {
+    if (!_isDone) {
+        _isDone = true;
+        _pause = false;
+        wait();
+    }
 }
 
 void Timer::timerExecute()
@@ -26,7 +31,7 @@ void Timer::timerExecute()
     std::mutex mtx;
 
     _clock.restart();
-    while (_duration > 0 && _isDone == false) {
+    while (_duration >= 0 && _isDone == false) {
         while(_pause);
         if (_clock.getElapsedTime() >= 1) {
             _clock.restart();

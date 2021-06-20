@@ -25,6 +25,7 @@ namespace gameEngine {
                 void unloadSoundStream(std::string name);
 
                 void playSound(std::string name);
+                void playSoundWaitEnd(std::string name);
                 void pauseSound(std::string name);
                 void resumeSound(std::string name);
                 void stopSound(std::string name);

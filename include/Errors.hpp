@@ -78,5 +78,10 @@ class NoSceneException : public IndieError {
         NoSceneException(std::string const &message = "NoScene Error") : IndieError(message) {}
 };
 
+class SaveError : public IndieError {
+    public:
+        SaveError(std::string const &message = "Save Error") : IndieError(message) {}
+};
+
 
 #endif /* !ERRORS_HPP_ */

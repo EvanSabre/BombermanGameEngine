@@ -15,7 +15,7 @@ namespace gameEngine {
     namespace component {
         class PopUp : public gameEngine::encapsulation::ADrawable {
             public:
-                PopUp(const std::string &text, const Vector<float> &pos, const Vector<float> &size);
+                PopUp(const std::string &text, const Vector<float> &pos = {0,0}, const Vector<float> &size = {0,0});
                 ~PopUp();
 
                 void update() override;
@@ -24,10 +24,13 @@ namespace gameEngine {
                 void setEnabled(bool enabled);
                 bool getEnabled() const;
             protected:
+                gameEngine::encapsulation::BText _buttonText;
                 bool _enabled = true;
                 gameEngine::encapsulation::Button _button;
                 gameEngine::encapsulation::BText _text;
                 gameEngine::encapsulation::BRectangle _rect;
+                gameEngine::encapsulation::BTexture2D _background;
+
             private:
         };
     }

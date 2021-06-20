@@ -384,9 +384,7 @@ void Brain::updateMaps()
         }
     }
     _DangerosityMap[_posBot._x][_posBot._y] = giveDangerosity(CHARACTER);
-    std::cout << "UpdateDangerousMap" << std::endl;
     updateDangerousMap();
-    std::cout << "EndUpdateMap" << std::endl;
 }
 
 void Brain::computeRangeBomb(Vector<int> &bomb)

@@ -12,11 +12,11 @@ namespace game
 {
     typedef enum Tag
     {
+        PATH = 0,
+        BORDER = 1,
+        BRICK = 2,
+        WALL = 3,
         NONE,
-        WALL,
-        PATH,
-        BRICK,
-        BORDER,
         BOMB,
         BOMBUP,
         HEALTHUP,
@@ -25,6 +25,7 @@ namespace game
         SPEEDUP,
         BOMBPASS,
         CHARACTER,
+        BOT
     }Tag_e;
 }
 

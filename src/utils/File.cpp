@@ -57,6 +57,7 @@ bool File::isAccessible() const noexcept
 
 std::string File::read() const
 {
+    std::cout << "help me " << _path << std::endl;
     if (!isAccessible())
         throw std::runtime_error("Fiel : Is not accessible");
     std::ifstream file{this->_path};
@@ -67,7 +68,7 @@ std::string File::read() const
         while (getline (file, buf))
             content.append(buf + "\n");
     } else
-        throw std::runtime_error("Fiel : Is not accessible");
+        throw std::runtime_error("Fiel : Is not open");
     file.close();
     return content;
 }
@@ -84,7 +85,7 @@ std::vector<std::string> File::readLines() const
         while (getline (file, buf))
             content.push_back(buf + "\n");
     } else
-        throw std::runtime_error("File : Is not accessible");
+        throw std::runtime_error("File : Is not open");
     file.close();
     return content;
 }

@@ -53,6 +53,7 @@ void MainMenuScene::start()
     gameEngine::encapsulation::BText loadText("LOAD", Vector<float>(middle2._x + 60, middle2._y + 115), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonLoads =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 100), loadText, DARKGRAY, WHITE, PLAY_BUTTON);
+    buttonLoads->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("load"); }, _info);
     middle2._y += 100;
     gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 15, middle2._y + 115), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
@@ -61,6 +62,10 @@ void MainMenuScene::start()
     gameEngine::encapsulation::BText creditText("CREDITS", Vector<float>(middle2._x + 35, middle2._y + 215), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonCredits =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 200), creditText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+    gameEngine::encapsulation::BText tutorialText("TUTORIAL", Vector<float>(middle2._x + 25, middle2._y + 315), WHITE, 40);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonTutorial =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 300), tutorialText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 515), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
@@ -71,6 +76,7 @@ void MainMenuScene::start()
     _buttonManager.pushButton(buttonLoads);
     _buttonManager.pushButton(buttonSettings);
     _buttonManager.pushButton(buttonCredits);
+    _buttonManager.pushButton(buttonTutorial);
     _buttonManager.pushButton(buttonQuit);
 }
 
@@ -81,25 +87,25 @@ void MainMenuScene::update()
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("PLAY")) {
         _audio->stopMusic();
-        _audio->playSound("button");
-        //sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("choosePlayers");
     }
     if (_buttonManager.isButtonClicked("SETTINGS")) {
         _audio->stopMusic();
-        _audio->playSound("button");
-        //sleep(1);
-        _info->setCurrentScene("settings");
-    }
-    if (_buttonManager.isButtonClicked("CREDITS")) {
+        _audio->playSoundWaitEnd("button");
         _audio->stopMusic();
         _audio->playSound("button");
         //sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("credits");
+    }
+    if (_buttonManager.isButtonClicked("TUTORIAL")) {
+        _audio->stopMusic();
+        _audio->playSoundWaitEnd("button");
+        _info->setCurrentScene("tutorial");
     }
     _audio->updateMusicStream();
 }
-
 
 void MainMenuScene::draw()
 {

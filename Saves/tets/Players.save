@@ -1,0 +1,16 @@
+Player : coco
+Transform :Pos {10, 10, 10}
+Rotation {90, 90, 0}
+Scale {0.1, 0.1, 0.1}
+Lives : 1
+Speed : {0.5, 0.5, 0.5}
+Score : 0
+####
+Player : bobo
+Transform :Pos {130, 10, 150}
+Rotation {90, 90, 0}
+Scale {0.1, 0.1, 0.1}
+Lives : 1
+Speed : {0.5, 0.5, 0.5}
+Score : 0
+####

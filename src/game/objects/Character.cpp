@@ -55,20 +55,15 @@ Character::~Character()
 {
 }
 
-static Vector3T<float> getMiddlePos(const Vector3T<float> &pos)
-{
-    return Vector3T<float>({
-        (float)((float)((int)(pos._x / 10) + 0.5) * 10),
-        pos._y,
-        (float)((float)((int)(pos._z / 10) + 0.5) * 10)});
-}
-
 //getter
 
 void Character::setCurrentEvent(game::Event event) noexcept
 {
     _currentEvent = event;
 }
+
+//getter
+
 
 game::Event Character::getCurrentEvent() const noexcept
 {
@@ -94,6 +89,11 @@ int Character::getState() const noexcept
 int Character::getLives() const noexcept
 {
     return _lives;
+}
+
+int Character::getMaxLives() const noexcept
+{
+    return _maxLives;
 }
 
 int Character::getNbBomb() const noexcept
@@ -125,17 +125,22 @@ void Character::setCollider() noexcept
     Vector3T<float> sca(this->getTransform().getScale());
 
     _collider.getBoundingBox().setBoundingBox(
-        {(float)(pos._x - sca._x * (float)TILESIZE * 0.5),
+        {(float)(pos._x - sca._x * (float)TILESIZE * 0.5f),
         pos._y,
-        (float)(pos._z - sca._z * (float)TILESIZE * 0.5)},
-        {(float)(pos._x + sca._x * (float)TILESIZE * 0.5),
+        (float)(pos._z - sca._z * (float)TILESIZE * 0.5f)},
+        {(float)(pos._x + sca._x * (float)TILESIZE * 0.5f),
         pos._y,
-        (float)(pos._z + sca._z * (float)TILESIZE * 0.5)});
+        (float)(pos._z + sca._z * (float)TILESIZE * 0.5f)});
 }
 
 void Character::setState(const int &state) noexcept
 {
     _state = state;
+}
+
+void Character::setLives(const int &lives)
+{
+    _lives = lives;
 }
 
 void Character::addScore(const size_t value) noexcept
@@ -145,7 +150,11 @@ void Character::addScore(const size_t value) noexcept
 
 void Character::subScore(const size_t value) noexcept
 {
-    this->_score -= value;
+    size_t score = 0;
+    if (this->_score < value)
+        this->_score = score;
+    else
+        this->_score -= value;
 }
 
 void Character::setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept
@@ -162,8 +171,8 @@ void Character::looseLife(int nbLife) noexcept
 {
     _lives -= nbLife;
     checkLives();
+    subScore(5);
 }
-
 
 void Character::draw() const noexcept
 {
@@ -183,6 +192,7 @@ void Character::onCollisionEnter(const AGameObject &collision)
         std::unique_ptr<game::interfaces::IEffect> efx = game::objects::EffectFactory::makeEffect(collision.getTag());
         addPowerUpEffec(efx.get());
         std::cout << "get Power Up" << std::endl;
+        addScore(10);
         return;
     }
     catch(const std::exception& e)
@@ -233,12 +243,14 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
     }
     _bombRange += efx->getBlastPower();
     _bombRef.increaseRange(_bombRange);
+    for (auto &bomb : _bombQueue)
+        bomb->increaseRange(_bombRange);
     _speed = _speed + efx->getSpeed();
 }
 
 game::Tag_e Character::getTag() const noexcept
 {
-    return  game::Tag::CHARACTER;
+    return game::Tag::CHARACTER;
 }
 
 // BOMBS

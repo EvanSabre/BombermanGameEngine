@@ -36,3 +36,8 @@ void Bot::update()
     checkLives();
     updateModelAnimation();
 }
+
+game::Tag_e Bot::getTag() const noexcept
+{
+    return game::Tag_e::BOT;
+}

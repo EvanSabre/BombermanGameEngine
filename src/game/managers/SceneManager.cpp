@@ -13,8 +13,10 @@
 #include "ChooseProfileScene.hpp"
 #include "SettingsScene.hpp"
 #include "CreditScene.hpp"
-
+#include "LoadScene.hpp"
 #include "EmptyScene.hpp"
+#include "TutorialScene.hpp"
+
 using namespace game::managers;
 
 const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::interfaces::IScene>(std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info)>>SceneManager::_scene{
@@ -49,7 +51,15 @@ const std::unordered_map<std::string, std::function<std::shared_ptr<gameEngine::
         {"credits",
             [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info) {
                 return std::make_shared<game::scenes::CreditScene>(window, info);
-            }}
+            }},
+        {"load",
+            [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info) {
+                return std::make_shared<game::scenes::LoadScene>(window, info);
+        }},
+        {"tutorial",
+            [](std::shared_ptr<gameEngine::managers::WindowManager> window, std::shared_ptr<game::managers::GameManager> &info) {
+                return std::make_shared<game::scenes::TutorialScene>(window, info);
+        }}
 };
 
 
@@ -67,6 +77,6 @@ std::shared_ptr<gameEngine::interfaces::IScene> SceneManager::loadScene(const st
         return _scene.at(type)(window, info);
     } catch(IndieError &e) {
         std::cout << "Scene with name " << type << " not found" << std::endl;
-        throw NoSceneException();
+        throw NoSceneException(e.what());
     }
 }

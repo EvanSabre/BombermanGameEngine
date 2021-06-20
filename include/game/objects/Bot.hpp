@@ -23,6 +23,7 @@ namespace game
                 ~Bot();
                 void update() override;
                 void stand(std::size_t tick);
+                game::Tag_e getTag() const noexcept override;
                 gameEngine::component::Clock _clock;
             protected:
             private:

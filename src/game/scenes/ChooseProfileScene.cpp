@@ -48,7 +48,6 @@ void ChooseProfileScene::start()
     _image_controller->setPos(Vector<int>(pos._x * 1.85, pos._y * 0.2));
     _image_controller->setColor(RED);
 
-    _info->_userManager->getUserInputs().size();
     _InputIndication = TEXT(_info->_userManager->getUserInputs().at(_info->nbPlayersConfirmed + 1)->getDeviceName(),
                             Vector<float>(pos._x * 1.80, pos._y * 0.7),
                             BLACK,
@@ -61,8 +60,7 @@ void ChooseProfileScene::start()
     _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, inputText, BLANKGRAY, false, BLACK);
     _profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
 
-    _profileSelector = std::make_unique<SELECTOR>("Choose a profile", _profileContent, Vector<float>(pos._x * 1.3, pos._y * 1.2), Vector<float>(size._x * 0.7, size._y * 0.3), 30, BLANKGRAY);
-    //_profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
+    _profileSelector = std::make_unique<SELECTOR>("Choose a profile", _profileContent, Vector<float>(pos._x * 1.3, pos._y * 1.2), Vector<float>(size._x * 0.7, size._y * 0.3), 30, BLACK);
 
     gameEngine::encapsulation::BText backText("Back", Vector<float>(WINDOW_X * 0.1 + 80, WINDOW_Y * 0.8 + 65), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> backButton =
@@ -140,7 +138,6 @@ void ChooseProfileScene::update()
     _profileSelector->update();
     _inputButton->update();
     _InputIndication.setStr(_info->_userManager->getUserInputs().at(_info->nbPlayersConfirmed + 1)->getDeviceName());
-    //_profileKeypad->update();
     if (_inputButton->checkValidate()) {
         createNewProfile();
     }
@@ -162,20 +159,17 @@ void ChooseProfileScene::update()
     if (_buttonManager.isButtonClicked("Play") && _cUser != nullptr) {
         _info->nbPlayersConfirmed++;
         _info->pushPlayer(_cUser);
-        _audio->playSound("button");
-        //sleep(1);
+        _audio->playSoundWaitEnd("button");
+        _audio->playSoundWaitEnd("button");
         if (_info->nbPlayersConfirmed == _info->nbPlayers)
             _info->setCurrentScene("play");
         else
             _info->setCurrentScene("chooseProfile");
     }
     if (_buttonManager.isButtonClicked("Back")) {
-        _audio->playSound("button");
-        //sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("choosePlayers");
     }
-
-    // _ProfilesIndication.setStr(nb_entity + "/ 4 profiles maximum");
     _audio->updateMusicStream();
     _acceptPopUp.update();
 }
@@ -184,8 +178,6 @@ void ChooseProfileScene::draw()
 {
     _background->draw();
     _zoneStat->draw();
-    //_profileKeypad->draw();
-    //_image_controller->draw();
     if (_info->nbPlayersConfirmed == 0)
         _image_controller->drawEx(SCALE_KEYPAD);
     else
@@ -206,7 +198,6 @@ void ChooseProfileScene::draw()
     _ProfilesIndicationCreated.draw();
     _ProfilesIndicationBeKilled.draw();
     _ProfilesIndicationKills.draw();
-
     _ProfilesGameWon.draw();
     _ProfilesGamePlayed.draw();
     _ProfilesCreated.draw();

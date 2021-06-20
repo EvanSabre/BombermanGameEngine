@@ -21,7 +21,7 @@ ChoosePlayersScene::~ChoosePlayersScene()
 }
 
 ChoosePlayersScene::ChoosePlayersScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
-AScene(windowManager, info), _universe("Vikings")
+AScene(windowManager, info), _universe("Vikings"), _background(BACKGROUND_BUTTON)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     _audio->loadMusicStreamFromFile("./assets/All/Music/Settings.mp3");
@@ -36,7 +36,6 @@ void ChoosePlayersScene::start()
     Vector<float> size(WINDOW_X / 2, WINDOW_Y / 1.5);
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y / 7);
 
-    _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> playerContent =
     {
         std::make_shared<TEXT>("1", size, BLACK, 40),
@@ -81,16 +80,12 @@ void ChoosePlayersScene::start()
         modelList[0],
         modelList[1],
         modelList[2],
-        // std::make_shared<IMAGE>(PIRATE_UNIVERSE, "Pirates"),
-        // std::make_shared<IMAGE>(VIKING_UNIVERSE, "Vikings"),
-        // std::make_shared<IMAGE>(SAMOURAI_UNIVERSE, "Samurai"),
-
     };
 
     _universeSelector =
     std::make_unique<gameEngine::component::TSelector<gameEngine::encapsulation::BModel>>("Choose an universe", chooseUniverse, Vector<float>(pos._x * 2.0, pos._y * 0.9), Vector<float>(size._x * 0.95, size._y * 1), 20, BLANKGRAY, BLACK, true);
-    _playerSelector = std::make_unique<SELECTOR>("Choose a number of players", playerContent, Vector<float>(pos._x * 0.3, pos._y * 1.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, DARKGRAY);
-    _botSelector = std::make_unique<SELECTOR>("Choose a number of bots", botContent, Vector<float>(pos._x * 0.3, pos._y * 3.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, DARKGRAY);
+    _playerSelector = std::make_unique<SELECTOR>("Choose a number of players", playerContent, Vector<float>(pos._x * 0.3, pos._y * 1.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, BLACK);
+    _botSelector = std::make_unique<SELECTOR>("Choose a number of bots", botContent, Vector<float>(pos._x * 0.3, pos._y * 3.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, BLACK);
 
     gameEngine::encapsulation::BText backText("Back", Vector<float>(WINDOW_X * 0.1 + 80, WINDOW_Y * 0.8 + 65), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> backButton =
@@ -131,8 +126,7 @@ void ChoosePlayersScene::update()
     if (_buttonManager.isButtonClicked("Play")) {
         std::cout << _universeSelector->getIdActualContent() << std::endl;
         _info->setUniverse(UNIVERSE.at(_universeSelector->getIdActualContent()));
-        _audio->playSound("button");
-        //sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("chooseProfile");
     }
     int nbBots = std::atoi(_botSelector->getCurrentContent()->getContent().c_str());
@@ -152,14 +146,12 @@ void ChoosePlayersScene::update()
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
     // if (_buttonManager.isButtonClicked("Play")) {
     //     _audio->stopMusic();
-    //     _audio->playSound("button");
+    //     _audio->playSoundWaitEnd("button");
     //     _audio->updateMusicStream();
-    //     sleep(1);
     //     _info->setCurrentScene("play");
     // }
     if (_buttonManager.isButtonClicked("Back")) {
-        _audio->playSound("button");
-        //sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("menu");
     }
     _audio->updateMusicStream();
@@ -168,12 +160,10 @@ void ChoosePlayersScene::update()
 
 void ChoosePlayersScene::draw()
 {
-    _background->draw();
+    _background.draw();
     _playerSelector->draw();
     _botSelector->draw();
     _buttonManager.drawButtons();
     _universeSelector->draw();
     _PlayersIndication.draw();
 }
-
-// * Callbacks

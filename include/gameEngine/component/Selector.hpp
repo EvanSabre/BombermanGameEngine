@@ -41,7 +41,6 @@ namespace gameEngine
                     Vector<float> pos,
                     Vector<float> size,
                     int sizeText,
-                    gameEngine::encapsulation::BColor color = WHITE,
                     gameEngine::encapsulation::BColor colorText = BLACK);
                 ~Selector();
 

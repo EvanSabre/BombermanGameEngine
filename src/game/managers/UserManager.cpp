@@ -38,7 +38,7 @@ UserManager::UserManager(const std::string &pathDatabase) : _database(this->load
         return;
     for (auto &file : _usersFile)
     {
-        std::cout << "File recover user: " << file->getName() << std::endl;
+        std::cout << "File recover user: " << file.getName() << std::endl;
         _users.push_back(importUserFromFile(file));
     }
     for (auto &user : _users)
@@ -71,15 +71,15 @@ void UserManager::interpretLine(std::vector<std::string> line, std::shared_ptr<g
         throw UserManagmentError("Undetected attribut");
 }
 
-std::shared_ptr<game::User> UserManager::importUserFromFile(std::shared_ptr<File> &userFile)
+std::shared_ptr<game::User> UserManager::importUserFromFile(File &userFile)
 {
     std::shared_ptr<game::User> user = std::make_shared<game::User>();
 
-    user->pathToSave = userFile->getPath();
-    user->name = splitString(userFile->getName(), ".user")[0];
+    user->pathToSave = userFile.getPath();
+    user->name = splitString(userFile.getName(), ".user")[0];
 
     try {
-        for (auto &line : userFile->readLines())
+        for (auto &line : userFile.readLines())
             this->interpretLine(splitString(line, "="), user);
     }
     catch (const UserManagmentError &e)
@@ -95,7 +95,7 @@ std::shared_ptr<game::User> UserManager::loadUserFromDB(const std::string &name)
     std::string filename(name + FILE_USER_EXT);
 
     for (auto&file : _usersFile) {
-        if (file->getName() == filename)
+        if (file.getName() == filename)
             return importUserFromFile(file);
     }
     throw UserManagmentError("loadUserFromDB : " + name);
@@ -140,7 +140,7 @@ std::shared_ptr<game::User> &UserManager::createUser(const std::string &name)
     if (this->findUser(name))
         throw UserManagmentError("createUser(Already Exist) : " + name);
 
-    _usersFile.push_back(std::make_shared<File>(this->loadFile(pathUser, true)));
+    _usersFile.push_back(File(this->loadFile(pathUser, true)));
     _users.push_back(importUserFromFile(_usersFile.back()));
     _users.back()->created = time(NULL);
     _users.back()->pathToSave = pathUser;
@@ -156,8 +156,8 @@ void UserManager::saveUser(const std::shared_ptr<User> &user)
         "\nKILLS=" + std::to_string(user->kills) + "\nBE_KILLED=" + std::to_string(user->beKilled);
 
     for (auto&file : _usersFile) {
-        if (file->getPath() == user->pathToSave) {
-            file->write(text, true);
+        if (file.getPath() == user->pathToSave) {
+            file.write(text, true);
             return;
         }
     }

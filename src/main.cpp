@@ -14,24 +14,11 @@
 
 int main()
 {
-    game::managers::GlobalManager manager;
-    game::systems::setting_t conf;
-
-
-    try
-    {
-        conf = game::systems::SettingConf::loadSetting("./setting.conf");
-    }
-    catch(const std::exception &e)
-    {
-        return 84;
-    }
-
-
     try {
+        game::managers::GlobalManager manager;
         manager.run();
     } catch (IndieError &e) {
-        std::cerr << "Failed to load a scene : " << e.what() << std::endl << e.getComponent() << std::endl;
+        std::cerr << "Indie Error : " << e.what() << std::endl << e.getComponent() << std::endl;
         return 84;
     }
     return 0;

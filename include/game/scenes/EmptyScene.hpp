@@ -14,6 +14,8 @@
 #include "BModel.hpp"
 #include "Selector.hpp"
 #include "TSelector.hpp"
+#include "Map.hpp"
+#include "LoadParser.hpp"
 
 #define WINDOW_X _windowManager->getWindowSize()._x
 #define WINDOW_Y _windowManager->getWindowSize()._y
@@ -30,9 +32,12 @@ namespace game {
                 void draw() override;
             protected:
                 gameEngine::encapsulation::BSdf _text;
+                game::systems::LoadParser _parser;
                 gameEngine::component::Timer _timer;
                 std::unique_ptr<gameEngine::component::TSelector<gameEngine::encapsulation::BModel>> _universeSelector = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BTexture2D> _tmp;
+                gameEngine::encapsulation::BCamera _cam;
+                std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
             private:
         };
     }

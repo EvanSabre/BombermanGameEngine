@@ -13,11 +13,12 @@ using namespace game::managers;
 ExplosionManager::ExplosionManager(
     const std::vector<std::shared_ptr<game::objects::Character>> players,
     const std::vector<std::shared_ptr<game::objects::Tile>> tiles)
+    : _texture(EXPLOSIONTEXT)
 {
-    _model = std::make_shared<gameEngine::encapsulation::BModel>(MODELEXPLOSION);
-    _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(TEXTUREEXPLOSION);
-    _anim = std::make_shared<gameEngine::encapsulation::BModelAnimation>(ANIMEXPLOSION);
-    _animRef = std::make_shared<gameEngine::Animation>(*_model, *_texture, *_anim);
+    _explosionH = std::make_shared<gameEngine::encapsulation::BModel>(EXPLOSIONPATH);
+    _explosionV = std::make_shared<gameEngine::encapsulation::BModel>(EXPLOSIONPATH);
+    _explosionH->setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
+    _explosionV->setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
     _players = players;
     _tiles = tiles;
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
@@ -49,7 +50,6 @@ void ExplosionManager::update()
 {
     std::vector<std::size_t> eraser;
 
-    updateExplosionAnimation();
     for (std::size_t i = 0; i != _bombs.size(); i++) {
         if (_bombs.at(i)->isDone()) {
             for (auto &player : _players)
@@ -65,101 +65,125 @@ void ExplosionManager::update()
 
 void ExplosionManager::draw()
 {
-    for (auto &anim : _anims) {
-        anim->refresh();
+    for (auto explo = _explosion.begin(); explo != _explosion.end();) {
+        (*explo)->_modelH->setTransform().setPosition((*explo)->_posH);
+        (*explo)->_modelH->setTransform().setScale((*explo)->_scaleH);
+        (*explo)->_modelV->setTransform().setPosition((*explo)->_posV);
+        (*explo)->_modelV->setTransform().setScale((*explo)->_scaleV);
+        (*explo)->_modelH->draw();
+        (*explo)->_modelV->draw();
+        if ((*explo)->_clock->getElapsedTime(true) > 250)
+            _explosion.erase(explo);
+        else
+            explo++;
     }
 }
 
-void ExplosionManager::updateExplosionAnimation()
-{
-    for (auto &anim : _anims) {
-        anim->updateModelAnimation();
-    }
-}
-
-bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
+int ExplosionManager::checkTilesExplosion(const game::objects::AExplosif &bomb, const Vector3T<float> &pos, bool first)
 {
     std::unordered_map<std::size_t, game::Tag_e> map({{0, BOMBUP}, {1, FIREUP}, {2, SPEEDUP}, {3, ONEUP}, {4, HEALTHUP}, {5, BOMBPASS}});
 
     _audio->playSound("boom");
     for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
         if ((*tile)->getTransform().getPosition()._x == pos._x &&
-            (*tile)->getTransform().getPosition()._y == pos._y &&
+            (*tile)->getTransform().getPosition()._y >= 0 &&
             (*tile)->getTransform().getPosition()._z == pos._z) {
-            // check tile type -> brick = explode
             if ((*tile)->getTag() == BRICK) {
-                if (!(std::rand() % 5)) {
+                if (!(std::rand() % 4)) {
+                // if (!(std::rand() % 1)) { // drop at every Tile
                     std::size_t nb = std::rand() % 5;
+                    // std::size_t nb = 0; // drop only BOMBUP
+                    _audio->playSound("itemDrop");
                     _powerUps[map[nb]]->setTransform().setPosition((*tile)->getTransform().getPosition());
                     _powerUps[map[nb]]->setTransform().setScale({5, 5, 5});
                     _tiles.push_back(std::make_shared<game::objects::PowerUpTile>(*_powerUps[map[nb]]));
                 }
                 _tiles.erase(tile);
+                return 2;
+            } else if ((*tile)->getTag() == BOMBUP || (*tile)->getTag() == FIREUP ||
+                       (*tile)->getTag() == SPEEDUP || (*tile)->getTag() == ONEUP ||
+                       (*tile)->getTag() == HEALTHUP || (*tile)->getTag() == BOMBPASS) {
+                _tiles.erase(tile);
+                return 2;
             }
-            // std::cout << "* TILE DESTROYED *" << std::endl;
-            return false;
+            return 0;
         }
     }
+    if (!first)
+        for (auto &bomb : _bombs) {
+            if (bomb->getTransform().getPosition()._x == pos._x &&
+                bomb->getTransform().getPosition()._y == pos._y &&
+                bomb->getTransform().getPosition()._z == pos._z) {
+                bomb->explode();
+                return 2;
+            }
+        }
     for (auto player = _players.begin(); player != _players.end(); player++) {
         if ((int)(((*player)->getTransform().getPosition()._x + 3) / TILESIZE) == (int)(pos._x / TILESIZE) &&
             (*player)->getTransform().getPosition()._y == pos._y &&
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
-            // player dies
-            // std::cout << "* PLAYER DESTROYED *" << std::endl;
-            _audio->playSound("damage");
             (*player)->looseLife();
-            if (!(*player)->isAlive())
+            if ((*player)->getTag() == BOT && (*player)->getId() == bomb.getPlayerId())
+                continue;
+            addKillerScore(bomb, (*player)->getId());
+            if (!(*player)->isAlive()) {
+                _audio->playSound("death");
                 _players.erase(player);
-            return false;
+            } else
+                _audio->playSound("damage");
+            return 2;
         }
     }
-    return true;
+    return 1;
 }
 
-void ExplosionManager::explode(const game::objects::AExplosif &bomb)
+void ExplosionManager::explode(const game::objects::AExplosif& bomb)
 {
     std::unordered_map<std::string, bool> direction = {
-        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true}};
+        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true} };
+    std::unordered_map<std::string, float> power = {
+        {"UP", 0.0f}, {"LEFT", 0.0f}, {"DOWN", 0.0f}, {"RIGHT", 0.0f} };
     Vector3T<float> pos(bomb.getTransform().getPosition());
+    Vector3T<float> posTemp(pos);
 
-    _animRef->setPos({pos._x, pos._y, pos._z});
-    direction["UP"] = checkTilesExplosion(_animRef->getPos());
+    checkTilesExplosion(bomb, posTemp, true);
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
-
-        // std::cout << "range = " << range << std::endl;
-        if (direction["UP"]) {
-            // std::cout << "UP" << std::endl;
-            _animRef->setPos({pos._x, pos._y, pos._z + (float)range * TILESIZE});
-            direction["UP"] = checkTilesExplosion(_animRef->getPos());
-            // std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
-            // _anims.push_back(std::make_unique<gameEngine::Animation>(*_animRef));
-            // Animation Explosion with ex
-        }
-        if (direction["DOWN"]) {
-            // std::cout << "DOWN" << std::endl;
-            _animRef->setPos({pos._x, pos._y, pos._z - (float)range * TILESIZE});
-            direction["DOWN"] = checkTilesExplosion(_animRef->getPos());
-            // std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
-            // _anims.push_back(std::make_unique<gameEngine::Animation>(*_animRef));
-            // Animation Explosion with ex
+        if (direction["RIGHT"]) {
+            posTemp = {pos._x, pos._y, pos._z + (float)range * TILESIZE};
+            if ((direction["RIGHT"] = checkTilesExplosion(bomb, posTemp, false)))
+                power["RIGHT"]++;
         }
         if (direction["LEFT"]) {
-            // std::cout << "LEFT" << std::endl;
-            _animRef->setPos({pos._x + (float)range * TILESIZE, pos._y, pos._z});
-            direction["LEFT"] = checkTilesExplosion(_animRef->getPos());
-            // std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
-            // _anims.push_back(std::make_unique<gameEngine::Animation>(*_animRef));
-            // Animation Explosion with ex
+            posTemp = {pos._x, pos._y, pos._z - (float)range * TILESIZE};
+            if ((direction["LEFT"] = checkTilesExplosion(bomb, posTemp, false)))
+                power["LEFT"]++;
         }
-        if (direction["RIGHT"]) {
-            // std::cout << "RIGHT" << std::endl;
-            _animRef->setPos({pos._x - (float)range * TILESIZE, pos._y, pos._z});
-            direction["RIGHT"] = checkTilesExplosion(_animRef->getPos());
-            // std::cout << "!! EXPLOOOOSSIOOOONNNN !!" << std::endl;
-            // _anims.push_back(std::make_unique<gameEngine::Animation>(*_animRef));
-            // Animation Explosion with ex
+        if (direction["UP"]) {
+            posTemp = {pos._x + (float)range * TILESIZE, pos._y, pos._z};
+            if ((direction["UP"] = checkTilesExplosion(bomb, posTemp, false)))
+                power["UP"]++;
+        }
+        if (direction["DOWN"]) {
+            posTemp = {pos._x - (float)range * TILESIZE, pos._y, pos._z};
+            if ((direction["DOWN"] = checkTilesExplosion(bomb, posTemp, false)))
+                power["DOWN"]++;
         }
     }
+    // _explosionV->setTransform().setPosition({pos._x, pos._y, pos._z -
+    //     (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2});
+    // _explosionV->setTransform().setScale({0.8, 1, power["LEFT"] + power["RIGHT"] + 1});
+    // _explosionH->setTransform().setPosition({pos._x -
+    //     (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2,
+    //     pos._y, pos._z});
+    // _explosionH->setTransform().setScale({power["DOWN"] + power["UP"] + 1, 1, 0.8});
+    _explosion.push_back(std::make_shared<game::objects::ExplosionAnimation>(
+        _explosionH,
+        Vector3T<float>(pos._x - (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2, pos._y, pos._z),
+        Vector3T<float>(power["DOWN"] + power["UP"] + 1, 1, 0.8),
+        _explosionV,
+        Vector3T<float>(pos._x, pos._y, pos._z - (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2),
+        Vector3T<float>(0.8, 1, power["LEFT"] + power["RIGHT"] + 1)
+    ));
 }
 
 // Setters
@@ -198,4 +222,16 @@ std::vector<std::shared_ptr<game::objects::Tile>> &ExplosionManager::getTiles()
 std::vector<std::shared_ptr<game::objects::Character>> &ExplosionManager::getPlayers()
 {
     return _players;
+}
+
+void ExplosionManager::addKillerScore(const game::objects::AExplosif &bomb, const std::string &victimeId) noexcept
+{
+    if (victimeId == bomb.getPlayerId())
+        return;
+    for (auto &player : _players) {
+        if (player->getId() == bomb.getPlayerId()) {
+            player->addScore(30);
+            return;
+        }
+    }
 }

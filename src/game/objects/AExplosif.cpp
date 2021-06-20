@@ -21,7 +21,6 @@ AExplosif::AExplosif(
     : Tile(modelfilepath, texturefilepath, type, position, rotation, scale, color),
       _playerId(id),
       _range(BASERANGE),
-      _done(false),
       _dropped(false),
       _switch(false)
 {
@@ -38,7 +37,6 @@ AExplosif::AExplosif(
     : Tile(model, texture, type, position, rotation, scale),
       _playerId(id),
       _range(BASERANGE),
-      _done(false),
       _dropped(false),
       _switch(false)
 {
@@ -48,7 +46,6 @@ AExplosif::AExplosif(const AExplosif &ref)
     : Tile(ref),
      _playerId(ref._playerId),
      _range(ref._range),
-     _done(ref._done),
      _dropped(ref._dropped),
      _switch(ref._switch)
 {
