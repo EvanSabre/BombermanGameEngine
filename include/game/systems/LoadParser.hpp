@@ -27,6 +27,7 @@ namespace game {
             int lives = 0;
             Vector3T<float> speed;
             int score = 0;
+            int id = 0;
         } playerInfo_t;
 
         class LoadParser {
