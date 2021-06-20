@@ -167,5 +167,3 @@ void ChoosePlayersScene::draw()
     _universeSelector->draw();
     _PlayersIndication.draw();
 }
-
-// * Callbacks
