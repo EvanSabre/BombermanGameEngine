@@ -51,7 +51,7 @@ void InputButton::setCanInput(bool can)
 
 void InputButton::updateInput()
 {
-    if (_input.size() >= _maxInput) {
+    if (_input.size() >= (size_t)_maxInput) {
         return;
     }
     getNextChar();
@@ -68,9 +68,11 @@ void InputButton::updateInput()
 
 void InputButton::draw()
 {
-    drawButtonRect();
-    drawOutline();
-    _content->draw();
+    if (_enabled) {
+        drawButtonRect();
+        drawOutline();
+        _content->draw();
+    }
 }
 
 void InputButton::update()
@@ -81,7 +83,6 @@ void InputButton::update()
         updateInput();
     }
     if (checkAction()) {
-        std::cout << "erasing\n";
         _input.erase();
         _content->setStr(_input);
     }

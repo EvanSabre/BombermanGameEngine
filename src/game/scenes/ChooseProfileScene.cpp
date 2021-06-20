@@ -116,7 +116,6 @@ void ChooseProfileScene::createNewProfile()
 
     if (_info->_userManager->findUser(_inputButton->getInput())) {
         _acceptPopUp.setEnabled(true);
-
         return;
     }
     try {

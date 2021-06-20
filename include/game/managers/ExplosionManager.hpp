@@ -30,7 +30,7 @@ namespace game::managers
             void draw();
             void update();
             void explode(const game::objects::AExplosif &);
-            bool checkTilesExplosion(const Vector3T<float> &pos);
+            int checkTilesExplosion(const Vector3T<float> &pos, bool first);
 
             // Setters
             void setObjects(
@@ -49,11 +49,15 @@ namespace game::managers
             std::vector<std::shared_ptr<game::objects::Character>> _players;
             std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
             std::vector<std::shared_ptr<game::objects::AExplosif>> _bombs;
-            gameEngine::encapsulation::BModel _explosionH;
-            gameEngine::encapsulation::BModel _explosionV;
+            std::shared_ptr<gameEngine::encapsulation::BModel> _explosionH;
+            std::shared_ptr<gameEngine::encapsulation::BModel> _explosionV;
             gameEngine::encapsulation::BTexture2D _texture;
             std::unordered_map<game::Tag_e, std::shared_ptr<game::objects::PowerUpTile>> _powerUps;
             bool _explode;
+            std::vector<std::pair<std::pair<
+                std::shared_ptr<gameEngine::encapsulation::BModel>,
+                std::shared_ptr<gameEngine::encapsulation::BModel>>,
+                std::unique_ptr<gameEngine::component::Clock>>> _explosion;
     };
 }
 
