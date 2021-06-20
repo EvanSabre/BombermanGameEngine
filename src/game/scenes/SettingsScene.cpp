@@ -206,6 +206,7 @@ void SettingsScene::update()
     _aiSelector->update();
     _info->setMusicVolume(std::atof(_musicSelector->getCurrentContent()->getContent().c_str()));
     _info->setSoundVolume(std::atof(_soundSelector->getCurrentContent()->getContent().c_str()));
+    _info->setBotDifficulty(_aiSelector->getCurrentContent()->getContent());
     _audio->setMusicVolume(_info->getMusicVolume() / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
     if (_buttonManager.isButtonClicked("Back to Menu")) {
