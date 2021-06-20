@@ -34,7 +34,7 @@ TutorialScene::TutorialScene(std::shared_ptr<gameEngine::managers::WindowManager
         "The objective is to have the better SCORE at the end of the timer,",
         "or to KILL every other opponent.",
         "GOOD LUCK and have FUN !"
-        };
+    };
     for (int i = 0; i < 13; i++) {
         _tutorialText += std::string(lines[i]);
         _tutorialText += std::string(NEWLINE);
