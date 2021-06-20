@@ -14,6 +14,7 @@
 #include "BSdf.hpp"
 #include "Selector.hpp"
 #include "LoadParser.hpp"
+#include "Path.hpp"
 
 namespace game {
     namespace scenes {

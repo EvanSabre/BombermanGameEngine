@@ -21,12 +21,12 @@
 
 namespace game {
     namespace systems {
-        typedef struct {
-            std::string name;
+        typedef struct playerInfo_s {
+            std::string name = "";
             gameEngine::component::Transform tran;
-            int lives;
+            int lives = 0;
             Vector3T<float> speed;
-            int score;
+            int score = 0;
         } playerInfo_t;
 
         class LoadParser {
