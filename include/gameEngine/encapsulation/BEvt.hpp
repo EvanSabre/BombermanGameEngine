@@ -18,6 +18,10 @@ namespace gameEngine::encapsulation
         static bool isKeyDown(gameEngine::Key key);
         static bool isKeyUp(gameEngine::Key key);
         static bool isKeyReleased(gameEngine::Key key);
+        static bool isMouseBtnPressed(gameEngine::Key key);
+        static bool isMouseBtnReleased(gameEngine::Key key);
+        static bool isMouseBtnDown(gameEngine::Key key);
+        static bool isMouseBtnUp(gameEngine::Key key);
         static gameEngine::Key getKeyPressed(void);
     };
 } // namespace gameEngine::encapsulation

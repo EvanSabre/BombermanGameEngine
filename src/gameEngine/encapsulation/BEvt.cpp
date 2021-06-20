@@ -21,7 +21,7 @@ bool BEvt::isKeyDown(gameEngine::Key key)
 
 bool BEvt::isKeyUp(gameEngine::Key key)
 {
-    return isKeyUp(key);
+    return IsKeyUp(key);
 }
 
 bool BEvt::isKeyReleased(gameEngine::Key key)
@@ -32,4 +32,24 @@ bool BEvt::isKeyReleased(gameEngine::Key key)
 gameEngine::Key BEvt::getKeyPressed(void)
 {
     return (gameEngine::Key)GetKeyPressed();
+}
+
+bool BEvt::isMouseBtnPressed(gameEngine::Key key)
+{
+    return IsMouseButtonPressed(key);
+}
+
+bool BEvt::isMouseBtnReleased(gameEngine::Key key)
+{
+    return IsMouseButtonReleased(key);
+}
+
+bool BEvt::isMouseBtnDown(gameEngine::Key key)
+{
+    return IsMouseButtonDown(key);
+}
+
+bool BEvt::isMouseBtnUp(gameEngine::Key key)
+{
+    return IsMouseButtonUp(key);
 }
