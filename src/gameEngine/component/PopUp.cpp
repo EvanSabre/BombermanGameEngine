@@ -9,11 +9,10 @@
 
 using namespace gameEngine::component;
 
-PopUp::PopUp(const std::string &text, const Vector<float> &pos, const Vector<float> &size) :
-_buttonText("Validate", Vector<float>(pos._x + 40, pos._y + size._y / 2), WHITE, 30),
-_button(Vector<float>(135, 30), Vector<float>(pos._x + 40, pos._y + size._y / 2), _buttonText, DARKGRAY, WHITE, BUTTON),
-_text(text, Vector<float>(pos._x + 10, pos._y + 30), WHITE, 20),
-_rect(size, pos, BLACK)
+PopUp::PopUp(const std::string &text, const Vector<float> &pos, const Vector<float> &size) : _buttonText("Validate", Vector<float>(pos._x + 40, pos._y + size._y / 2), WHITE, 30),
+                                                                                             _button(Vector<float>(135, 30), Vector<float>(pos._x + 40, pos._y + size._y / 2), _buttonText, DARKGRAY, WHITE, "./assets/Backgrounds/button_background1.png"),
+                                                                                             _text(text, Vector<float>(pos._x + 10, pos._y + 30), WHITE, 20),
+                                                                                             _rect(size, pos, BLACK)
 {
 }
 

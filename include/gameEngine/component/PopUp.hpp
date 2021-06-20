@@ -11,8 +11,6 @@
 #include "ADrawable.hpp"
 #include "Button.hpp"
 
-#define BUTTON "./assets/Backgrounds/button_background1.png"
-
 namespace gameEngine {
     namespace component {
         class PopUp : public gameEngine::encapsulation::ADrawable {
