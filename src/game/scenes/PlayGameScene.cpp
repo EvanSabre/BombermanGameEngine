@@ -19,7 +19,7 @@ static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(13
 static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
-: AScene(windowManager, info), _map(_info->getUniverse(), _info->getSavedMap(), MAPSIZE), _pause(false)
+: AScene(windowManager, info), _map(_info->getUniverse(), _info->getSavedMap(), MAPSIZE), _pause(false), _end(false)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     std::string nb(std::to_string(std::rand() % 3));
@@ -126,11 +126,18 @@ void PlayGameScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 40), Vector<float>(10, 10), pauseText, DARKGRAY, WHITE, PLAY_BUTTON);
 
+
     setupPause();
+    //endPopUp
+    Vector<float> size(300, 200);
+    Vector<float> middle2(_windowManager->getWindowSize()._x / 3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y / 3 - size._y / 2);
+    _endPopUp = std::make_unique<gameEngine::component::PopUp>("                   GAME IS OVER", Vector<float>(middle2._x - 250, middle2._y - 10), Vector<float>(700, 400));
+    _endPopUp->setEnabled(false);
+
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
     _explosion = std::make_shared<game::managers::ExplosionManager>(_players, _tiles);
-    // _audio->playMusic();
+    _audio->playMusic();
 }
 
 void PlayGameScene::setupPause()
@@ -151,24 +158,23 @@ void PlayGameScene::setupPause()
     _saveInput =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(300, 50), middle2, 10, inputText, RED, false, BLACK);
     _saveInput->setEnabled(false);
-    _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(270, 150));
+    _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(300, 170));
     _savePopUp->setEnabled(false);
 
-    middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 15), WHITE, 30);
-    std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
+    gameEngine::encapsulation::BText menuText("MENU", Vector<float>(middle2._x + 80, middle2._y + 155), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonMenu =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 140), menuText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 15), WHITE, 30);
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 225), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 210), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+
 
 
     _pauseManager.pushButton(resume);
+    _pauseManager.pushButton(buttonMenu);
     _pauseManager.pushButton(buttonSave);
     _pauseManager.pushButton(buttonQuit);
-    _pauseManager.pushButton(buttonSettings);
 }
 
 void PlayGameScene::setupCamera() noexcept
@@ -239,6 +245,20 @@ void PlayGameScene::savePlayers()
     _fileManager.writeFile(file, text, true);
 }
 
+void PlayGameScene::updateEnd()
+{
+    _endPopUp->setEnabled(true);
+    _endPopUp->update();
+    if (!_endPopUp->getEnabled()) {
+        _info->setCurrentScene("menu");
+    }
+}
+
+void PlayGameScene::drawEnd()
+{
+    _endPopUp->draw();
+}
+
 void PlayGameScene::updatePause()
 {
     _pauseManager.updateButtons();
@@ -257,6 +277,18 @@ void PlayGameScene::updatePause()
         _timer.setPause(false);
         _audio->playSound("button");
         quit();
+    }
+    if (_pauseManager.isButtonClicked("MENU")) {
+        _audio->playSound("button");
+        _timer.setPause(false);
+        sleep(1);
+        _info->setCurrentScene("menu");
+    }
+    if (_pauseManager.isButtonClicked("SETTINGS")) {
+        _audio->stopMusic();
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("settings");
     }
     if (_saveInput->getEnabled() && _saveInput->checkValidate()) {
         _map.saveMap(_tiles, _savePath + "/" + _saveInput->getContent());
@@ -291,8 +323,18 @@ void PlayGameScene::update()
         _pause = true;
         _timer.setPause(true);
     }
+    if (_players.size() < 2)
+    {
+        _audio->stopMusic();
+        _timer.setPause(true);
+        _end = true;
+    }
     if (_pause) {
         updatePause();
+        return;
+    }
+    if (_end) {
+        updateEnd();
         return;
     }
     std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
@@ -323,6 +365,7 @@ void PlayGameScene::update()
     }
     updateExplosionManager();
     _audio->updateMusicStream();
+
 }
 
 void PlayGameScene::draw()
@@ -342,6 +385,12 @@ void PlayGameScene::draw()
         drawPause();
     } else {
         _buttonManager.drawButtons();
+    }
+    if (_end) {
+        std::string winnerName = std::string("The Winner is : ") + _players.at(0)->getName();
+        gameEngine::encapsulation::BText winnerText(winnerName, Vector<float>(800, 500), WHITE, 30);
+        drawEnd();
+        winnerText.draw();
     }
     int idx_player = 0;
     for (auto &it : _players) {
