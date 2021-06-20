@@ -89,6 +89,7 @@ int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first
                 // if (!(std::rand() % 1)) {
                     std::size_t nb = std::rand() % 5;
                     // std::size_t nb = 0;
+                    _audio->playSound("itemDrop");
                     _powerUps[map[nb]]->setTransform().setPosition((*tile)->getTransform().getPosition());
                     _powerUps[map[nb]]->setTransform().setScale({5, 5, 5});
                     _tiles.push_back(std::make_shared<game::objects::PowerUpTile>(*_powerUps[map[nb]]));
@@ -116,10 +117,12 @@ int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first
         if ((int)(((*player)->getTransform().getPosition()._x + 3) / TILESIZE) == (int)(pos._x / TILESIZE) &&
             (*player)->getTransform().getPosition()._y == pos._y &&
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
-            _audio->playSound("damage");
             (*player)->looseLife();
-            if (!(*player)->isAlive())
+            if (!(*player)->isAlive()) {
+                _audio->playSound("death");
                 _players.erase(player);
+            } else
+                _audio->playSound("damage");
             return 2;
         }
     }
