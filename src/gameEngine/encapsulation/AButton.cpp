@@ -131,7 +131,7 @@ bool AButton::isInsideButton(const Vector<float> &point)
 
 bool AButton::isButtonPressed()
 {
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+    if (BEvt::isMouseBtnDown(MOUSE_BUTTON_LEFT)) {
         return true;
     }
     return false;
@@ -139,7 +139,7 @@ bool AButton::isButtonPressed()
 
 bool AButton::isButtonReleased()
 {
-    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+    if (BEvt::isMouseBtnReleased(MOUSE_BUTTON_LEFT)) {
         return true;
     }
     return false;
@@ -162,8 +162,7 @@ bool AButton::checkAction()
 
 void AButton::updateState()
 {
-    Vector2 tmp = GetMousePosition();
-    Vector<float> vec(tmp.x, tmp.y);
+    Vector<float> vec = BEvt::getMousePosition();
 
     if (_enabled && isInsideButton(vec)) {
         _focus = true;

@@ -9,20 +9,22 @@
 #define BEVT_HPP_
 
 #include "IInput.hpp"
+#include "vector.hpp"
 
 namespace gameEngine::encapsulation
 {
     class BEvt {
     public:
-        static bool isKeyPressed(gameEngine::Key key);
-        static bool isKeyDown(gameEngine::Key key);
-        static bool isKeyUp(gameEngine::Key key);
-        static bool isKeyReleased(gameEngine::Key key);
-        static bool isMouseBtnPressed(gameEngine::Key key);
-        static bool isMouseBtnReleased(gameEngine::Key key);
-        static bool isMouseBtnDown(gameEngine::Key key);
-        static bool isMouseBtnUp(gameEngine::Key key);
+        static bool isKeyPressed(int key);
+        static bool isKeyDown(int key);
+        static bool isKeyUp(int key);
+        static bool isKeyReleased(int key);
+        static bool isMouseBtnPressed(int key);
+        static bool isMouseBtnReleased(int key);
+        static bool isMouseBtnDown(int key);
+        static bool isMouseBtnUp(int key);
         static gameEngine::Key getKeyPressed(void);
+        static Vector<float> getMousePosition(void);
     };
 } // namespace gameEngine::encapsulation
 

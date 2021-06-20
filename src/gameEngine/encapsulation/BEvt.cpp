@@ -9,22 +9,22 @@
 
 using namespace gameEngine::encapsulation;
 
-bool BEvt::isKeyPressed(gameEngine::Key key)
+bool BEvt::isKeyPressed(int key)
 {
     return IsKeyPressed(key);
 }
 
-bool BEvt::isKeyDown(gameEngine::Key key)
+bool BEvt::isKeyDown(int key)
 {
     return IsKeyDown(key);
 }
 
-bool BEvt::isKeyUp(gameEngine::Key key)
+bool BEvt::isKeyUp(int key)
 {
     return IsKeyUp(key);
 }
 
-bool BEvt::isKeyReleased(gameEngine::Key key)
+bool BEvt::isKeyReleased(int key)
 {
     return IsKeyReleased(key);
 }
@@ -34,22 +34,29 @@ gameEngine::Key BEvt::getKeyPressed(void)
     return (gameEngine::Key)GetKeyPressed();
 }
 
-bool BEvt::isMouseBtnPressed(gameEngine::Key key)
+bool BEvt::isMouseBtnPressed(int key)
 {
     return IsMouseButtonPressed(key);
 }
 
-bool BEvt::isMouseBtnReleased(gameEngine::Key key)
+bool BEvt::isMouseBtnReleased(int key)
 {
     return IsMouseButtonReleased(key);
 }
 
-bool BEvt::isMouseBtnDown(gameEngine::Key key)
+bool BEvt::isMouseBtnDown(int key)
 {
     return IsMouseButtonDown(key);
 }
 
-bool BEvt::isMouseBtnUp(gameEngine::Key key)
+bool BEvt::isMouseBtnUp(int key)
 {
     return IsMouseButtonUp(key);
+}
+
+Vector<float> BEvt::getMousePosition(void)
+{
+    Vector2 tmp = GetMousePosition();
+    Vector<float> vec(tmp.x, tmp.y);
+    return vec;
 }
