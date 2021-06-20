@@ -18,7 +18,7 @@ static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(13
 static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
-: AScene(windowManager, info), _map(_info->getUniverse(), _info->getSavedMap(), MAPSIZE), _pause(false)
+: AScene(windowManager, info), _map(_info->getUniverse(), _info->getSavedMap(), MAPSIZE), _pause(false), _end(false)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     std::string nb(std::to_string(std::rand() % 3));
@@ -123,11 +123,12 @@ void PlayGameScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> button =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 40), Vector<float>(10, 10), pauseText, DARKGRAY, WHITE, PLAY_BUTTON);
 
+
     setupPause();
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
     _explosion = std::make_shared<game::managers::ExplosionManager>(_players, _tiles);
-    // _audio->playMusic();
+    _audio->playMusic();
 }
 
 void PlayGameScene::setupPause()
@@ -150,6 +151,10 @@ void PlayGameScene::setupPause()
     _saveInput->setEnabled(false);
     _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(270, 150));
     _savePopUp->setEnabled(false);
+
+    //endPopUp
+    _endPopUp = std::make_unique<gameEngine::component::PopUp>("GAME OVER", Vector<float>(middle2._x + 250, middle2._y - 10), Vector<float>(800, 600));
+    _endPopUp->setEnabled(false);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 15), WHITE, 30);
@@ -318,6 +323,13 @@ void PlayGameScene::update()
         }
         player->setDropped(false);
     }
+    _endPopUp->update();
+    if (_players.size() < 2) {
+        _audio->stopMusic();
+        _timer.setPause(true);
+        _endPopUp->setEnabled(true);
+        _end = true;
+    }
     updateExplosionManager();
     _audio->updateMusicStream();
 }
@@ -345,4 +357,6 @@ void PlayGameScene::draw()
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
     }
+    if (_end)
+        _endPopUp->draw();
 }
