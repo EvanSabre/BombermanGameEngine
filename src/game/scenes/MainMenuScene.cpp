@@ -63,6 +63,10 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonCredits =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 200), creditText, DARKGRAY, WHITE, PLAY_BUTTON);
 
+    gameEngine::encapsulation::BText tutorialText("TUTORIAL", Vector<float>(middle2._x + 25, middle2._y + 315), WHITE, 40);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonTutorial =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 300), tutorialText, DARKGRAY, WHITE, PLAY_BUTTON);
+
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 515), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 500), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
@@ -72,6 +76,7 @@ void MainMenuScene::start()
     _buttonManager.pushButton(buttonLoads);
     _buttonManager.pushButton(buttonSettings);
     _buttonManager.pushButton(buttonCredits);
+    _buttonManager.pushButton(buttonTutorial);
     _buttonManager.pushButton(buttonQuit);
 }
 
@@ -94,6 +99,11 @@ void MainMenuScene::update()
         _audio->stopMusic();
         _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("credits");
+    }
+    if (_buttonManager.isButtonClicked("TUTORIAL")) {
+        _audio->stopMusic();
+        _audio->playSoundWaitEnd("button");
+        _info->setCurrentScene("tutorial");
     }
     _audio->updateMusicStream();
 }
