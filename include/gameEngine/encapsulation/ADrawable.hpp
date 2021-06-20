@@ -20,6 +20,7 @@ namespace gameEngine
         {
         public:
             ADrawable();
+            ADrawable &operator=(const ADrawable &ref);
             ~ADrawable();
 
             // member functions

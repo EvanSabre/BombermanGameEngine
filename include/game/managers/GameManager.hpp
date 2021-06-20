@@ -15,6 +15,7 @@
 #include "InputManager.hpp"
 #include "WindowManager.hpp"
 #include "SettingConf.hpp"
+#include "LoadParser.hpp"
 
 #define SETTINGS_MANAGER game::systems::SettingConf
 #define SETTINGS game::system::setting_t
@@ -37,18 +38,40 @@ namespace game {
 
                 std::vector<std::shared_ptr<game::User>> getPlayers() const noexcept;
                 void pushPlayer(std::shared_ptr<game::User> &player);
+                void setSave(bool save);
+                void setSavePath(const std::string &path);
+
+                bool getIsSave() const noexcept;
+                std::string getSavePath() const noexcept;
+                std::vector<std::vector<int>> getSavedMap() const noexcept;
+                void setSavedMap(const std::vector<std::vector<int>> &map);
+
+                void setSavedPlayers(const std::vector<game::systems::playerInfo_t> &players);
+                std::vector<game::systems::playerInfo_t> getSavedPlayers() const noexcept;
+
                 int nbPlayers = 1;
                 int nbPlayersConfirmed = 0;
                 int nbBots = 0;
                 std::shared_ptr<game::managers::UserManager> _userManager;
                 std::shared_ptr<gameEngine::managers::InputManager<game::Event>> _inputManager;
                 std::vector<std::shared_ptr<game::User>> _players;
+                void setMusicVolume(float volume);
+                float getMusicVolume() const;
+                void setSoundVolume(float volume);
+                float getSoundVolume() const;
 
             protected:
                 std::string _currentScene;
                 bool _change = false;
                 bool _quit = false;
+                bool _isSave = false;
+                std::string _savePath;
                 game::systems::setting_t _settings;
+                std::vector<std::vector<int>> _savedMap;
+                std::vector<game::systems::playerInfo_t> _savedPlayers;
+                float _musicVolume;
+                float _soundVolume;
+
                 std::string _universe = "Viking";
             private:
         };

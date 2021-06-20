@@ -13,8 +13,6 @@
 #define MAPBRICK 2
 #define MAPWALL  3
 
-
-
 #define MINSIZE 5
 #define SIZE_X  (_size)
 #define SIZE_Y  (_size + 2)
@@ -34,7 +32,9 @@
 #include <string>
 #include <memory>
 #include "Tile.hpp"
+#include "AFileManager.hpp"
 
+#define MAP_SAVE "/MapSave.save"
 #define GET_MAP_POS(vec) Vector<int>(vec._x / TILESIZE, vec._y / TILESIZE)
 #define CONVERT_MAP_POS(vec) Vector<int>(vec._x * TILESIZE, vec._y * TILESIZE)
 #define GET_MAP_POS_Z(vec) Vector<int>(vec._x / TILESIZE, vec._z / TILESIZE)
@@ -45,7 +45,7 @@ using namespace game::objects;
 namespace game::objects {
     class Map {
         public:
-            Map(const std::string &, const std::size_t &, const std::size_t &seed = 0);
+            Map(const std::string &, const std::vector<std::vector<int>> &tiles, const std::size_t &, const std::size_t &seed = 0);
             ~Map();
 
             // memeber functions
@@ -62,7 +62,7 @@ namespace game::objects {
             std::size_t getSeed() const;
             std::vector<std::vector<int>> getMap() const;
             std::vector<Tile> getTiledMap() const;
-
+            void saveMap(const std::vector<std::shared_ptr<Tile>> &tiles, const std::string &path);
             // setters
             void setSize(const std::size_t &);
             void setSeed(const std::size_t &);
@@ -79,19 +79,16 @@ namespace game::objects {
             std::string _BRICKPATHMOD;
             std::string _PATHPATHMOD;
             std::string _BORDERPATHMOD;
-            std::string _WALLTILEPNG;
-            std::string _BRICKTILEPNG;
-            std::string _PATHTILEPNG;
-            std::string _BORDERTILEPNG;
+            std::string _TEXTURE;
 
             std::shared_ptr<gameEngine::encapsulation::BModel> _brickMod;
             std::shared_ptr<gameEngine::encapsulation::BModel> _wallMod;
             std::shared_ptr<gameEngine::encapsulation::BModel> _pathMod;
             std::shared_ptr<gameEngine::encapsulation::BModel> _borderMod;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _wallTex;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _pathTex;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _brickTex;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _borderTex;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _Texture;
+
+            gameEngine::managers::AFileManager _fileManager;
+
     };
 }
 

@@ -50,6 +50,7 @@ Bomb::~Bomb()
 // Member functions
 void Bomb::drop()
 {
+    setCollider();
     _switch = true;
     if (!_dropped) {
         _dropped = true;
@@ -61,7 +62,13 @@ void Bomb::countdown()
 {
     std::mutex mtx;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(3000)); // 3 seconds
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // 1 seconds
+
+    mtx.lock();
+    _collide = true;
+    mtx.unlock();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000)); // 2 seconds
 
     mtx.lock();
     std::cout << "BOOOOOM" << std::endl;
@@ -73,4 +80,19 @@ void Bomb::countdown()
 game::Tag_e getTag()
 {
     return game::Tag_e::BOMB;
+}
+
+// Setters
+void Bomb::setCollider() noexcept
+{
+    Vector3T<float> pos(this->getTransform().getPosition());
+    Vector3T<float> sca(this->getTransform().getScale());
+
+    _collider.getBoundingBox().setBoundingBox(
+        {(float)(pos._x - sca._x * (double)TILESIZE * 0.5),
+        pos._y,
+        (float)(pos._z - sca._z * (double)TILESIZE * 0.5)},
+        {(float)(pos._x + sca._x * (double)TILESIZE * 0.5),
+        pos._y,
+        (float)(pos._z + sca._z * (double)TILESIZE * 0.5)});
 }

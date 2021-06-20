@@ -33,8 +33,8 @@ namespace game
     {
 
         typedef struct s_settig {
-            float _soundVolume;
-            float _musicVolume;
+            float _soundVolume = 50;
+            float _musicVolume = 50;
             std::unordered_map<game::Event, std::pair<gameEngine::key_e, gameEngine::key_e>> _keyMap;
         } setting_t;
 

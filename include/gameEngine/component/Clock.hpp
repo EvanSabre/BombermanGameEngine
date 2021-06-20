@@ -18,6 +18,7 @@ namespace gameEngine {
                 ~Clock();
 
                 double getElapsedTime() const;
+                double getElapsedTime(bool) const;
                 void restart();
             protected:
                 std::chrono::high_resolution_clock::time_point _begin;

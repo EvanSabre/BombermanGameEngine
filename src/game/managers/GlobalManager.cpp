@@ -16,8 +16,13 @@ game::managers::GlobalManager::GlobalManager()
     _windowManager = std::make_shared<gameEngine::managers::WindowManager>();
     _windowManager->createWindow("Bomberverse", {WIN_WIDTH, WIN_HEIGHT});
     _windowManager->setWindowIcon(ICON_PATH);
-    _gameManager = std::make_shared<game::managers::GameManager>("menu");
-    _currentScene = game::managers::SceneManager::loadScene(_gameManager->getCurrentScene(), _windowManager, _gameManager);
+    _gameManager = std::make_shared<game::managers::GameManager>("splash");
+    try {
+        _currentScene = game::managers::SceneManager::loadScene(_gameManager->getCurrentScene(), _windowManager, _gameManager);
+    }
+    catch (NoSceneException& e) {
+        throw IndieError(e.what());
+    }
 }
 
 game::managers::GlobalManager::~GlobalManager()
@@ -47,7 +52,7 @@ void game::managers::GlobalManager::loadNewScene(const std::string &sceneName)
     try {
         _currentScene = game::managers::SceneManager::loadScene(sceneName, _windowManager, _gameManager);
     } catch (NoSceneException &e) {
-        throw LoadingError("Could not load scene" + sceneName);
+        throw LoadingError("Could not load scene" + sceneName + " because " + e.what());
     }
     _windowManager->setBackgroundColor(WHITE);
     _windowManager->clear();

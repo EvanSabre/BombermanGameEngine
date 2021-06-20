@@ -21,13 +21,14 @@ namespace gameEngine {
                 AudioManager();
                 ~AudioManager();
 
-                void loadSoundFromFile(const char *filepath);
-                void unloadSoundStream();
+                void loadSoundFromFile(const char *filepath, std::string name);
+                void unloadSoundStream(std::string name);
 
-                void playSound();
-                void pauseSound();
-                void resumeSound();
-                void stopSound();
+                void playSound(std::string name);
+                void playSoundWaitEnd(std::string name);
+                void pauseSound(std::string name);
+                void resumeSound(std::string name);
+                void stopSound(std::string name);
                 void setSoundVolume(float volume);
 
                 void loadMusicStreamFromFile(const std::string &filepath);
@@ -44,10 +45,10 @@ namespace gameEngine {
                 float getCurrentMusicVolume() const;
 
             private:
-                std::unique_ptr<BSound> _sound;
+                std::unordered_map<std::string, std::shared_ptr<BSound>> _sounds;
                 std::unique_ptr<BMusic> _music;
-                float _soundVolume;
                 float _musicVolume;
+                float _soundVolume;
         };
     }
 }

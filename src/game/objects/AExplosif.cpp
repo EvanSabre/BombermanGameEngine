@@ -20,9 +20,7 @@ AExplosif::AExplosif(
     const gameEngine::encapsulation::BColor &color)
     : Tile(modelfilepath, texturefilepath, type, position, rotation, scale, color),
       _playerId(id),
-      _range(3),
-      _done(false),
-      _collide(true),
+      _range(BASERANGE),
       _dropped(false),
       _switch(false)
 {
@@ -38,9 +36,7 @@ AExplosif::AExplosif(
     const Vector3T<float> &scale)
     : Tile(model, texture, type, position, rotation, scale),
       _playerId(id),
-      _range(3),
-      _done(false),
-      _collide(true),
+      _range(BASERANGE),
       _dropped(false),
       _switch(false)
 {
@@ -50,8 +46,6 @@ AExplosif::AExplosif(const AExplosif &ref)
     : Tile(ref),
      _playerId(ref._playerId),
      _range(ref._range),
-     _done(ref._done),
-     _collide(ref._collide),
      _dropped(ref._dropped),
      _switch(ref._switch)
 {
@@ -64,12 +58,16 @@ AExplosif::~AExplosif()
 // Setters
 void AExplosif::increaseRange(const std::size_t &range)
 {
-    _range += range;
+    _range = range;
 }
 
 void AExplosif::explode()
 {
     _done = true;
+}
+
+void AExplosif::update()
+{
 }
 
 void AExplosif::pickUpBombPass()
@@ -101,11 +99,6 @@ bool AExplosif::isDropped() const
 bool AExplosif::isDone() const
 {
     return _done;
-}
-
-bool AExplosif::collide() const
-{
-    return _collide;
 }
 
 bool AExplosif::getSwitch() const

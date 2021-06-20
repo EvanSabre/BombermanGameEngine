@@ -19,7 +19,7 @@ namespace gameEngine {
     namespace component {
         class Timer : public gameEngine::encapsulation::ADrawable {
             public:
-                Timer(const double &duration = 2);
+                Timer(const double &duration = 120);
                 ~Timer();
 
                 double getDuration() const noexcept;
@@ -37,9 +37,9 @@ namespace gameEngine {
                 void update() override;
             protected:
                 bool _pause = false;
-                double _duration = 120;
+                double _duration;
                 bool _isDone = false;
-                std::unique_ptr<std::thread> _timerThread;
+                std::unique_ptr<std::thread> _timerThread = nullptr;
                 gameEngine::component::Clock _clock;
                 std::string _format;
                 gameEngine::encapsulation::BText _currentTime;

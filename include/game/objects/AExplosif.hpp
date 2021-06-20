@@ -10,6 +10,8 @@
 
 #include "Tile.hpp"
 
+#define BASERANGE 1
+
 namespace game::objects
 {
     class AExplosif : public Tile {
@@ -44,20 +46,18 @@ namespace game::objects
             void explode();
             void pickUpBombPass();
             void setSwitch(bool state);
+            void update();
 
             // Getters
             std::string getPlayerId() const;
             std::size_t getRange() const;
             bool isDropped() const;
             bool isDone() const;
-            bool collide() const;
             bool getSwitch() const;
 
         protected:
             std::string _playerId;
             std::size_t _range;
-            bool _done;
-            bool _collide;
             bool _dropped;
             bool _switch;
         private:

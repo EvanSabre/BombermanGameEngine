@@ -11,10 +11,16 @@ using namespace gameEngine::component;
 
 Timer::Timer(const double &duration) : _format("")
 {
+    _duration = duration;
 }
 
 Timer::~Timer()
 {
+    if (!_isDone) {
+        _isDone = true;
+        _pause = false;
+        wait();
+    }
 }
 
 void Timer::timerExecute()

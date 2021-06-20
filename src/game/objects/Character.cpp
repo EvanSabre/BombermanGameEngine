@@ -18,10 +18,7 @@ Character::Character(
     const std::string &animIdle,
     const Vector3T<float> &pos
     ) : gameEngine::objects::Moveable(id),
-      _isMoving(false),
-      _bombRef(id),
-      _frameCounter(0),
-      _hasDropped(false)
+      _bombRef(id)
 {
     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
@@ -37,16 +34,34 @@ Character::Character(
     _state = ANIMIDLE;
 }
 
+// Character::Character(const Character &ref)
+//  : gameEngine::objects::Moveable(ref.getId()),
+//    _isMoving(ref._isMoving),
+//    _bombRef(ref.getId()),
+//    _frameCounter(ref._frameCounter),
+//    _hasDropped(ref._hasDropped),
+//    _bombQueue(ref._bombQueue),
+//    _texture(ref._texture),
+//    _model(ref._model),
+//    _animWalk(ref._animWalk),
+//    _animIdle(ref._animIdle),
+//    _anim(ref._anim),
+//    _name(ref._name),
+//    _state(ref._state)
+// {
+// }
+
 Character::~Character()
 {
 }
-
-//getter
 
 void Character::setCurrentEvent(game::Event event) noexcept
 {
     _currentEvent = event;
 }
+
+//getter
+
 
 game::Event Character::getCurrentEvent() const noexcept
 {
@@ -79,6 +94,12 @@ int Character::getNbBomb() const noexcept
     return _nbBomb;
 }
 
+bool Character::isAlive() const noexcept
+{
+    return _alive;
+}
+
+
 bool Character::hasDropped() const noexcept
 {
     return _hasDropped;
@@ -97,17 +118,22 @@ void Character::setCollider() noexcept
     Vector3T<float> sca(this->getTransform().getScale());
 
     _collider.getBoundingBox().setBoundingBox(
-        {(float)(pos._x - sca._x * (float)TILESIZE * 0.5),
+        {(float)(pos._x - sca._x * (float)TILESIZE * 0.5f),
         pos._y,
-        (float)(pos._z - sca._z * (float)TILESIZE * 0.5)},
-        {(float)(pos._x + sca._x * (float)TILESIZE * 0.5),
+        (float)(pos._z - sca._z * (float)TILESIZE * 0.5f)},
+        {(float)(pos._x + sca._x * (float)TILESIZE * 0.5f),
         pos._y,
-        (float)(pos._z + sca._z * (float)TILESIZE * 0.5)});
+        (float)(pos._z + sca._z * (float)TILESIZE * 0.5f)});
 }
 
 void Character::setState(const int &state) noexcept
 {
     _state = state;
+}
+
+void Character::setLives(const int &lives)
+{
+    _lives = lives;
 }
 
 void Character::addScore(const size_t value) noexcept
@@ -117,7 +143,11 @@ void Character::addScore(const size_t value) noexcept
 
 void Character::subScore(const size_t value) noexcept
 {
-    this->_score -= value;
+    size_t score = 0;
+    if (this->_score < value)
+        this->_score = score;
+    else
+        this->_score -= value;
 }
 
 void Character::setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept
@@ -128,6 +158,13 @@ void Character::setModel(std::shared_ptr<gameEngine::encapsulation::BModel> mode
 void Character::setDropped(bool state) noexcept
 {
     _hasDropped = state;
+}
+
+void Character::looseLife(int nbLife) noexcept
+{
+    _lives -= nbLife;
+    checkLives();
+    subScore(50);
 }
 
 void Character::draw() const noexcept
@@ -148,6 +185,7 @@ void Character::onCollisionEnter(const AGameObject &collision)
         std::unique_ptr<game::interfaces::IEffect> efx = game::objects::EffectFactory::makeEffect(collision.getTag());
         addPowerUpEffec(efx.get());
         std::cout << "get Power Up" << std::endl;
+        addScore(10);
         return;
     }
     catch(const std::exception& e)
@@ -157,19 +195,25 @@ void Character::onCollisionEnter(const AGameObject &collision)
 
 void Character::onCollisionExit(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 void Character::update()
 {
+    checkLives();
     updateModelAnimation();
+}
+
+void Character::reload()
+{
+    if (_nbBomb < _maxBomb) {
+        _nbBomb++;
+        _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
+    }
 }
 
 void Character::updateModelAnimation()
 {
-    if (_clock.getElapsedTime() >= 3 && _nbBomb < _maxBomb) {
-        _nbBomb++;
-        _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
-    }
     setCollider();
     _anim = _state ? _animWalk : _animIdle;
     if (_model->isLoad() && _anim->isLoad()) {
@@ -183,21 +227,29 @@ void Character::updateModelAnimation()
 
 void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 {
-    _lives += efx->getLife();
-    _health += efx->getHealth();
-    _maxBomb += efx->getNbBomb();
+    _maxLives += efx->getMaxLife();
+    if (_lives < _maxLives)
+        _lives += efx->getLife();
+    if (efx->getNbBomb()) {
+        _maxBomb ++;
+        reload();
+    }
     _bombRange += efx->getBlastPower();
+    _bombRef.increaseRange(_bombRange);
+    for (auto &bomb : _bombQueue)
+        bomb->increaseRange(_bombRange);
     _speed = _speed + efx->getSpeed();
 }
 
 game::Tag_e Character::getTag() const noexcept
 {
-    return  game::Tag::CHARACTER;
+    return game::Tag::CHARACTER;
 }
 
 void Character::stand(std::size_t tick)
 {
-    std::cout << "stand " << getTransform() << std::endl;
+    (void)tick;
+    // std::cout << "stand " << getTransform() << std::endl;
     //exit(0);
 }
 
@@ -229,10 +281,8 @@ void Character::dropBomb(std::size_t tick) noexcept
     _bombQueue.front()->setTransform().setPosition(bombPos);
     _bombQueue.front()->drop();
     _bombQueue.pop_front();
-    std::cout << "> BOMB DROPPED <" << std::endl;
-    std::cout << this->getTransform() << std::endl;
-    // if (_bombQueue.empty())
-    //     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
+    // std::cout << "> BOMB DROPPED <" << std::endl;
+    // std::cout << this->getTransform() << std::endl;
 }
 
 void Character::handleEvent() noexcept
@@ -248,10 +298,21 @@ void Character::handleEvent() noexcept
                 _currentEvent = NULL_EVENT;
                 flag = true;
                 _isMoving = true;
-                std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
+                // std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }
     }
     setState(!flag ? ANIMIDLE : ANIMWALK);
+}
+
+void Character::checkLives() noexcept
+{
+    if (_lives <= 0 && _alive)
+        loose();
+}
+
+void Character::loose() noexcept
+{
+    _alive = false;
 }

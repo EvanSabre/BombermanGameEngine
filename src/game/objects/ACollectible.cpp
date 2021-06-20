@@ -12,8 +12,10 @@ game::objects::ACollectible::ACollectible(const std::string &modelfilePath,
                            const Vector3T<float> &pos,
                            const gameEngine::encapsulation::BColor &color,
                            const float &scale,
-                           const game::Tag &type)
-    : game::objects::Tile(modelfilePath, texturefilePath, type, pos)
+                           const game::Tag &type,
+                           const Vector3T<float> &rotation
+                           )
+    : game::objects::Tile(modelfilePath, texturefilePath, type, pos, rotation, Vector3T<float>(scale, scale, scale), color)
 {
 }
 

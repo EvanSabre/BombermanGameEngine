@@ -12,7 +12,7 @@ using namespace gameEngine::object;
 
 #define MAX_INPUTS 15
 
-InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, const int &maxInput, const encapsulation::BText &content,
+InputButton::InputButton(const Vector<float> &size, const Vector<float> &pos, std::size_t maxInput, const encapsulation::BText &content,
                 const encapsulation::BColor &color, bool relative, const encapsulation::BColor &selectColor) :
             AButton(size, pos, content, color, selectColor), _currentChar(0), _maxInput(maxInput), _canInput(true)
 {
@@ -36,7 +36,7 @@ std::string InputButton::getInput() const noexcept
 
 void InputButton::getNextChar() noexcept
 {
-    _currentChar = GetCharPressed();
+    _currentChar = gameEngine::encapsulation::BEvt::getCharPressed();
 }
 
 bool InputButton::checkValidate()
@@ -51,7 +51,7 @@ void InputButton::setCanInput(bool can)
 
 void InputButton::updateInput()
 {
-    if (_input.size() >= _maxInput) {
+    if (_input.size() >= (size_t)_maxInput) {
         return;
     }
     getNextChar();
@@ -68,9 +68,11 @@ void InputButton::updateInput()
 
 void InputButton::draw()
 {
-    drawButtonRect();
-    drawOutline();
-    _content->draw();
+    if (_enabled) {
+        drawButtonRect();
+        drawOutline();
+        _content->draw();
+    }
 }
 
 void InputButton::update()
@@ -81,7 +83,6 @@ void InputButton::update()
         updateInput();
     }
     if (checkAction()) {
-        std::cout << "erasing\n";
         _input.erase();
         _content->setStr(_input);
     }

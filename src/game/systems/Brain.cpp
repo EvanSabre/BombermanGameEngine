@@ -139,10 +139,10 @@ bool Brain::isSolid(int x, int y)
 
 void Brain::defensePathFinding(int x, int y, int d, int a, int b)
 {
-    if (!isSolid(y + a, x + b) && _distanceMap[y][x+b]==-1)
+    if (!isSolid(y + a, x + b) && _distanceMap[y][(size_t)x+b]==-1)
     {
-        _directionMap[y + a][x + b] = _directionMap[y][x];
-        _distanceMap[y + a][x + b] = (game::Event)(d + 1);
+        _directionMap[(size_t)y + (size_t)a][(size_t)x + (size_t)b] = _directionMap[y][x];
+        _distanceMap[(size_t)y + (size_t)a][(size_t)x + (size_t)b] = (game::Event)(d + 1);
     }
 
 }

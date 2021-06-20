@@ -25,6 +25,29 @@ PowerUpTile::PowerUpTile(const std::shared_ptr<gameEngine::encapsulation::BModel
     _minHeight = minHeight;
     _maxHeight =  maxHeight;
     _speed._y = _idleSpeed;
+    _collider.getBoundingBox().setBoundingBox(
+        {position._x - scale._x * TILESIZE * TILESCALE,
+        position._y,
+        position._z - scale._z * TILESIZE * TILESCALE},
+        {position._x + scale._x * TILESIZE * TILESCALE,
+        position._y,
+        position._z + scale._z * TILESIZE * TILESCALE});
+}
+
+PowerUpTile::PowerUpTile(const PowerUpTile &ref)
+    : Tile(ref)
+{
+    _idleSpeed = ref._idleSpeed;
+    _minHeight = ref._minHeight;
+    _maxHeight =  ref._maxHeight;
+    _speed._y = _idleSpeed;
+    _collider.getBoundingBox().setBoundingBox(
+        {this->getTransform().getPosition()._x - this->getTransform().getScale()._x * TILESIZE * TILESCALE,
+        this->getTransform().getPosition()._y,
+        this->getTransform().getPosition()._z - this->getTransform().getScale()._z * TILESIZE * TILESCALE},
+        {this->getTransform().getPosition()._x + this->getTransform().getScale()._x * TILESIZE * TILESCALE,
+        this->getTransform().getPosition()._y,
+        this->getTransform().getPosition()._z + this->getTransform().getScale()._z * TILESIZE * TILESCALE});
 }
 
 PowerUpTile::~PowerUpTile()
@@ -47,10 +70,4 @@ void PowerUpTile::checkHeight() noexcept
         _speed._y = -_idleSpeed;
     else if (_transform._position._y <= _minHeight && _speed._y < 0)
         _speed._y = _idleSpeed;
-}
-
-void PowerUpTile::onCollisionEnter(const gameEngine::objects::AGameObject &collision)
-{
-    //TODO
-    //destroy after player collision
 }

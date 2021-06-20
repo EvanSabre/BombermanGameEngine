@@ -20,10 +20,10 @@ namespace game
     class Gui {
     public:
         typedef enum e_corner {
-            TOP_LEFT,
-            TOP_RIGHT,
-            BOTTOM_LEFT,
-            BOTTOM_RIGHT
+            BOTTOM_LEFT = 0,
+            TOP_RIGHT = 1,
+            TOP_LEFT = 2,
+            BOTTOM_RIGHT = 3,
         } corner_e;
 
         Gui();
@@ -35,6 +35,7 @@ namespace game
             Vector<float> scale, float spacing = 30) noexcept;
         void drawEltStr(const std::string &str, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,
             Vector<float> scale, float spacing = 30) noexcept;
+        void drawLabel(const std::string &str, const Vector<float> &pos) noexcept;
 
     private:
         std::shared_ptr<gameEngine::encapsulation::BTexture2D> _heartTexture;

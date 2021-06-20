@@ -13,6 +13,7 @@
 #include "InputButton.hpp"
 #include "Selector.hpp"
 #include "ButtonManager.hpp"
+#include "AudioManager.hpp"
 #include "TSelector.hpp"
 #include "BModel.hpp"
 
@@ -20,9 +21,6 @@
 #define IMAGE gameEngine::encapsulation::BTexture2D
 #define SELECTOR gameEngine::component::Selector
 #define TSELECTOR gameEngine::component::TSelector
-
-#define WINDOW_X _windowManager->getWindowSize()._x
-#define WINDOW_Y _windowManager->getWindowSize()._y
 
 namespace game
 {
@@ -36,13 +34,16 @@ namespace game
                 void start() override;
                 void update() override;
                 void draw() override;
+
+            protected:
+                std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
+
             private:
-                std::unique_ptr<IMAGE> _background = nullptr;
+                IMAGE _background;
                 std::unique_ptr<SELECTOR> _playerSelector = nullptr;
                 std::unique_ptr<SELECTOR> _botSelector = nullptr;
                 std::unique_ptr<TSELECTOR<gameEngine::encapsulation::BModel>> _universeSelector = nullptr;
                 TEXT _PlayersIndication;
-                gameEngine::managers::ButtonManager _buttonManager;
                 std::string _universe;
                 std::array<std::shared_ptr<gameEngine::encapsulation::BTexture2D>, 3> _textures;
         };
