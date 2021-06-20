@@ -99,9 +99,9 @@ void BSound::setVolume(float volume)
 {
     if (!isLoad())
         throw engineError("Volume set on unload Sound", "SOUND");
-    if (volume > 1.0f)
-        volume = 1.0f;
-    else if (volume < 0.0f)
+    // if (volume > 1.0f)
+        // volume = 1.0f;
+    if (volume < 0.0f)
         volume = 0.0f;
     SetSoundVolume(this->_sound, volume);
 }
