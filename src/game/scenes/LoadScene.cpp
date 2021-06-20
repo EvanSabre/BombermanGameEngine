@@ -36,10 +36,11 @@ std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> LoadScene::in
 
 std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> LoadScene::loadSaves()
 {
-    char *path = realpath(SAVES_PATH, NULL);
+    std::string path = Path::getOSPath(SAVES_PATH);
+    std::filesystem::path full = std::filesystem::absolute(std::filesystem::path(path));
     Vector<float> pos(WINDOW_X / 2, WINDOW_Y / 7);
 
-    if (path == NULL) {
+    if (path.empty()) {
         return initDefault();
     }
     _canSave = true;

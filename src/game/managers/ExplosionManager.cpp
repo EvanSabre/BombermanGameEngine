@@ -131,7 +131,7 @@ void ExplosionManager::explode(const game::objects::AExplosif &bomb)
     std::unordered_map<std::string, bool> direction = {
         {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true}};
     std::unordered_map<std::string, float> power = {
-        {"UP", 0}, {"LEFT", 0}, {"DOWN", 0}, {"RIGHT", 0}};
+        {"UP", 0.0f}, {"LEFT", 0.0f}, {"DOWN", 0.0f}, {"RIGHT", 0.0f}};
     Vector3T<float> pos(bomb.getTransform().getPosition());
     Vector3T<float> posTemp(bomb.getTransform().getPosition());
 
@@ -165,8 +165,15 @@ void ExplosionManager::explode(const game::objects::AExplosif &bomb)
         (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2,
         pos._y, pos._z});
     _explosionH->setTransform().setScale({power["DOWN"] + power["UP"] + 1, 1, 0.8});
-    _explosion.push_back({{_explosionH, _explosionV},
-        std::make_unique<gameEngine::component::Clock>()});
+    std::pair<
+        std::shared_ptr<gameEngine::encapsulation::BModel>,
+        std::shared_ptr<gameEngine::encapsulation::BModel>> pM(_explosionH, _explosionV);
+    std::unique_ptr<gameEngine::component::Clock> c = std::make_unique<gameEngine::component::Clock>();
+    std::pair<std::pair<
+        std::shared_ptr<gameEngine::encapsulation::BModel>,
+        std::shared_ptr<gameEngine::encapsulation::BModel>>,
+        std::unique_ptr<gameEngine::component::Clock>> pS(pM, c);
+    _explosion.push_back(pS);
 }
 
 // Setters

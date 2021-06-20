@@ -170,7 +170,7 @@ void SettingsScene::setKeyMap()
         tmp = it->getContent().getStr();
         toUpper(tmp);
         pair.first = (gameEngine::key_e)(tmp.c_str()[0]);
-        pair.second = gamePadKeys.at(i - 1);
+        pair.second = gamePadKeys.at((size_t)i - 1);
         fullPair.second = pair;
         _keyMap.insert(fullPair);
         i++;
