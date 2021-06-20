@@ -55,8 +55,6 @@ PlayGameScene::~PlayGameScene()
 
 void PlayGameScene::start()
 {
-    // std::string textStr = "assets/Vikings/Textures/Character.png";
-    // std::string modelStr = "assets/Vikings/Models/Character.iqm";
     std::string textStr = "assets/" + _info->getUniverse() + "/Textures/Character.png";
     std::string modelStr = "assets/" + _info->getUniverse() + "/Models/Character.iqm";
     std::vector<gameEngine::component::Transform> SPAWNS = {
@@ -118,11 +116,6 @@ void PlayGameScene::start()
     }
 
     this->setupCamera();
-
-    // std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
-    //     Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
-
     _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
     _timer.startThread();
     _timer.getCurrentTime().setColor(RED);
@@ -225,7 +218,6 @@ void PlayGameScene::updateExplosionManager()
 
     auto array = _explosion->getBombs();
     for (auto &bomb : array) {
-        // std::cout << bomb->getTransform() << std::endl;
         _tiles.push_back(bomb);
     }
 }
@@ -318,7 +310,6 @@ void PlayGameScene::quit()
 
 void PlayGameScene::update()
 {
-    //updateExplosionManager();
     _buttonManager.updateButtons();
     if (!_windowManager->isRunning())
         quit();
