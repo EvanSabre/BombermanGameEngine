@@ -6,6 +6,7 @@
 */
 
 #include "PlayGameScene.hpp"
+#include <sstream>
 
 using namespace game::scenes;
 #define ANIMWALK_PATH "assets/All/Animations/CharacterWalk.iqm"
@@ -33,7 +34,9 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
 
     _audio->setMusicVolume((_info->getMusicVolume() - 20) / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
-    _savePath = realpath("./", NULL);
+    std::string path = Path::getOSPath("./");
+    std::filesystem::path full = std::filesystem::absolute(std::filesystem::path(path));
+    _savePath = full.string();
     _savePath.append(SAVE_DIR);
 
     if (!std::filesystem::is_directory(_savePath)) {

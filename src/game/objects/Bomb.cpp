@@ -89,10 +89,10 @@ void Bomb::setCollider() noexcept
     Vector3T<float> sca(this->getTransform().getScale());
 
     _collider.getBoundingBox().setBoundingBox(
-        {(float)(pos._x - sca._x * (float)TILESIZE * 0.5),
+        {(float)(pos._x - sca._x * (double)TILESIZE * 0.5),
         pos._y,
-        (float)(pos._z - sca._z * (float)TILESIZE * 0.5)},
-        {(float)(pos._x + sca._x * (float)TILESIZE * 0.5),
+        (float)(pos._z - sca._z * (double)TILESIZE * 0.5)},
+        {(float)(pos._x + sca._x * (double)TILESIZE * 0.5),
         pos._y,
-        (float)(pos._z + sca._z * (float)TILESIZE * 0.5)});
+        (float)(pos._z + sca._z * (double)TILESIZE * 0.5)});
 }

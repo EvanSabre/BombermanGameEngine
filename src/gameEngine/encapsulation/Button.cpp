@@ -43,7 +43,7 @@ Button::Button(const std::shared_ptr<BTexture2D> &text, const std::shared_ptr<BR
     _rectangle = rect;
     _content = content;
     _frameRec = std::make_shared<BRectangle>(*rect);
-    _state = NORMAL;
+    _state = IButton::State::NORMAL;
     _nbFrames = 1;
     _buttonPressed = false;
 }

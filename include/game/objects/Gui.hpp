@@ -20,9 +20,9 @@ namespace game
     class Gui {
     public:
         typedef enum e_corner {
-            TOP_LEFT = 0,
+            BOTTOM_LEFT = 0,
             TOP_RIGHT = 1,
-            BOTTOM_LEFT = 2,
+            TOP_LEFT = 2,
             BOTTOM_RIGHT = 3,
         } corner_e;
 

@@ -13,6 +13,7 @@
 #include "Animation.hpp"
 #include "AudioManager.hpp"
 #include "PowerUpTile.hpp"
+#include "ExplosionAnimation.hpp"
 
 #define EXPLOSIONPATH "assets/All/Models/Explosion.obj"
 #define EXPLOSIONTEXT "assets/All/Textures/Tile.png"
