@@ -13,7 +13,7 @@ using namespace game::managers;
 ExplosionManager::ExplosionManager(
     const std::vector<std::shared_ptr<game::objects::Character>> players,
     const std::vector<std::shared_ptr<game::objects::Tile>> tiles)
-    : _explosionH(EXPLOSIONPATH), _explosionV(EXPLOSIONPATH), _explode(false), _texture(EXPLOSIONTEXT)
+    : _explosionH(EXPLOSIONPATH), _explosionV(EXPLOSIONPATH), _texture(EXPLOSIONTEXT), _explode(false)
 {
     _explosionH.setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
     _explosionV.setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
