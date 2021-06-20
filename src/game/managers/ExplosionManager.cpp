@@ -75,7 +75,7 @@ void ExplosionManager::draw()
     }
 }
 
-int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first)
+int ExplosionManager::checkTilesExplosion(const game::objects::AExplosif &bomb, const Vector3T<float> &pos, bool first)
 {
     std::unordered_map<std::size_t, game::Tag_e> map({{0, BOMBUP}, {1, FIREUP}, {2, SPEEDUP}, {3, ONEUP}, {4, HEALTHUP}, {5, BOMBPASS}});
 
@@ -119,6 +119,7 @@ int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
             (*player)->looseLife();
             (*player)->subScore(50);
+            addKillerScore(bomb);
             if (!(*player)->isAlive()) {
                 _audio->playSound("death");
                 _players.erase(player);
@@ -139,26 +140,26 @@ void ExplosionManager::explode(const game::objects::AExplosif &bomb)
     Vector3T<float> pos(bomb.getTransform().getPosition());
     Vector3T<float> posTemp(bomb.getTransform().getPosition());
 
-    checkTilesExplosion(posTemp, true);
+    checkTilesExplosion(bomb, posTemp, true);
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
         if (direction["RIGHT"]) {
             posTemp = {pos._x, pos._y, pos._z + (float)range * TILESIZE};
-            if ((direction["RIGHT"] = checkTilesExplosion(posTemp, false)))
+            if ((direction["RIGHT"] = checkTilesExplosion(bomb, posTemp, false)))
                 power["RIGHT"]++;
         }
         if (direction["LEFT"]) {
             posTemp = {pos._x, pos._y, pos._z - (float)range * TILESIZE};
-            if ((direction["LEFT"] = checkTilesExplosion(posTemp, false)))
+            if ((direction["LEFT"] = checkTilesExplosion(bomb, posTemp, false)))
                 power["LEFT"]++;
         }
         if (direction["UP"]) {
             posTemp = {pos._x + (float)range * TILESIZE, pos._y, pos._z};
-            if ((direction["UP"] = checkTilesExplosion(posTemp, false)))
+            if ((direction["UP"] = checkTilesExplosion(bomb, posTemp, false)))
                 power["UP"]++;
         }
         if (direction["DOWN"]) {
             posTemp = {pos._x - (float)range * TILESIZE, pos._y, pos._z};
-            if ((direction["DOWN"] = checkTilesExplosion(posTemp, false)))
+            if ((direction["DOWN"] = checkTilesExplosion(bomb, posTemp, false)))
                 power["DOWN"]++;
         }
     }
@@ -209,4 +210,14 @@ std::vector<std::shared_ptr<game::objects::Tile>> &ExplosionManager::getTiles()
 std::vector<std::shared_ptr<game::objects::Character>> &ExplosionManager::getPlayers()
 {
     return _players;
+}
+
+void ExplosionManager::addKillerScore(const game::objects::AExplosif &bomb) noexcept
+{
+    for (auto player : _players) {
+        if (player->getId() == bomb.getPlayerId()) {
+            player->addScore(50);
+            return;
+        }
+    }
 }

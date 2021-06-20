@@ -30,13 +30,14 @@ namespace game::managers
             void draw();
             void update();
             void explode(const game::objects::AExplosif &);
-            int checkTilesExplosion(const Vector3T<float> &pos, bool first);
+            int checkTilesExplosion(const game::objects::AExplosif &bomb, const Vector3T<float> &pos, bool first);
 
             // Setters
             void setObjects(
                 const std::vector<std::shared_ptr<game::objects::Character>> players,
                 const std::vector<std::shared_ptr<game::objects::Tile>> tiles);
             void pushBomb(const std::shared_ptr<game::objects::AExplosif> &bomb);
+            void addKillerScore(const game::objects::AExplosif &bomb) noexcept;
 
             // Getters
             std::vector<std::shared_ptr<game::objects::AExplosif>> &getBombs();
@@ -58,6 +59,7 @@ namespace game::managers
                 std::shared_ptr<gameEngine::encapsulation::BModel>,
                 std::shared_ptr<gameEngine::encapsulation::BModel>>,
                 std::unique_ptr<gameEngine::component::Clock>>> _explosion;
+
     };
 }
 
