@@ -37,6 +37,7 @@ set(GAMEENGINE_SRC
         "${PROJECT_SOURCE_DIR}/src/gameEngine/systems/Collision.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/ADrawable.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/AAudioObject.cpp"
+        "${PROJECT_SOURCE_DIR}/src/gameEngine/encapsulation/BEvt.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/objects/AGameObject.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/objects/Moveable.cpp"
         "${PROJECT_SOURCE_DIR}/src/gameEngine/objects/InputButton.cpp"
