@@ -27,14 +27,13 @@ class Directory
     Directory(const std::string &dirpath, bool force_creation=true);
     ~Directory();
 
-    std::vector<std::shared_ptr<File>> getAllDirFiles() noexcept;
+    std::vector<File> getAllDirFiles() noexcept;
     std::vector<std::string> getSubDirNames();
-    std::shared_ptr<File> &loadFile(const std::string &filename, bool force_creation=false);
-
+    File &loadFile(const std::string &filename, bool force_creation=false);
   private:
     std::string _dirPath;
     bool _directory = false;
-    std::vector<std::shared_ptr<File>> _dir_content;
+    std::vector<File> _dir_content;
 };
 
 #endif /* !READDIR_HPP_ */

@@ -46,6 +46,7 @@ namespace game::objects {
     class Map {
         public:
             Map(const std::string &, const std::size_t &, const std::size_t &seed = 0);
+            Map(const std::string &, const std::vector<std::vector<int>> &tiles, const std::size_t &);
             ~Map();
 
             // memeber functions
