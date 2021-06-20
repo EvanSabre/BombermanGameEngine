@@ -27,6 +27,9 @@ AScene(windowManager, info), _acceptPopUp("This username has already been taken"
 
 ChooseProfileScene::~ChooseProfileScene()
 {
+    _info->nbPlayersConfirmed = 0;
+    _info->nbPlayers = 1;
+    _info->nbBots = 0;
 }
 
 void ChooseProfileScene::start()

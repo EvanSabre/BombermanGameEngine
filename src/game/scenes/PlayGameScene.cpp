@@ -386,7 +386,8 @@ std::string PlayGameScene::getWinner()
 void PlayGameScene::addPlayerStat()
 {
     std::string winName = getWinner();
-    _info->_userManager->getUser(winName)->gamesWon += 1;
+    if (winName.find("Bot") != winName.npos)
+        _info->_userManager->getUser(winName)->gamesWon += 1;
 }
 
 
