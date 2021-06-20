@@ -18,10 +18,7 @@ Character::Character(
     const std::string &animIdle,
     const Vector3T<float> &pos
     ) : gameEngine::objects::Moveable(id),
-      _isMoving(false),
-      _bombRef(id),
-      _frameCounter(0),
-      _hasDropped(false)
+      _bombRef(id)
 {
     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
@@ -64,28 +61,6 @@ static Vector3T<float> getMiddlePos(const Vector3T<float> &pos)
         (float)((float)((int)(pos._x / 10) + 0.5) * 10),
         pos._y,
         (float)((float)((int)(pos._z / 10) + 0.5) * 10)});
-}
-
-void Character::stand(std::size_t tick)
-{
-    static int i = 1;
-    Vector3T<float> mid(getMiddlePos(this->getTransform().getPosition()));
-    std::pair<game::Event, game::Event> move({
-        (mid._x - getTransform().getPosition()._x) < 0 ? MOVE_DOWN : MOVE_UP,
-        (mid._z - getTransform().getPosition()._z) < 0 ? MOVE_LEFT : MOVE_RIGHT
-    });
-
-    std::cout << "STANDING" << std::endl;
-    if (!(mid._x - getTransform().getPosition()._x))
-        move.first = STAND;
-    if (!(mid._x - getTransform().getPosition()._x))
-        move.second = STAND;
-    if (i && move.first != STAND)
-        _key_event[move.first];
-    else if (!i && move.second != STAND)
-        _key_event[move.second];
-    i = 1 - i;
-
 }
 
 //getter
@@ -217,6 +192,7 @@ void Character::onCollisionEnter(const AGameObject &collision)
 
 void Character::onCollisionExit(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 void Character::update()

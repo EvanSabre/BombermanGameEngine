@@ -11,6 +11,9 @@
 #include <iostream>
 #include "raylib.h"
 
+#define TYPECOLOR Color
+#define BLANKGRAY TYPECOLOR{200, 200, 200, 100}
+
 namespace gameEngine
 {
     namespace encapsulation
@@ -21,10 +24,10 @@ namespace gameEngine
             //By default : Black
             BColor();
             BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
-            BColor(const Color &ref);
+            BColor(const TYPECOLOR &ref);
             BColor(const BColor &ref);
             BColor &operator=(const BColor &ref);
-            BColor &operator=(const Color &ref);
+            BColor &operator=(const TYPECOLOR &ref);
             ~BColor();
 
             //getter
@@ -32,7 +35,7 @@ namespace gameEngine
                 [[nodiscard]] unsigned char getGreen() const noexcept;
                 [[nodiscard]] unsigned char getBlue() const noexcept;
                 [[nodiscard]] unsigned char getAlpha() const noexcept;
-                [[nodiscard]] Color getObj() const noexcept;
+                [[nodiscard]] TYPECOLOR getObj() const noexcept;
 
             //setter
                 void setRed(unsigned char value) noexcept;

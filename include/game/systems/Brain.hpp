@@ -33,7 +33,8 @@ namespace game
                 Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> sizeMap);
                 ~Brain();
                 void setGoal(Vector3T<float> pos) noexcept;
-                void printEvent(game::Event &evt);
+                std::string printEvent(game::Event &evt);
+                void dumpStacks();
             protected:
                 game::Event takeDecision(Vector3T<float> pos);
                 void updateMaps(void);
@@ -49,9 +50,11 @@ namespace game
                 bool isSolid(Vector<int> &pos, Vector<int> &dir);
                 bool isSolid(int x, int y);
                 bool isWall(int x, int y);
+                bool isDestructible(void);
                 void updateDangerousMap(void);
                 void dumpMap(void);
                 void computeRangeBomb(Vector<int> &bomb);
+                game::Event updateStacks();
 
                 // * Strategy
                 void setNewGoal(Vector<int> &pos, Vector<int> &goal);
@@ -71,13 +74,18 @@ namespace game
 
                 // * Attributs
                 double _basedTimer = 1;
-                game::Event _decision;
+                game::Event _decision = NULL_EVENT;
                 game::Event _nextDecision;
+                game::Event _previousDecision;
+
                 Vector<int> _posInMap{0, 0};
                 Vector<int> _lastPosInMap{0, 0};
                 std::vector<std::shared_ptr<TILE>> &_map;
                 std::vector<std::vector<bool>> _isDangerousMap;
                 std::stack<Vector<int>> _stackDangerousTile;
+                std::array<std::stack<game::Event>, 2> _paths; //0 aller 1 retour
+                bool _pathId = false;
+
                 std::vector<std::vector<Tag>> _tagMap;
                 std::vector<std::vector<game::Event>> _directionMap;
                 std::vector<std::vector<int>> _distanceMap;

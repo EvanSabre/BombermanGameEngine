@@ -36,6 +36,20 @@ BTexture2D::BTexture2D(const BTexture2D &ref) : ADrawable()
     this->_filepath = ref._filepath;
 }
 
+BTexture2D &BTexture2D::operator=(const BTexture2D &ref)
+{
+    if (this == &ref)
+        return (*this);
+    _enabled = ref._enabled;
+    _texture = ref._texture;
+    _filepath = ref._filepath;
+    _content.assign(ref._content);
+    _pos = ref._pos;
+    _color = ref._color;
+    return (*this);
+}
+
+
 BTexture2D::BTexture2D(const std::string &filepath, const std::string &content)
 {
     this->resetObj();
@@ -174,7 +188,7 @@ void BTexture2D::unload() noexcept
 
 void BTexture2D::draw()
 {
-    Vector<int> newPos = {(int) this->getTransform().getPosition()._x, (int) this->getTransform().getPosition()._y};
+    Vector<int> newPos = {(int) _pos._x, (int) _pos._y};
 
     if (isLoad() && _enabled == true)
         DrawTexture(this->_texture, newPos._x, newPos._y, _color.getObj());

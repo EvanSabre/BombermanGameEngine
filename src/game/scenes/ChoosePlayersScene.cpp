@@ -88,7 +88,7 @@ void ChoosePlayersScene::start()
     };
 
     _universeSelector =
-    std::make_unique<gameEngine::component::TSelector<gameEngine::encapsulation::BModel>>("Choose an universe", chooseUniverse, Vector<float>(pos._x * 2.0, pos._y * 0.9), Vector<float>(size._x * 0.95, size._y * 1), 20, DARKGRAY, WHITE, true);
+    std::make_unique<gameEngine::component::TSelector<gameEngine::encapsulation::BModel>>("Choose an universe", chooseUniverse, Vector<float>(pos._x * 2.0, pos._y * 0.9), Vector<float>(size._x * 0.95, size._y * 1), 20, BLANKGRAY, BLACK, true);
     _playerSelector = std::make_unique<SELECTOR>("Choose a number of players", playerContent, Vector<float>(pos._x * 0.3, pos._y * 1.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, DARKGRAY);
     _botSelector = std::make_unique<SELECTOR>("Choose a number of bots", botContent, Vector<float>(pos._x * 0.3, pos._y * 3.5), Vector<float>(size._x * 0.7, size._y * 0.3), 20, DARKGRAY);
 
@@ -132,7 +132,7 @@ void ChoosePlayersScene::update()
         std::cout << _universeSelector->getIdActualContent() << std::endl;
         _info->setUniverse(UNIVERSE.at(_universeSelector->getIdActualContent()));
         _audio->playSound("button");
-        sleep(1);
+        //sleep(1);
         _info->setCurrentScene("chooseProfile");
     }
     int nbBots = std::atoi(_botSelector->getCurrentContent()->getContent().c_str());
@@ -147,7 +147,7 @@ void ChoosePlayersScene::update()
         _info->nbPlayers = nbPlayers;
         _info->nbBots = nbBots;
         _buttonManager.setEnabledButton("Play", true);
-        _PlayersIndication.setColor(WHITE);
+        _PlayersIndication.setColor(BLACK);
     }
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
     // if (_buttonManager.isButtonClicked("Play")) {
@@ -159,7 +159,7 @@ void ChoosePlayersScene::update()
     // }
     if (_buttonManager.isButtonClicked("Back")) {
         _audio->playSound("button");
-        sleep(1);
+        //sleep(1);
         _info->setCurrentScene("menu");
     }
     _audio->updateMusicStream();

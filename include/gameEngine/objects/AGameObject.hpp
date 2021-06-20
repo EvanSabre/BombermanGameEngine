@@ -37,6 +37,7 @@ namespace gameEngine
                         const Vector3T<float> &colliderMax = {0, 0, 0},
                         bool colliderEnabled = true);
             AGameObject(const AGameObject &obj);
+            AGameObject &operator=(const AGameObject &obj);
             ~AGameObject();
 
             const std::string getId() const noexcept;

@@ -13,6 +13,8 @@ using namespace gameEngine::component;
 
 #define NEXT_BUTTON_PATH Path::getOSPath("./assets/Backgrounds/arrow_next.png")
 #define PREV_BUTTON_PATH Path::getOSPath("./assets/Backgrounds/arrow_previous.png")
+#define SELECTOR_ASSET "./assets/Backgrounds/button_background2.png"
+static const Vector<float> SCALE_SELECTOR(0.5, 0.5);
 
 Selector::Selector(
     const std::string &name,
@@ -41,7 +43,10 @@ Selector::Selector(
                                             BLUE,
                                             colorText,
                                             PREV_BUTTON_PATH);
-    _mainRect = std::make_unique<RECTANGLE>(size, pos, color);
+    _mainRect = std::make_unique<IMAGE>(SELECTOR_ASSET, "test");
+    _mainRect->setEnabled(true);
+    _mainRect->setPos(Vector<int>(pos._x, pos._y));
+    //_mainRect->setTransform().setScale(Vector3T<float>(size._x, size._y, 0));
     _contents = contents;
     _contentPos = Vector<float>(pos._x + size._x * 0.5, pos._y + size._y * 0.4);
     _contentSize = sizeButton;
@@ -73,7 +78,8 @@ void Selector::setContent(const std::vector<std::shared_ptr<gameEngine::encapsul
 
 void Selector::draw()
 {
-    _mainRect->draw();
+    _mainRect->drawEx(Vector<float>(2.3, 1));
+    //_mainRect->draw();
     _buttonManager.drawButtons();
     _contents[_iCurrent]->draw();
     _title->draw();

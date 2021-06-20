@@ -59,7 +59,7 @@ encapsulation::BColor &encapsulation::BColor::operator=(const BColor &ref)
     return (*this);
 }
 
-encapsulation::BColor &encapsulation::BColor::operator=(const Color &ref)
+encapsulation::BColor &encapsulation::BColor::operator=(const TYPECOLOR &ref)
 {
     this->_r = ref.r;
     this->_g = ref.g;

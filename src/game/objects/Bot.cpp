@@ -29,13 +29,10 @@ void Bot::update()
         _timer = 0;
     }
     this->setCurrentEvent(takeDecision(this->getTransform().getPosition()));
+    printEvent(this->_currentEvent);
     this->setIsMoving(false);
     //this->printEvent(_currentEvent);
-    std::cout << "Before" << std::endl;
     handleEvent();
-    std::cout << "While" << std::endl;
     checkLives();
-    std::cout << "After" << std::endl;
     updateModelAnimation();
-    std::cout << "After x2" << std::endl;
 }

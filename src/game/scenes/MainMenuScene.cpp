@@ -82,19 +82,19 @@ void MainMenuScene::update()
     if (_buttonManager.isButtonClicked("PLAY")) {
         _audio->stopMusic();
         _audio->playSound("button");
-        sleep(1);
+        //sleep(1);
         _info->setCurrentScene("choosePlayers");
     }
     if (_buttonManager.isButtonClicked("SETTINGS")) {
         _audio->stopMusic();
         _audio->playSound("button");
-        sleep(1);
+        //sleep(1);
         _info->setCurrentScene("settings");
     }
     if (_buttonManager.isButtonClicked("CREDITS")) {
         _audio->stopMusic();
         _audio->playSound("button");
-        sleep(1);
+        //sleep(1);
         _info->setCurrentScene("credits");
     }
     _audio->updateMusicStream();

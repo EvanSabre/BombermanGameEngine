@@ -9,8 +9,8 @@
 
 using namespace gameEngine::component;
 
-BoxCollider::BoxCollider(const Vector3T<float> &min, const Vector3T<float> &max, bool enabled) :
-_box(min, max), Collider(enabled)
+BoxCollider::BoxCollider(const Vector3T<float> &min, const Vector3T<float> &max, bool enabled)
+    : Collider(enabled), _box(min, max)
 {}
 
 BoxCollider::~BoxCollider()

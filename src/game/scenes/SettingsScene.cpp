@@ -66,7 +66,7 @@ void SettingsScene::start()
             std::make_shared<TEXT>("90", size, BLACK, 40),
             std::make_shared<TEXT>("100", size, BLACK, 40),
         };
-    _soundSelector = std::make_unique<gameEngine::component::Selector>("Sound Volume", soundCt, Vector<float>(100,  middle._y - 300), Vector<float>(600, 150), 35, WHITE);
+    _soundSelector = std::make_unique<gameEngine::component::Selector>("Sound Volume", soundCt, Vector<float>(100,  middle._y - 300), Vector<float>(600, 150), 35, BLACK);
 
     //music selector
     int currentMusic = (int)_info->getMusicVolume();
@@ -85,7 +85,7 @@ void SettingsScene::start()
             std::make_shared<TEXT>("90", size, BLACK, 40),
             std::make_shared<TEXT>("100", size, BLACK, 40),
         };
-    _musicSelector = std::make_unique<gameEngine::component::Selector>("Music Volume", musicCt, Vector<float>(100,  middle._y - 100), Vector<float>(600, 150), 35, WHITE);
+    _musicSelector = std::make_unique<gameEngine::component::Selector>("Music Volume", musicCt, Vector<float>(100,  middle._y - 100), Vector<float>(600, 150), 35, BLACK);
 
     //ai selector
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> aiCt =
@@ -142,7 +142,7 @@ void SettingsScene::start()
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 250), 1, inputDropText, DARKGRAY, true);
 
     //save keybindings
-    _saveButtonText = gameEngine::encapsulation::BText("Save", Vector<float>(1730, 1010), BLACK, 30);
+    _saveButtonText = gameEngine::encapsulation::BText("Save", Vector<float>(1730, 1010), WHITE, 30);
     _saveButtonText.setFont(_font);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSave =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(150, 50), Vector<float>(1700, 1000), _saveButtonText, DARKGRAY, WHITE, PLAY_BUTTON);
@@ -215,7 +215,7 @@ void SettingsScene::update()
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
     if (_buttonManager.isButtonClicked("Back to Menu")) {
         _audio->playSound("button");
-        sleep(1);
+        //sleep(1);
         _info->setCurrentScene("menu");
     }
     _audio->updateMusicStream();

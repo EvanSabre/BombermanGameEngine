@@ -86,7 +86,7 @@ void CreditScene::update()
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("Back to Menu")) {
         _audio->playSound("button");
-        sleep(1);
+        //sleep(1);
         _info->setCurrentScene("menu");
     }
     if (_text->getTransform().getPosition()._y > (-2300)) {

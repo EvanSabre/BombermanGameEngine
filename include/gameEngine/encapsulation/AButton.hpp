@@ -41,7 +41,7 @@ namespace gameEngine {
                 void setCallback(std::function<void(std::shared_ptr<game::managers::GameManager> info)> func,
                 std::shared_ptr<game::managers::GameManager> &infoPtr);
                 bool isInsideButton(const Vector<float> &point);
-                bool isButtonPressed(const Vector<float> &mousePos);
+                bool isButtonPressed();
                 bool isButtonReleased();
                 bool checkAction();
                 void drawButtonRect();

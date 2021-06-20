@@ -18,7 +18,7 @@
 #include "TimestampUtil.hpp"
 
 #define RECTANGLE gameEngine::encapsulation::BRectangle
-#define IMAGE gameEngine::encapsulation::BTexture2D
+//#define IMAGE gameEngine::encapsulation::BTexture2D
 #define SELECTOR gameEngine::component::Selector
 #define INPUT_BUTTON gameEngine::object::InputButton
 #define WINDOW_X _windowManager->getWindowSize()._x

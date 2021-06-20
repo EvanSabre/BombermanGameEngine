@@ -37,7 +37,7 @@ namespace game {
 
                 std::vector<std::shared_ptr<game::User>> getPlayers() const noexcept;
                 void pushPlayer(std::shared_ptr<game::User> &player);
-                int nbPlayers = 1;
+                int nbPlayers = 0;
                 int nbPlayersConfirmed = 0;
                 int nbBots = 1;
                 std::shared_ptr<game::managers::UserManager> _userManager;
@@ -57,7 +57,7 @@ namespace game {
                 float _musicVolume;
                 float _soundVolume;
 
-                std::string _universe = "Vikings";
+                std::string _universe = "Samurai";
             private:
         };
     }
