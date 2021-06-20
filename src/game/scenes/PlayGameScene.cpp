@@ -46,6 +46,11 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
 
 PlayGameScene::~PlayGameScene()
 {
+    _info->nbPlayers = 1;
+    _info->nbBots = 0;
+    _info->nbPlayersConfirmed = 0;
+    _info->_players.clear();
+    _info->setSave(false);
 }
 
 void PlayGameScene::start()
@@ -168,8 +173,6 @@ void PlayGameScene::setupPause()
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 225), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 210), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
-
-
 
     _pauseManager.pushButton(resume);
     _pauseManager.pushButton(buttonMenu);
@@ -321,10 +324,8 @@ void PlayGameScene::update()
         _pause = true;
         _timer.setPause(true);
     }
-    if (_players.size() < 2)
-    {
+    if (_players.size() < 2 || _timer.getDuration() <= 0) {
         _audio->stopMusic();
-        _timer.setPause(true);
         _end = true;
     }
     if (_pause) {
@@ -366,6 +367,24 @@ void PlayGameScene::update()
 
 }
 
+std::string PlayGameScene::getWinner()
+{
+    int cScore = 0;
+    std::string name;
+
+    if (_players.size() > 1) {
+        for (auto it : _players) {
+            if (it->getScore() > (size_t)cScore) {
+                name = it->getName();
+                cScore = it->getScore();
+            }
+        }
+    } else {
+        return _players.at(0)->getName();
+    }
+    return name;
+}
+
 void PlayGameScene::draw()
 {
     _buttonManager.drawButtons();
@@ -385,7 +404,7 @@ void PlayGameScene::draw()
         _buttonManager.drawButtons();
     }
     if (_end) {
-        std::string winnerName = std::string("The Winner is : ") + _players.at(0)->getName();
+        std::string winnerName = std::string("The Winner is : ") + getWinner();
         gameEngine::encapsulation::BText winnerText(winnerName, Vector<float>(800, 500), WHITE, 30);
         drawEnd();
         winnerText.draw();

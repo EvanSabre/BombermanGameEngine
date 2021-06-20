@@ -31,7 +31,7 @@ void Timer::timerExecute()
     std::mutex mtx;
 
     _clock.restart();
-    while (_duration > 0 && _isDone == false) {
+    while (_duration >= 0 && _isDone == false) {
         while(_pause);
         if (_clock.getElapsedTime() >= 1) {
             _clock.restart();
