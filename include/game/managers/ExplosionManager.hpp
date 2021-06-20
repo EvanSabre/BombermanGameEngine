@@ -30,7 +30,7 @@ namespace game::managers
             void draw();
             void update();
             void explode(const game::objects::AExplosif &);
-            bool checkTilesExplosion(const Vector3T<float> &pos, bool first);
+            int checkTilesExplosion(const Vector3T<float> &pos, bool first);
 
             // Setters
             void setObjects(

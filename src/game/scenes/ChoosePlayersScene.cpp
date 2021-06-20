@@ -131,8 +131,7 @@ void ChoosePlayersScene::update()
     if (_buttonManager.isButtonClicked("Play")) {
         std::cout << _universeSelector->getIdActualContent() << std::endl;
         _info->setUniverse(UNIVERSE.at(_universeSelector->getIdActualContent()));
-        _audio->playSound("button");
-        sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("chooseProfile");
     }
     int nbBots = std::atoi(_botSelector->getCurrentContent()->getContent().c_str());
@@ -152,14 +151,12 @@ void ChoosePlayersScene::update()
     _PlayersIndication.setStr(nb_entity + "/ 4 Players maximum");
     // if (_buttonManager.isButtonClicked("Play")) {
     //     _audio->stopMusic();
-    //     _audio->playSound("button");
+    //     _audio->playSoundWaitEnd("button");
     //     _audio->updateMusicStream();
-    //     sleep(1);
     //     _info->setCurrentScene("play");
     // }
     if (_buttonManager.isButtonClicked("Back")) {
-        _audio->playSound("button");
-        sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("menu");
     }
     _audio->updateMusicStream();

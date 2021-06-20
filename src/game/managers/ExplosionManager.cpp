@@ -75,31 +75,33 @@ void ExplosionManager::draw()
     }
 }
 
-bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first)
+int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first)
 {
     std::unordered_map<std::size_t, game::Tag_e> map({{0, BOMBUP}, {1, FIREUP}, {2, SPEEDUP}, {3, ONEUP}, {4, HEALTHUP}, {5, BOMBPASS}});
 
     _audio->playSound("boom");
     for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
         if ((*tile)->getTransform().getPosition()._x == pos._x &&
-            (*tile)->getTransform().getPosition()._y >= TILESIZE &&
+            (*tile)->getTransform().getPosition()._y >= 0 &&
             (*tile)->getTransform().getPosition()._z == pos._z) {
             if ((*tile)->getTag() == BRICK) {
-                // if (!(std::rand() % 4)) {
-                if (!(std::rand() % 1)) {
-                    // std::size_t nb = std::rand() % 5;
-                    std::size_t nb = 0;
+                if (!(std::rand() % 4)) {
+                // if (!(std::rand() % 1)) {
+                    std::size_t nb = std::rand() % 5;
+                    // std::size_t nb = 0;
                     _powerUps[map[nb]]->setTransform().setPosition((*tile)->getTransform().getPosition());
                     _powerUps[map[nb]]->setTransform().setScale({5, 5, 5});
                     _tiles.push_back(std::make_shared<game::objects::PowerUpTile>(*_powerUps[map[nb]]));
                 }
                 _tiles.erase(tile);
+                return 2;
             } else if ((*tile)->getTag() == BOMBUP || (*tile)->getTag() == FIREUP ||
                        (*tile)->getTag() == SPEEDUP || (*tile)->getTag() == ONEUP ||
                        (*tile)->getTag() == HEALTHUP || (*tile)->getTag() == BOMBPASS) {
                 _tiles.erase(tile);
+                return 2;
             }
-            return false;
+            return 0;
         }
     }
     if (!first)
@@ -118,10 +120,10 @@ bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool firs
             (*player)->looseLife();
             if (!(*player)->isAlive())
                 _players.erase(player);
-            return false;
+            return 2;
         }
     }
-    return true;
+    return 1;
 }
 
 void ExplosionManager::explode(const game::objects::AExplosif &bomb)
@@ -136,22 +138,22 @@ void ExplosionManager::explode(const game::objects::AExplosif &bomb)
     checkTilesExplosion(posTemp, true);
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
         if (direction["RIGHT"]) {
-            posTemp._z += (float)range * TILESIZE;
+            posTemp = {pos._x, pos._y, pos._z + (float)range * TILESIZE};
             if ((direction["RIGHT"] = checkTilesExplosion(posTemp, false)))
                 power["RIGHT"]++;
         }
         if (direction["LEFT"]) {
-            posTemp._z -= (float)range * TILESIZE;
+            posTemp = {pos._x, pos._y, pos._z - (float)range * TILESIZE};
             if ((direction["LEFT"] = checkTilesExplosion(posTemp, false)))
                 power["LEFT"]++;
         }
         if (direction["UP"]) {
-            posTemp._x += (float)range * TILESIZE;
+            posTemp = {pos._x + (float)range * TILESIZE, pos._y, pos._z};
             if ((direction["UP"] = checkTilesExplosion(posTemp, false)))
                 power["UP"]++;
         }
         if (direction["DOWN"]) {
-            posTemp._x -= (float)range * TILESIZE;
+            posTemp = {pos._x - (float)range * TILESIZE, pos._y, pos._z};
             if ((direction["DOWN"] = checkTilesExplosion(posTemp, false)))
                 power["DOWN"]++;
         }

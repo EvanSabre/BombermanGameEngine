@@ -214,8 +214,7 @@ void SettingsScene::update()
     _audio->setMusicVolume(_info->getMusicVolume() / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
     if (_buttonManager.isButtonClicked("Back to Menu")) {
-        _audio->playSound("button");
-        sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("menu");
     }
     _audio->updateMusicStream();

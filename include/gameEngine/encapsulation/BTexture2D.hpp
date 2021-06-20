@@ -63,7 +63,7 @@ namespace gameEngine
             void addTextToTexture(BText &text, const std::string &filePath);
         private:
             bool _enabled = true;
-            Texture2D _texture;
+            Texture2D _texture = {0};
             std::string _filepath;
             std::string _content;
             Vector<int> _pos{0, 0};

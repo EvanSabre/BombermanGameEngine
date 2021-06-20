@@ -11,6 +11,8 @@
 #include "AScene.hpp"
 #include "Clock.hpp"
 #include "AudioManager.hpp"
+#include "BText.hpp"
+#include "BColor.hpp"
 
 namespace game {
     namespace scenes {
@@ -19,7 +21,8 @@ namespace game {
                 IDLE,
                 JUMP,
                 ATTACK,
-                DONE
+                DONE,
+                SKIP
             };
             public:
                 SplashScreenScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info);
@@ -50,6 +53,10 @@ namespace game {
                 size_t _currentFrame;
                 size_t _nbReset;
                 std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
+                gameEngine::encapsulation::BText _skipText{std::string("Press SPACE to skip"),
+                    Vector<float>(10, 35),
+                    gameEngine::encapsulation::BColor(WHITE),
+                    20};
             private:
 
         };
