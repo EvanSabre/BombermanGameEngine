@@ -8,7 +8,7 @@
 #include "GameManager.hpp"
 #include "SettingConf.hpp"
 
-game::managers::GameManager::GameManager(const std::string &str) : _currentScene(str), _change(false), _musicVolume(100), _soundVolume(100)
+game::managers::GameManager::GameManager(const std::string &str) : _currentScene(str), _change(false), _musicVolume(100), _soundVolume(100), _botDifficulty("EASY")
 {
     _settings = game::systems::SettingConf::getDefaultSettings();
     _userManager = std::make_shared<UserManager>("./Users/");
@@ -51,6 +51,16 @@ void game::managers::GameManager::setSavedPlayers(const std::vector<game::system
 std::vector<game::systems::playerInfo_t> game::managers::GameManager::getSavedPlayers() const noexcept
 {
     return _savedPlayers;
+}
+
+std::string game::managers::GameManager::getBotDifficulty() const
+{
+    return _botDifficulty;
+}
+
+void game::managers::GameManager::setBotDifficulty(const std::string &bot)
+{
+    _botDifficulty = bot;
 }
 
 std::vector<std::vector<int>> game::managers::GameManager::getSavedMap() const noexcept

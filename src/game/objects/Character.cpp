@@ -55,6 +55,8 @@ Character::~Character()
 {
 }
 
+//getter
+
 void Character::setCurrentEvent(game::Event event) noexcept
 {
     _currentEvent = event;
@@ -87,6 +89,11 @@ int Character::getState() const noexcept
 int Character::getLives() const noexcept
 {
     return _lives;
+}
+
+int Character::getMaxLives() const noexcept
+{
+    return _maxLives;
 }
 
 int Character::getNbBomb() const noexcept
@@ -164,7 +171,7 @@ void Character::looseLife(int nbLife) noexcept
 {
     _lives -= nbLife;
     checkLives();
-    subScore(50);
+    subScore(5);
 }
 
 void Character::draw() const noexcept
@@ -246,13 +253,6 @@ game::Tag_e Character::getTag() const noexcept
     return game::Tag::CHARACTER;
 }
 
-void Character::stand(std::size_t tick)
-{
-    (void)tick;
-    // std::cout << "stand " << getTransform() << std::endl;
-    //exit(0);
-}
-
 // BOMBS
 std::shared_ptr<game::objects::AExplosif> Character::getNextBomb()
 {
@@ -266,6 +266,7 @@ std::deque<std::shared_ptr<game::objects::AExplosif>> &Character::getBombQueue()
 
 void Character::dropBomb(std::size_t tick) noexcept
 {
+
     (void)tick;
     if (_nbBomb <= 0 || _hasDropped)
         return;
@@ -281,8 +282,8 @@ void Character::dropBomb(std::size_t tick) noexcept
     _bombQueue.front()->setTransform().setPosition(bombPos);
     _bombQueue.front()->drop();
     _bombQueue.pop_front();
-    // std::cout << "> BOMB DROPPED <" << std::endl;
-    // std::cout << this->getTransform() << std::endl;
+    std::cout << "> BOMB DROPPED <" << std::endl;
+    std::cout << this->getTransform() << std::endl;
 }
 
 void Character::handleEvent() noexcept
@@ -298,7 +299,7 @@ void Character::handleEvent() noexcept
                 _currentEvent = NULL_EVENT;
                 flag = true;
                 _isMoving = true;
-                // std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
+                //std::cout << "Bot " << (_isMoving ? "moving" : "idle") << std::endl;
             }
         } catch (std::out_of_range &my_exception) {
         }

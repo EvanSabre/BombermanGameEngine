@@ -39,12 +39,12 @@ namespace game
                 std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
 
             private:
-                IMAGE _background;
                 std::unique_ptr<SELECTOR> _playerSelector = nullptr;
                 std::unique_ptr<SELECTOR> _botSelector = nullptr;
                 std::unique_ptr<TSELECTOR<gameEngine::encapsulation::BModel>> _universeSelector = nullptr;
                 TEXT _PlayersIndication;
                 std::string _universe;
+                IMAGE _background;
                 std::array<std::shared_ptr<gameEngine::encapsulation::BTexture2D>, 3> _textures;
         };
     };

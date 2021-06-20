@@ -44,8 +44,11 @@ namespace game {
                 void update() override;
                 void draw() override;
                 void updateExplosionManager();
+                std::string getWinner();
                 void quit();
                 void savePlayers();
+
+                void addPlayerStat();
             protected:
             private:
                 game::Gui _gui;

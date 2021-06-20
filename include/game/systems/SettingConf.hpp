@@ -20,6 +20,7 @@ namespace game
 {
     typedef enum Event
     {
+        UNKNOWN = -1,
         NULL_EVENT,
         MOVE_UP,
         MOVE_DOWN,
@@ -27,8 +28,10 @@ namespace game
         MOVE_LEFT,
         VALIDATE,
         PAUSE,
-        BACK
+        BACK,
+        STAND
     }Event;
+
     namespace systems
     {
 

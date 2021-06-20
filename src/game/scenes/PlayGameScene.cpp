@@ -46,12 +46,15 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
 
 PlayGameScene::~PlayGameScene()
 {
+    _info->nbPlayers = 1;
+    _info->nbBots = 0;
+    _info->nbPlayersConfirmed = 0;
+    _info->_players.clear();
+    _info->setSave(false);
 }
 
 void PlayGameScene::start()
 {
-    // std::string textStr = "assets/Vikings/Textures/Character.png";
-    // std::string modelStr = "assets/Vikings/Models/Character.iqm";
     std::string textStr = "assets/" + _info->getUniverse() + "/Textures/Character.png";
     std::string modelStr = "assets/" + _info->getUniverse() + "/Models/Character.iqm";
     std::vector<gameEngine::component::Transform> SPAWNS = {
@@ -74,6 +77,7 @@ void PlayGameScene::start()
             std::shared_ptr<game::objects::Player> player =
             std::make_shared<game::objects::Player>(std::to_string(it->Id), it->name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, it);
             player->setTransform().setScale(spawnIt->getScale());
+            it->gamesPlayed++;
             player->setTransform().setPosition(spawnIt->getPosition());
             player->setTransform().setRotation(spawnIt->getRotation());
             player->setCollider();
@@ -86,6 +90,7 @@ void PlayGameScene::start()
             bot->setTransform().setScale(spawnIt->getScale());
             bot->setTransform().setPosition(spawnIt->getPosition());
             bot->setTransform().setRotation(spawnIt->getRotation());
+            bot->setGoal(bot->getTransform().getPosition());
             bot->setCollider();
             spawnIt++;
             _players.push_back(bot);
@@ -94,7 +99,7 @@ void PlayGameScene::start()
         for (auto it : _info->getSavedPlayers()) {
             if (it.name.find("Bot") == it.name.npos) {
                 std::shared_ptr<game::objects::Player> player =
-                std::make_shared<game::objects::Player>("1", it.name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _info->_userManager->getUser(it.name));
+                std::make_shared<game::objects::Player>(std::to_string(it.id), it.name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _info->_userManager->getUser(it.name));
                 player->setTransform() = it.tran;
                 player->addScore(it.score);
                 player->setSpeed(it.speed);
@@ -112,11 +117,6 @@ void PlayGameScene::start()
     }
 
     this->setupCamera();
-
-    // std::shared_ptr<gameEngine::encapsulation::BModel> healthModel = std::make_shared<gameEngine::encapsulation::BModel>("assets/All/Models/HealthUp.obj", Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    // std::shared_ptr<gameEngine::encapsulation::BTexture2D> healthTex = std::make_shared<gameEngine::encapsulation::BTexture2D>("assets/All/Textures/Tile.png");
-    //     Vector3T<float>{0, 0, 0}, Vector3T<float>{5, 5, 5});
-
     _timer.getCurrentTime().setTextPosition(Vector<float>(_windowManager->getWindowSize()._x /2, 30));
     _timer.startThread();
     _timer.getCurrentTime().setColor(RED);
@@ -169,8 +169,6 @@ void PlayGameScene::setupPause()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 210), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-
-
     _pauseManager.pushButton(resume);
     _pauseManager.pushButton(buttonMenu);
     _pauseManager.pushButton(buttonSave);
@@ -221,7 +219,6 @@ void PlayGameScene::updateExplosionManager()
 
     auto array = _explosion->getBombs();
     for (auto &bomb : array) {
-        // std::cout << bomb->getTransform() << std::endl;
         _tiles.push_back(bomb);
     }
 }
@@ -238,6 +235,7 @@ void PlayGameScene::savePlayers()
         ss << "Lives : " << it->getLives() << std::endl;
         ss << "Speed : " << it->getSpeed() << std::endl;
         ss << "Score : " << it->getScore() << std::endl;
+        ss << "Id : " << it->getId() << std::endl;
         ss << "####" << std::endl;
         text = ss.str();
         ss.clear();
@@ -313,18 +311,19 @@ void PlayGameScene::quit()
 
 void PlayGameScene::update()
 {
-    //updateExplosionManager();
     _buttonManager.updateButtons();
-    if (!_windowManager->isRunning())
-        quit();
+    if (!_windowManager->isRunning()) {
+        _pause = true;
+        _timer.setPause(true);
+    }
     if (_buttonManager.isButtonClicked("PAUSE")) {
         _pause = true;
         _timer.setPause(true);
     }
-    if (_players.size() < 2)
-    {
+    if (_players.size() < 2 || _timer.getDuration() <= 0) {
         _audio->stopMusic();
-        _timer.setPause(true);
+        if (!_end)
+            addPlayerStat();
         _end = true;
     }
     if (_pause) {
@@ -366,6 +365,31 @@ void PlayGameScene::update()
 
 }
 
+std::string PlayGameScene::getWinner()
+{
+    int cScore = 0;
+    std::string name;
+
+    if (_players.size() > 1) {
+        for (auto it : _players) {
+            if (it->getScore() > (size_t)cScore) {
+                name = it->getName();
+                cScore = it->getScore();
+            }
+        }
+    } else {
+        return _players.at(0)->getName();
+    }
+    return name;
+}
+
+void PlayGameScene::addPlayerStat()
+{
+    std::string winName = getWinner();
+    _info->_userManager->getUser(winName)->gamesWon += 1;
+}
+
+
 void PlayGameScene::draw()
 {
     _buttonManager.drawButtons();
@@ -385,7 +409,7 @@ void PlayGameScene::draw()
         _buttonManager.drawButtons();
     }
     if (_end) {
-        std::string winnerName = std::string("The Winner is : ") + _players.at(0)->getName();
+        std::string winnerName = std::string("The Winner is : ") + getWinner();
         gameEngine::encapsulation::BText winnerText(winnerName, Vector<float>(800, 500), WHITE, 30);
         drawEnd();
         winnerText.draw();
