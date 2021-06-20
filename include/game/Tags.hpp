@@ -25,6 +25,7 @@ namespace game
         SPEEDUP,
         BOMBPASS,
         CHARACTER,
+        BOT
     }Tag_e;
 }
 

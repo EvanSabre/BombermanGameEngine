@@ -123,6 +123,8 @@ int ExplosionManager::checkTilesExplosion(const game::objects::AExplosif &bomb, 
             (*player)->getTransform().getPosition()._y == pos._y &&
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
             (*player)->looseLife();
+            if ((*player)->getTag() == BOT && (*player)->getId() == bomb.getPlayerId())
+                continue;
             addKillerScore(bomb, (*player)->getId());
             if (!(*player)->isAlive()) {
                 _audio->playSound("death");

@@ -32,3 +32,8 @@ void Bot::update()
     handleEvent();
     this->Character::update();
 }
+
+game::Tag_e Bot::getTag() const noexcept
+{
+    return game::Tag_e::BOT;
+}
