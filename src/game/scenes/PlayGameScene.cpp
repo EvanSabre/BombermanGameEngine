@@ -115,11 +115,17 @@ void PlayGameScene::setupPause()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 70), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 155), WHITE, 30);
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 225), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 140), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 210), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+    gameEngine::encapsulation::BText menuText("MENU", Vector<float>(middle2._x + 80, middle2._y + 155), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonMenu =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 140), menuText, DARKGRAY, WHITE, PLAY_BUTTON);
+
 
     _pauseManager.pushButton(resume);
+    _pauseManager.pushButton(buttonMenu);
     _pauseManager.pushButton(buttonQuit);
     _pauseManager.pushButton(buttonSettings);
 }
@@ -185,6 +191,18 @@ void PlayGameScene::updatePause()
         _timer.setPause(false);
         _audio->playSound("button");
         quit();
+    }
+    if (_pauseManager.isButtonClicked("MENU")) {
+        _audio->playSound("button");
+        _timer.setPause(false);
+        sleep(1);
+        _info->setCurrentScene("menu");
+    }
+    if (_pauseManager.isButtonClicked("SETTINGS")) {
+        _audio->stopMusic();
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("settings");
     }
 }
 
