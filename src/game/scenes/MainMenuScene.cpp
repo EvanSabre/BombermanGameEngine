@@ -97,7 +97,7 @@ void MainMenuScene::update()
         _audio->playSound("button");
         //sleep(1);
         _audio->playSoundWaitEnd("button");
-        _info->setCurrentScene("credits");
+        _info->setCurrentScene("settings");
     }
     if (_buttonManager.isButtonClicked("TUTORIAL")) {
         _audio->stopMusic();

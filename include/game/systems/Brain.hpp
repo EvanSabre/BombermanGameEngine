@@ -12,6 +12,7 @@
 #include "SettingConf.hpp"
 #include "Clock.hpp"
 #include <stack>
+#include <array>
 
 #define GET_BOT_POS(size, vec) Vector<int>((vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
 //#define GET_BOT_POS_FLOAT(size, vec) Vector<float>((vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
