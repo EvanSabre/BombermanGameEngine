@@ -90,6 +90,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/objects/AExplosif.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Bomb.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/objects/Bot.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/objects/ExplosionAnimation.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/ExplosionManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/systems/SettingConf.cpp"

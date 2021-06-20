@@ -150,8 +150,10 @@ void BModel::draw()
     Vector3 vecPos = {pos._x, pos._y, pos._z};
     Vector3T<float> scale(this->_transform.getScale());
     Vector3 vecScale = {scale._x, scale._y, scale._z};
+    Vector3 vecRota = {0.0f, 0.0f, 0.0f};
 
-    DrawModel(this->_model, vecPos, vecScale.x, _color.getObj());
+    DrawModelEx(this->_model, vecPos, vecRota, 0.0f, vecScale, _color.getObj());
+    // DrawModel(this->_model, vecPos, vecScale.x, _color.getObj());
 }
 
 //---------------------

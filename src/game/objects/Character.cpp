@@ -231,6 +231,8 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
     }
     _bombRange += efx->getBlastPower();
     _bombRef.increaseRange(_bombRange);
+    for (auto &bomb : _bombQueue)
+        bomb->increaseRange(_bombRange);
     _speed = _speed + efx->getSpeed();
 }
 

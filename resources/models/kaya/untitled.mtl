@@ -10,9 +10,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 3
-map_Bump /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_normal.jpg
-map_Kd /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_diffuse.jpg
-map_Ks /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_spec.jpg
 
 newmtl Rasta_Brows_MAT1
 Ns 179.999996
@@ -23,8 +20,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 3
-map_Kd /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_FaceAnimMap.png
-map_d /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_FaceAnimMap.png
 
 newmtl Rasta_Eyes_MAT1
 Ns 179.999996
@@ -35,8 +30,6 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 3
-map_Kd /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_FaceAnimMap.png
-map_d /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_FaceAnimMap.png
 
 newmtl Rasta_Mouth_MAT1
 Ns 179.999996
@@ -47,5 +40,3 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 3
-map_Kd /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_FaceAnimMap.png
-map_d /home/sim/delivery/YEP/home/app/mixamo-mini/tmp/skins_52aaaf2b-8aab-469a-af46-e86f7413200e.fbm/OccupyGuy_FaceAnimMap.png
