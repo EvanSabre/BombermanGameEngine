@@ -139,7 +139,6 @@ void ChooseProfileScene::update()
     _profileSelector->update();
     _inputButton->update();
     _InputIndication.setStr(_info->_userManager->getUserInputs().at(_info->nbPlayersConfirmed + 1)->getDeviceName());
-    //_profileKeypad->update();
     if (_inputButton->checkValidate()) {
         createNewProfile();
     }
@@ -172,8 +171,6 @@ void ChooseProfileScene::update()
         _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("choosePlayers");
     }
-
-    // _ProfilesIndication.setStr(nb_entity + "/ 4 profiles maximum");
     _audio->updateMusicStream();
     _acceptPopUp.update();
 }
@@ -182,8 +179,6 @@ void ChooseProfileScene::draw()
 {
     _background->draw();
     _zoneStat->draw();
-    //_profileKeypad->draw();
-    //_image_controller->draw();
     if (_info->nbPlayersConfirmed == 0)
         _image_controller->drawEx(SCALE_KEYPAD);
     else
@@ -204,7 +199,6 @@ void ChooseProfileScene::draw()
     _ProfilesIndicationCreated.draw();
     _ProfilesIndicationBeKilled.draw();
     _ProfilesIndicationKills.draw();
-
     _ProfilesGameWon.draw();
     _ProfilesGamePlayed.draw();
     _ProfilesCreated.draw();

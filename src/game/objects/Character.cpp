@@ -164,6 +164,7 @@ void Character::looseLife(int nbLife) noexcept
 {
     _lives -= nbLife;
     checkLives();
+    subScore(50);
 }
 
 void Character::draw() const noexcept

@@ -118,7 +118,6 @@ int ExplosionManager::checkTilesExplosion(const game::objects::AExplosif &bomb, 
             (*player)->getTransform().getPosition()._y == pos._y &&
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
             (*player)->looseLife();
-            (*player)->subScore(50);
             addKillerScore(bomb, (*player)->getId());
             if (!(*player)->isAlive()) {
                 _audio->playSound("death");
