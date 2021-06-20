@@ -122,8 +122,8 @@ int ExplosionManager::checkTilesExplosion(const game::objects::AExplosif &bomb, 
         if ((int)(((*player)->getTransform().getPosition()._x + 3) / TILESIZE) == (int)(pos._x / TILESIZE) &&
             (*player)->getTransform().getPosition()._y == pos._y &&
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
-            addKillerScore(bomb, (*player)->getId());
             (*player)->looseLife();
+            addKillerScore(bomb, (*player)->getId());
             if (!(*player)->isAlive()) {
                 _audio->playSound("death");
                 _players.erase(player);
@@ -227,7 +227,7 @@ void ExplosionManager::addKillerScore(const game::objects::AExplosif &bomb, cons
     if (victimeId == bomb.getPlayerId())
         return;
     for (auto &player : _players) {
-        if (player->getId() != bomb.getPlayerId()) {
+        if (player->getId() == bomb.getPlayerId()) {
             player->addScore(30);
             return;
         }
