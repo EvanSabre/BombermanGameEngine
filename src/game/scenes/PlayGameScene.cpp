@@ -386,8 +386,13 @@ std::string PlayGameScene::getWinner()
 void PlayGameScene::addPlayerStat()
 {
     std::string winName = getWinner();
-    if (winName.find("Bot") != winName.npos)
-        _info->_userManager->getUser(winName)->gamesWon += 1;
+    if (winName.find("Bot") != winName.npos) {
+        try {
+            _info->_userManager->getUser(winName)->gamesWon += 1;
+        }catch (IndieError &e) {
+
+        }
+    }
 }
 
 

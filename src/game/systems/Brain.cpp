@@ -273,6 +273,7 @@ game::Event Brain::takeDecision(Vector3T<float> pos)
     // if (_decision != VALIDATE)
     std::cout << "Almost END UPDATE" << std::endl;
     if (_decision == VALIDATE) {
+        setDirection(computeDirection());
         _decision = _nextDecision;
         return VALIDATE;
     }
@@ -501,4 +502,3 @@ void Brain::dumpMap()
     std::cout << std::endl;
 
 }
-
