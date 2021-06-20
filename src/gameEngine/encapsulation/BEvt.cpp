@@ -29,10 +29,16 @@ bool BEvt::isKeyReleased(int key)
     return IsKeyReleased(key);
 }
 
-gameEngine::Key BEvt::getKeyPressed(void)
+int BEvt::getKeyPressed(void)
 {
-    return (gameEngine::Key)GetKeyPressed();
+    return GetKeyPressed();
 }
+
+int BEvt::getCharPressed(void)
+{
+    return GetCharPressed();
+}
+
 
 bool BEvt::isMouseBtnPressed(int key)
 {

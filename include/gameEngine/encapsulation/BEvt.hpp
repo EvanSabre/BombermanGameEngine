@@ -9,7 +9,7 @@
 #define BEVT_HPP_
 
 #include "IInput.hpp"
-#include "vector.hpp"
+#include "Vector.hpp"
 
 namespace gameEngine::encapsulation
 {
@@ -23,7 +23,8 @@ namespace gameEngine::encapsulation
         static bool isMouseBtnReleased(int key);
         static bool isMouseBtnDown(int key);
         static bool isMouseBtnUp(int key);
-        static gameEngine::Key getKeyPressed(void);
+        static int getKeyPressed(void);
+        static int getCharPressed(void);
         static Vector<float> getMousePosition(void);
     };
 } // namespace gameEngine::encapsulation
