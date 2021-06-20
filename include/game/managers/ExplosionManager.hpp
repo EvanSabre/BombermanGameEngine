@@ -37,7 +37,7 @@ namespace game::managers
                 const std::vector<std::shared_ptr<game::objects::Character>> players,
                 const std::vector<std::shared_ptr<game::objects::Tile>> tiles);
             void pushBomb(const std::shared_ptr<game::objects::AExplosif> &bomb);
-            void addKillerScore(const game::objects::AExplosif &bomb) noexcept;
+            void addKillerScore(const game::objects::AExplosif &bomb, const std::string &victimeId) noexcept;
 
             // Getters
             std::vector<std::shared_ptr<game::objects::AExplosif>> &getBombs();

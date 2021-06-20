@@ -119,7 +119,7 @@ int ExplosionManager::checkTilesExplosion(const game::objects::AExplosif &bomb, 
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
             (*player)->looseLife();
             (*player)->subScore(50);
-            addKillerScore(bomb);
+            addKillerScore(bomb, (*player)->getId());
             if (!(*player)->isAlive()) {
                 _audio->playSound("death");
                 _players.erase(player);
@@ -212,8 +212,10 @@ std::vector<std::shared_ptr<game::objects::Character>> &ExplosionManager::getPla
     return _players;
 }
 
-void ExplosionManager::addKillerScore(const game::objects::AExplosif &bomb) noexcept
+void ExplosionManager::addKillerScore(const game::objects::AExplosif &bomb, const std::string &victimeId) noexcept
 {
+    if (victimeId == bomb.getPlayerId())
+        return;
     for (auto player : _players) {
         if (player->getId() == bomb.getPlayerId()) {
             player->addScore(50);
