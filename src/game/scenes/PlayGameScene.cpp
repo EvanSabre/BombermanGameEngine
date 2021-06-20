@@ -128,6 +128,12 @@ void PlayGameScene::start()
 
 
     setupPause();
+    //endPopUp
+    Vector<float> size(300, 200);
+    Vector<float> middle2(_windowManager->getWindowSize()._x / 3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y / 3 - size._y / 2);
+    _endPopUp = std::make_unique<gameEngine::component::PopUp>("GAME OVER", Vector<float>(middle2._x + 250, middle2._y - 10), Vector<float>(800, 600));
+    _endPopUp->setEnabled(false);
+
     _buttonManager.pushButton(button);
     _windowManager->setBackgroundColor({0, 170, 170, 255});
     _explosion = std::make_shared<game::managers::ExplosionManager>(_players, _tiles);
@@ -154,10 +160,6 @@ void PlayGameScene::setupPause()
     _saveInput->setEnabled(false);
     _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(270, 150));
     _savePopUp->setEnabled(false);
-
-    //endPopUp
-    _endPopUp = std::make_unique<gameEngine::component::PopUp>("GAME OVER", Vector<float>(middle2._x + 250, middle2._y - 10), Vector<float>(800, 600));
-    _endPopUp->setEnabled(false);
 
     middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 15), WHITE, 30);
@@ -244,6 +246,19 @@ void PlayGameScene::savePlayers()
     _fileManager.writeFile(file, text, true);
 }
 
+void PlayGameScene::updateEnd()
+{
+    _endPopUp->update();
+    if (!_endPopUp->getEnabled()) {
+        _info->setCurrentScene("menu");
+    }
+}
+
+void PlayGameScene::drawEnd()
+{
+    _endPopUp->draw();
+}
+
 void PlayGameScene::updatePause()
 {
     _pauseManager.updateButtons();
@@ -296,9 +311,20 @@ void PlayGameScene::update()
         _pause = true;
         _timer.setPause(true);
     }
+    if (_players.size() < 2)
+    {
+        _audio->stopMusic();
+        _timer.setPause(true);
+        _end = true;
+    }
     if (_pause) {
         updatePause();
         return;
+    }
+    if (_end) {
+        updateEnd();
+        return;
+        // _info->setCurrentScene("menu");
     }
     std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
     for (auto &[id, evt]: events)
@@ -326,13 +352,6 @@ void PlayGameScene::update()
         }
         player->setDropped(false);
     }
-    _endPopUp->update();
-    if (_players.size() < 2) {
-        _audio->stopMusic();
-        _timer.setPause(true);
-        _endPopUp->setEnabled(true);
-        _end = true;
-    }
     updateExplosionManager();
     _audio->updateMusicStream();
 }
@@ -355,11 +374,11 @@ void PlayGameScene::draw()
     } else {
         _buttonManager.drawButtons();
     }
+    if (_end)
+        drawEnd();
     int idx_player = 0;
     for (auto &it : _players) {
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
         idx_player++;
     }
-    if (_end)
-        _endPopUp->draw();
 }

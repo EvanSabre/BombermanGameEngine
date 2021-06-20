@@ -38,6 +38,8 @@ namespace game {
                 void collisionChecker(std::shared_ptr<game::objects::Character> &, const Vector3T<float> &);
                 void drawPause();
                 void updatePause();
+                void drawEnd();
+                void updateEnd();
                 void start() override;
                 void update() override;
                 void draw() override;
