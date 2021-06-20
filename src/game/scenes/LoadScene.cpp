@@ -51,7 +51,7 @@ std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> LoadScene::lo
         if ((namePos = it.find("Saves/")) != it.npos)
             namePos += SAVES_LEN;
         tmp = it.substr(namePos);
-        vec.push_back(std::make_shared<TEXT>(tmp, pos, BLACK, 60));
+        vec.push_back(std::make_shared<TEXT>(tmp, pos, BLACK, 30));
 
     }
     return vec;
@@ -63,9 +63,7 @@ void LoadScene::start()
     Vector<float> size(WINDOW_X / 2, WINDOW_Y / 1.5);
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y / 7);
 
-    _saveSelector =
-    std::make_unique<gameEngine::component::Selector>("Choose a saved game", saves, Vector<float>(pos._x, pos._y * 1.2), size, 30, DARKGRAY);
-    _saveSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
+    _saveSelector = std::make_unique<gameEngine::component::Selector>("Choose a saved game", saves, Vector<float>(pos._x * 1.3, pos._y * 2.2), Vector<float>(size._x * 0.7, size._y * 0.3), 30, BLACK);
 
     gameEngine::encapsulation::BText backText("Back", Vector<float>(WINDOW_X * 0.1 + 80, WINDOW_Y * 0.8 + 65), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> backButton =

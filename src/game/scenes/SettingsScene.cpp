@@ -94,7 +94,7 @@ void SettingsScene::start()
             std::make_shared<TEXT>("MEDIUM", size, BLACK, 40),
             std::make_shared<TEXT>("HARD", size, BLACK, 40),
         };
-    _aiSelector = std::make_unique<gameEngine::component::Selector>("Difficulty", aiCt, Vector<float>(100, middle._y + 100), Vector<float>(600, 150), 35, WHITE);
+    _aiSelector = std::make_unique<gameEngine::component::Selector>("Difficulty", aiCt, Vector<float>(100, middle._y + 100), Vector<float>(600, 150), 35, BLACK);
 
     //back to menu
     gameEngine::encapsulation::BText quitText("Back to Menu", Vector<float>(40, 1010), WHITE, 30);
