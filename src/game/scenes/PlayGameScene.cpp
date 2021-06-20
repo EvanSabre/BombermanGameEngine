@@ -161,21 +161,24 @@ void PlayGameScene::setupPause()
     _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(270, 150));
     _savePopUp->setEnabled(false);
 
-    middle2._y += middle2._y / 2;
+  //  middle2._y += middle2._y / 2;
     gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 15), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 15), WHITE, 30);
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 225), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 210), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+    gameEngine::encapsulation::BText menuText("MENU", Vector<float>(middle2._x + 80, middle2._y + 155), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonMenu =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 140), menuText, DARKGRAY, WHITE, PLAY_BUTTON);
 
 
     _pauseManager.pushButton(resume);
-    _pauseManager.pushButton(buttonSave);
-    _pauseManager.pushButton(buttonQuit);
     _pauseManager.pushButton(buttonSettings);
+    _pauseManager.pushButton(buttonMenu);
+    _pauseManager.pushButton(buttonQuit);
 }
 
 void PlayGameScene::setupCamera() noexcept
@@ -277,6 +280,18 @@ void PlayGameScene::updatePause()
         _timer.setPause(false);
         _audio->playSound("button");
         quit();
+    }
+    if (_pauseManager.isButtonClicked("MENU")) {
+        _audio->playSound("button");
+        _timer.setPause(false);
+        sleep(1);
+        _info->setCurrentScene("menu");
+    }
+    if (_pauseManager.isButtonClicked("SETTINGS")) {
+        _audio->stopMusic();
+        _audio->playSound("button");
+        sleep(1);
+        _info->setCurrentScene("settings");
     }
     if (_saveInput->getEnabled() && _saveInput->checkValidate()) {
         _map.saveMap(_tiles, _savePath + "/" + _saveInput->getContent());

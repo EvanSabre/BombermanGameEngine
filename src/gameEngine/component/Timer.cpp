@@ -16,6 +16,10 @@ Timer::Timer(const double &duration) : _format("")
 
 Timer::~Timer()
 {
+    if (!_isDone) {
+        setIsDone(true);
+        wait();
+    }
 }
 
 void Timer::timerExecute()
