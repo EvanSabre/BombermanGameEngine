@@ -13,8 +13,10 @@
 #include "Clock.hpp"
 #include <stack>
 
-#define GET_MAP_POS(size, vec) Vector<int>(size._x - 1 - vec._x / TILESIZE, vec._y / TILESIZE)
-#define GET_MAP_POS_Z(size, vec) Vector<int>(size._x - (vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
+#define GET_BOT_POS(size, vec) Vector<int>((vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
+//#define GET_BOT_POS_FLOAT(size, vec) Vector<float>((vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
+#define GET_TILE_POS(size, vec) Vector<int>(vec._x / TILESIZE, vec._z / TILESIZE)
+#define GET_MAP_POS_Z(size, vec) Vector<int>((vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
 #define GET_MAP_POS_Z_FLOAT(size, vec) Vector<float>(size._x - (vec._x + 3) / TILESIZE, (vec._z + 3) / TILESIZE)
 
 
@@ -37,14 +39,14 @@ namespace game
                 void updateMaps(void);
 
                 double _timer;
-                Vector<float> _goal{0, 0};
+                Vector<int> _goal{0, 0};
                 Vector<int> _sizeMap;
             private:
 
                 // * Environment
                 bool isADangerousZone(Vector<int> &pos);
-                bool isDangerous(Vector<int> &pos, Vector<float> dir = {0, 0});
-                bool isSolid(Vector<int> &pos, Vector<float> &dir);
+                bool isDangerous(Vector<int> pos, Vector<int> dir = {0, 0});
+                bool isSolid(Vector<int> &pos, Vector<int> &dir);
                 bool isSolid(int x, int y);
                 bool isWall(int x, int y);
                 void updateDangerousMap(void);
@@ -52,7 +54,7 @@ namespace game
                 void computeRangeBomb(Vector<int> &bomb);
 
                 // * Strategy
-                void setNewGoal(Vector<int> &pos, Vector<float> &goal);
+                void setNewGoal(Vector<int> &pos, Vector<int> &goal);
                 bool needDropBomb(void);
                 game::Event getEventFromDirection();
 
@@ -60,19 +62,18 @@ namespace game
                 // * OFFENSE
                 short PathFinding(Vector<int> &pos, Vector<int> &goal);
                 void computeDirection(void);
-                void setNewGoalOffense(Vector<int> &pos, Vector<float> &goal);
+                void setNewGoalOffense(Vector<int> &pos, Vector<int> &goal);
 
                 // * Defense
                 short PathFinding(Vector<int> &pos);
-                void setNewGoalDefense(Vector<int> &pos, Vector<float> &goal);
+                void setNewGoalDefense(Vector<int> &pos, Vector<int> &goal);
                 void defensePathFinding(int x, int y, int d, int a, int b);
 
                 // * Attributs
-                double _basedTimer = 0.5;
+                double _basedTimer = 1;
                 game::Event _decision;
                 game::Event _nextDecision;
                 Vector<int> _posInMap{0, 0};
-                Vector<float> _posInMapFloat{0, 0};
                 Vector<int> _lastPosInMap{0, 0};
                 std::vector<std::shared_ptr<TILE>> &_map;
                 std::vector<std::vector<bool>> _isDangerousMap;
@@ -80,16 +81,16 @@ namespace game
                 std::vector<std::vector<Tag>> _tagMap;
                 std::vector<std::vector<game::Event>> _directionMap;
                 std::vector<std::vector<int>> _distanceMap;
-                Vector<float> _direction{0, 0};
+                Vector<int> _direction{0, 0};
                 int _level;
                 gameEngine::component::Clock _clock;
-                const std::array<Vector<float>, 5> directions =
+                const std::array<Vector<int>, 5> directions =
                 {
-                    Vector<float>{-0, 0},
-                    Vector<float>{-1, 0},
-                    Vector<float>{1, 0},
-                    Vector<float>{0, 1},
-                    Vector<float>{0, -1}
+                    Vector<int>{0, 0},
+                    Vector<int>{1, 0},
+                    Vector<int>{-1, 0},
+                    Vector<int>{0, 1},
+                    Vector<int>{0, -1}
                 };
 
                 const std::array<game::Event, 5> events =

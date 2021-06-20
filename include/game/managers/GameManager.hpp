@@ -39,7 +39,7 @@ namespace game {
                 void pushPlayer(std::shared_ptr<game::User> &player);
                 int nbPlayers = 1;
                 int nbPlayersConfirmed = 0;
-                int nbBots = 0;
+                int nbBots = 1;
                 std::shared_ptr<game::managers::UserManager> _userManager;
                 std::shared_ptr<gameEngine::managers::InputManager<game::Event>> _inputManager;
                 std::vector<std::shared_ptr<game::User>> _players;
@@ -57,7 +57,7 @@ namespace game {
                 float _musicVolume;
                 float _soundVolume;
 
-                std::string _universe = "Viking";
+                std::string _universe = "Vikings";
             private:
         };
     }

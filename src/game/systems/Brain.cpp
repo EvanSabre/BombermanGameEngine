@@ -4,11 +4,19 @@
 
 using namespace game::systems;
 
+static Vector<float> getMiddlePos(const Vector<float> &pos)
+{
+    return Vector<float>({
+        (float)((float)((int)(pos._x / TILESIZE) + 0.5) * TILESIZE),
+        (float)((float)((int)(pos._y / TILESIZE) + 0.5) * TILESIZE)});
+}
+
 Brain::Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> sizeMap)
 : _timer(0.5), _map(map), _sizeMap(sizeMap), _level(level), _nextDecision(NULL_EVENT)
 {
     Vector<int> tilePosInMap{0, 0};
-    for (int x = 0; x < sizeMap._x; x++) {
+
+    for (int x = 0; x < _sizeMap._x; x++) {
         _isDangerousMap.push_back(std::vector<bool>{0});
         _tagMap.push_back(std::vector<Tag>{0});
         _directionMap.push_back(std::vector<game::Event>{0});
@@ -21,11 +29,9 @@ Brain::Brain(std::vector<std::shared_ptr<TILE>> &map, int level, Vector<int> siz
         }
     }
     for (auto &tile : _map) {
-        tilePosInMap = {(int) tile->getTransform().getPosition()._x, (int) tile->getTransform().getPosition()._z};
-        tilePosInMap = GET_MAP_POS(_sizeMap, tilePosInMap);
+        tilePosInMap = GET_TILE_POS(_sizeMap, tile->getTransform().getPosition());
         _tagMap[tilePosInMap._x][tilePosInMap._y] = tile->getTag();
     }
-    dumpMap();
 }
 
 Brain::~Brain()
@@ -37,31 +43,34 @@ void Brain::computeDirection()
     std::vector<game::Event> dirAvailables;
     std::vector<game::Event>::iterator it;
 
-    if (!isSolid(_posInMap._x, _posInMap._y + 1))
+    std::cout << "RIGHT " <<_posInMap._x << " " << _posInMap._y + 1 << std::endl;
+    std::cout << "LEFT " <<_posInMap._x << " " << _posInMap._y -1 << std::endl;
+    std::cout << "DOWN " <<_posInMap._x-1 << " " <<  _posInMap._y << std::endl;
+    std::cout << "UP " <<_posInMap._x+1 << " " << _posInMap._y << std::endl;
+    if (!isSolid(_posInMap._x, _posInMap._y + 1) && !isDangerous(_posInMap, directions[3]))
         dirAvailables.push_back(game::Event::MOVE_RIGHT);
-    if (!isSolid(_posInMap._x, _posInMap._y - 1))
+    if (!isSolid(_posInMap._x, _posInMap._y - 1) && !isDangerous(_posInMap, directions[4]))
         dirAvailables.push_back(game::Event::MOVE_LEFT);
-    if (!isSolid(_posInMap._x - 1, _posInMap._y))
-        dirAvailables.push_back(game::Event::MOVE_UP);
-    if (!isSolid(_posInMap._x + 1, _posInMap._y))
+    if (!isSolid(_posInMap._x - 1, _posInMap._y) && !isDangerous(_posInMap, directions[2]))
         dirAvailables.push_back(game::Event::MOVE_DOWN);
+    if (!isSolid(_posInMap._x + 1, _posInMap._y) && !isDangerous(_posInMap, directions[1]))
+        dirAvailables.push_back(game::Event::MOVE_UP);
     _direction = directions[0];
     _nextDecision = NULL_EVENT;
     std::cout << "Directions " << dirAvailables.size() << std::endl;
+    std::cout << "Bot position" << _posInMap << std::endl;
     for (auto &i : dirAvailables)
     {
         if (std::rand() % 2 == 0)
         {
             _nextDecision = i;
-            std::cout << "Event setted ";
-            printEvent(_nextDecision);
+            //std::cout << "Event setted ";
+            //printEvent(_nextDecision);
             _direction = directions[(int) _nextDecision];
             //break;
         }
         printEvent(i);
     }
-    //_nextDecision = NULL_EVENT;
-
 }
 
 void Brain::printEvent(game::Event &evt)
@@ -90,47 +99,37 @@ void Brain::printEvent(game::Event &evt)
 
 game::Event Brain::takeDecision(Vector3T<float> pos)
 {
-    _posInMapFloat = GET_MAP_POS_Z_FLOAT(_sizeMap, pos);
-    _posInMap = GET_MAP_POS_Z(_sizeMap, pos);
+    _posInMap = GET_BOT_POS(_sizeMap, pos);
+    Vector<float> posInMapFloat = {pos._x + 5, pos._z + 5};
+    Vector<float> goalInMapFloat = getMiddlePos({_goal._x * TILESIZE, _goal._y * TILESIZE});
 
-    //if (_clock.getElapsedTime() > _timer)
-    //{
-    //std::cout << (_posInMapFloat == _goal ? "OK" : "") << std::endl;
-
-        //_posInMapFloat._x = (int) _posInMapFloat._x;
-        //_posInMapFloat._y = (int) _posInMapFloat._y;
-    std::cout << _posInMap << _goal << std::endl;
-        // if (_posInMapFloat == _goal) {
-        //     setNewGoal(_posInMap, _goal);
-        // }
-        // if (_posInMapFloat._x > _goal._x)
-        //     _nextDecision = MOVE_UP;
-        // if (_posInMapFloat._x < _goal._x)
-        //     _nextDecision = MOVE_DOWN;
-        // if (_posInMapFloat._y > _goal._y)
-        //     _nextDecision = MOVE_LEFT;
-        // if (_posInMapFloat._y < _goal._y)
-        //     _nextDecision = MOVE_RIGHT;
-    //}
+    //_nextDecision = NULL_EVEN"T;
+    std::cout << "Tu passes ?" << posInMapFloat << goalInMapFloat << std::endl;
+    if (posInMapFloat == goalInMapFloat) {
+        std::cout << "Goal JOINED" << _posInMap << _goal << std::endl;
+        setNewGoal(_posInMap, _goal);
+    }
     if (_clock.getElapsedTime() > _timer)
     {
-        std::cout << "Move" << std::endl;
-        //setNewGoal(_posInMap, _direction);
-        computeDirection();
-        _nextDecision = getEventFromDirection();
+        std::cout << "Need To move" << _posInMap << _goal << std::endl;
+        std::cout << "So move";
+        //computeDirection();
+        printEvent(_nextDecision);
+        //computeDirection();
         _timer = _basedTimer;
         _clock.restart();
     }
-    _decision = _nextDecision;
+    if (_decision != VALIDATE)
+        _decision = _nextDecision;
     return _decision;
 }
 
 void Brain::setGoal(Vector3T<float> pos) noexcept
 {
-    _goal = GET_MAP_POS_Z_FLOAT(_sizeMap, pos);
+    _goal = GET_MAP_POS_Z(_sizeMap, pos);
 }
 
-void Brain::setNewGoal(Vector<int> &pos, Vector<float> &goal)
+void Brain::setNewGoal(Vector<int> &pos, Vector<int> &goal)
 {
     if (!this->isDangerous(pos)) {
         std::cout << "Offense" << std::endl;
@@ -145,27 +144,24 @@ void Brain::setNewGoal(Vector<int> &pos, Vector<float> &goal)
     }
 }
 
-void Brain::setNewGoalOffense(Vector<int> &pos, Vector<float> &goal)
+void Brain::setNewGoalOffense(Vector<int> &pos, Vector<int> &goal)
 {
-    short dir;
-
-    if (_level)
-        dir = std::rand() % 5;
+    if (!_level)
+        computeDirection();
     else
-        dir = std::rand() % 5; // TODO: calcul de direction en cherchant le player le plus proche
-    _direction = directions[dir];
-    _nextDecision = events[dir];
-    computeDirection();
-    if (!isDangerous(pos, _direction) && !isSolid(pos, _direction))
-    {
-        _goal._x += _direction._x;
-        _goal._y += _direction._y;
-        if (needDropBomb())
-            _nextDecision = VALIDATE;
-    }
+        computeDirection();
+    dumpMap();
+    std::cout << "Set new Goal on";
+    printEvent(_nextDecision);
+    std::cout << "posInMap + direction Vector :" << _posInMap << _direction << std::endl;
+    _goal._x = _posInMap._x + _direction._x;
+    _goal._y = _posInMap._y + _direction._y;
+    std::cout << "Set new objectif on " << _goal << std::endl;
+    if (needDropBomb())
+        _decision = VALIDATE;
 }
 
-void Brain::setNewGoalDefense(Vector<int> &pos, Vector<float> &goal)
+void Brain::setNewGoalDefense(Vector<int> &pos, Vector<int> &goal)
 {
    short newDir = PathFinding(pos);
    //goal += directions[newDir];
@@ -185,11 +181,11 @@ void Brain::updateMaps()
             tile = false;
     }
     for (auto &tile : _map) {
-        tilePosInMap = {(int) tile->getTransform().getPosition()._x, (int) tile->getTransform().getPosition()._z};
-        tilePosInMap = GET_MAP_POS(_sizeMap, tilePosInMap);
+        tilePosInMap = GET_TILE_POS(_sizeMap, tile->getTransform().getPosition());
         _tagMap[tilePosInMap._x][tilePosInMap._y] = tile->getTag();
-        if (_tagMap[tilePosInMap._x][tilePosInMap._y] == BOMB)
+        if (_tagMap[tilePosInMap._x][tilePosInMap._y] == BOMB) {
             _stackDangerousTile.push(tilePosInMap);
+        }
     }
     _tagMap[_posInMap._x][_posInMap._y] = CHARACTER;
     updateDangerousMap();
@@ -203,33 +199,37 @@ void Brain::computeRangeBomb(Vector<int> &bomb)
     bool xNegProtected = false;
     bool yNegProtected = false;
 
+    std::cout << "KO" << std::endl;
     for (int x = 0; x < 3; x++)
-        {
-            if (!isWall(bomb._x + x, bomb._y) && !xPosProtected)
-                _isDangerousMap[bomb._x + x][bomb._y] = true;
-            else
-                xPosProtected = true;
-            if (!isWall(bomb._x - x, bomb._y) && !xNegProtected)
-                _isDangerousMap[bomb._x - x][bomb._y] = true;
-            else
-                xNegProtected = true;
-        }
+    {
+        if (!xPosProtected && !isWall(bomb._x + x, bomb._y))
+            _isDangerousMap[bomb._x + x][bomb._y] = true;
+        else
+            xPosProtected = true;
+        if (!xNegProtected && !isWall(bomb._x - x, bomb._y))
+            _isDangerousMap[bomb._x - x][bomb._y] = true;
+        else
+            xNegProtected = true;
+        std::cout << x << std::endl;
+    }
         for (int y = 0; y < 3; y++)
         {
-            if (!isWall(bomb._x, bomb._y + y) && !yPosProtected)
+            if (!yPosProtected && !isWall(bomb._x, bomb._y + y))
                 _isDangerousMap[bomb._x][bomb._y + y] = true;
             else
                 yPosProtected = true;
-            if (!isWall(bomb._x, bomb._y - y) && !yNegProtected)
+            if (!yNegProtected && !isWall(bomb._x, bomb._y - y))
                 _isDangerousMap[bomb._x][bomb._y - y] = true;
             else
                 yNegProtected = true;
+            std::cout << y << std::endl;
         }
 }
 
 void Brain::updateDangerousMap()
 {
     while (!_stackDangerousTile.empty()) {
+        std::cout << "OK" << std::endl;
         computeRangeBomb(_stackDangerousTile.top());
         _stackDangerousTile.pop();
     }
@@ -244,20 +244,18 @@ game::Event Brain::getEventFromDirection()
     return NULL_EVENT;
 }
 
-bool Brain::isDangerous(Vector<int> &pos, Vector<float> dir)
+bool Brain::isDangerous(Vector<int> pos, Vector<int> dir)
 {
     Vector<int> newPos{pos._x += dir._x, pos._y += dir._y};
 
-    if (_isDangerousMap[newPos._x][newPos._y] == true)
-        return true;
-    return false;
+    return _isDangerousMap[newPos._x][newPos._y];
 }
 
-bool Brain::isSolid(Vector<int> &pos, Vector<float> &dir)
+bool Brain::isSolid(Vector<int> &pos, Vector<int> &dir)
 {
     Vector<int> newPos{pos._x += dir._x, pos._y += dir._y};
 
-    if (pos._x < 0 || pos._x >= _sizeMap._x || pos._y < 0 || pos._y >= _sizeMap._y)
+    if (pos._x < 0 || pos._x > _sizeMap._x || pos._y < 0 || pos._y > _sizeMap._y)
         return true;
     if (_tagMap[newPos._x][newPos._y] == WALL || _tagMap[newPos._x][newPos._y] == BRICK || _tagMap[newPos._x][newPos._y] == BORDER)
         return true;
@@ -266,7 +264,7 @@ bool Brain::isSolid(Vector<int> &pos, Vector<float> &dir)
 
 bool Brain::isSolid(int x, int y)
 {
-    if (x < 0 || x >= _sizeMap._x || y < 0 || y >= _sizeMap._y)
+    if (x < 0 || x > _sizeMap._x || y < 0 || y > _sizeMap._y)
         return true;
     if (_tagMap[x][y] == WALL || _tagMap[x][y] == BRICK || _tagMap[x][y] == BORDER)
         return true;
@@ -275,7 +273,7 @@ bool Brain::isSolid(int x, int y)
 
 bool Brain::isWall(int x, int y)
 {
-    if (x < 0 || x >= _sizeMap._x || y < 0 || y >= _sizeMap._y)
+    if (x < 0 || x > _sizeMap._x || y < 0 || y > _sizeMap._y)
         return true;
     if (_tagMap[x][y] == WALL || _tagMap[x][y] == BORDER)
         return true;
@@ -319,14 +317,14 @@ short Brain::PathFinding(Vector<int> &pos, Vector<int> &goal)
 
 bool Brain::needDropBomb()
 {
-    return false;
+    return true;
 }
 
 void Brain::dumpMap()
 {
     std::string c = " ";
     std::cout << "TagMap" << std::endl;
-    for (int x = 0; x < _sizeMap._x; x++)
+    for (int x = _sizeMap._x - 1; x >= 0; x--)
     {
         std::cout << std::endl;
         for (int y = 0; y < _sizeMap._y; y++) {
@@ -370,3 +368,4 @@ void Brain::dumpMap()
     // }
     // std::cout << std::endl;
 }
+
