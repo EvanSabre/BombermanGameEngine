@@ -15,9 +15,9 @@ jobs:
 
     steps:
     - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install libxrandr-dev
+      run: |
+        sudo apt update
+        sudo apt install libxrandr-dev
 
     - name: Checkout code
       uses: actions/checkout@v2
