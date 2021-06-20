@@ -35,6 +35,7 @@ namespace game
                 void setGoal(Vector3T<float> pos) noexcept;
                 std::string printEvent(game::Event &evt);
                 void dumpStacks();
+                void pushInStack(bool stackID, game::Event evt);
             protected:
                 game::Event takeDecision(Vector3T<float> pos);
                 void updateMaps(void);
@@ -54,36 +55,37 @@ namespace game
                 void updateDangerousMap(void);
                 void dumpMap(void);
                 void computeRangeBomb(Vector<int> &bomb);
-                game::Event updateStacks();
+                void updateStacks(game::Event evt);
 
                 // * Strategy
-                void setNewGoal(Vector<int> &pos, Vector<int> &goal);
+                void setNewGoal();
+                void setDirection(game::Event);
                 bool needDropBomb(void);
                 game::Event getEventFromDirection();
-
+                std::vector<Vector<int>> getDirectionsAvailables();
+                int giveDangerosity(game::Tag tag);
 
                 // * OFFENSE
-                short PathFinding(Vector<int> &pos, Vector<int> &goal);
-                void computeDirection(void);
-                void setNewGoalOffense(Vector<int> &pos, Vector<int> &goal);
+                game::Event computeDirection(void);
+                void setNewGoalOffense();
 
                 // * Defense
-                short PathFinding(Vector<int> &pos);
-                void setNewGoalDefense(Vector<int> &pos, Vector<int> &goal);
+                void setNewGoalDefense();
                 void defensePathFinding(int x, int y, int d, int a, int b);
 
                 // * Attributs
+                std::vector<std::shared_ptr<TILE>> &_map;
                 double _basedTimer = 1;
                 game::Event _decision = NULL_EVENT;
                 game::Event _nextDecision;
                 game::Event _previousDecision;
 
-                Vector<int> _posInMap{0, 0};
+                Vector<int> _posBot{0, 0};
                 Vector<int> _lastPosInMap{0, 0};
-                std::vector<std::shared_ptr<TILE>> &_map;
-                std::vector<std::vector<bool>> _isDangerousMap;
+                std::vector<std::vector<int>> _DangerosityMap;
                 std::stack<Vector<int>> _stackDangerousTile;
                 std::array<std::stack<game::Event>, 2> _paths; //0 aller 1 retour
+                std::stack<game::Event> _lastMoves;
                 bool _pathId = false;
 
                 std::vector<std::vector<Tag>> _tagMap;
@@ -108,6 +110,15 @@ namespace game
                     MOVE_DOWN,
                     MOVE_RIGHT,
                     MOVE_LEFT
+                };
+
+                const std::array<std::pair<Vector<int>, game::Event>, 5> directionsPairTab =
+                {
+                    std::pair<Vector<int>, game::Event>(Vector<int>(0, 0), NULL_EVENT),
+                    std::pair<Vector<int>, game::Event>(Vector<int>(1, 0), MOVE_UP),
+                    std::pair<Vector<int>, game::Event>(Vector<int>(-1, 0), MOVE_DOWN),
+                    std::pair<Vector<int>, game::Event>(Vector<int>(0, 1), MOVE_RIGHT),
+                    std::pair<Vector<int>, game::Event>(Vector<int>(0, -1), MOVE_LEFT),
                 };
         };
     }

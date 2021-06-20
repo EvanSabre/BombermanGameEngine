@@ -29,7 +29,7 @@ void Bot::update()
         _timer = 0;
     }
     this->setCurrentEvent(takeDecision(this->getTransform().getPosition()));
-    printEvent(this->_currentEvent);
+    //std::cout << "Je me deplace en" << printEvent(this->_currentEvent) << std::endl;
     this->setIsMoving(false);
     //this->printEvent(_currentEvent);
     handleEvent();
