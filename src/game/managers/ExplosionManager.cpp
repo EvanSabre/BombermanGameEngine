@@ -129,54 +129,54 @@ int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first
     return 1;
 }
 
-void ExplosionManager::explode(const game::objects::AExplosif &bomb)
+void ExplosionManager::explode(const game::objects::AExplosif& bomb)
 {
     std::unordered_map<std::string, bool> direction = {
-        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true}};
+        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true} };
     std::unordered_map<std::string, float> power = {
-        {"UP", 0.0f}, {"LEFT", 0.0f}, {"DOWN", 0.0f}, {"RIGHT", 0.0f}};
+        {"UP", 0.0f}, {"LEFT", 0.0f}, {"DOWN", 0.0f}, {"RIGHT", 0.0f} };
     Vector3T<float> pos(bomb.getTransform().getPosition());
     Vector3T<float> posTemp(bomb.getTransform().getPosition());
 
     checkTilesExplosion(posTemp, true);
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
         if (direction["RIGHT"]) {
-            posTemp = {pos._x, pos._y, pos._z + (float)range * TILESIZE};
+            posTemp = { pos._x, pos._y, pos._z + (float)range * TILESIZE };
             if ((direction["RIGHT"] = checkTilesExplosion(posTemp, false)))
                 power["RIGHT"]++;
         }
         if (direction["LEFT"]) {
-            posTemp = {pos._x, pos._y, pos._z - (float)range * TILESIZE};
+            posTemp = { pos._x, pos._y, pos._z - (float)range * TILESIZE };
             if ((direction["LEFT"] = checkTilesExplosion(posTemp, false)))
                 power["LEFT"]++;
         }
         if (direction["UP"]) {
-            posTemp = {pos._x + (float)range * TILESIZE, pos._y, pos._z};
+            posTemp = { pos._x + (float)range * TILESIZE, pos._y, pos._z };
             if ((direction["UP"] = checkTilesExplosion(posTemp, false)))
                 power["UP"]++;
         }
         if (direction["DOWN"]) {
-            posTemp = {pos._x - (float)range * TILESIZE, pos._y, pos._z};
+            posTemp = { pos._x - (float)range * TILESIZE, pos._y, pos._z };
             if ((direction["DOWN"] = checkTilesExplosion(posTemp, false)))
                 power["DOWN"]++;
         }
     }
-    _explosionV->setTransform().setPosition({pos._x, pos._y, pos._z -
-        (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2});
-    _explosionV->setTransform().setScale({0.8, 1, power["LEFT"] + power["RIGHT"] + 1});
-    _explosionH->setTransform().setPosition({pos._x -
+    _explosionV->setTransform().setPosition({ pos._x, pos._y, pos._z -
+        (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2 });
+    _explosionV->setTransform().setScale({ 0.8, 1, power["LEFT"] + power["RIGHT"] + 1 });
+    _explosionH->setTransform().setPosition({ pos._x -
         (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2,
-        pos._y, pos._z});
-    _explosionH->setTransform().setScale({power["DOWN"] + power["UP"] + 1, 1, 0.8});
-    std::pair<
-        std::shared_ptr<gameEngine::encapsulation::BModel>,
-        std::shared_ptr<gameEngine::encapsulation::BModel>> pM(_explosionH, _explosionV);
-    std::unique_ptr<gameEngine::component::Clock> c = std::make_unique<gameEngine::component::Clock>();
-    std::pair<std::pair<
-        std::shared_ptr<gameEngine::encapsulation::BModel>,
-        std::shared_ptr<gameEngine::encapsulation::BModel>>,
-        std::unique_ptr<gameEngine::component::Clock>> pS(pM, c);
-    _explosion.push_back(pS);
+        pos._y, pos._z });
+    _explosionH->setTransform().setScale({ power["DOWN"] + power["UP"] + 1, 1, 0.8 });
+    //std::pair<
+    //    std::shared_ptr<gameEngine::encapsulation::BModel>,
+    //    std::shared_ptr<gameEngine::encapsulation::BModel>> pM(_explosionH, _explosionV);
+    //std::unique_ptr<gameEngine::component::Clock> c = std::make_unique<gameEngine::component::Clock>();
+    //std::pair<std::pair<
+    ///    std::shared_ptr<gameEngine::encapsulation::BModel>,
+    //    std::shared_ptr<gameEngine::encapsulation::BModel>>,
+    //    std::unique_ptr<gameEngine::component::Clock>> pS(pM, c);
+    _explosion.push_back({{ _explosionH, _explosionV }, std::make_unique<gameEngine::component::Clock>()});
 }
 
 // Setters
