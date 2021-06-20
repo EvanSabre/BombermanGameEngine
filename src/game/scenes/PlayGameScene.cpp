@@ -318,8 +318,10 @@ void PlayGameScene::update()
 {
     //updateExplosionManager();
     _buttonManager.updateButtons();
-    if (!_windowManager->isRunning())
-        quit();
+    if (!_windowManager->isRunning()) {
+        _pause = true;
+        _timer.setPause(true);
+    }
     if (_buttonManager.isButtonClicked("PAUSE")) {
         _pause = true;
         _timer.setPause(true);
