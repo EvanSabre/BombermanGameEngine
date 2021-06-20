@@ -58,15 +58,6 @@ bool ButtonManager::isButtonClicked(const std::string &content)
     return false;
 }
 
-bool ButtonManager::isButtonClicked(const std::string &buttonContent, const Vector<float> &mousePos)
-{
-    for (auto it : _currentButtons) {
-        if (it->getContent().getStr() == buttonContent && it->isButtonPressed())
-            return true;
-    }
-    return false;
-}
-
 void ButtonManager::createButton(const std::shared_ptr<BTexture2D> &texture, const std::shared_ptr<BRectangle> &rect, const std::shared_ptr<BText> &content)
 {
     std::shared_ptr<AButton> button = std::make_shared<Button>(texture, rect, content);

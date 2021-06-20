@@ -18,7 +18,9 @@ namespace game::objects {
                          const Vector3T<float> &,
                          const gameEngine::encapsulation::BColor &,
                          const float &,
-                         const game::Tag &);
+                         const game::Tag &,
+                         const Vector3T<float> &rotation = {0, 0, 0}
+                         );
             ~ACollectible();
 
             // member function

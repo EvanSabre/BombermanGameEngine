@@ -18,10 +18,7 @@ Character::Character(
     const std::string &animIdle,
     const Vector3T<float> &pos
     ) : gameEngine::objects::Moveable(id),
-      _isMoving(false),
-      _bombRef(id),
-      _frameCounter(0),
-      _hasDropped(false)
+      _bombRef(id)
 {
     _bombQueue.push_front(std::make_shared<game::objects::Bomb>(_bombRef));
     _texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(texturePath);
@@ -187,6 +184,7 @@ void Character::onCollisionEnter(const AGameObject &collision)
 
 void Character::onCollisionExit(const AGameObject &collision)
 {
+    (void)collision;
 }
 
 void Character::update()
@@ -237,6 +235,7 @@ game::Tag_e Character::getTag() const noexcept
 
 void Character::stand(std::size_t tick)
 {
+    (void)tick;
     // std::cout << "stand " << getTransform() << std::endl;
     //exit(0);
 }

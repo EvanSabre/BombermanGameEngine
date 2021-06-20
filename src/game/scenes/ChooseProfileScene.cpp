@@ -36,7 +36,7 @@ void ChooseProfileScene::start()
     Vector<float> posbutton(WINDOW_X / 2.5, WINDOW_Y * 0.42);
     Vector<float> sizebutton(WINDOW_X / 5, WINDOW_Y / 12);
     _background = std::make_unique<IMAGE>(BACKGROUND_BUTTON);
-    _zoneStat = std::make_unique<RECTANGLE>(size, pos, GRAY);
+    _zoneStat = std::make_unique<RECTANGLE>(size, pos, BLANKGRAY);
 
     _acceptPopUp.setEnabled(false);
     _image_controller = std::make_shared<gameEngine::encapsulation::BTexture2D>();
@@ -58,11 +58,11 @@ void ChooseProfileScene::start()
         _profileContent.push_back(std::make_shared<TEXT>(user->name, size, BLACK, 40));
     }
     TEXT inputText("Enter a Username", posbutton, BLACK, 20);
-    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, inputText, RED, false, BLACK);
+    _inputButton = std::make_unique<INPUT_BUTTON>(sizebutton, posbutton, 10, inputText, BLANKGRAY, false, BLACK);
     _profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
 
-    _profileSelector = std::make_unique<SELECTOR>("Choose a profile", _profileContent, Vector<float>(pos._x * 1.0, pos._y * 1.2), Vector<float>(size._x, size._y * 0.3), 30, GRAY);
-    _profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
+    _profileSelector = std::make_unique<SELECTOR>("Choose a profile", _profileContent, Vector<float>(pos._x * 1.3, pos._y * 1.2), Vector<float>(size._x * 0.7, size._y * 0.3), 30, BLANKGRAY);
+    //_profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
 
     gameEngine::encapsulation::BText backText("Back", Vector<float>(WINDOW_X * 0.1 + 80, WINDOW_Y * 0.8 + 65), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> backButton =
