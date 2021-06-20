@@ -1,30 +1,57 @@
-name: build-ubuntu
+name: build Indie
 
 on:
   push:
     branches:
-      - test
-  pull_request:
-    branches:
+      - dev
       - master
 
-jobs:
-  build:
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
 
+jobs:
+  build_windows:
+    name: Windows Build
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Configure CMake
+        shell: powershell
+        working-directory: ${{github.workspace}}/build
+        run: cmake $env:GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$env:BUILD_TYPE -DPLATFORM=Desktop
+
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        shell: powershell
+        run: cmake --build . --config $env:BUILD_TYPE
+
+  build_linux:
+    name: Linux Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Setup Environment
         run: |
-          sudo apt update
-          sudo apt install build-essential
+          sudo apt-get update -qq
+          sudo apt-get install gcc-multilib
+          sudo apt-get install -y --no-install-recommends libglfw3 libglfw3-dev libx11-dev libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libxext-dev libxfixes-dev
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{github.workspace}}/build
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DPLATFORM=Desktop
 
-      - name: cmake
-        run: cmake .
-      - name: make
-        run : make
-      - name: make clean
-        run : make clean
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        shell: bash
+        run: cmake --build . --config $BUILD_TYPE
