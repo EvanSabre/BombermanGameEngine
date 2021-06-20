@@ -11,6 +11,7 @@
 #include "IButton.hpp"
 #include <functional>
 #include "GameManager.hpp"
+#include "BEvt.hpp"
 
 namespace gameEngine {
     namespace encapsulation {
