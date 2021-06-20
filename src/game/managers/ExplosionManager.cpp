@@ -227,7 +227,7 @@ void ExplosionManager::addKillerScore(const game::objects::AExplosif &bomb, cons
     if (victimeId == bomb.getPlayerId())
         return;
     for (auto &player : _players) {
-        if (player->getId() == bomb.getPlayerId()) {
+        if (player->getId() != bomb.getPlayerId()) {
             player->addScore(30);
             return;
         }
