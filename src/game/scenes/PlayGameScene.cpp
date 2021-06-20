@@ -244,7 +244,6 @@ void PlayGameScene::update()
 
 void PlayGameScene::draw()
 {
-    //_explosion->draw();
     _buttonManager.drawButtons();
 
     this->_windowManager->set3DMode(_cam);
@@ -253,6 +252,7 @@ void PlayGameScene::draw()
     }
     for (auto &tile : _tiles)
         tile->draw();
+    _explosion->draw();
     _cam.endMode();
     _timer.getCurrentTime().draw();
     if (_pause) {

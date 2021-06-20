@@ -21,9 +21,10 @@ namespace gameEngine {
     class Animation {
         public:
             Animation(
-                const encapsulation::BModel &model,
-                const encapsulation::BTexture2D &texture,
-                const encapsulation::BModelAnimation &anim);
+                const std::shared_ptr<encapsulation::BModel> &model,
+                const std::shared_ptr<encapsulation::BModelAnimation> &anim);
+            Animation(const Animation &ref);
+            Animation(const std::shared_ptr<Animation> &ref);
             ~Animation();
 
             void updateModelAnimation();
@@ -33,9 +34,8 @@ namespace gameEngine {
             Vector3T<float> getPos() const;
 
         private:
-            encapsulation::BModel _model;
-            encapsulation::BTexture2D _texture;
-            encapsulation::BModelAnimation _anim;
+            std::shared_ptr<encapsulation::BModel> _model;
+            std::shared_ptr<encapsulation::BModelAnimation> _anim;
             int _frameCounter;
             Vector3T<float> _pos;
     };

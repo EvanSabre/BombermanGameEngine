@@ -16,7 +16,7 @@ game::managers::GlobalManager::GlobalManager()
     _windowManager = std::make_shared<gameEngine::managers::WindowManager>();
     _windowManager->createWindow("Bomberverse", {WIN_WIDTH, WIN_HEIGHT});
     _windowManager->setWindowIcon(ICON_PATH);
-    _gameManager = std::make_shared<game::managers::GameManager>("splash");
+    _gameManager = std::make_shared<game::managers::GameManager>("choosePlayers");
     _currentScene = game::managers::SceneManager::loadScene(_gameManager->getCurrentScene(), _windowManager, _gameManager);
 }
 

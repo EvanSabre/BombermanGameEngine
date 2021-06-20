@@ -14,9 +14,8 @@
 #include "AudioManager.hpp"
 #include "PowerUpTile.hpp"
 
-#define MODELEXPLOSION   "assets/All/Models/HealthUp.obj"
-#define TEXTUREEXPLOSION "assets/All/Textures/Tile.png"
-#define ANIMEXPLOSION    ""
+#define EXPLOSIONPATH "assets/All/Models/Explosion.obj"
+#define EXPLOSIONTEXT "assets/All/Textures/Tile.png"
 
 namespace game::managers
 {
@@ -30,7 +29,6 @@ namespace game::managers
             // Member functions
             void draw();
             void update();
-            void updateExplosionAnimation();
             void explode(const game::objects::AExplosif &);
             bool checkTilesExplosion(const Vector3T<float> &pos);
 
@@ -51,12 +49,11 @@ namespace game::managers
             std::vector<std::shared_ptr<game::objects::Character>> _players;
             std::vector<std::shared_ptr<game::objects::Tile>> _tiles;
             std::vector<std::shared_ptr<game::objects::AExplosif>> _bombs;
-            std::shared_ptr<gameEngine::encapsulation::BModelAnimation> _anim;
-            std::shared_ptr<gameEngine::encapsulation::BModel> _model;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _texture;
-            std::shared_ptr<gameEngine::Animation> _animRef;
-            std::vector<std::unique_ptr<gameEngine::Animation>> _anims;
+            gameEngine::encapsulation::BModel _explosionH;
+            gameEngine::encapsulation::BModel _explosionV;
+            gameEngine::encapsulation::BTexture2D _texture;
             std::unordered_map<game::Tag_e, std::shared_ptr<game::objects::PowerUpTile>> _powerUps;
+            bool _explode;
     };
 }
 
