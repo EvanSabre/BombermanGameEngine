@@ -79,6 +79,7 @@ void PlayGameScene::start()
             std::shared_ptr<game::objects::Player> player =
             std::make_shared<game::objects::Player>(std::to_string(it->Id), it->name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, it);
             player->setTransform().setScale(spawnIt->getScale());
+            it->gamesPlayed++;
             player->setTransform().setPosition(spawnIt->getPosition());
             player->setTransform().setRotation(spawnIt->getRotation());
             player->setCollider();
@@ -99,7 +100,7 @@ void PlayGameScene::start()
         for (auto it : _info->getSavedPlayers()) {
             if (it.name.find("Bot") == it.name.npos) {
                 std::shared_ptr<game::objects::Player> player =
-                std::make_shared<game::objects::Player>("1", it.name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _info->_userManager->getUser(it.name));
+                std::make_shared<game::objects::Player>(std::to_string(it.id), it.name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _info->_userManager->getUser(it.name));
                 player->setTransform() = it.tran;
                 player->addScore(it.score);
                 player->setSpeed(it.speed);
@@ -241,6 +242,7 @@ void PlayGameScene::savePlayers()
         ss << "Lives : " << it->getLives() << std::endl;
         ss << "Speed : " << it->getSpeed() << std::endl;
         ss << "Score : " << it->getScore() << std::endl;
+        ss << "Id : " << it->getId() << std::endl;
         ss << "####" << std::endl;
         text = ss.str();
         ss.clear();
