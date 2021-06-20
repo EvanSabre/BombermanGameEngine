@@ -17,7 +17,8 @@ Timer::Timer(const double &duration) : _format("")
 Timer::~Timer()
 {
     if (!_isDone) {
-        setIsDone(true);
+        _isDone = true;
+        _pause = false;
         wait();
     }
 }

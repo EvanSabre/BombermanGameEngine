@@ -11,6 +11,8 @@
 #include "ADrawable.hpp"
 #include "Button.hpp"
 
+#define BUTTON "./assets/Backgrounds/button_background1.png"
+
 namespace gameEngine {
     namespace component {
         class PopUp : public gameEngine::encapsulation::ADrawable {
@@ -24,10 +26,13 @@ namespace gameEngine {
                 void setEnabled(bool enabled);
                 bool getEnabled() const;
             protected:
+                gameEngine::encapsulation::BText _buttonText;
                 bool _enabled = true;
                 gameEngine::encapsulation::Button _button;
                 gameEngine::encapsulation::BText _text;
                 gameEngine::encapsulation::BRectangle _rect;
+                gameEngine::encapsulation::BTexture2D _background;
+
             private:
         };
     }

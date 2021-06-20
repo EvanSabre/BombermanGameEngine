@@ -131,7 +131,7 @@ void PlayGameScene::start()
     //endPopUp
     Vector<float> size(300, 200);
     Vector<float> middle2(_windowManager->getWindowSize()._x / 3 - size._x / 2 + size._x, _windowManager->getWindowSize()._y / 3 - size._y / 2);
-    _endPopUp = std::make_unique<gameEngine::component::PopUp>("GAME OVER", Vector<float>(middle2._x + 250, middle2._y - 10), Vector<float>(800, 600));
+    _endPopUp = std::make_unique<gameEngine::component::PopUp>("                   GAME IS OVER", Vector<float>(middle2._x - 250, middle2._y - 10), Vector<float>(700, 400));
     _endPopUp->setEnabled(false);
 
     _buttonManager.pushButton(button);
@@ -158,26 +158,22 @@ void PlayGameScene::setupPause()
     _saveInput =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(300, 50), middle2, 10, inputText, RED, false, BLACK);
     _saveInput->setEnabled(false);
-    _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(270, 150));
+    _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(300, 170));
     _savePopUp->setEnabled(false);
-
-  //  middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 15), WHITE, 30);
-    std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
-
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 225), WHITE, 30);
-    std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 210), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     gameEngine::encapsulation::BText menuText("MENU", Vector<float>(middle2._x + 80, middle2._y + 155), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonMenu =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 140), menuText, DARKGRAY, WHITE, PLAY_BUTTON);
 
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 225), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 210), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+
 
     _pauseManager.pushButton(resume);
-    _pauseManager.pushButton(buttonSettings);
     _pauseManager.pushButton(buttonMenu);
+    _pauseManager.pushButton(buttonSave);
     _pauseManager.pushButton(buttonQuit);
 }
 
@@ -251,6 +247,7 @@ void PlayGameScene::savePlayers()
 
 void PlayGameScene::updateEnd()
 {
+    _endPopUp->setEnabled(true);
     _endPopUp->update();
     if (!_endPopUp->getEnabled()) {
         _info->setCurrentScene("menu");
@@ -339,7 +336,6 @@ void PlayGameScene::update()
     if (_end) {
         updateEnd();
         return;
-        // _info->setCurrentScene("menu");
     }
     std::vector<std::pair<int, game::Event>> events = _info->_inputManager->pollEvents();
     for (auto &[id, evt]: events)
@@ -369,6 +365,7 @@ void PlayGameScene::update()
     }
     updateExplosionManager();
     _audio->updateMusicStream();
+
 }
 
 void PlayGameScene::draw()
@@ -389,8 +386,12 @@ void PlayGameScene::draw()
     } else {
         _buttonManager.drawButtons();
     }
-    if (_end)
+    if (_end) {
+        std::string winnerName = std::string("The Winner is : ") + _players.at(0)->getName();
+        gameEngine::encapsulation::BText winnerText(winnerName, Vector<float>(800, 500), WHITE, 30);
         drawEnd();
+        winnerText.draw();
+    }
     int idx_player = 0;
     for (auto &it : _players) {
         _gui.draw((*it), (game::Gui::corner_e)idx_player);
