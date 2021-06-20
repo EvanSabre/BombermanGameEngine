@@ -131,12 +131,6 @@ void SettingsScene::start()
     std::shared_ptr<gameEngine::object::InputButton> buttonDown =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 150), 1, inputDownText, DARKGRAY, true);
 
-    _pick = std::make_shared<gameEngine::encapsulation::BText>("Pick", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
-    gameEngine::encapsulation::BText inputPickText("k", Vector<float>(middle._x + 800, middle._y + 270), WHITE, 20);
-    inputPickText.setFont(_font);
-    std::shared_ptr<gameEngine::object::InputButton> buttonPick =
-    std::make_shared<gameEngine::object::InputButton>(Vector<float>(100, 50), Vector<float>(middle._x + 800, middle._y + 250), 1, inputPickText, DARKGRAY, true);
-
     _drop = std::make_shared<gameEngine::encapsulation::BText>("Drop", Vector<float>(middle._x + 300, middle._y + 250), WHITE, 30);
     gameEngine::encapsulation::BText inputDropText("l", Vector<float>(middle._x + 800, middle._y + 270), WHITE, 20);
     inputDropText.setFont(_font);
@@ -155,7 +149,6 @@ void SettingsScene::start()
     _inputManager.pushButton(buttonRight);
     _inputManager.pushButton(buttonLeft);
     _inputManager.pushButton(buttonDrop);
-   _inputManager.pushButton(buttonPick);
 
     _buttonManager.pushButton(buttonSave);
 }
