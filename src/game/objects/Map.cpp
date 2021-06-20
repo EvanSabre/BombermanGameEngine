@@ -14,14 +14,15 @@ Map::Map(const std::string &universe,
 {
     // _universe = "Samurai";
     std::cout << "UNIVERSE = " << _universe << std::endl;
+    _TEXTURE = "assets/" + _universe + "/Textures/Tile.png";
     _BORDERPATHMOD = "assets/" + _universe + "/Models/Border.obj";
-    _BORDERTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
+    // _BORDERTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     _BRICKPATHMOD = "assets/" + _universe + "/Models/Brick.obj";
-    _BRICKTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
+    // _BRICKTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     _WALLPATHMOD = "assets/" + _universe + "/Models/Wall.obj";
-    _WALLTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
+    // _WALLTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     _PATHPATHMOD = "assets/" + _universe + "/Models/Ground.obj";
-    _PATHTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
+    // _PATHTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
 
     setSize(size);
     if (!_seed)
@@ -93,27 +94,24 @@ void Map::generateMapTiles()
     _wallMod = std::make_shared<gameEngine::encapsulation::BModel>(_WALLPATHMOD, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     _pathMod = std::make_shared<gameEngine::encapsulation::BModel>(_PATHPATHMOD, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     _borderMod = std::make_shared<gameEngine::encapsulation::BModel>(_BORDERPATHMOD, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
-    _brickTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(_BRICKTILEPNG);
-    _wallTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(_WALLTILEPNG);
-    _pathTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(_PATHTILEPNG);
-    _borderTex = std::make_shared<gameEngine::encapsulation::BTexture2D>(_BORDERTILEPNG);
+    _Texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(_TEXTURE);
 
-    _tiledMap.push_back(Tile(_pathMod, _pathTex, PATH,
+    _tiledMap.push_back(Tile(_pathMod, _Texture, PATH,
         Vector3T<float>(TILESIZE * SIZE_X / 2, (-1.5) * TILESIZE, TILESIZE * SIZE_Y / 2)));
     for (std::size_t i = 0; i < SIZE_X; i++) {
         for (std::size_t j = 0; j < SIZE_Y; j++) {
             if (_map[i][j] == MAPBRICK)
-                _tiledMap.push_back(Tile(_brickMod, _brickTex, BRICK,
+                _tiledMap.push_back(Tile(_brickMod, _Texture, BRICK,
                 Vector3T<float>((float)i * TILESIZE, 1 * TILESIZE, (float)j * TILESIZE),
                 Vector3T<float>(0, 0, 0),
                 Vector3T<float>(0.5 * TILESIZE, 0.5 * TILESIZE, 0.5 * TILESIZE)));
             else if (_map[i][j] == MAPWALL)
-                _tiledMap.push_back(Tile(_wallMod, _wallTex, WALL,
+                _tiledMap.push_back(Tile(_wallMod, _Texture, WALL,
                 Vector3T<float>((float)i * TILESIZE, 1 * TILESIZE, (float)j * TILESIZE),
                 Vector3T<float>(0, 0, 0),
                 Vector3T<float>(0.5 * TILESIZE, 0.5 * TILESIZE, 0.5 * TILESIZE)));
             else if (_map[i][j] == MAPBORDR)
-                _tiledMap.push_back(Tile(_borderMod, _borderTex, BORDER,
+                _tiledMap.push_back(Tile(_borderMod, _Texture, BORDER,
                 Vector3T<float>((float)i * TILESIZE, 1 * TILESIZE, (float)j * TILESIZE),
                 Vector3T<float>(0, 0, 0),
                 Vector3T<float>(0.5 * TILESIZE, 0.5 * TILESIZE, 0.5 * TILESIZE)));

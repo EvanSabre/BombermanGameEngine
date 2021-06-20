@@ -13,6 +13,7 @@
 #include "Animation.hpp"
 #include "AudioManager.hpp"
 #include "PowerUpTile.hpp"
+#include "ExplosionAnimation.hpp"
 
 #define EXPLOSIONPATH "assets/All/Models/Explosion.obj"
 #define EXPLOSIONTEXT "assets/All/Textures/Tile.png"
@@ -54,10 +55,7 @@ namespace game::managers
             gameEngine::encapsulation::BTexture2D _texture;
             std::unordered_map<game::Tag_e, std::shared_ptr<game::objects::PowerUpTile>> _powerUps;
             bool _explode;
-            std::vector<std::pair<std::pair<
-                std::shared_ptr<gameEngine::encapsulation::BModel>,
-                std::shared_ptr<gameEngine::encapsulation::BModel>>,
-                std::unique_ptr<gameEngine::component::Clock>>> _explosion;
+            std::vector<std::shared_ptr<game::objects::ExplosionAnimation>> _explosion;
     };
 }
 

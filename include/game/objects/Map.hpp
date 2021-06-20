@@ -79,19 +79,13 @@ namespace game::objects {
             std::string _BRICKPATHMOD;
             std::string _PATHPATHMOD;
             std::string _BORDERPATHMOD;
-            std::string _WALLTILEPNG;
-            std::string _BRICKTILEPNG;
-            std::string _PATHTILEPNG;
-            std::string _BORDERTILEPNG;
+            std::string _TEXTURE;
 
             std::shared_ptr<gameEngine::encapsulation::BModel> _brickMod;
             std::shared_ptr<gameEngine::encapsulation::BModel> _wallMod;
             std::shared_ptr<gameEngine::encapsulation::BModel> _pathMod;
             std::shared_ptr<gameEngine::encapsulation::BModel> _borderMod;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _wallTex;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _pathTex;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _brickTex;
-            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _borderTex;
+            std::shared_ptr<gameEngine::encapsulation::BTexture2D> _Texture;
     };
 }
 
