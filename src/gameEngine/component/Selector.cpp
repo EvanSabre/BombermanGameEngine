@@ -22,7 +22,6 @@ Selector::Selector(
     Vector<float> pos,
     Vector<float> size,
     int sizeText,
-    gameEngine::encapsulation::BColor color,
     gameEngine::encapsulation::BColor colorText)
 {
     Vector<float> sizeButton(size._x * 0.1, size._x * 0.1);
