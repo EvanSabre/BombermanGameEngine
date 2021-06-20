@@ -243,7 +243,7 @@ void Character::addPowerUpEffec(const game::interfaces::IEffect *efx) noexcept
 
 game::Tag_e Character::getTag() const noexcept
 {
-    return  game::Tag::CHARACTER;
+    return game::Tag::CHARACTER;
 }
 
 void Character::stand(std::size_t tick)
