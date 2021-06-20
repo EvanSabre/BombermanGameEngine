@@ -18,7 +18,7 @@ static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(13
 static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
-: AScene(windowManager, info), _map(_info->getUniverse(), MAPSIZE), _pause(false)
+: AScene(windowManager, info), _map(_info->getUniverse(), _info->getSavedMap(), MAPSIZE), _pause(false)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     std::string nb(std::to_string(std::rand() % 3));
@@ -55,7 +55,7 @@ void PlayGameScene::start()
         TOP_LEFT_SPAWN,
         TOP_RIGHT_SPAWN
     };
-    std::array<std::string, 3> botNames = {"Bob", "Michel", "Jacquie"};
+    std::array<std::string, 3> botNames = {"Bot_Bob", "Bot_Michel", "Bot_Jacquie"};
     std::vector<gameEngine::component::Transform>::iterator spawnIt = SPAWNS.begin();
 
     _map.dump();
@@ -64,25 +64,46 @@ void PlayGameScene::start()
         _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
     }
 
-    for (auto it : _info->_players) {
-        std::shared_ptr<game::objects::Player> player =
-        std::make_shared<game::objects::Player>(std::to_string(it->Id), it->name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, it);
-        player->setTransform().setScale(spawnIt->getScale());
-        player->setTransform().setPosition(spawnIt->getPosition());
-        player->setTransform().setRotation(spawnIt->getRotation());
-        player->setCollider();
-        spawnIt++;
-        _players.push_back(player);
-    }
-    for (size_t i = 0; i < (size_t)_info->nbBots; i++) {
-        std::shared_ptr<game::objects::Bot> bot =
-        std::make_shared<game::objects::Bot>(std::to_string(i + 1), botNames.at(i), textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _tiles, 0, Vector<int>(15, 17));
-        bot->setTransform().setScale(spawnIt->getScale());
-        bot->setTransform().setPosition(spawnIt->getPosition());
-        bot->setTransform().setRotation(spawnIt->getRotation());
-        bot->setCollider();
-        spawnIt++;
-        _players.push_back(bot);
+    if (!_info->getIsSave()) {
+        for (auto it : _info->_players) {
+            std::shared_ptr<game::objects::Player> player =
+            std::make_shared<game::objects::Player>(std::to_string(it->Id), it->name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, it);
+            player->setTransform().setScale(spawnIt->getScale());
+            player->setTransform().setPosition(spawnIt->getPosition());
+            player->setTransform().setRotation(spawnIt->getRotation());
+            player->setCollider();
+            spawnIt++;
+            _players.push_back(player);
+        }
+        for (size_t i = 0; i < (size_t)_info->nbBots; i++) {
+            std::shared_ptr<game::objects::Bot> bot =
+            std::make_shared<game::objects::Bot>(std::to_string(i + 1), botNames.at(i), textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _tiles, 0, Vector<int>(15, 17));
+            bot->setTransform().setScale(spawnIt->getScale());
+            bot->setTransform().setPosition(spawnIt->getPosition());
+            bot->setTransform().setRotation(spawnIt->getRotation());
+            bot->setCollider();
+            spawnIt++;
+            _players.push_back(bot);
+        }
+    } else {
+        for (auto it : _info->getSavedPlayers()) {
+            if (it.name.find("Bot") == it.name.npos) {
+                std::shared_ptr<game::objects::Player> player =
+                std::make_shared<game::objects::Player>("1", it.name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _info->_userManager->getUser(it.name));
+                player->setTransform() = it.tran;
+                player->addScore(it.score);
+                player->setSpeed(it.speed);
+                player->setLives(it.lives);
+                player->setCollider();
+                _players.push_back(player);
+            } else {
+                std::shared_ptr<game::objects::Bot> bot =
+                std::make_shared<game::objects::Bot>("1", it.name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _tiles, 0, Vector<int>(15,17));
+                bot->setTransform() = it.tran;
+                bot->setCollider();
+                _players.push_back(bot);
+            }
+        }
     }
 
     this->setupCamera();

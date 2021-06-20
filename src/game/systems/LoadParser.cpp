@@ -11,7 +11,7 @@ using namespace game::systems;
 #define SEPERATOR "####"
 
 LoadParser::LoadParser(const std::string &saveName) :
-_dir(realpath(std::string("./Saves/" + saveName).c_str(), NULL), false)
+_dir(Path::getOSPath("./Saves/" + saveName), false)
 {
 
 }
@@ -114,7 +114,7 @@ std::vector<playerInfo_t> LoadParser::loadPlayers()
     return _players;
 }
 
-Map LoadParser::loadMap()
+std::pair<std::vector<std::vector<int>>, std::string> LoadParser::loadMap()
 {
     File f = _dir.loadFile("MapSave.save", false);
     std::vector<std::string> text = f.readLines();
@@ -122,7 +122,6 @@ Map LoadParser::loadMap()
     std::vector<int> line;
     std::size_t size = atoi(text[1].c_str());
     std::string universe = text[0];
-
     if (size == 0) {
         throw LoadingError("Could not load map from save no size");
     }
@@ -143,5 +142,6 @@ Map LoadParser::loadMap()
         _tiles.push_back(line);
         line.clear();
     }
-    return Map(universe, _tiles, size);
+    std::pair<std::vector<std::vector<int>>, std::string> res(_tiles, universe);
+    return res;
 }

@@ -27,22 +27,21 @@ void EmptyScene::start()
     Vector<float> size(WINDOW_X / 2, WINDOW_Y / 1.5);
     Vector<float> pos(WINDOW_X / 4, WINDOW_Y / 7);
 
-    Map tmp(_parser.loadMap());
-    for (auto &tile : tmp.getTiledMap()) {
-        _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
-    }
-    try {
-        std::vector<game::systems::playerInfo_t> players = _parser.loadPlayers();
-        for (auto it : players) {
-            std::cout << "Name : " << it.name << std::endl;
-            std::cout << it.tran << std::endl;
-            std::cout << "Score : " << it.score << std::endl;
-            std::cout << "Speed : " << it.speed << std::endl;
-            std::cout << "Lives : " << it.lives << std::endl;
-        }
-    } catch (SaveError &e) {
-        std::cout << e.what() << std::endl;
-    }
+    // for (auto &tile : tmp.getTiledMap()) {
+    //     _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
+    // }
+    // try {
+    //     std::vector<game::systems::playerInfo_t> players = _parser.loadPlayers();
+    //     for (auto it : players) {
+    //         std::cout << "Name : " << it.name << std::endl;
+    //         std::cout << it.tran << std::endl;
+    //         std::cout << "Score : " << it.score << std::endl;
+    //         std::cout << "Speed : " << it.speed << std::endl;
+    //         std::cout << "Lives : " << it.lives << std::endl;
+    //     }
+    // } catch (SaveError &e) {
+    //     std::cout << e.what() << std::endl;
+    // }
 }
 
 void EmptyScene::update()
@@ -54,8 +53,8 @@ void EmptyScene::update()
 
 void EmptyScene::draw()
 {
-    this->_windowManager->set3DMode(_cam);
-    for (auto &tile : _tiles)
-        tile->draw();
-    _cam.endMode();
+    // this->_windowManager->set3DMode(_cam);
+    // for (auto &tile : _tiles)
+    //     tile->draw();
+    // _cam.endMode();
 }

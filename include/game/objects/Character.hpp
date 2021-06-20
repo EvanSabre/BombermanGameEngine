@@ -60,6 +60,7 @@ namespace game
                 void setCollider() noexcept;
                 void setState(const int &) noexcept;
                 void addScore(const size_t value) noexcept;
+                void setLives(const int &lives);
                 void subScore(const size_t value) noexcept;
                 void looseLife(int nbLife = 1) noexcept;
 

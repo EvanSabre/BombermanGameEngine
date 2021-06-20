@@ -8,11 +8,11 @@
 #include "Map.hpp"
 
 Map::Map(const std::string &universe,
+         const std::vector<std::vector<int>> &tiles,
          const std::size_t &size,
          const std::size_t &seed)
     : _seed(seed), _universe(universe)
 {
-    std::cout << "UNIVERSE = " << _universe << std::endl;
     _BORDERPATHMOD = "assets/" + _universe + "/Models/Border.obj";
     _BORDERTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     _BRICKPATHMOD = "assets/" + _universe + "/Models/Brick.obj";
@@ -23,28 +23,15 @@ Map::Map(const std::string &universe,
     _PATHTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
 
     setSize(size);
-    if (!_seed)
-        generateSeed();
-    generateMap();
-    generateMapTiles();
-}
-
-Map::Map(const std::string &universe, const std::vector<std::vector<int>> &tiles, const std::size_t &size) :
-_universe(universe)
-{
-    _BORDERPATHMOD = "assets/" + _universe + "/Models/Border.obj";
-    _BORDERTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
-    _BRICKPATHMOD = "assets/" + _universe + "/Models/Brick.obj";
-    _BRICKTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
-    _WALLPATHMOD = "assets/" + _universe + "/Models/Wall.obj";
-    _WALLTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
-    _PATHPATHMOD = "assets/" + _universe + "/Models/Ground.obj";
-    _PATHTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
-    setSize(size);
-    for (auto i : tiles) {
-        _map.push_back(i);
+    if (tiles.empty()) {
+        if (!_seed)
+            generateSeed();
+        generateMap();
+    } else {
+        for (auto i : tiles) {
+            _map.push_back(i);
+        }
     }
-//    dump();
     generateMapTiles();
 }
 

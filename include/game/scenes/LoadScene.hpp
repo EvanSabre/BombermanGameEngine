@@ -13,6 +13,7 @@
 #include "File.hpp"
 #include "BSdf.hpp"
 #include "Selector.hpp"
+#include "LoadParser.hpp"
 
 namespace game {
     namespace scenes {

@@ -12,6 +12,7 @@ using namespace game::scenes;
 #define BACKGROUND_BUTTON "./assets/Backgrounds/SupernovaBG.png"
 #define SAVES_PATH "./Saves"
 #define SAVES_LEN 6
+
 LoadScene::LoadScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info) :
 AScene(windowManager, info), _background(BACKGROUND_BUTTON)
 {
@@ -86,6 +87,11 @@ void LoadScene::update()
     if (_canSave && _buttonManager.isButtonClicked("Play")) {
         _info->setSave(true);
         _info->setSavePath(_saveSelector->getCurrentContent()->getContent());
+        game::systems::LoadParser parser(_info->getSavePath());
+        std::pair<std::vector<std::vector<int>>, std::string> res = parser.loadMap();
+        _info->setUniverse(res.second);
+        _info->setSavedMap(res.first);
+        _info->setSavedPlayers(parser.loadPlayers());
         _info->setCurrentScene("play");
     }
 }

@@ -58,12 +58,13 @@ Character::~Character()
 {
 }
 
-//getter
-
 void Character::setCurrentEvent(game::Event event) noexcept
 {
     _currentEvent = event;
 }
+
+//getter
+
 
 game::Event Character::getCurrentEvent() const noexcept
 {
@@ -131,6 +132,11 @@ void Character::setCollider() noexcept
 void Character::setState(const int &state) noexcept
 {
     _state = state;
+}
+
+void Character::setLives(const int &lives)
+{
+    _lives = lives;
 }
 
 void Character::addScore(const size_t value) noexcept
@@ -297,4 +303,3 @@ void Character::loose() noexcept
 {
     _alive = false;
 }
-

@@ -17,6 +17,7 @@
 #include "IInput.hpp"
 #include "Player.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 namespace game {
     namespace systems {
@@ -37,7 +38,7 @@ namespace game {
                 Vector3T<float> parseVector(const std::string &vec);
                 std::string getInfo(const std::string &str);
                 std::vector<playerInfo_t> loadPlayers();
-                Map loadMap();
+                std::pair<std::vector<std::vector<int>>, std::string> loadMap();
             protected:
                 std::vector<playerInfo_t> _players;
                 Directory _dir;
