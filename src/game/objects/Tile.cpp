@@ -20,7 +20,8 @@ Tile::Tile(
     : gameEngine::objects::AGameObject(""),
      _model(std::make_unique<gameEngine::encapsulation::BModel>(modelfilepath, position, color)),
      _texture(std::make_unique<gameEngine::encapsulation::BTexture2D>(texturefilepath)),
-     _collide(false)
+     _collide(false),
+     _done(false)
 {
     _type = type;
     _transform.setPosition(position);
@@ -46,7 +47,8 @@ Tile::Tile(
     : gameEngine::objects::AGameObject(""),
      _model(model),
      _texture(texture),
-     _collide(false)
+     _collide(false),
+     _done(false)
 {
     _type = type;
     _transform.setPosition(position);
@@ -66,7 +68,8 @@ Tile::Tile(const Tile &tile)
     : gameEngine::objects::AGameObject(tile),
       _model(tile._model),
       _texture(tile._texture),
-     _collide(tile._collide)
+     _collide(tile._collide),
+     _done(tile._done)
 {
     _type = tile._type;
 }
@@ -151,4 +154,9 @@ void Tile::setTexture(const gameEngine::encapsulation::BTexture2D &texture)
 void Tile::setType(const game::Tag &type)
 {
     _type = type;
+}
+
+void Tile::done()
+{
+    _done = true;
 }

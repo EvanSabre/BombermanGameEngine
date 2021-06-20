@@ -58,7 +58,6 @@ namespace game::objects
         protected:
             std::string _playerId;
             std::size_t _range;
-            bool _done;
             bool _dropped;
             bool _switch;
         private:

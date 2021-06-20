@@ -91,6 +91,13 @@ bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
             return false;
         }
     }
+    for (auto &bomb : _bombs) {
+        if (bomb->getTransform().getPosition()._x == pos._x &&
+            bomb->getTransform().getPosition()._y == pos._y &&
+            bomb->getTransform().getPosition()._z == pos._z) {
+            bomb->explode();
+        }
+    }
     for (auto player = _players.begin(); player != _players.end(); player++) {
         if ((int)(((*player)->getTransform().getPosition()._x + 3) / TILESIZE) == (int)(pos._x / TILESIZE) &&
             (*player)->getTransform().getPosition()._y == pos._y &&

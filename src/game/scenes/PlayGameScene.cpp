@@ -145,6 +145,8 @@ void PlayGameScene::collisionChecker(std::shared_ptr<game::objects::Character> &
             player->setTransform().setPosition(prev);
             player->setIsMoving(false);
             player->onCollisionEnter(*(*tile));
+            if ((*tile)->getTag() == BOMB)
+                (*tile)->done();
             if ((*tile)->getTag() == ONEUP || (*tile)->getTag() == BOMBUP ||
                 (*tile)->getTag() == HEALTHUP || (*tile)->getTag() == FIREUP ||
                 (*tile)->getTag() == BOMBPASS || (*tile)->getTag() == SPEEDUP) {
