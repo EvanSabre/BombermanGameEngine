@@ -328,6 +328,8 @@ void PlayGameScene::update()
     }
     if (_players.size() < 2 || _timer.getDuration() <= 0) {
         _audio->stopMusic();
+        if (!_end)
+            addPlayerStat();
         _end = true;
     }
     if (_pause) {
@@ -386,6 +388,13 @@ std::string PlayGameScene::getWinner()
     }
     return name;
 }
+
+void PlayGameScene::addPlayerStat()
+{
+    std::string winName = getWinner();
+    _info->_userManager->getUser(winName)->gamesWon += 1;
+}
+
 
 void PlayGameScene::draw()
 {

@@ -47,6 +47,8 @@ namespace game {
                 std::string getWinner();
                 void quit();
                 void savePlayers();
+
+                void addPlayerStat();
             protected:
             private:
                 game::Gui _gui;
