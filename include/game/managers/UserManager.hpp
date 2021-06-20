@@ -42,11 +42,11 @@ namespace game
                 const gameEngine::UserInputs &getUserInputs(void) const noexcept {return _IdInputMap;}
 
             private:
-                std::shared_ptr<game::User> importUserFromFile(std::shared_ptr<File> &userFile);
+                std::shared_ptr<game::User> importUserFromFile(File &userFile);
                 void interpretLine(std::vector<std::string> line, std::shared_ptr<game::User>& user);
                 Directory _database;
 
-                std::vector<std::shared_ptr<File>> _usersFile;
+                std::vector<File> _usersFile;
                 std::vector<std::shared_ptr<User>> _users;
                 std::unordered_map<int, User&> _IdUserMap;
                 const gameEngine::UserInputs _IdInputMap =

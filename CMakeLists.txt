@@ -66,6 +66,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SplashScreenScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/ChoosePlayersScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/ChooseProfileScene.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/scenes/LoadScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/EmptyScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/SettingsScene.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/scenes/CreditScene.cpp"
@@ -92,6 +93,7 @@ set(GAME_SRC
         "${PROJECT_SOURCE_DIR}/src/game/managers/GlobalManager.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/systems/SettingConf.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/systems/Brain.cpp"
+        "${PROJECT_SOURCE_DIR}/src/game/systems/LoadParser.cpp"
         "${PROJECT_SOURCE_DIR}/src/game/managers/GameManager.cpp"
        # "${PROJECT_SOURCE_DIR}/src/game/objects/Collectible.cpp"
         )
