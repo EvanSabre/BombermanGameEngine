@@ -46,6 +46,9 @@ namespace game {
                 std::vector<std::vector<int>> getSavedMap() const noexcept;
                 void setSavedMap(const std::vector<std::vector<int>> &map);
 
+                std::string getBotDifficulty() const;
+                void setBotDifficulty(const std::string &bot);
+
                 void setSavedPlayers(const std::vector<game::systems::playerInfo_t> &players);
                 std::vector<game::systems::playerInfo_t> getSavedPlayers() const noexcept;
 
@@ -71,6 +74,7 @@ namespace game {
                 std::vector<game::systems::playerInfo_t> _savedPlayers;
                 float _musicVolume;
                 float _soundVolume;
+                std::string _botDifficulty;
 
                 std::string _universe = "Viking";
             private:

@@ -71,6 +71,6 @@ std::shared_ptr<gameEngine::interfaces::IScene> SceneManager::loadScene(const st
         return _scene.at(type)(window, info);
     } catch(IndieError &e) {
         std::cout << "Scene with name " << type << " not found" << std::endl;
-        throw NoSceneException();
+        throw NoSceneException(e.what());
     }
 }

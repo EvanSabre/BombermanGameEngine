@@ -18,7 +18,7 @@ namespace gameEngine {
     namespace interfaces {
         class IButton {
             public:
-                enum State {
+                enum class State {
                     NORMAL,
                     MOUSE_HOVER,
                     PRESSED

@@ -17,6 +17,7 @@ Player::Player(const std::string &id, const std::string &name, const std::string
 
 Player::~Player()
 {
+    // this->_profil->
 }
 
 //------------------

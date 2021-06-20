@@ -25,9 +25,7 @@ const std::string &IndieError::getComponent() const noexcept
 
 const char *IndieError::what() const noexcept
 {
-    std::string msg(_component + ": " + _message);
-
-    return msg.c_str();
+    return _message.c_str();
 }
 
 const std::string &IndieError::getSide() const noexcept

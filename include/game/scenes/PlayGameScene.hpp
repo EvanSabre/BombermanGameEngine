@@ -38,10 +38,13 @@ namespace game {
                 void collisionChecker(std::shared_ptr<game::objects::Character> &, const Vector3T<float> &);
                 void drawPause();
                 void updatePause();
+                void drawEnd();
+                void updateEnd();
                 void start() override;
                 void update() override;
                 void draw() override;
                 void updateExplosionManager();
+                std::string getWinner();
                 void quit();
                 void savePlayers();
             protected:
@@ -49,6 +52,7 @@ namespace game {
                 game::Gui _gui;
                 Map _map;
                 bool _pause;
+                bool _end;
                 gameEngine::encapsulation::BCamera _cam;
                 std::shared_ptr<gameEngine::managers::AudioManager> _audio = nullptr;
                 std::vector<std::shared_ptr<game::objects::Character>> _players;
@@ -61,6 +65,7 @@ namespace game {
                 std::string _savePath;
                 std::shared_ptr<gameEngine::object::InputButton> _saveInput;
                 std::unique_ptr<gameEngine::component::PopUp> _savePopUp;
+                std::unique_ptr<gameEngine::component::PopUp> _endPopUp;
                 //here for test need to be in map after
                 // game::objects::PowerUpTile _heelth()
                 std::shared_ptr<game::objects::PowerUpTile> _healtTile;
