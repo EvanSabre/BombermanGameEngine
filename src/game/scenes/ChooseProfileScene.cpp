@@ -48,7 +48,6 @@ void ChooseProfileScene::start()
     _image_controller->setPos(Vector<int>(pos._x * 1.85, pos._y * 0.2));
     _image_controller->setColor(RED);
 
-    _info->_userManager->getUserInputs().size();
     _InputIndication = TEXT(_info->_userManager->getUserInputs().at(_info->nbPlayersConfirmed + 1)->getDeviceName(),
                             Vector<float>(pos._x * 1.80, pos._y * 0.7),
                             BLACK,
@@ -163,7 +162,7 @@ void ChooseProfileScene::update()
         _info->nbPlayersConfirmed++;
         _info->pushPlayer(_cUser);
         _audio->playSoundWaitEnd("button");
-        sleep(1);
+        _audio->playSoundWaitEnd("button");
         if (_info->nbPlayersConfirmed == _info->nbPlayers)
             _info->setCurrentScene("play");
         else

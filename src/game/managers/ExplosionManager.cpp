@@ -66,9 +66,13 @@ void ExplosionManager::update()
 void ExplosionManager::draw()
 {
     for (auto explo = _explosion.begin(); explo != _explosion.end();) {
-        explo->first.first->draw();
-        explo->first.second->draw();
-        if (explo->second->getElapsedTime(true) > 200)
+        (*explo)->_modelH->setTransform().setPosition((*explo)->_posH);
+        (*explo)->_modelH->setTransform().setScale((*explo)->_scaleH);
+        (*explo)->_modelV->setTransform().setPosition((*explo)->_posV);
+        (*explo)->_modelV->setTransform().setScale((*explo)->_scaleV);
+        (*explo)->_modelH->draw();
+        (*explo)->_modelV->draw();
+        if ((*explo)->_clock->getElapsedTime(true) > 250)
             _explosion.erase(explo);
         else
             explo++;
@@ -86,9 +90,9 @@ int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first
             (*tile)->getTransform().getPosition()._z == pos._z) {
             if ((*tile)->getTag() == BRICK) {
                 if (!(std::rand() % 4)) {
-                // if (!(std::rand() % 1)) {
+                // if (!(std::rand() % 1)) { // drop at every Tile
                     std::size_t nb = std::rand() % 5;
-                    // std::size_t nb = 0;
+                    // std::size_t nb = 0; // drop only BOMBUP
                     _audio->playSound("itemDrop");
                     _powerUps[map[nb]]->setTransform().setPosition((*tile)->getTransform().getPosition());
                     _powerUps[map[nb]]->setTransform().setScale({5, 5, 5});
@@ -111,6 +115,7 @@ int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first
                 bomb->getTransform().getPosition()._y == pos._y &&
                 bomb->getTransform().getPosition()._z == pos._z) {
                 bomb->explode();
+                return 2;
             }
         }
     for (auto player = _players.begin(); player != _players.end(); player++) {
@@ -129,47 +134,53 @@ int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first
     return 1;
 }
 
-void ExplosionManager::explode(const game::objects::AExplosif &bomb)
+void ExplosionManager::explode(const game::objects::AExplosif& bomb)
 {
     std::unordered_map<std::string, bool> direction = {
-        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true}};
+        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true} };
     std::unordered_map<std::string, float> power = {
-        {"UP", 0}, {"LEFT", 0}, {"DOWN", 0}, {"RIGHT", 0}};
+        {"UP", 0.0f}, {"LEFT", 0.0f}, {"DOWN", 0.0f}, {"RIGHT", 0.0f} };
     Vector3T<float> pos(bomb.getTransform().getPosition());
-    Vector3T<float> posTemp(bomb.getTransform().getPosition());
+    Vector3T<float> posTemp(pos);
 
     checkTilesExplosion(posTemp, true);
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
         if (direction["RIGHT"]) {
-            posTemp = {pos._x, pos._y, pos._z + (float)range * TILESIZE};
+            posTemp = { pos._x, pos._y, pos._z + (float)range * TILESIZE };
             if ((direction["RIGHT"] = checkTilesExplosion(posTemp, false)))
                 power["RIGHT"]++;
         }
         if (direction["LEFT"]) {
-            posTemp = {pos._x, pos._y, pos._z - (float)range * TILESIZE};
+            posTemp = { pos._x, pos._y, pos._z - (float)range * TILESIZE };
             if ((direction["LEFT"] = checkTilesExplosion(posTemp, false)))
                 power["LEFT"]++;
         }
         if (direction["UP"]) {
-            posTemp = {pos._x + (float)range * TILESIZE, pos._y, pos._z};
+            posTemp = { pos._x + (float)range * TILESIZE, pos._y, pos._z };
             if ((direction["UP"] = checkTilesExplosion(posTemp, false)))
                 power["UP"]++;
         }
         if (direction["DOWN"]) {
-            posTemp = {pos._x - (float)range * TILESIZE, pos._y, pos._z};
+            posTemp = { pos._x - (float)range * TILESIZE, pos._y, pos._z };
             if ((direction["DOWN"] = checkTilesExplosion(posTemp, false)))
                 power["DOWN"]++;
         }
     }
-    _explosionV->setTransform().setPosition({pos._x, pos._y, pos._z -
-        (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2});
-    _explosionV->setTransform().setScale({0.8, 1, power["LEFT"] + power["RIGHT"] + 1});
-    _explosionH->setTransform().setPosition({pos._x -
-        (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2,
-        pos._y, pos._z});
-    _explosionH->setTransform().setScale({power["DOWN"] + power["UP"] + 1, 1, 0.8});
-    _explosion.push_back({{_explosionH, _explosionV},
-        std::make_unique<gameEngine::component::Clock>()});
+    // _explosionV->setTransform().setPosition({pos._x, pos._y, pos._z -
+    //     (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2});
+    // _explosionV->setTransform().setScale({0.8, 1, power["LEFT"] + power["RIGHT"] + 1});
+    // _explosionH->setTransform().setPosition({pos._x -
+    //     (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2,
+    //     pos._y, pos._z});
+    // _explosionH->setTransform().setScale({power["DOWN"] + power["UP"] + 1, 1, 0.8});
+    _explosion.push_back(std::make_shared<game::objects::ExplosionAnimation>(
+        _explosionH,
+        Vector3T<float>(pos._x - (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2, pos._y, pos._z),
+        Vector3T<float>(power["DOWN"] + power["UP"] + 1, 1, 0.8),
+        _explosionV,
+        Vector3T<float>(pos._x, pos._y, pos._z - (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2),
+        Vector3T<float>(0.8, 1, power["LEFT"] + power["RIGHT"] + 1)
+    ));
 }
 
 // Setters

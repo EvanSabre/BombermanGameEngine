@@ -29,10 +29,10 @@ _attackRect(Vector<float>(140, 130)), _jumpRect(Vector<float>(95, 147)), _idleRe
 _state(SplashScreenScene::JUMP), _attackFrame(0), _jumpFrame(0), _idleFrame(0), _currentFrame(0), _nbReset(0)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
-    _audio->loadSoundFromFile("./assets/All/Sound/Splash.wav", "splash");
     _audio->loadSoundFromFile("./assets/All/Sound/Hadoken.mp3", "hadoken");
+    _audio->loadSoundFromFile("./assets/All/Sound/redcodeGames.wav", "redCode");
     _audio->loadSoundFromFile("./assets/All/Sound/Jump.wav", "jump");
-    _audio->setSoundVolume(_info->getSoundVolume() / 100);
+    _audio->setSoundVolume(0.1f);
 }
 
 SplashScreenScene::~SplashScreenScene()
@@ -103,9 +103,13 @@ void SplashScreenScene::animIdle()
 void SplashScreenScene::animAttack()
 {
     if (_currentFrame == 0) {
+        _audio->setSoundVolume(1);
         _audio->playSound("hadoken");
-        _audio->playSound("splash");
     }
+    if (_currentFrame == 4) {
+        _audio->playSound("redCode");
+    }
+
     FRAME_SPEED = 4;
     _attackFrame++;
     updateAnim(_attackFrame, ATTACK_FRAMES, ATTACK_X, _attackRect);

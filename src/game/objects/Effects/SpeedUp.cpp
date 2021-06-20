@@ -12,7 +12,7 @@ using namespace game::objects;
 SpeedUp::SpeedUp()
     : AEffect("SpeedUp")
 {
-    _speed = {0.1, 0, 0.1};
+    _speed = {0.2, 0, 0.2};
 }
 
 SpeedUp::~SpeedUp()
