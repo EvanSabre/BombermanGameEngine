@@ -162,7 +162,7 @@ void ChooseProfileScene::update()
     if (_buttonManager.isButtonClicked("Play") && _cUser != nullptr) {
         _info->nbPlayersConfirmed++;
         _info->pushPlayer(_cUser);
-        _audio->playSound("button");
+        _audio->playSoundWaitEnd("button");
         sleep(1);
         if (_info->nbPlayersConfirmed == _info->nbPlayers)
             _info->setCurrentScene("play");
@@ -170,8 +170,7 @@ void ChooseProfileScene::update()
             _info->setCurrentScene("chooseProfile");
     }
     if (_buttonManager.isButtonClicked("Back")) {
-        _audio->playSound("button");
-        sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("choosePlayers");
     }
 
