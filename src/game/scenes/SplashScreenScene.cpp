@@ -131,6 +131,8 @@ std::string SplashScreenScene::done()
 
 void SplashScreenScene::update()
 {
+    if (_info->_inputManager->getLastKeyPressedByAUser() == gameEngine::Key::KEY_SPACE)
+        _state = SKIP;
     switch(_state) {
         case IDLE:
             animIdle();
@@ -145,6 +147,9 @@ void SplashScreenScene::update()
             animIdle();
             _info->setCurrentScene(done());
             break;
+        case SKIP:
+            _info->setCurrentScene("menu");
+            break;
         default:
             break;
     }
@@ -157,4 +162,5 @@ void SplashScreenScene::draw()
     _jumpText.drawRect(_jumpRect, Vector<float>(_jumpText.getPos()._x, _jumpText.getPos()._y));
     _idleText.drawRect(_idleRect, Vector<float>(_idleText.getPos()._x, _idleText.getPos()._y));
     _logo.draw();
+    _skipText.draw();
 }

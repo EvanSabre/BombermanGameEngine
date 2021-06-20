@@ -63,7 +63,7 @@ void Gui::draw(const game::objects::Character &charac, const Vector<float> &base
     drawLabel(std::string("Score : ") + std::to_string(charac.getScore()), Vector<float>(basePose._x - 20, basePose._y + 40));
     drawElt(charac.getLives(), _heartTexture, Vector<float>(0.05, 0.05), 50);
     drawEltStr(std::to_string(charac.getNbBomb()), _bombTexture, Vector<float>(0.1, 0.1), 50);
-    drawLabel(std::string("Spedd: ") + std::to_string((int)(charac.getSpeed()._x * 10)), Vector<float>(basePose._x - 20, basePose._y + 160));
+    drawLabel(std::string("Speed: ") + std::to_string((int)(charac.getSpeed()._x * 10)), Vector<float>(basePose._x - 20, basePose._y + 160));
 }
 
 void Gui::drawElt(int nbElt, std::shared_ptr<gameEngine::encapsulation::BTexture2D> texture,

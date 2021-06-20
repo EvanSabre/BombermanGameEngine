@@ -21,6 +21,10 @@ Vector3T<float> Moveable::getSpeed() const noexcept
     return _speed;
 }
 
+void Moveable::setSpeed(const Vector3T<float> &speed) noexcept
+{
+    _speed = speed;
+}
 
 void Moveable::move(const std::size_t &tick) noexcept
 {

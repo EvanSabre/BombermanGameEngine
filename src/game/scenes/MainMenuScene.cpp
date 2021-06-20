@@ -53,6 +53,7 @@ void MainMenuScene::start()
     gameEngine::encapsulation::BText loadText("LOAD", Vector<float>(middle2._x + 60, middle2._y + 115), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonLoads =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 100), loadText, DARKGRAY, WHITE, PLAY_BUTTON);
+    buttonLoads->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("load"); }, _info);
     middle2._y += 100;
     gameEngine::encapsulation::BText settingText("SETTINGS", Vector<float>(middle2._x + 15, middle2._y + 115), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
@@ -81,25 +82,21 @@ void MainMenuScene::update()
     _buttonManager.updateButtons();
     if (_buttonManager.isButtonClicked("PLAY")) {
         _audio->stopMusic();
-        _audio->playSound("button");
-        sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("choosePlayers");
     }
     if (_buttonManager.isButtonClicked("SETTINGS")) {
         _audio->stopMusic();
-        _audio->playSound("button");
-        sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("settings");
     }
     if (_buttonManager.isButtonClicked("CREDITS")) {
         _audio->stopMusic();
-        _audio->playSound("button");
-        sleep(1);
+        _audio->playSoundWaitEnd("button");
         _info->setCurrentScene("credits");
     }
     _audio->updateMusicStream();
 }
-
 
 void MainMenuScene::draw()
 {

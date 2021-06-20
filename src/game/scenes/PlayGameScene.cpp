@@ -6,18 +6,20 @@
 */
 
 #include "PlayGameScene.hpp"
+#include <sstream>
 
 using namespace game::scenes;
 #define ANIMWALK_PATH "assets/All/Animations/CharacterWalk.iqm"
 #define ANIMIDLE_PATH "assets/All/Animations/CharacterIdle.iqm"
-
+#define SAVE_DIR "/Saves"
+#define PLAYER_SAVE "/Players.save"
 static const gameEngine::component::Transform BOT_LEFT_SPAWN(Vector3T<float>(10, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 static const gameEngine::component::Transform TOP_LEFT_SPAWN(Vector3T<float>(130, 10, 10), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 static const gameEngine::component::Transform BOT_RIGHT_SPAWN(Vector3T<float>(130, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 static const gameEngine::component::Transform TOP_RIGHT_SPAWN(Vector3T<float>(10, 10, 150), Vector3T<float>(90, 90, 0), Vector3T<float>(0.1, 0.1, 0.1));
 
 PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager> &windowManager, std::shared_ptr<game::managers::GameManager> &info)
-: AScene(windowManager, info), _map(_info->getUniverse(), MAPSIZE), _pause(false)
+: AScene(windowManager, info), _map(_info->getUniverse(), _info->getSavedMap(), MAPSIZE), _pause(false)
 {
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
     std::string nb(std::to_string(std::rand() % 3));
@@ -32,6 +34,14 @@ PlayGameScene::PlayGameScene(std::shared_ptr<gameEngine::managers::WindowManager
 
     _audio->setMusicVolume((_info->getMusicVolume() - 20) / 100);
     _audio->setSoundVolume(_info->getSoundVolume() / 100);
+    std::string path = Path::getOSPath("./");
+    std::filesystem::path full = std::filesystem::absolute(std::filesystem::path(path));
+    _savePath = full.string();
+    _savePath.append(SAVE_DIR);
+
+    if (!std::filesystem::is_directory(_savePath)) {
+        Directory _dir(std::string(_savePath), true);
+    }
 }
 
 PlayGameScene::~PlayGameScene()
@@ -50,7 +60,7 @@ void PlayGameScene::start()
         TOP_LEFT_SPAWN,
         TOP_RIGHT_SPAWN
     };
-    std::array<std::string, 3> botNames = {"Bob", "Michel", "Jacquie"};
+    std::array<std::string, 3> botNames = {"Bot_Bob", "Bot_Michel", "Bot_Jacquie"};
     std::vector<gameEngine::component::Transform>::iterator spawnIt = SPAWNS.begin();
 
     _map.dump();
@@ -59,25 +69,46 @@ void PlayGameScene::start()
         _tiles.push_back(std::make_shared<game::objects::Tile>(tile));
     }
 
-    for (auto it : _info->_players) {
-        std::shared_ptr<game::objects::Player> player =
-        std::make_shared<game::objects::Player>(std::to_string(it->Id), it->name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, it);
-        player->setTransform().setScale(spawnIt->getScale());
-        player->setTransform().setPosition(spawnIt->getPosition());
-        player->setTransform().setRotation(spawnIt->getRotation());
-        player->setCollider();
-        spawnIt++;
-        _players.push_back(player);
-    }
-    for (size_t i = 0; i < (size_t)_info->nbBots; i++) {
-        std::shared_ptr<game::objects::Bot> bot =
-        std::make_shared<game::objects::Bot>(std::to_string(i + 1), botNames.at(i), textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _tiles, 0, Vector<int>(15, 17));
-        bot->setTransform().setScale(spawnIt->getScale());
-        bot->setTransform().setPosition(spawnIt->getPosition());
-        bot->setTransform().setRotation(spawnIt->getRotation());
-        bot->setCollider();
-        spawnIt++;
-        _players.push_back(bot);
+    if (!_info->getIsSave()) {
+        for (auto it : _info->_players) {
+            std::shared_ptr<game::objects::Player> player =
+            std::make_shared<game::objects::Player>(std::to_string(it->Id), it->name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, it);
+            player->setTransform().setScale(spawnIt->getScale());
+            player->setTransform().setPosition(spawnIt->getPosition());
+            player->setTransform().setRotation(spawnIt->getRotation());
+            player->setCollider();
+            spawnIt++;
+            _players.push_back(player);
+        }
+        for (size_t i = 0; i < (size_t)_info->nbBots; i++) {
+            std::shared_ptr<game::objects::Bot> bot =
+            std::make_shared<game::objects::Bot>(std::to_string(i + 1), botNames.at(i), textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _tiles, 0, Vector<int>(15, 17));
+            bot->setTransform().setScale(spawnIt->getScale());
+            bot->setTransform().setPosition(spawnIt->getPosition());
+            bot->setTransform().setRotation(spawnIt->getRotation());
+            bot->setCollider();
+            spawnIt++;
+            _players.push_back(bot);
+        }
+    } else {
+        for (auto it : _info->getSavedPlayers()) {
+            if (it.name.find("Bot") == it.name.npos) {
+                std::shared_ptr<game::objects::Player> player =
+                std::make_shared<game::objects::Player>("1", it.name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _info->_userManager->getUser(it.name));
+                player->setTransform() = it.tran;
+                player->addScore(it.score);
+                player->setSpeed(it.speed);
+                player->setLives(it.lives);
+                player->setCollider();
+                _players.push_back(player);
+            } else {
+                std::shared_ptr<game::objects::Bot> bot =
+                std::make_shared<game::objects::Bot>("1", it.name, textStr, modelStr, ANIMWALK_PATH, ANIMIDLE_PATH, _tiles, 0, Vector<int>(15,17));
+                bot->setTransform() = it.tran;
+                bot->setCollider();
+                _players.push_back(bot);
+            }
+        }
     }
 
     this->setupCamera();
@@ -111,9 +142,22 @@ void PlayGameScene::setupPause()
     std::shared_ptr<gameEngine::encapsulation::Button> resume =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), resumeText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 85), WHITE, 30);
+    middle2._y += middle2._y / 2;
+    gameEngine::encapsulation::BText saveText("SAVE", Vector<float>(middle2._x + 80, middle2._y + 15), WHITE, 30);
+    std::shared_ptr<gameEngine::encapsulation::Button> buttonSave =
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), saveText, DARKGRAY, WHITE, PLAY_BUTTON);
+
+    gameEngine::encapsulation::BText inputText("Enter a Save name", Vector<float>(middle2._x, middle2._y), WHITE, 20);
+    _saveInput =
+    std::make_shared<gameEngine::object::InputButton>(Vector<float>(300, 50), middle2, 10, inputText, RED, false, BLACK);
+    _saveInput->setEnabled(false);
+    _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(270, 150));
+    _savePopUp->setEnabled(false);
+
+  //  middle2._y += middle2._y / 2;
+    gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 15), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 70), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 225), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
@@ -125,9 +169,9 @@ void PlayGameScene::setupPause()
 
 
     _pauseManager.pushButton(resume);
+    _pauseManager.pushButton(buttonSettings);
     _pauseManager.pushButton(buttonMenu);
     _pauseManager.pushButton(buttonQuit);
-    _pauseManager.pushButton(buttonSettings);
 }
 
 void PlayGameScene::setupCamera() noexcept
@@ -179,13 +223,38 @@ void PlayGameScene::updateExplosionManager()
     }
 }
 
+void PlayGameScene::savePlayers()
+{
+    File file = _fileManager.loadFile(_savePath + "/" + _saveInput->getContent() + PLAYER_SAVE, true);
+    std::string text;
+    std::stringstream ss;
+
+    for (auto it : _players) {
+        ss << "Player : " << it->getName() << std::endl;
+        ss << "Transform :" << it->getTransform();
+        ss << "Lives : " << it->getLives() << std::endl;
+        ss << "Speed : " << it->getSpeed() << std::endl;
+        ss << "Score : " << it->getScore() << std::endl;
+        ss << "####" << std::endl;
+        text = ss.str();
+        ss.clear();
+    }
+    _fileManager.writeFile(file, text, true);
+}
+
 void PlayGameScene::updatePause()
 {
     _pauseManager.updateButtons();
+    _saveInput->update();
+    _savePopUp->update();
     if (_pauseManager.isButtonClicked("RESUME")) {
         _pause = false;
         _timer.setPause(false);
         _audio->playSound("button");
+    }
+    if (_pauseManager.isButtonClicked("SAVE")) {
+        _saveInput->setEnabled(true);
+        _pauseManager.setEnabledButton("SAVE", false);
     }
     if (_pauseManager.isButtonClicked("QUIT")) {
         _timer.setPause(false);
@@ -204,11 +273,20 @@ void PlayGameScene::updatePause()
         sleep(1);
         _info->setCurrentScene("settings");
     }
+    if (_saveInput->getEnabled() && _saveInput->checkValidate()) {
+        _map.saveMap(_tiles, _savePath + "/" + _saveInput->getContent());
+        savePlayers();
+        _savePopUp->setEnabled(true);
+        _saveInput->setEnabled(false);
+        _pauseManager.setEnabledButton("SAVE", true);
+    }
 }
 
 void PlayGameScene::drawPause()
 {
+    _saveInput->draw();
     _pauseManager.drawButtons();
+    _savePopUp->draw();
 }
 
 void PlayGameScene::quit()

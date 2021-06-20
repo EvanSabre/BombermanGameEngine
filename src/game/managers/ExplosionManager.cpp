@@ -13,10 +13,12 @@ using namespace game::managers;
 ExplosionManager::ExplosionManager(
     const std::vector<std::shared_ptr<game::objects::Character>> players,
     const std::vector<std::shared_ptr<game::objects::Tile>> tiles)
-    : _explosionH(EXPLOSIONPATH), _explosionV(EXPLOSIONPATH), _texture(EXPLOSIONTEXT), _explode(false)
+    : _texture(EXPLOSIONTEXT)
 {
-    _explosionH.setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
-    _explosionV.setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
+    _explosionH = std::make_shared<gameEngine::encapsulation::BModel>(EXPLOSIONPATH);
+    _explosionV = std::make_shared<gameEngine::encapsulation::BModel>(EXPLOSIONPATH);
+    _explosionH->setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
+    _explosionV->setTexture(0, MATERIAL_MAP_DIFFUSE, _texture);
     _players = players;
     _tiles = tiles;
     _audio = std::make_shared<gameEngine::managers::AudioManager>();
@@ -63,94 +65,118 @@ void ExplosionManager::update()
 
 void ExplosionManager::draw()
 {
-    if (_explode) {
-        _explosionH.draw();
-        _explosionV.draw();
-        _explode = false;
+    for (auto explo = _explosion.begin(); explo != _explosion.end();) {
+        explo->first.first->draw();
+        explo->first.second->draw();
+        if (explo->second->getElapsedTime(true) > 200)
+            _explosion.erase(explo);
+        else
+            explo++;
     }
 }
 
-bool ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos)
+int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first)
 {
     std::unordered_map<std::size_t, game::Tag_e> map({{0, BOMBUP}, {1, FIREUP}, {2, SPEEDUP}, {3, ONEUP}, {4, HEALTHUP}, {5, BOMBPASS}});
 
     _audio->playSound("boom");
     for (auto tile = _tiles.begin(); tile != _tiles.end(); tile++) {
         if ((*tile)->getTransform().getPosition()._x == pos._x &&
-            (*tile)->getTransform().getPosition()._y == pos._y &&
+            (*tile)->getTransform().getPosition()._y >= 0 &&
             (*tile)->getTransform().getPosition()._z == pos._z) {
             if ((*tile)->getTag() == BRICK) {
                 if (!(std::rand() % 4)) {
+                // if (!(std::rand() % 1)) {
                     std::size_t nb = std::rand() % 5;
+                    // std::size_t nb = 0;
+                    _audio->playSound("itemDrop");
                     _powerUps[map[nb]]->setTransform().setPosition((*tile)->getTransform().getPosition());
                     _powerUps[map[nb]]->setTransform().setScale({5, 5, 5});
                     _tiles.push_back(std::make_shared<game::objects::PowerUpTile>(*_powerUps[map[nb]]));
                 }
                 _tiles.erase(tile);
+                return 2;
+            } else if ((*tile)->getTag() == BOMBUP || (*tile)->getTag() == FIREUP ||
+                       (*tile)->getTag() == SPEEDUP || (*tile)->getTag() == ONEUP ||
+                       (*tile)->getTag() == HEALTHUP || (*tile)->getTag() == BOMBPASS) {
+                _tiles.erase(tile);
+                return 2;
             }
-            return false;
+            return 0;
         }
     }
-    for (auto &bomb : _bombs) {
-        if (bomb->getTransform().getPosition()._x == pos._x &&
-            bomb->getTransform().getPosition()._y == pos._y &&
-            bomb->getTransform().getPosition()._z == pos._z) {
-            bomb->explode();
+    if (!first)
+        for (auto &bomb : _bombs) {
+            if (bomb->getTransform().getPosition()._x == pos._x &&
+                bomb->getTransform().getPosition()._y == pos._y &&
+                bomb->getTransform().getPosition()._z == pos._z) {
+                bomb->explode();
+            }
         }
-    }
     for (auto player = _players.begin(); player != _players.end(); player++) {
         if ((int)(((*player)->getTransform().getPosition()._x + 3) / TILESIZE) == (int)(pos._x / TILESIZE) &&
             (*player)->getTransform().getPosition()._y == pos._y &&
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
-            _audio->playSound("damage");
             (*player)->looseLife();
-            if (!(*player)->isAlive())
+            if (!(*player)->isAlive()) {
+                _audio->playSound("death");
                 _players.erase(player);
-            return false;
+            } else
+                _audio->playSound("damage");
+            return 2;
         }
     }
-    return true;
+    return 1;
 }
 
-void ExplosionManager::explode(const game::objects::AExplosif &bomb)
+void ExplosionManager::explode(const game::objects::AExplosif& bomb)
 {
     std::unordered_map<std::string, bool> direction = {
-        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true}};
+        {"UP", true}, {"LEFT", true}, {"DOWN", true}, {"RIGHT", true} };
     std::unordered_map<std::string, float> power = {
-        {"UP", 0}, {"LEFT", 0}, {"DOWN", 0}, {"RIGHT", 0}};
+        {"UP", 0.0f}, {"LEFT", 0.0f}, {"DOWN", 0.0f}, {"RIGHT", 0.0f} };
     Vector3T<float> pos(bomb.getTransform().getPosition());
     Vector3T<float> posTemp(bomb.getTransform().getPosition());
 
-    checkTilesExplosion(posTemp);
+    checkTilesExplosion(posTemp, true);
     for (std::size_t range = 1; range <= bomb.getRange(); range++) {
         if (direction["RIGHT"]) {
-            posTemp = {pos._x, pos._y, pos._z + (float)range * TILESIZE};
-            direction["RIGHT"] = checkTilesExplosion(posTemp);
-            power["RIGHT"]++;
+            posTemp = { pos._x, pos._y, pos._z + (float)range * TILESIZE };
+            if ((direction["RIGHT"] = checkTilesExplosion(posTemp, false)))
+                power["RIGHT"]++;
         }
         if (direction["LEFT"]) {
-            posTemp = {pos._x, pos._y, pos._z - (float)range * TILESIZE};
-            direction["LEFT"] = checkTilesExplosion(posTemp);
-            power["LEFT"]++;
+            posTemp = { pos._x, pos._y, pos._z - (float)range * TILESIZE };
+            if ((direction["LEFT"] = checkTilesExplosion(posTemp, false)))
+                power["LEFT"]++;
         }
         if (direction["UP"]) {
-            posTemp = {pos._x + (float)range * TILESIZE, pos._y, pos._z};
-            direction["UP"] = checkTilesExplosion(posTemp);
-            power["UP"]++;
+            posTemp = { pos._x + (float)range * TILESIZE, pos._y, pos._z };
+            if ((direction["UP"] = checkTilesExplosion(posTemp, false)))
+                power["UP"]++;
         }
         if (direction["DOWN"]) {
-            posTemp = {pos._x - (float)range * TILESIZE, pos._y, pos._z};
-            direction["DOWN"] = checkTilesExplosion(posTemp);
-            power["DOWN"]++;
+            posTemp = { pos._x - (float)range * TILESIZE, pos._y, pos._z };
+            if ((direction["DOWN"] = checkTilesExplosion(posTemp, false)))
+                power["DOWN"]++;
         }
     }
-    _explosionV.setTransform().setPosition({pos._x, pos._y + TILESIZE / 2, pos._z -
-        (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2});
-    _explosionV.setTransform().setScale({0.8, 1, power["LEFT"] + power["RIGHT"] + 1});
-    _explosionH.setTransform().setPosition({pos._x -
-        (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2, pos._y, pos._z});
-    _explosionH.setTransform().setScale({power["DOWN"] + power["UP"] + 1, 1, 0.8});
-    _explode = true;
+    _explosionV->setTransform().setPosition({ pos._x, pos._y, pos._z -
+        (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2 });
+    _explosionV->setTransform().setScale({ 0.8, 1, power["LEFT"] + power["RIGHT"] + 1 });
+    _explosionH->setTransform().setPosition({ pos._x -
+        (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2,
+        pos._y, pos._z });
+    _explosionH->setTransform().setScale({ power["DOWN"] + power["UP"] + 1, 1, 0.8 });
+    //std::pair<
+    //    std::shared_ptr<gameEngine::encapsulation::BModel>,
+    //    std::shared_ptr<gameEngine::encapsulation::BModel>> pM(_explosionH, _explosionV);
+    //std::unique_ptr<gameEngine::component::Clock> c = std::make_unique<gameEngine::component::Clock>();
+    //std::pair<std::pair<
+    ///    std::shared_ptr<gameEngine::encapsulation::BModel>,
+    //    std::shared_ptr<gameEngine::encapsulation::BModel>>,
+    //    std::unique_ptr<gameEngine::component::Clock>> pS(pM, c);
+    _explosion.push_back({{ _explosionH, _explosionV }, std::make_unique<gameEngine::component::Clock>()});
 }
 
 // Setters
