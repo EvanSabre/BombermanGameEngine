@@ -281,13 +281,11 @@ void PlayGameScene::updatePause()
     if (_pauseManager.isButtonClicked("MENU")) {
         _audio->playSound("button");
         _timer.setPause(false);
-        sleep(1);
         _info->setCurrentScene("menu");
     }
     if (_pauseManager.isButtonClicked("SETTINGS")) {
         _audio->stopMusic();
         _audio->playSound("button");
-        sleep(1);
         _info->setCurrentScene("settings");
     }
     if (_saveInput->getEnabled() && _saveInput->checkValidate()) {
