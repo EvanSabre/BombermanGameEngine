@@ -63,6 +63,8 @@ void MainMenuScene::start()
     std::shared_ptr<gameEngine::encapsulation::Button> buttonCredits =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 200), creditText, DARKGRAY, WHITE, PLAY_BUTTON);
 
+    buttonCredits->setCallback([](std::shared_ptr<game::managers::GameManager> info) { info->setCurrentScene("credits"); }, _info);
+
     gameEngine::encapsulation::BText tutorialText("TUTORIAL", Vector<float>(middle2._x + 25, middle2._y + 315), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonTutorial =
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 300), tutorialText, DARKGRAY, WHITE, PLAY_BUTTON);
