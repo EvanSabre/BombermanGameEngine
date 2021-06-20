@@ -36,7 +36,7 @@ std::string InputButton::getInput() const noexcept
 
 void InputButton::getNextChar() noexcept
 {
-    _currentChar = GetCharPressed();
+    _currentChar = gameEngine::encapsulation::BEvt::getCharPressed();
 }
 
 bool InputButton::checkValidate()

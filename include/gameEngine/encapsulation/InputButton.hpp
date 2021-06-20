@@ -9,6 +9,7 @@
 #define INPUTBUTTON_HPP_
 
 #include "Button.hpp"
+#include "BEvt.hpp"
 
 namespace gameEngine {
     namespace object {

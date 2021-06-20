@@ -143,25 +143,26 @@ void PlayGameScene::setupPause()
     std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), resumeText, DARKGRAY, WHITE, PLAY_BUTTON);
 
     middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText saveText("SAVE", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 30);
+    gameEngine::encapsulation::BText saveText("SAVE", Vector<float>(middle2._x + 80, middle2._y + 15), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSave =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(300, 50), Vector<float>(middle2._x, middle2._y), saveText, DARKGRAY, WHITE, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), saveText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    gameEngine::encapsulation::BText inputText("Enter a Save name", Vector<float>(middle2._x + 110, middle2._y + 10), WHITE, 20);
+    gameEngine::encapsulation::BText inputText("Enter a Save name", Vector<float>(middle2._x, middle2._y), WHITE, 20);
     _saveInput =
     std::make_shared<gameEngine::object::InputButton>(Vector<float>(300, 50), middle2, 10, inputText, RED, false, BLACK);
     _saveInput->setEnabled(false);
-    _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 110, middle2._y - 10), Vector<float>(270, 150));
+    _savePopUp = std::make_unique<gameEngine::component::PopUp>("Successfully saved game", Vector<float>(middle2._x + 80, middle2._y - 10), Vector<float>(270, 150));
     _savePopUp->setEnabled(false);
 
     middle2._y += middle2._y / 2;
-    gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 85), WHITE, 30);
+    gameEngine::encapsulation::BText settingsText("SETTINGS", Vector<float>(middle2._x + 40, middle2._y + 15), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonSettings =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 70), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), settingsText, DARKGRAY, WHITE, PLAY_BUTTON);
 
-    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 155), WHITE, 30);
+    middle2._y += middle2._y / 2;
+    gameEngine::encapsulation::BText quitText("QUIT", Vector<float>(middle2._x + 80, middle2._y + 15), WHITE, 30);
     std::shared_ptr<gameEngine::encapsulation::Button> buttonQuit =
-    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y + 140), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
+    std::make_shared<gameEngine::encapsulation::Button>(Vector<float>(250, 70), Vector<float>(middle2._x, middle2._y), quitText, DARKGRAY, WHITE, PLAY_BUTTON);
 
 
     _pauseManager.pushButton(resume);

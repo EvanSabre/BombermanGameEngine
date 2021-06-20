@@ -40,7 +40,6 @@ namespace game {
                 std::shared_ptr<gameEngine::encapsulation::BText> _right = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BText> _up = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BText> _down = nullptr;
-                std::shared_ptr<gameEngine::encapsulation::BText> _pick = nullptr;
                 std::shared_ptr<gameEngine::encapsulation::BText> _drop = nullptr;
                 gameEngine::encapsulation::BText _saveButtonText;
                 gameEngine::encapsulation::BTexture2D _background;

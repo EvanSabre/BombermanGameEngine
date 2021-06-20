@@ -42,7 +42,9 @@ void SettingsScene::switchScene(std::shared_ptr<game::managers::GameManager> inf
 
 void SettingsScene::start()
 {
-    Vector<float> size(300, 200);
+    Vector<float> size(WINDOW_X / 2, WINDOW_Y / 1.5);
+    Vector<float> pos(WINDOW_X / 4, WINDOW_Y / 7);
+    //Vector<float> size(300, 200);
     Vector<float> middle(_windowManager->getWindowSize()._x / 2, _windowManager->getWindowSize()._y / 2);
 
     _audio->playMusic();
@@ -66,7 +68,7 @@ void SettingsScene::start()
             std::make_shared<TEXT>("90", size, BLACK, 40),
             std::make_shared<TEXT>("100", size, BLACK, 40),
         };
-    _soundSelector = std::make_unique<gameEngine::component::Selector>("Sound Volume", soundCt, Vector<float>(100,  middle._y - 300), Vector<float>(600, 150), 35, BLACK);
+    _soundSelector = std::make_unique<gameEngine::component::Selector>("Sound Volume", soundCt, Vector<float>(pos._x * 0.3, pos._y * 1.5), Vector<float>(size._x * 0.7, size._y * 0.3), 30, BLACK);
 
     //music selector
     int currentMusic = (int)_info->getMusicVolume();
@@ -85,7 +87,7 @@ void SettingsScene::start()
             std::make_shared<TEXT>("90", size, BLACK, 40),
             std::make_shared<TEXT>("100", size, BLACK, 40),
         };
-    _musicSelector = std::make_unique<gameEngine::component::Selector>("Music Volume", musicCt, Vector<float>(100,  middle._y - 100), Vector<float>(600, 150), 35, BLACK);
+    _musicSelector = std::make_unique<gameEngine::component::Selector>("Music Volume", musicCt, Vector<float>(pos._x * 0.3, pos._y * 3.0), Vector<float>(size._x * 0.7, size._y * 0.3), 30, BLACK);
 
     //ai selector
     std::vector<std::shared_ptr<gameEngine::encapsulation::ADrawable>> aiCt =
@@ -94,7 +96,7 @@ void SettingsScene::start()
             std::make_shared<TEXT>("MEDIUM", size, BLACK, 40),
             std::make_shared<TEXT>("HARD", size, BLACK, 40),
         };
-    _aiSelector = std::make_unique<gameEngine::component::Selector>("Difficulty", aiCt, Vector<float>(100, middle._y + 100), Vector<float>(600, 150), 35, WHITE);
+    _aiSelector = std::make_unique<gameEngine::component::Selector>("Difficulty", aiCt, Vector<float>(pos._x * 0.3, pos._y * 4.5), Vector<float>(size._x * 0.7, size._y * 0.3), 30, BLACK);
 
     //back to menu
     gameEngine::encapsulation::BText quitText("Back to Menu", Vector<float>(40, 1010), WHITE, 30);
