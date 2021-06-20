@@ -148,7 +148,8 @@ void ExplosionManager::explode(const game::objects::AExplosif &bomb)
         (power["LEFT"] * TILESIZE) / 2 + (power["RIGHT"] * TILESIZE) / 2});
     _explosionV.setTransform().setScale({0.8, 1, power["LEFT"] + power["RIGHT"] + 1});
     _explosionH.setTransform().setPosition({pos._x -
-        (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2, pos._y, pos._z});
+        (power["DOWN"] * TILESIZE) / 2 + (power["UP"] * TILESIZE) / 2,
+        pos._y + TILESIZE / 2, pos._z});
     _explosionH.setTransform().setScale({power["DOWN"] + power["UP"] + 1, 1, 0.8});
     _explode = true;
 }
