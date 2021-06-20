@@ -46,7 +46,7 @@ namespace game {
                 std::vector<std::vector<int>> getSavedMap() const noexcept;
                 void setSavedMap(const std::vector<std::vector<int>> &map);
 
-                void setSavedPlayers(const std::vector<\game::systems::playerInfo_t> &players);
+                void setSavedPlayers(const std::vector<game::systems::playerInfo_t> &players);
                 std::vector<game::systems::playerInfo_t> getSavedPlayers() const noexcept;
 
                 int nbPlayers = 1;
