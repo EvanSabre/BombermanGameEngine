@@ -43,9 +43,40 @@ void game::managers::GameManager::setUniverse(const std::string &uni)
     _universe = uni;
 }
 
+void game::managers::GameManager::setSavedPlayers(const std::vector<game::systems::playerInfo_t> &players)
+{
+    _savedPlayers = players;
+}
+
+std::vector<game::systems::playerInfo_t> game::managers::GameManager::getSavedPlayers() const noexcept
+{
+    return _savedPlayers;
+}
+
+std::vector<std::vector<int>> game::managers::GameManager::getSavedMap() const noexcept
+{
+    return _savedMap;
+}
+
+void game::managers::GameManager::setSavedMap(const std::vector<std::vector<int>> &map)
+{
+    _savedMap = map;
+}
+
 std::vector<std::shared_ptr<game::User>> game::managers::GameManager::getPlayers() const noexcept
 {
     return _players;
+}
+
+bool game::managers::GameManager::getIsSave() const noexcept
+{
+    std::cout << "CHECKING IF ISAVED " << _isSave;
+    return _isSave;
+}
+
+std::string game::managers::GameManager::getSavePath() const noexcept
+{
+    return _savePath;
 }
 
 void game::managers::GameManager::pushPlayer(std::shared_ptr<game::User> &player)
@@ -70,6 +101,16 @@ bool game::managers::GameManager::haveToQuit()
     if (_quit)
         return true;
     return false;
+}
+
+void game::managers::GameManager::setSave(bool save)
+{
+    _isSave = save;
+}
+
+void game::managers::GameManager::setSavePath(const std::string &path)
+{
+    _savePath = path;
 }
 
 void game::managers::GameManager::setMusicVolume(float volume)

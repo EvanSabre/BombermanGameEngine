@@ -70,7 +70,7 @@ bool AFileManager::writeFile(File &file, const std::string &text, bool rewrite)
     }
 }
 
-std::vector<std::shared_ptr<File>> AFileManager::getDirectoryFiles(Directory &directory)
+std::vector<File> AFileManager::getDirectoryFiles(Directory &directory)
 {
     return directory.getAllDirFiles();
 }

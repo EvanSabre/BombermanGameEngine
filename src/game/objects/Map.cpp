@@ -8,6 +8,7 @@
 #include "Map.hpp"
 
 Map::Map(const std::string &universe,
+         const std::vector<std::vector<int>> &tiles,
          const std::size_t &size,
          const std::size_t &seed)
     : _seed(seed), _universe(universe)
@@ -16,18 +17,20 @@ Map::Map(const std::string &universe,
     std::cout << "UNIVERSE = " << _universe << std::endl;
     _TEXTURE = "assets/" + _universe + "/Textures/Tile.png";
     _BORDERPATHMOD = "assets/" + _universe + "/Models/Border.obj";
-    // _BORDERTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     _BRICKPATHMOD = "assets/" + _universe + "/Models/Brick.obj";
-    // _BRICKTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     _WALLPATHMOD = "assets/" + _universe + "/Models/Wall.obj";
-    // _WALLTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
     _PATHPATHMOD = "assets/" + _universe + "/Models/Ground.obj";
-    // _PATHTILEPNG = "assets/" + _universe + "/Textures/Tile.png";
 
     setSize(size);
-    if (!_seed)
-        generateSeed();
-    generateMap();
+    if (tiles.empty()) {
+        if (!_seed)
+            generateSeed();
+        generateMap();
+    } else {
+        for (auto i : tiles) {
+            _map.push_back(i);
+        }
+    }
     generateMapTiles();
 }
 
@@ -96,6 +99,7 @@ void Map::generateMapTiles()
     _borderMod = std::make_shared<gameEngine::encapsulation::BModel>(_BORDERPATHMOD, Vector3T<float>(0, 0, 0), WHITE, Vector3T<float>(0.5, 0.5, 0.5));
     _Texture = std::make_shared<gameEngine::encapsulation::BTexture2D>(_TEXTURE);
 
+    std::cout << "### " << SIZE_X << std::endl;
     _tiledMap.push_back(Tile(_pathMod, _Texture, PATH,
         Vector3T<float>(TILESIZE * SIZE_X / 2, (-1.5) * TILESIZE, TILESIZE * SIZE_Y / 2)));
     for (std::size_t i = 0; i < SIZE_X; i++) {
@@ -144,7 +148,7 @@ std::vector<Tile> Map::getTiledMap() const
     return _tiledMap;
 }
 
-// setters
+// setter
 void Map::setSize(const std::size_t &size)
 {
     _size = (size < 9) ? 9 : size + 1 - size % 2;
@@ -153,4 +157,27 @@ void Map::setSize(const std::size_t &size)
 void Map::setSeed(const std::size_t &seed)
 {
     _seed = seed;
+}
+
+void Map::saveMap(const std::vector<std::shared_ptr<Tile>> &tiles, const std::string &path)
+{
+    Directory dir(path, true);
+    File file = _fileManager.loadFile(path + MAP_SAVE, true);
+    std::string text;
+    std::vector<int> inside(SIZE_Y);
+    std::vector<std::vector<int>> map;
+
+    for (std::size_t i = 0; i != SIZE_Y; i++)
+        map.push_back(inside);
+    for (auto &tile : tiles)
+        map[tile->getTransform().getPosition()._x / TILESIZE][tile->getTransform().getPosition()._z / TILESIZE] = tile->getTag();
+    text.append(_universe + "\n");
+    text.append(std::to_string(_size) + "\n");
+    for (auto i : map) {
+        for (auto j : i) {
+            text.append(std::to_string(j) + "|");
+        }
+        text.push_back('\n');
+    }
+    _fileManager.writeFile(file, text, true);
 }
