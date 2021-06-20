@@ -89,6 +89,11 @@ int Character::getLives() const noexcept
     return _lives;
 }
 
+int Character::getMaxLives() const noexcept
+{
+    return _maxLives;
+}
+
 int Character::getNbBomb() const noexcept
 {
     return _nbBomb;

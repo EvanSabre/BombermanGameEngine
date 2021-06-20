@@ -53,6 +53,7 @@ namespace game
 
             //EFFECT GETTER
                 int getLives() const noexcept;
+                int getMaxLives() const noexcept;
                 int getNbBomb() const noexcept;
 
             //setter
@@ -97,7 +98,7 @@ namespace game
             int _maxBomb = 1;
             int _nbBomb = 1;
             int _bombRange = 1;
-            int _maxLives = 3;
+            int _maxLives = 1;
             int _lives = 1;
             game::Event _currentEvent;
             bool _isMoving = false;
