@@ -3,7 +3,7 @@ name: build-ubuntu
 on:
   push:
     branches:
-      - dev
+      - test
   pull_request:
     branches:
       - master
@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install libxrandr-dev
+          sudo apt install build-essential
 
       - name: cmake
         run: cmake .
