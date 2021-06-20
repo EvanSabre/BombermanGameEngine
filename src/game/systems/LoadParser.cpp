@@ -107,6 +107,9 @@ std::vector<playerInfo_t> LoadParser::loadPlayers()
             if (line->find("Score") != line->npos) {
                 info.score = atoi(getInfo(*line).c_str());
             }
+            if (line->find("Id") != line->npos) {
+                info.id = atoi(getInfo(*line).c_str());
+            }
         } else {
             _players.push_back(info);
         }
