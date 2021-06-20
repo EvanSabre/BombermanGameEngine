@@ -143,7 +143,11 @@ void Character::addScore(const size_t value) noexcept
 
 void Character::subScore(const size_t value) noexcept
 {
-    this->_score -= value;
+    size_t score = 0;
+    if (this->_score < value)
+        this->_score = score;
+    else
+        this->_score -= value;
 }
 
 void Character::setModel(std::shared_ptr<gameEngine::encapsulation::BModel> model) noexcept
@@ -161,7 +165,6 @@ void Character::looseLife(int nbLife) noexcept
     _lives -= nbLife;
     checkLives();
 }
-
 
 void Character::draw() const noexcept
 {
@@ -181,6 +184,7 @@ void Character::onCollisionEnter(const AGameObject &collision)
         std::unique_ptr<game::interfaces::IEffect> efx = game::objects::EffectFactory::makeEffect(collision.getTag());
         addPowerUpEffec(efx.get());
         std::cout << "get Power Up" << std::endl;
+        addScore(10);
         return;
     }
     catch(const std::exception& e)

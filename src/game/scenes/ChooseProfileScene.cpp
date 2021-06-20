@@ -62,7 +62,6 @@ void ChooseProfileScene::start()
     _profileContent.push_back(std::make_shared<TEXT>("", size, BLACK, 40));
 
     _profileSelector = std::make_unique<SELECTOR>("Choose a profile", _profileContent, Vector<float>(pos._x * 1.3, pos._y * 1.2), Vector<float>(size._x * 0.7, size._y * 0.3), 30, BLACK);
-    //_profileSelector->setContentPos(Vector<float>(WINDOW_X / 2.1, WINDOW_Y / 2.3));
 
     gameEngine::encapsulation::BText backText("Back", Vector<float>(WINDOW_X * 0.1 + 80, WINDOW_Y * 0.8 + 65), WHITE, 40);
     std::shared_ptr<gameEngine::encapsulation::Button> backButton =

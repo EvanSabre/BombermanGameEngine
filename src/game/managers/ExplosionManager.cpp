@@ -118,6 +118,7 @@ int ExplosionManager::checkTilesExplosion(const Vector3T<float> &pos, bool first
             (*player)->getTransform().getPosition()._y == pos._y &&
             (int)(((*player)->getTransform().getPosition()._z + 3) / TILESIZE) == (int)(pos._z / TILESIZE)) {
             (*player)->looseLife();
+            (*player)->subScore(50);
             if (!(*player)->isAlive()) {
                 _audio->playSound("death");
                 _players.erase(player);
