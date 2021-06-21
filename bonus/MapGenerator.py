@@ -28,10 +28,13 @@ def getHboreder(size):
 
 def create_base_map(size):
     map = []
-    map.append(getHboreder(size))
-    for y in range(1, size + 1):
+
+    for y in range(size):
         buf_line = []
         for x in range(size + 2):
+            if y == 0 or y == (size - 1):
+                buf_line.append(BORDER)
+                continue
             if x == 0:
                 buf_line.append(BORDER)
                 continue
@@ -46,7 +49,6 @@ def create_base_map(size):
                 else:
                     buf_line.append(BRICK)
         map.append(buf_line)
-    map.append(getHboreder(size))
     return map
 
 def SaveMap(filename, universe, size, map):
