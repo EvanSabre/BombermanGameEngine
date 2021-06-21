@@ -6,27 +6,12 @@
 
 namespace global {
     class Vector<T> {
-        +Vector(T x, T y)
-        +~Vector() = default;
-        +const Vector(const Vector &copy);
-        +bool operator==();
-        +bool operator!=();
-        +Vector &operator+();
-        +Vector &operator-();
 
         -T _x;
         -T _y;
     }
 
     class Vector3<T> {
-        +Vector3T(T x, T y, T Z);
-        +~Vector3T() = default;
-        +Vector3T(const Vector3T<T> &copy);
-        +bool operator==(Vector3T<T> const &other) const noexcept;
-        +bool operator!=(Vector3T<T> const &other) const noexcept;
-        +Vector3T<T> operator+(Vector3T<T> const &other) const noexcept;
-        +Vector3T<T> operator-(Vector3T<T> const &other) const noexcept;
-        +Vector3T<T> &operator=(Vector3T<T> const &other) noexcept;
 
         -T _x;
         -T _y;
@@ -35,44 +20,16 @@ namespace global {
 
     class Directory
     {
-        +Directory(const std::string &dirpath, bool force_creation=false);
-        ~Directory();
-        +bool nextEntry();
-        +const std::string getEntryName() const;
-        +const std::string getEntryPath() const;
-        +std::vector<File> getAllDirFiles() noexcept;
-
-        +File &loadFile(const std::string &filename, bool force_creation=false);
-        +File getEntryAsFile() const noexcept;
-
-        -std::string _dirPath;
-        -DIR *_directory = nullptr;
-        -struct dirent *_entry = nullptr;
-        -struct stat _entryInfo;
-        -std::vector<File> _dir_content;
     }
 
     class File
     {
-            +File(const std::string &path, bool force_creation=false);
-            +~File();
-            +[[nodiscard]] std::string getPath() const noexcept;
-            +[[nodiscard]] std::string getName() const noexcept;
-            +bool isAccessible() const noexcept;
-            +bool compareContent(const File &file) const noexcept;
-            +std::string read() const;
-            +void clear() const;
-            +void write(const std::string &to_append, bool rewrite=false) const;
-            +struct stat getStat() const;
-            -void create();
-            -std::string _path = "";
-            -std::string _name = "";
-            -std::string getNameFromPath(const std::string &path) const noexcept;
+
     }
 }
 
 namespace game {
-    enum EntityType {
+    enum Tag_e {
         COLLECTABLE,
         DROPPABLE,
         BOMB,
@@ -81,63 +38,50 @@ namespace game {
         AI
     }
 
-    class AI {
-    }
-
     namespace Scenes {
         class MainMenu {
-            -gameEngine.Managers.ButtonManager _buttonManager;
     }
     }
 
     namespace Systems {
+        class AI{}
     }
 
     namespace managers {
-        class UserManager
-        {
-                +UserManager(const std::string &pathDatabase);
-                +~UserManager() = default;
-                +std::shared_ptr<User> loadUserFromDB(const std::string &name);
-                +bool findUserInDB(const std::string &name); // ? throw Exception if User already exists
-                +User &getUser(const std::string &name);
-                +User &getUser(size_t & id);
-                +void saveUser(const std::shared_ptr<User> &user);
-                +bool assignInputToUser(int IdUser, const std::string &name); // ? throw Exception if IIinput not accessible
-                +void removeInputToUser(const std::string &name);
-                +std::shared_ptr<gameEngine::interfaces::IInput> createInput(InputType_e type);
-                +const gameEngine::UserInputs &getUserInputs(void) const noexcept {return _IdInputMap;}
-
-                #std::vector<std::shared_ptr<User>> _users;
-                #std::unordered_map<int, User&> _IdUserMap;
-                #const gameEngine::UserInputs _IdInputMap =
-                #{
-                #    {1, std::make_shared<gameEngine::encapsulation::Keyboard>()},
-                #    {2, std::make_shared<gameEngine::encapsulation::Gamepad>(0)},
-                #    {3, std::make_shared<gameEngine::encapsulation::Gamepad>(1)},
-                #    {4, std::make_shared<gameEngine::encapsulation::Gamepad>(2)},
-                #};
-                #int _nb_gamepad = 0;
-                #int _nb_usersInGame = 0;
-                #std::string _pathDatabase{0};
-                #bool _keyboardAttributed = false;
-        }
+        class SceneManager{}
+        class GameManager{}
+        class GlobalManager{}
+        class ExplosionManager{}
+        class UserManager{}
     }
 
     namespace Objects {
+
+        class AEffect{}
+        class BombPass{}
+        class BombUp{}
+        class EffectFactory{}
+        class FireUp{}
+        class HealthUp{}
+        class OneUp{}
+        class SpeedUp{}
+        class ExplosionAnimation{}
+        class Gui{}
+        class Map{}
+        class Player{}
+        class AExplosif
+        {
+        }
 
         class Droppable {}
         class Collectible {}
         class Bomb {}
 
         class Character {
-            -std::string _name;
         }
 
 
         class Player {
-            -std::string _id;
-            -size_t _score;
         }
 
         class Bot {
@@ -150,19 +94,12 @@ namespace game {
             PATH,
         }
         class Tile {
-            -Texture _texture;
-            -Vector _pos;
-            -TileType _type;
         }
 
         class Map {
-            -std::vector<std::vector<Tile>> _tiles;
         }
 
         class Wall {
-            +Wall(bool isDestructible)
-
-            -bool _isDestructible;
         }
 
         class Mine {}
@@ -171,31 +108,6 @@ namespace game {
 
     class User
     {
-        +User(const std::string &name, const std::string &pathToSave, int gamesPlayed, int gamesWon, time_t created, std::vector<std::string> trophies, int kills, int beKilled);
-        +~User();
-
-        +void setId(int Id) {_Id = Id;}
-        +int &getId(void);
-        +std::string &getName(void) {return _name;}
-        +std::string &getPathToSave(void) {return _pathToSave;}
-        +int &getGamesPlayed(void) {return _gamesPlayed;}
-        +int &getGamesWon(void) {return _gamesWon;}
-        +time_t &getCreated(void) {return _created;}
-        +std::vector<std::string> &getTrophies() {return _trophies;}
-        +int &getKills(void) {return _kills;}
-        +int &getBeKilled(void) {return _beKilled;}
-        +int &getRatio(void) { return _ratio;}
-
-        #int _Id = -1;
-        #std::string _name{0};
-        #std::string _pathToSave{0};
-        #int _gamesPlayed = 0;
-        #int _gamesWon = 0;
-        #time_t _created;
-        #std::vector<std::string> _trophies;
-        #int _kills = 0;
-        #int _beKilled = 0;
-        #int _ratio = 0;
     }
 }
 
@@ -205,32 +117,15 @@ namespace Managers {
 
     class InputManager
     {
-        template <typename K, typename V>
-        +virtual InputManager(<K>keys, <V>interpret_values, std::string id={0});
-        +~InputManager();
-        +bool isKeyPressed(int) final;
-        +bool isKeyReleased(int) final;
-        +int getKeyPressed() final;
-        +bool mapKey(int, int) final;
-        +bool mapDefaultKeys(int, int);
-        +bool isConnected();
-
-        -std::unordered_map<K,V> _keymap;
-        -std::string _id;
+        template <typename E>
     }
     class SaveManager
     class TextureManager
     class WindowManager
     class ObjFileManager
-    class SceneManager{}
-    class GameManager{}
     class ModelManager {}
     'Button args are taken from botttom to top
     class ButtonManager {
-        +bool isButtonClicked(Vector pos);
-        +Button createButton(std::tuple<Vector, Vector, std::string, Font, Color, Color, Color, Rectangle> buttonInfo);
-        +bool isButtonClicked(std::string button_content);
-        -std::vector<Button> _currentButtons;
     }
 }
 
@@ -241,255 +136,43 @@ namespace Encapsulation {
         PRESSED,
     }
     class Button {
-        +Button &operator=(const Button &ref);
-
-        +Vector<float> getPos() const;
-        +Vector<float> getSize() const;
-        +gameEngine::encapsulation::BText getContent() const;
-        +gameEngine::encapsulation::BTexture2D getTexture() const;
-        +gameEngine::encapsulation::BRectangle getRect() const;
-        +gameEngine::encapsulation::BRectangle getFrameRect() const;
-        +State getState() const;
-        +bool getButtonPressed() const;
-        +int getNbFrames() const;
-        +virtual ButtonClickedCallBack(va_args ...) = 0;
-        +void setPos(const Vector<float> &pos);
-        +void setRotation(const float &rotation);
-        +void setSize(const Vector<float> &size);
-        +void setColor(const gameEngine::encapsulation::BColor &color);
-        +void setContentStr(const std::string &str);
-        +void setNbFrames(const int &nb);
-        +void setFrameRect(const gameEngine::encapsulation::BRectangle &rect);
-        +void setFrameRectSize(const Vector<float> &size);
-
-        +bool isInsideButton(const Vector<float> &point);
-        +bool isButtonPressed(Vector<float> mousePos);
-        +bool isButtonReleased();
-        +void update();
-        +void drawButton();
-
-        -Rectangle _rect;
-        -State state;
-        -Rectangle _frameRec;
-        -Text _content;
-        -Texture texture;
-        -Vector<float> size;
-        -Vector<float> pos;
-        -Color color;
-        -float rotation;
     }
 
-    class IDrawable {
-        +virtual gameEngine::encapsulation::BColor getColor() const noexcept;
-        +virtual Vector3T<float> getPosition() const noexcept;
-        +virtual Vector3T<float> getSize() const noexcept;
-        +virtual float getScale() const noexcept;
-        +virtual Vector3T<float> getScaledSize() const noexcept;
-
-        +virtual void setColor(const gameEngine::encapsulation::BColor &color) noexcept = 0;
-        +virtual void setPosition(const Vector3T<float> &pos) noexcept = 0;
-        +virtual void setSize(const Vector3T<float> &size) noexcept = 0;
-        +virtual void setScale(float scale) noexcept = 0;
-
-        +virtual void draw() const noexcept = 0;
+    class ADrawable
+    {
     }
 
-    class ADrawable {
-        +ADrawable();
-
-        +gameEngine::encapsulation::BColor getColor() const noexcept final;
-        +Vector3T<float> getPosition() const noexcept final;
-        +Vector3T<float> getSize() const noexcept final;
-        +float getScale() const noexcept final;
-        +Vector3T<float> getScaledSize() const noexcept final;
-
-        +void setColor(const gameEngine::encapsulation::BColor &color) noexcept override;
-        +void setPosition(const Vector3T<float> &pos) noexcept override;
-        +void setSize(const Vector3T<float> &size) noexcept override;
-        +void setScale(float scale) noexcept override;
-
-        +void draw() const noexcept override;
-
-        -Vector3T<float> _size{1, 1, 1};
-        -Vector3T<float> _position{0, 0, 0};
-        -gameEngine::encapsulation::BColor _color = WHITE;
-        -float _scale = 1;
-    }
-
-    class Image {
-        +Image getObj() const noexcept;
-        +bool isLoad() const noexcept;
-        +int getWidth() const noexcept;
-        +int getHeight() const noexcept;
-        +Vector<int> getSize() const noexcept;
-        +Vector<int> getPosition() const noexcept;
-        +void load(const std::string &filpath);
-        +void unload() noexcept;
-        +void setImage(const Image &img) noexcept;
-        +void setImage(const Image &img, const Vector<int> &pos) noexcept;
-        +void setPosition(const Vector<int> &pos) noexcept;
-        +void resize(const Vector<int> &newSize) noexcept;
-        +void scale(const float &scale) noexcept;
-        +void rotateRight() noexcept;
-        +void rotateLeft() noexcept;
-        +void clearBackground(const BColor &color) noexcept;
-        +void drawPixel(const Vector<int> &pos, const BColor &color) noexcept;
-        +void drawLine(const Vector<float> &start, const Vector<float> &end, const BColor &color) noexcept;
-        +void drawCircle(const Vector<float> &center, int radius, const BColor &color) noexcept;
-        +void drawRectangle(const BRectangle &rec) noexcept;
-        +void drawText(const BText &text, const Vector<int> &pos) noexcept;
-        +void flipV() noexcept;
-        +void flipH() noexcept;
-
-        -Image _img;
-        -Vector<int> _pos{0, 0};
+    class Image
+    {
     }
 
     class Model {
-        +Model getObj() const noexcept;
-        +bool isLoad() const noexcept;
-        +BColor getColor() const noexcept;
-        +Vector3T<float> getPos() const noexcept;
-        +void load(const std::string &filepath);
-        +void unload() noexcept;
-        +void unloadKeepMesh() noexcept;
-        +void setPos(const Vector3T<float> &pos) noexcept;
-        +void setColor(const BColor &color) noexcept;
-        +void setMaterialTexture(int material_idx, int maps_idx, const BTexture2D &texture) noexcept;
-        +void draw() const noexcept;
-
-        -void resetObj() noexcept;
-        -Model _model;
-        -BColor _color{WHITE};
-        -float _scale = 0;
-        -Vector3T<float> _pos{0, 0, 0};
     }
 
     class Camera2d {
-        +BCamera2D();
-        +BCamera2D(const BCamera2D &ref);
-        +BCamera2D &operator=(const BCamera2D &ref);
-        +~BCamera2D();
-        +Camera2D getObj() const noexcept;
-        +Vector<float> getOffset() const noexcept;
-        +Vector<float> getTarget() const noexcept;
-        +float getRotation() const noexcept;
-        +float getZoom() const noexcept;
-        +void setOffset(const Vector<float> &offset) noexcept;
-        +void setTarget(const Vector<float> &target) noexcept;
-        +void setRotation(float rotation) noexcept;
-        +void rotateLeft(float value) noexcept;
-        +void rotateRight(float value) noexcept;
-        +void setZoom(float zoom) noexcept;
-        +void unzoom(float value) noexcept;
-        +void zoom(float value) noexcept;
-        +void resetObj() noexcept;
-        +void beginMode() const noexcept final;
-        +void endMode() const noexcept final;
 
-        -Camera2D _camera;
     }
 
     class Camera {
-        +BCamera(const BCamera &ref);
-        +BCamera &operator=(const BCamera &ref);
-        +~BCamera();
-        +Camera getObj() const noexcept;
-        +void setPosition(const Vector3T<float> &pos) noexcept;
-        +void setTarget(const Vector3T<float> &target) noexcept;
-        +void setUp(const Vector3T<float> &up) noexcept;
-        +void setFovy(float fov) noexcept;
-        +void setProjection(CameraProjection projection) noexcept;
-        +void update() noexcept;
-        +void setMode(CameraMode mode) noexcept;
-        +void beginMode() const noexcept final;
-        +void endMode() const noexcept final;
-
-        -Camera _camera;
     }
 
     class Shader {}
 
     class IAudioObject {
-        +virtual void play() = 0;
-        +virtual void stop() = 0;
-        +virtual void pause() = 0;
-        +virtual void resume() = 0;
 
-        +virtual bool isPlaying() const = 0;
 
-        +virtual float getVolume() const noexcept = 0;
-        +virtual void setVolume(float volume) = 0;
-        +virtual float getPitch() const noexcept = 0;
-        +virtual void setPitch(float pitch) = 0;
     }
 
     class Music {
-        +BMusic(const std::string &filepath);
-        +BMusic(const BMusic &ref) = delete;
-        +BMusic &operator=(const BMusic &ref) = delete;
-        +~BMusic();
-        +Music getObj() const noexcept;
-        +bool isLoad() const noexcept;
-        +bool isPlaying() const noexcept;
-        +float getTimeLength() const noexcept;
-        +float getTimePlayed() const noexcept;
-        +void load(const std::string &filpath);
-        +void unload() noexcept;
-        +void play();
-        +void updateStream();
-        +void stop();
-        +void pause();
-        +void resumeStream();
-        +void setVolume(float volume);
-        +void setPitch(float pitch);
-
-        -Music _music = {0};
-        -bool _load;
     }
 
     class Audio {
-        +static void init();
-        +static void close(void) noexcept;
-        +static bool isReady(void) noexcept;
-        +static void setVolume(float volume) noexcept;
     }
 
     class Sound {
-        +BSound(const std::string &filepath);
-        +BSound(const BSound &ref) = delete;
-        +BSound &operator=(const BSound &ref) = delete;
-        +[[nodiscard]] Sound getObj() const noexcept;
-        +[[nodiscard]] bool isLoad() const noexcept;
-        +[[nodiscard]] bool isPlaying() const noexcept;
-        +void load(const std::string &filpath);
-        +void unload() noexcept;
-        +void play();
-        +void stop();
-        +void pause();
-        +void resumeStream();
-        +void setVolume(float volume);
-        +void setPitch(float pitch);
     }
 
     class Color {
-        +BColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
-        +BColor(const Color &ref);
-        +BColor(const BColor &ref);
-        +BColor &operator=(const BColor &ref);
-        +BColor &operator=(const Color &ref);
-        +~BColor();
-        +unsigned char getRed() const noexcept;
-        +unsigned char getGreen() const noexcept;
-        +unsigned char getBlue() const noexcept;
-        +unsigned char getAlpha() const noexcept;
-        +Color getObj() const noexcept;
-        +void setRed(unsigned char value) noexcept;
-        +void setGreen(unsigned char value) noexcept;
-        +void setBlue(unsigned char value) noexcept;
-        +void setAlpha(unsigned char value) noexcept;
-        +void copy(const BColor &ref) noexcept;
-
         -unsigned char _r;
         -unsigned char _g;
         -unsigned char _b;
@@ -497,97 +180,20 @@ namespace Encapsulation {
     }
 
     class Font {
-        +BFont();
-        +BFont(const BFont &ref);
-        +BFont &operator=(const BFont &ref);
-        +~BFont();
-
-        +[[nodiscard]] Font getObj() const noexcept;
-        +[[nodiscard]] bool isLoad() const noexcept;
-        +void loadFromFile(const std::string &filepath);
-        +void unload() noexcept;
-
-            -Font _font;
-            -std::string _filepath;
-
-            +void resetObj() noexcept;
     }
 
     class Rectangle {
-        +BRectangle(const BRectangle &ref);
-        +BRectangle &operator=(const BRectangle &ref);
-        +Rectangle getObj() const noexcept;
-        +float getWidth() const noexcept;
-        +float getHeight() const noexcept;
-        +float getX() const noexcept;
-        +float getY() const noexcept;
-        +Vector<float> getSize() const noexcept;
-        +Vector<float> getPos() const noexcept;
-        +float getRotation() const noexcept;
-        +BColor getColor() const noexcept;
-        +void setX(const float &x) noexcept;
-        +void setY(const float &y) noexcept;
-        +void setWidth(const float &width) noexcept;
-        +void setHeight(const float &height) noexcept;
-        +void setSize(const Vector<float> &size) noexcept;
-        +void setPos(const Vector<float> &pos) noexcept;
-        +void setRotation(const float &rotation) noexcept;
-        +void setColor(const BColor &color) noexcept;
-        +void scale(const float &scale) noexcept;
-        +void draw() const noexcept;
-        +bool checkCollision(const BRectangle &other) const noexcept;
-        +bool checkPointInside(const Vector<float> &point) const noexcept;
-
-        -Vector<float> _pos;
-        -Vector<float> _size;
-        -float _rotation;
-        -BColor _color;
     }
 
     class ModelAnimation {
-        +ModelAnimation(const std::string &filePath);
-        +ModelAnimation(const BModelAnimation &ref);
-        +int getAnimFrameCount() const noexcept;
-        +ModelAnimation *getModelAnimation() const noexcept;
-        +std::string getFilePath() const noexcept;
-        +bool isLoad();
-        +void loadNewAnimation(const std::string &filePath);
-        +void destroyAnim();
-        -std::string _filePath;
-        -ModelAnimation *_anims;
-        -int _animsCount;
     }
 
     class Gamepad
     {
-        +Gamepad();
-        +~Gamepad() = default;
-        +bool isKeyPressed(int key, int device=-1) override;
-        +bool isKeyDown(int key, int device=-1) override;
-        +bool isKeyUp(int key, int device=-1) override;
-        +bool isKeyReleased(int key, int device=-1) override;
-        +const std::string getDeviceName(int device=-1) override;
-        +bool isDeviceAvailable(int device) override;
-        +bool isDeviceName(int device, const char *name) override;
-        +int getKeyPressed(void) override;
-        +int getCharPressed(void) override;
-        +int getDeviceID(void);
     }
 
     class Keyboard
     {
-        +Keyboard();
-        +~Keyboard() = default;
-        +int getDeviceID(void);
-        +bool isKeyPressed(int key, int device = -1) override;
-        +bool isKeyDown(int key, int device = -1) override;
-        +bool isKeyUp(int key, int device = -1) override;
-        +bool isKeyReleased(int key, int device = -1) override;
-        +const std::string getDeviceName(int device = -1) override;
-        +bool isDeviceAvailable(int device) override;
-        +bool isDeviceName(int device, const char *name) override;
-        +int getKeyPressed(void) override;
-        +int getCharPressed(void) override;
     }
 
 }
@@ -596,53 +202,27 @@ namespace interfaces {
 
     interface IScene
     {
-        +void loadScene();
-        +void destroyScene();
+    }
+
+    interface IDrawable {
     }
 
     interface IWindowManager
     {
-        +void createWindow(Vector<int> size, const std::string &title);
-        +void openWindow();
-        +void closeWindow();
-        +void clearWindow();
-        +void updateWindow();
-        +void toggleFullscreen();
-
-        -Vector &getScreenSize();
-        -Vector &getWindowPos();
     }
 
     interface IDrawManager
     {
-        +void drawCircle(const float radius, );
-        +void drawRect(const Vector &size, size_t radius);
-        +void drawLine(const Vector &size);
-        +void drawGrid(const Vector &size, int nbCols, int nbRows);
     }
 
     interface ITextureManager
     {
-        +void setTexture();
-        +void loadTexture();
-        +void uploadTexture();
-        +void drawTextureRect();
-        'Potentiellement ajouter + de drawTexture
-        +void destroyTexture();
+        'Potentiellement ajout
     }
 
     interface IAudioManager
     {
         'Classe audio avec playlist
-        +void PlaySound(const Sound &);
-        +void PlayMusic(const Music &);
-        +Sound LoadSound(const std::string &);
-        +Music LoadMusic(const std::string &);
-        +bool isMusicPlaying(const Music &);
-        +void PauseMusic(const Music &);
-        +void setMusicVolume(const Music &, float);
-        +void DestroySound(Sound &);
-        +void DestroyMusic(Sound &);
     }
 
     abstract class AFileManager implements IFileManager {}
@@ -650,36 +230,18 @@ namespace interfaces {
     'Classe qui pourrait herite de IFileManager -> JsonManager, XMLManager, OBJFileManager, ConfigManager, SaveManager
     interface IFileManager
     {
-        +bool checkFileExist(const std::string &);
-        +bool checkFilePermissions(const std::string &);
-        +File loadFile(const std::string &);
-        +void CloseFile(File &);
-        +std::string readFile(const File &);
-        +std::vector<std::string> readFile(const File &);
-        +std::string getFileName(const File &);
-        +std::string getFilePath(const File &);
-        +std::vector<std::string> getDirectoryFiles(const File &);
     }
 
     interface IInput
     {
-        +virtual bool isKeyPressed(int);
-        +virtual bool isKeyReleased(int);
-        +virtual int getKeyPressed();
-        +virtual bool mapKey(int, int);
-        +virtual bool mapDefaultKeys(int, int);
-        +bool isConnected();
-        +int getDeviceID(void);
     }
     'Voir pour les collisions si interface necessaires
 }
 
 namespace Systems {
     class Collision {
-        +calculateCollisions(const std::vector<AGameObject> &object);
     }
     class Animate {
-        +animateAll(const std::vector<ModelAnimation> animations);
     }
 
 }
@@ -687,33 +249,14 @@ namespace Systems {
 namespace Component {
 
     class Collider {
-        +getEnabled();
-        +setTargetMask(int);
-        +getTargetMask();
-        -bool _enabled;
-        -int targetMask;
     }
     class BoxCollider extends Collider {
-        +getBoundingBox();
-        +isColliding(const BBoundingBox &ref);
-        -BBoundingBox _box;
     }
 
     class SphereCollider extends Collider {
-        +getSphere();
     }
 
     class Transform {
-        +LookAt(const Transform &);
-        +Rotate(float xAngle, float yAngle, float zAngle);
-        +getPosition();
-        +getRotation();
-        +operator==;
-        +operator!=;
-        +operator=;
-        +operator<<;
-        -Vector3T<float> _position;
-        -Vector3T<float> _rotation;
     }
 }
 
@@ -725,28 +268,9 @@ namespace Objects {
         BOT-RIGHT
     }
     class AGameObject {
-        +string getId();
-        +Vector3T<float> getPosition();
-        +Vector3T<float> getSpeed();
-        +virtual OnCollisionEnter(const Collision &collision) = 0;
-        +virtual Update() = 0;
-        -string id;
-        -Transform _transform;
-        -Collider _collider;
-        -Quadrants _quadrant;
     }
 
     class Moveable extends AGameObject {
-        +Move(Vector &pos, Vector speed = {1,1});
-        +~Move();
-        +void moveUp();
-        +void moveDown();
-        +void moveLeft();
-        +void moveRight();
-        +Vector getSpeed();
-        +void setSpeed(Vector &);
-
-        -Vector _speed;
     }
 }
 
@@ -767,7 +291,9 @@ gameEngine.Encapsulation.Gamepad-->gameEngine.interfaces.IInput
 gameEngine.Encapsulation.Keyboard-->gameEngine.interfaces.IInput
 
 '1 hérite de 2'
-game.Objects.Bot-->game.AI
+game.Objects.Bomb-->game.Objects.AExplosif
+game.Objects.AExplosif-->game.Objects.Tile
+game.Objects.Bot-->game.Objects.IA
 game.Objects.Bot-->game.Objects.Character
 game.Objects.Player-->game.Objects.Character
 game.Objects.Mine-->game.Objects.Droppable
@@ -779,8 +305,14 @@ game.Objects.Tile-->gameEngine.Objects.AGameObject
 game.Objects.Wall-->gameEngine.Objects.AGameObject
 game.Objects.Mine-->gameEngine.Objects.Droppable
 game.Objects.HealthPack-->game.Objects.Collectible
-
-
+game.Objects.BombPass->game.Objects.AEffect
+game.Objects.BombUp->game.Objects.AEffect
+game.Objects.EffectFactory->game.Objects.AEffect
+game.Objects.FireUp->game.Objects.AEffect
+game.Objects.HealthUp->game.Objects.AEffect
+game.Objects.OneUp->game.Objects.AEffect
+game.Objects.SpeedUp->game.Objects.AEffect
+game.Objects.AEffect-->game.Objects.Tile
 gameEngine.Component.BoxCollider-->gameEngine.Component.Collider
 gameEngine.Component.SphereCollider-->gameEngine.Component.Collider
 gameEngine.Objects.AGameObject-->gameEngine.Systems.Collision
